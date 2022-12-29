@@ -8,7 +8,14 @@ from django.contrib import messages
 from django.http import JsonResponse
 import json
 
+
+
 def home_view(request):
+	context= {
+	}
+	return render(request,'404.html',context)
+
+def home2_view(request):
 	queryset1=School.objects.all()
 	queryset2=Management.objects.all()
 	queryset3=Header.objects.all()
