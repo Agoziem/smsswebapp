@@ -1162,7 +1162,7 @@ a {
 
 .nav-bar-sm {
     position: fixed;
-    top: 12vh;
+    top: 11vh;
     left: -100%;
     padding-top: 20px;
     padding-bottom: 25px;
@@ -1176,7 +1176,7 @@ a {
 
 .nav-bar-sm.active {
     position: fixed;
-    top: 12vh;
+    top: 11vh;
     left: 0;
     background-color: var(--cream-color);
     width: 100%;
