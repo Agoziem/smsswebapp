@@ -14,7 +14,7 @@ admin.site.register(Newsletter)
 class Students_Pin_and_IDAdmin(admin.ModelAdmin):
     list_display=('student_pin','student_name','student_id')
     search_fields=('student_pin','student_name','student_class')
-    list_filter=('student_name','student_class')
+    list_filter=('student_class',)
 
 @admin.register(Student)
 class StudentAdmin(admin.ModelAdmin):
