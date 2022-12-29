@@ -5312,7 +5312,7 @@ class Excelfiles(models.Model):
 						if count == 1:
 							SN=ws[char+str(row)].value
 						elif count == 2:
-							student_name=ws[char+str(row)].value
+							student_name=str(ws[char+str(row)].value).upper().strip()
 						elif count == 3:
 							student_pin=ws[char+str(row)].value
 						elif count == 4:
@@ -5325,7 +5325,7 @@ class Excelfiles(models.Model):
 						if count == 1:
 							SN=ws[char+str(row)].value
 						elif count == 2:
-							student_name=ws[char+str(row)].value
+							student_name=str(ws[char+str(row)].value).upper().strip()
 						elif count == 3:
 							student_pin=ws[char+str(row)].value
 						elif count == 4:
@@ -5338,7 +5338,7 @@ class Excelfiles(models.Model):
 						if count == 1:
 							SN=ws[char+str(row)].value
 						elif count == 2:
-							student_name=ws[char+str(row)].value
+							student_name=str(ws[char+str(row)].value).upper().strip()
 						elif count == 3:
 							student_pin=ws[char+str(row)].value
 						elif count == 4:
@@ -5351,7 +5351,7 @@ class Excelfiles(models.Model):
 						if count == 1:
 							SN=ws[char+str(row)].value
 						elif count == 2:
-							student_name=ws[char+str(row)].value
+							student_name=str(ws[char+str(row)].value).upper().strip()
 						elif count == 3:
 							student_pin=ws[char+str(row)].value
 						elif count == 4:
@@ -5364,7 +5364,7 @@ class Excelfiles(models.Model):
 						if count == 1:
 							SN=ws[char+str(row)].value
 						elif count == 2:
-							student_name=ws[char+str(row)].value
+							student_name=str(ws[char+str(row)].value).upper().strip()
 						elif count == 3:
 							student_pin=ws[char+str(row)].value
 						elif count == 4:
@@ -5377,7 +5377,7 @@ class Excelfiles(models.Model):
 						if count == 1:
 							SN=ws[char+str(row)].value
 						elif count == 2:
-							student_name=ws[char+str(row)].value
+							student_name=str(ws[char+str(row)].value).upper().strip()
 						elif count == 3:
 							student_pin=ws[char+str(row)].value
 						elif count == 4:
@@ -5390,7 +5390,7 @@ class Excelfiles(models.Model):
 						if count == 1:
 							SN=ws[char+str(row)].value
 						elif count == 2:
-							student_name=ws[char+str(row)].value
+							student_name=str(ws[char+str(row)].value).upper().strip()
 						elif count == 3:
 							student_pin=ws[char+str(row)].value
 						elif count == 4:
@@ -5403,7 +5403,7 @@ class Excelfiles(models.Model):
 						if count == 1:
 							SN=ws[char+str(row)].value
 						elif count == 2:
-							student_name=ws[char+str(row)].value
+							student_name=str(ws[char+str(row)].value).upper().strip()
 						elif count == 3:
 							student_pin=ws[char+str(row)].value
 						elif count == 4:
@@ -5416,7 +5416,7 @@ class Excelfiles(models.Model):
 						if count == 1:
 							SN=ws[char+str(row)].value
 						elif count == 2:
-							student_name=ws[char+str(row)].value
+							student_name=str(ws[char+str(row)].value).upper().strip()
 						elif count == 3:
 							student_pin=ws[char+str(row)].value
 						elif count == 4:
@@ -5429,7 +5429,7 @@ class Excelfiles(models.Model):
 						if count == 1:
 							SN=ws[char+str(row)].value
 						elif count == 2:
-							student_name=ws[char+str(row)].value
+							student_name=str(ws[char+str(row)].value).upper().strip()
 						elif count == 3:
 							student_pin=ws[char+str(row)].value
 						elif count == 4:
@@ -5442,7 +5442,7 @@ class Excelfiles(models.Model):
 						if count == 1:
 							SN=ws[char+str(row)].value
 						elif count == 2:
-							student_name=ws[char+str(row)].value
+							student_name=str(ws[char+str(row)].value).upper().strip()
 						elif count == 3:
 							student_pin=ws[char+str(row)].value
 						elif count == 4:
@@ -5455,7 +5455,7 @@ class Excelfiles(models.Model):
 						if count == 1:
 							SN=ws[char+str(row)].value
 						elif count == 2:
-							student_name=ws[char+str(row)].value
+							student_name=str(ws[char+str(row)].value).upper().strip()
 						elif count == 3:
 							student_pin=ws[char+str(row)].value
 						elif count == 4:
@@ -5468,7 +5468,7 @@ class Excelfiles(models.Model):
 						if count == 1:
 							SN=ws[char+str(row)].value
 						elif count == 2:
-							student_name=ws[char+str(row)].value
+							student_name=str(ws[char+str(row)].value).upper().strip()
 						elif count == 3:
 							student_pin=ws[char+str(row)].value
 						elif count == 4:
@@ -5481,7 +5481,7 @@ class Excelfiles(models.Model):
 						if count == 1:
 							SN=ws[char+str(row)].value
 						elif count == 2:
-							student_name=ws[char+str(row)].value
+							student_name=str(ws[char+str(row)].value).upper().strip()
 						elif count == 3:
 							student_pin=ws[char+str(row)].value
 						elif count == 4:
@@ -5494,7 +5494,7 @@ class Excelfiles(models.Model):
 						if count == 1:
 							SN=ws[char+str(row)].value
 						elif count == 2:
-							student_name=ws[char+str(row)].value
+							student_name=str(ws[char+str(row)].value).upper().strip()
 						elif count == 3:
 							student_pin=ws[char+str(row)].value
 						elif count == 4:
@@ -5507,7 +5507,7 @@ class Excelfiles(models.Model):
 						if count == 1:
 							SN=ws[char+str(row)].value
 						elif count == 2:
-							student_name=ws[char+str(row)].value
+							student_name=str(ws[char+str(row)].value).upper().strip()
 						elif count == 3:
 							student_pin=ws[char+str(row)].value
 						elif count == 4:
@@ -5520,7 +5520,7 @@ class Excelfiles(models.Model):
 						if count == 1:
 							SN=ws[char+str(row)].value
 						elif count == 2:
-							student_name=ws[char+str(row)].value
+							student_name=str(ws[char+str(row)].value).upper().strip()
 						elif count == 3:
 							student_pin=ws[char+str(row)].value
 						elif count == 4:
@@ -5533,7 +5533,7 @@ class Excelfiles(models.Model):
 						if count == 1:
 							SN=ws[char+str(row)].value
 						elif count == 2:
-							student_name=ws[char+str(row)].value
+							student_name=str(ws[char+str(row)].value).upper().strip()
 						elif count == 3:
 							student_pin=ws[char+str(row)].value
 						elif count == 4:
@@ -5546,7 +5546,7 @@ class Excelfiles(models.Model):
 						if count == 1:
 							SN=ws[char+str(row)].value
 						elif count == 2:
-							student_name=ws[char+str(row)].value
+							student_name=str(ws[char+str(row)].value).upper().strip()
 						elif count == 3:
 							student_pin=ws[char+str(row)].value
 						elif count == 4:
@@ -5559,7 +5559,7 @@ class Excelfiles(models.Model):
 						if count == 1:
 							SN=ws[char+str(row)].value
 						elif count == 2:
-							student_name=ws[char+str(row)].value
+							student_name=str(ws[char+str(row)].value).upper().strip()
 						elif count == 3:
 							student_pin=ws[char+str(row)].value
 						elif count == 4:
@@ -5572,7 +5572,7 @@ class Excelfiles(models.Model):
 						if count == 1:
 							SN=ws[char+str(row)].value
 						elif count == 2:
-							student_name=ws[char+str(row)].value
+							student_name=str(ws[char+str(row)].value).upper().strip()
 						elif count == 3:
 							student_pin=ws[char+str(row)].value
 						elif count == 4:
@@ -5585,7 +5585,7 @@ class Excelfiles(models.Model):
 						if count == 1:
 							SN=ws[char+str(row)].value
 						elif count == 2:
-							student_name=ws[char+str(row)].value
+							student_name=str(ws[char+str(row)].value).upper().strip()
 						elif count == 3:
 							student_pin=ws[char+str(row)].value
 						elif count == 4:
@@ -5598,7 +5598,7 @@ class Excelfiles(models.Model):
 						if count == 1:
 							SN=ws[char+str(row)].value
 						elif count == 2:
-							student_name=ws[char+str(row)].value
+							student_name=str(ws[char+str(row)].value).upper().strip()
 						elif count == 3:
 							student_pin=ws[char+str(row)].value
 						elif count == 4:
@@ -5611,7 +5611,7 @@ class Excelfiles(models.Model):
 						if count == 1:
 							SN=ws[char+str(row)].value
 						elif count == 2:
-							student_name=ws[char+str(row)].value
+							student_name=str(ws[char+str(row)].value).upper().strip()
 						elif count == 3:
 							student_pin=ws[char+str(row)].value
 						elif count == 4:
@@ -5624,7 +5624,7 @@ class Excelfiles(models.Model):
 						if count == 1:
 							SN=ws[char+str(row)].value
 						elif count == 2:
-							student_name=ws[char+str(row)].value
+							student_name=str(ws[char+str(row)].value).upper().strip()
 						elif count == 3:
 							student_pin=ws[char+str(row)].value
 						elif count == 4:
@@ -5637,7 +5637,7 @@ class Excelfiles(models.Model):
 						if count == 1:
 							SN=ws[char+str(row)].value
 						elif count == 2:
-							student_name=ws[char+str(row)].value
+							student_name=str(ws[char+str(row)].value).upper().strip()
 						elif count == 3:
 							student_pin=ws[char+str(row)].value
 						elif count == 4:
@@ -5650,7 +5650,7 @@ class Excelfiles(models.Model):
 						if count == 1:
 							SN=ws[char+str(row)].value
 						elif count == 2:
-							student_name=ws[char+str(row)].value
+							student_name=str(ws[char+str(row)].value).upper().strip()
 						elif count == 3:
 							student_pin=ws[char+str(row)].value
 						elif count == 4:
@@ -5663,7 +5663,7 @@ class Excelfiles(models.Model):
 						if count == 1:
 							SN=ws[char+str(row)].value
 						elif count == 2:
-							student_name=ws[char+str(row)].value
+							student_name=str(ws[char+str(row)].value).upper().strip()
 						elif count == 3:
 							student_pin=ws[char+str(row)].value
 						elif count == 4:
@@ -5676,7 +5676,7 @@ class Excelfiles(models.Model):
 						if count == 1:
 							SN=ws[char+str(row)].value
 						elif count == 2:
-							student_name=ws[char+str(row)].value
+							student_name=str(ws[char+str(row)].value).upper().strip()
 						elif count == 3:
 							student_pin=ws[char+str(row)].value
 						elif count == 4:
@@ -5689,7 +5689,7 @@ class Excelfiles(models.Model):
 						if count == 1:
 							SN=ws[char+str(row)].value
 						elif count == 2:
-							student_name=ws[char+str(row)].value
+							student_name=str(ws[char+str(row)].value).upper().strip()
 						elif count == 3:
 							student_pin=ws[char+str(row)].value
 						elif count == 4:
@@ -5702,7 +5702,7 @@ class Excelfiles(models.Model):
 						if count == 1:
 							SN=ws[char+str(row)].value
 						elif count == 2:
-							student_name=ws[char+str(row)].value
+							student_name=str(ws[char+str(row)].value).upper().strip()
 						elif count == 3:
 							student_pin=ws[char+str(row)].value
 						elif count == 4:
@@ -5715,7 +5715,7 @@ class Excelfiles(models.Model):
 						if count == 1:
 							SN=ws[char+str(row)].value
 						elif count == 2:
-							student_name=ws[char+str(row)].value
+							student_name=str(ws[char+str(row)].value).upper().strip()
 						elif count == 3:
 							student_pin=ws[char+str(row)].value
 						elif count == 4:
@@ -5728,7 +5728,7 @@ class Excelfiles(models.Model):
 						if count == 1:
 							SN=ws[char+str(row)].value
 						elif count == 2:
-							student_name=ws[char+str(row)].value
+							student_name=str(ws[char+str(row)].value).upper().strip()
 						elif count == 3:
 							student_pin=ws[char+str(row)].value
 						elif count == 4:
@@ -5741,7 +5741,7 @@ class Excelfiles(models.Model):
 						if count == 1:
 							SN=ws[char+str(row)].value
 						elif count == 2:
-							student_name=ws[char+str(row)].value
+							student_name=str(ws[char+str(row)].value).upper().strip()
 						elif count == 3:
 							student_pin=ws[char+str(row)].value
 						elif count == 4:
@@ -5754,7 +5754,7 @@ class Excelfiles(models.Model):
 						if count == 1:
 							SN=ws[char+str(row)].value
 						elif count == 2:
-							student_name=ws[char+str(row)].value
+							student_name=str(ws[char+str(row)].value).upper().strip()
 						elif count == 3:
 							student_pin=ws[char+str(row)].value
 						elif count == 4:
@@ -5767,7 +5767,7 @@ class Excelfiles(models.Model):
 						if count == 1:
 							SN=ws[char+str(row)].value
 						elif count == 2:
-							student_name=ws[char+str(row)].value
+							student_name=str(ws[char+str(row)].value).upper().strip()
 						elif count == 3:
 							student_pin=ws[char+str(row)].value
 						elif count == 4:
@@ -5780,7 +5780,7 @@ class Excelfiles(models.Model):
 						if count == 1:
 							SN=ws[char+str(row)].value
 						elif count == 2:
-							student_name=ws[char+str(row)].value
+							student_name=str(ws[char+str(row)].value).upper().strip()
 						elif count == 3:
 							student_pin=ws[char+str(row)].value
 						elif count == 4:
@@ -5793,7 +5793,7 @@ class Excelfiles(models.Model):
 						if count == 1:
 							SN=ws[char+str(row)].value
 						elif count == 2:
-							student_name=ws[char+str(row)].value
+							student_name=str(ws[char+str(row)].value).upper().strip()
 						elif count == 3:
 							student_pin=ws[char+str(row)].value
 						elif count == 4:
@@ -5806,7 +5806,7 @@ class Excelfiles(models.Model):
 						if count == 1:
 							SN=ws[char+str(row)].value
 						elif count == 2:
-							student_name=ws[char+str(row)].value
+							student_name=str(ws[char+str(row)].value).upper().strip()
 						elif count == 3:
 							student_pin=ws[char+str(row)].value
 						elif count == 4:
@@ -5819,7 +5819,7 @@ class Excelfiles(models.Model):
 						if count == 1:
 							SN=ws[char+str(row)].value
 						elif count == 2:
-							student_name=ws[char+str(row)].value
+							student_name=str(ws[char+str(row)].value).upper().strip()
 						elif count == 3:
 							student_pin=ws[char+str(row)].value
 						elif count == 4:
@@ -5832,7 +5832,7 @@ class Excelfiles(models.Model):
 						if count == 1:
 							SN=ws[char+str(row)].value
 						elif count == 2:
-							student_name=ws[char+str(row)].value
+							student_name=str(ws[char+str(row)].value).upper().strip()
 						elif count == 3:
 							student_pin=ws[char+str(row)].value
 						elif count == 4:
@@ -5845,7 +5845,7 @@ class Excelfiles(models.Model):
 						if count == 1:
 							SN=ws[char+str(row)].value
 						elif count == 2:
-							student_name=ws[char+str(row)].value
+							student_name=str(ws[char+str(row)].value).upper().strip()
 						elif count == 3:
 							student_pin=ws[char+str(row)].value
 						elif count == 4:
@@ -5858,7 +5858,7 @@ class Excelfiles(models.Model):
 						if count == 1:
 							SN=ws[char+str(row)].value
 						elif count == 2:
-							student_name=ws[char+str(row)].value
+							student_name=str(ws[char+str(row)].value).upper().strip()
 						elif count == 3:
 							student_pin=ws[char+str(row)].value
 						elif count == 4:
@@ -5871,7 +5871,7 @@ class Excelfiles(models.Model):
 						if count == 1:
 							SN=ws[char+str(row)].value
 						elif count == 2:
-							student_name=ws[char+str(row)].value
+							student_name=str(ws[char+str(row)].value).upper().strip()
 						elif count == 3:
 							student_pin=ws[char+str(row)].value
 						elif count == 4:
@@ -5884,7 +5884,7 @@ class Excelfiles(models.Model):
 						if count == 1:
 							SN=ws[char+str(row)].value
 						elif count == 2:
-							student_name=ws[char+str(row)].value
+							student_name=str(ws[char+str(row)].value).upper().strip()
 						elif count == 3:
 							student_pin=ws[char+str(row)].value
 						elif count == 4:
@@ -5897,7 +5897,7 @@ class Excelfiles(models.Model):
 						if count == 1:
 							SN=ws[char+str(row)].value
 						elif count == 2:
-							student_name=ws[char+str(row)].value
+							student_name=str(ws[char+str(row)].value).upper().strip()
 						elif count == 3:
 							student_pin=ws[char+str(row)].value
 						elif count == 4:
@@ -5910,7 +5910,7 @@ class Excelfiles(models.Model):
 						if count == 1:
 							SN=ws[char+str(row)].value
 						elif count == 2:
-							student_name=ws[char+str(row)].value
+							student_name=str(ws[char+str(row)].value).upper().strip()
 						elif count == 3:
 							student_pin=ws[char+str(row)].value
 						elif count == 4:
@@ -5923,7 +5923,7 @@ class Excelfiles(models.Model):
 						if count == 1:
 							SN=ws[char+str(row)].value
 						elif count == 2:
-							student_name=ws[char+str(row)].value
+							student_name=str(ws[char+str(row)].value).upper().strip()
 						elif count == 3:
 							student_pin=ws[char+str(row)].value
 						elif count == 4:
@@ -5936,7 +5936,7 @@ class Excelfiles(models.Model):
 						if count == 1:
 							SN=ws[char+str(row)].value
 						elif count == 2:
-							student_name=ws[char+str(row)].value
+							student_name=str(ws[char+str(row)].value).upper().strip()
 						elif count == 3:
 							student_pin=ws[char+str(row)].value
 						elif count == 4:
@@ -5949,7 +5949,7 @@ class Excelfiles(models.Model):
 						if count == 1:
 							SN=ws[char+str(row)].value
 						elif count == 2:
-							student_name=ws[char+str(row)].value
+							student_name=str(ws[char+str(row)].value).upper().strip()
 						elif count == 3:
 							student_pin=ws[char+str(row)].value
 						elif count == 4:
