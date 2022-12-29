@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div id="Elibrarycover">
+     <div id="Elibrarywrapper">
+          <div id="aboutcover-text"> Digital library </div>
+          <div style="color: #fff;">SMSS Omagba</div>
+          <div class="multiplerule mt-3 d-flex justify-content-center">
+               <div class="rule"></div>
+               <div class="rule2"></div>
+          </div>
+     </div>
+</div>
+<section class="welcome_container">
+     <div class=" container p-4 mb-3">
+          <div class="row justify-content-between">
+
+               <div class="col-md">
+                    <div class="container ">
+                         <h1 class=" text-center">Welcome </h1>
+                         <div class="Elibrary_about  p-3">
+                              at SMSS Omagba, one of our Goal at is to help our Student spend less time searching for
+                              books
+                              Online, so you can spend more time reading! .That’s why we’ve uploaded and hosted a lot of
+                              Textbooks & Workbooks in Pdf formats .go ahead and Explore our wide range of resources
+                              covering
+                              Subjects like English Mathematies, Chemistry, Physics, Biology , Geography , Futher
+                              Mathematies,Government,Economics, Basic Sciences etc
+                              and lots more
+                         </div>
+                    </div>
+               </div>
+               <div class="col-md mt-5 mt-md-0">
+                    <div class="category_container container ">
+                         <ul id="myUL" class="list-group-flush p-0">
+                              <div class="d-md-flex">
+                                   <h5>Select a Category to Explore</h5>
+                                   <form>
+                                        <div class="input-group news-input mx-0 mx-md-3 mb-4">
+                                             <input type="text" id="myInput" onkeyup="myFunction()" class="form-control"
+                                                  placeholder="type in the Subject" />
+                                             <button class="btn btn-info" type="submit" value="Save"><i
+                                                       class="fa fa-search" aria-hidden="true"></i></button>
+                                        </div>
+                                   </form>
+                              </div>
+
+                              {% for subject in subjects %}
+
+                              <li id="list" style="display:block;" class="list-group-item">
+                                   <div class="my-2">
+                                        <a href="{% url 'Elibrary:ebooklist' subject.id %}"
+                                             class="text-decoration-none">{{ subject.Sub }}</a>
+                                   </div>
+                              </li>
+                              
+                              {% endfor %}
+                         </ul>
+                    </div>
+               </div>
+          </div>
+     </div>
+</section>
+
+<script src="{% static 'js/list.js' %}"></script>
+{% endblock %}

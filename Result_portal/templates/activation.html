@@ -1,0 +1,161 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="pt-5">
+  <h1 class="px-3 mt-3 text-center" style="font-size: 30px;">STUDENT RESULT MANAGEMENT SYSTEM</h1>
+  <div class="container">
+    <div class=" row justify-content-center align-items-center p-3">
+      <div class="col-md">
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th scope="col">Classes</th>
+              <th scope="col">Excel Files</th>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Jss1</td>
+              <td class="d-flex flex-column align-items-center">
+                <div class="input-group mb-3">
+                  <input type="file" class="form-control" id="inputGroupFile01">
+                </div>
+                <button type="submit" class="btn  btn-primary w-75" value="Submit">Upload</button>
+              </td>
+            </tr>
+            <tr>
+              <td>Jss2</td>
+              <td class="d-flex flex-column align-items-center">
+                <div class="input-group mb-3">
+                  <input type="file" class="form-control" id="inputGroupFile01">
+                </div>
+                <button type="submit" class="btn  btn-primary w-75" value="Submit">Upload</button>
+              </td>
+            </tr>
+            <tr>
+              <td>Jss3</td>
+              <td class="d-flex flex-column align-items-center">
+                <div class="input-group mb-3">
+                  <input type="file" class="form-control" id="inputGroupFile01">
+                </div>
+                <button type="submit" class="btn  btn-primary w-75" value="Submit">Upload</button>
+              </td>
+            </tr>
+            <tr>
+              <td>SS1</td>
+              <td class="d-flex flex-column align-items-center">
+                <div class="input-group mb-3">
+                  <input type="file" class="form-control" id="inputGroupFile01">
+                </div>
+                <button type="submit" class="btn  btn-primary w-75" value="Submit">Upload</button>
+              </td>
+            </tr>
+            <tr>
+              <td>SS2</td>
+              <td class="d-flex flex-column align-items-center">
+                <div class="input-group mb-3">
+                  <input type="file" class="form-control" id="inputGroupFile01">
+                </div>
+                <button type="submit" class="btn  btn-primary w-75" value="Submit">Upload</button>
+              </td>
+            </tr>
+            <tr>
+              <td>SS3</td>
+              <td class="d-flex flex-column align-items-center">
+                <div class="input-group mb-3">
+                  <input type="file" class="form-control" id="inputGroupFile01">
+                </div>
+                <button type="submit" class="btn  btn-primary w-75" value="Submit">Upload</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="col-md">
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th scope="col">create Students pin </th>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <div class="input-group mb-3">
+                  <input type="file" class="form-control" id="inputGroupFile01">
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td class="d-flex flex-column align-items-center">
+                <a href="{% url 'Result_portal:Pin' %}" class="btn btn-primary">create Students pin</a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <div class="container p-3">
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Termly Students </th>
+          <th scope="col">Termly Results</th>
+          <th scope="col">Annual Students</th>
+          <th scope="col">Annual Results</th>
+
+      </thead>
+      <tbody>
+        <tr>
+          <th scope="row">Jss1</th>
+          <td><a href="{% url 'Result_portal:juniorstudents1' %}" class="btn btn-sm">create</a></td>
+          <td><a href="{% url 'Result_portal:juniorresult1' %}" class="btn btn-warning btn-sm">create</a></td>
+          <td><a href="{% url 'Result_portal:juniorstudentsannual1' %}" class="btn btn-sm">create</a></td>
+          <td><a href="{% url 'Result_portal:juniorresultannual1' %}" class="btn btn-primary btn-sm">create</a></td>
+        </tr>
+
+        <tr>
+          <th scope="row">Jss2</th>
+          <td><a href="{% url 'Result_portal:juniorstudents2' %}" class="btn btn-sm">create</a></td>
+          <td><a href="{% url 'Result_portal:juniorresult2' %}" class="btn btn-warning btn-sm">create</a></td>
+          <td><a href="{% url 'Result_portal:juniorstudentsannual2' %}" class="btn btn-sm">create</a></td>
+          <td><a href="{% url 'Result_portal:juniorresultannual2' %}" class="btn btn-primary btn-sm">create</a></td>
+        </tr>
+        <tr>
+          <th scope="row">Jss3</th>
+          <td><a href="{% url 'Result_portal:juniorstudents3' %}" class="btn btn-sm">create</a></td>
+          <td><a href="{% url 'Result_portal:juniorresult3' %}" class="btn btn-warning btn-sm">create</a></td>
+          <td><a href="{% url 'Result_portal:juniorstudentsannual3' %}" class="btn btn-sm">create</a></td>
+          <td><a href="{% url 'Result_portal:juniorresultannual3' %}" class="btn btn-primary btn-sm">create</a></td>
+
+        </tr>
+        <tr>
+          <th scope="row">Ss1</th>
+          <td><a href="{% url 'Result_portal:seniorstudents1' %}" class="btn btn-sm">create</a></td>
+          <td><a href="{% url 'Result_portal:seniorresult1' %}" class="btn btn-warning btn-sm">create</a></td>
+          <td><a href="{% url 'Result_portal:seniorstudentsannual1' %}" class="btn btn-sm">create</a></td>
+          <td><a href="{% url 'Result_portal:seniorresultannual1' %}" class="btn btn-primary btn-sm">create</a></td>
+        </tr>
+
+        <tr>
+          <th scope="row">Ss2</th>
+          <td><a href="{% url 'Result_portal:seniorstudents2' %}" class="btn btn-sm">create</a></td>
+          <td><a href="{% url 'Result_portal:seniorresult2' %}" class="btn btn-warning btn-sm">create</a></td>
+          <td><a href="{% url 'Result_portal:seniorstudentsannual2' %}" class="btn btn-sm">create</a></td>
+          <td><a href="{% url 'Result_portal:seniorresultannual2' %}" class="btn btn-primary btn-sm">create</a></td>
+        </tr>
+
+        <tr>
+          <th scope="row">Ss3</th>
+          <td><a href="{% url 'Result_portal:seniorstudents3' %}" class="btn btn-sm">create</a></td>
+          <td><a href="{% url 'Result_portal:seniorresult3' %}" class="btn btn-warning btn-sm">create</a></td>
+          <td><a href="{% url 'Result_portal:seniorstudentsannual3' %}" class="btn btn-sm">create</a></td>
+          <td><a href="{% url 'Result_portal:seniorresultannual3' %}" class="btn btn-primary btn-sm">create</a></td>
+        </tr>
+
+      </tbody>
+    </table>
+
+  </div>
+</section>
+{% endblock %}

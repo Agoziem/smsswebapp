@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<section class="mb-5">
+	<div class="container p-5 mt-5 text-center ">
+	<h6 style="font-family: 'League Spartan', sans-serif;">Hi {{ payment.Name_of_student }} , you are about to make payment for <span class="fw-bold"style="font-family: 'Lato', sans-serif;">{{ payment.Payment_type }} ({{ term }})</span> </h6>
+	<h4 class="mt-2 fw-bold" style="font-family: 'Lato', sans-serif;" class="fw-bold"> Amount - NGN{{ paymentamount.amount }}</h4>
+    <button class="btn btn-primary" onclick="payWithPaystack()"> proceed with payment </button>
+</div>
+<div class="text-center">
+	<p class='mb-0'>powered by paystack</p>
+	<img src="{% static 'images/paystack-logo-vector.png'  %}" alt="" class="img-fluid" width="110">
+	<img src="{% static 'images/Visa_Card-removebg-preview.png'  %}" alt="" class="img-fluid ms-2"
+		width="100">
+</div>
+</section>
+	
+   <script type="text/javascript">
+		function payWithPaystack() {
+		  var handler = PaystackPop.setup({
+		    key: '{{ paystack_public_key }}', // Replace with your public key
+		    email: '{{ payment.Email }}',
+		    amount: '{{ paymentamount.amount_value }}',
+		    ref: '{{ payment.ref }}', 
+		    callback: function(response){
+		      window.location.href="{% url 'Payment_portal:verify_payment' payment.ref %}";
+		    }
+		  });
+		  handler.openIframe();
+		}
+ </script>
+ {% endblock %}

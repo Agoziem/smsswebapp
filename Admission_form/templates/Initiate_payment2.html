@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<section>
+	<div class="container p-4 mt-4">
+		<h1 class="text-center fw-bold mb-3" style="font-size: 30px;">Initiate Payment for
+			Admission Form
+		</h1>
+		<div class="multiplerule mb-3 d-flex justify-content-center">
+			<div class="rule"></div>
+			<div class="rule2"></div>
+		</div>
+		<h6 class="text-center sideline_text mt-2 mb-3"> St Marks Standard Secondary School Omagba
+		</h6>
+
+		<div class="admission_form_payment row justify-content-center align-items-center mb-3">
+			<div class="col-md-4">
+				<img src="{% static 'images/admission_form_payment-removebg-preview.png' %}" alt="" class="img-fluid"
+					style="max-width: 85%;">
+			</div>
+			<div class="col-md-4">
+				<div class="form-group my-3">
+					<form method='POST'>
+						{% csrf_token %}
+						<div class="mb-3">
+							<input type="text" class="form-control" placeholder="enter the Student Name"required name="name">
+						</div>
+
+						<div class="mb-3">
+							<input type="email" class="form-control" required name="email" placeholder="enter your active email address">
+						</div>
+
+						<div class="mb-3">
+							<select class="form-select" aria-label="Default select example" required name="type">
+								<option value="">Select your Payment-type</option>
+								{% for type in payment_categories %}
+								<option value="{{ type.description }}">{{ type.description }} -{{ type.amount }} </option>
+								{% endfor %}
+							</select>
+						</div>
+						<button type="submit" class=" w-100 btn btn-primary">Submit
+						</button>
+					</form>
+				</div>
+			</div>
+		</div>
+		<div class="container text-center">
+			<p class='mb-0'>powered by paystack</p>
+			<img src="{% static 'images/paystack-logo-vector.png'  %}" alt="" class="img-fluid" width="110">
+			<img src="{% static 'images/Visa_Card-removebg-preview.png'  %}" alt="" class="img-fluid ms-2" width="100">
+		</div>
+	</div>
+	<section>
+
+		{% endblock %}

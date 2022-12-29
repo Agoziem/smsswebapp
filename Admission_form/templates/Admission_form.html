@@ -1,0 +1,208 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content%}
+<section class="Entrance_Form_container p-2 py-5">
+  <div class="container">
+    <div class="p-2">
+      <h1 style="font-size: 30px;" class="text-center">Entrance Exam form </h1>
+      <div class="multiplerule my-3 d-flex justify-content-center">
+        <div class="Nrule"></div>
+        <div class="Nrule2"></div>
+      </div>
+      <p class="text-center p-2 "> take time to fill out the admission Form, when you are done click on the submit the
+        button , the next page will require that you preview your input and then print it out and submit it back to the
+        School </p>
+    </div>
+
+    <form action="{% url 'Admission_form:details' %}" method=POST style="color:#00072B;">
+      <div class="row justify-content-center align-items-start">
+        <div class="col-md-4">
+          <div class="card p-4 shadow-sm " style="max-width: 312px;  margin: 0 auto;">
+            {% csrf_token %}
+            <div class="">
+              <h4 class="mb-3">Student Data</h4>
+              <div class="mt-2">
+                <label for="firstName" class="form-label mb-0">First name</label>
+                <input type="text" name="FirstName" class="form-control" id="firstName" placeholder="" value=""
+                  required>
+                <div class="invalid-feedback">
+                  Valid first name is required.
+                </div>
+              </div>
+
+              <div class="mt-2">
+                <label for="firstName" class="form-label mb-0">Middle name</label>
+                <input type="text" name="MiddleName" class="form-control" id="firstName" placeholder="" value=""
+                  required>
+                <div class="invalid-feedback">
+                  provide your middle name
+                </div>
+              </div>
+
+              <div class="mt-2">
+                <label for="lastName" class="form-label mb-0">Last name</label>
+                <input type="text" name="LastName" class="form-control" id="lastName" placeholder="" value="" required>
+                <div class="invalid-feedback">
+                  Valid last name is required.
+                </div>
+              </div>
+
+
+              <div class="d-flex flex-column my-3">
+                <p class="mb-0">Choose your Gender</p>
+                <div>
+                  <div class="form-check">
+                    <input id="Male" name="Gender" value="Male" type="radio" class="form-check-input" checked required>
+                    <label class="form-check-label" for="Male">Male</label>
+                  </div>
+                  <div class="form-check">
+                    <input id="Female" name="Gender" value="Female" type="radio" class="form-check-input" required>
+                    <label class="form-check-label" for="Female">Female</label>
+                  </div>
+                </div>
+              </div>
+
+
+              <div class="">
+                <label for="email" class="form-label mb-0">Address</label>
+                <input name="Address" class="form-control" id="Address" placeholder="">
+                <div class="invalid-feedback">
+                  Please enter a valid address
+                </div>
+              </div>
+
+              <div class="mt-2">
+                <label for="Town" class="form-label mb-0">Home Town</label>
+                <input name="Town" class="form-control" id="Town" placeholder="">
+                <div class="invalid-feedback">
+                  Please enter a valid email address for shipping updates.
+                </div>
+              </div>
+              <div class="mt-2">
+                <label for="address" class="form-label mb-0">LGA</label>
+                <input name="LGA" class="form-control" id="address" placeholder="" required>
+              </div>
+
+              <div class="mt-2">
+                <label for="address2" class="form-label mb-0">State of Origin</label>
+                <input name="State_of_Origin" class="form-control" id="address2" placeholder="">
+              </div>
+
+              <div class="mt-2">
+                <label for="country" class="form-label mb-0">Nationality</label>
+                <select class="form-select" name="Nationality" id="country" required>
+                  <option value="">Choose...</option>
+                  <option>Nigeria</option>
+                </select>
+              </div>
+
+              <div class="mt-2">
+                <label for="School_attended" class="form-label mb-0">previous School attended</label>
+                <input type="text" name="School_attended" class="form-control" id="School_attended" placeholder=""
+                  required>
+              </div>
+
+              <div class="mt-2">
+                <label for="last_Class_passed" class="form-label mb-0">last Class passed</label>
+                <input type="text" name="last_Class_passed" class="form-control" id="last_Class_passed" placeholder=""
+                  required>
+              </div>
+
+              <div class="mt-2">
+                <label for="Class_applying_for" class="form-label mb-0">Class applying for</label>
+                <input type="text" name="Class_applying_for" class="form-control" id="Class_applying_for" placeholder=""
+                  required>
+              </div>
+              <br>
+              <div class="px-2 mx-3"><span class="fw-bold">Student declaration:</span> </div>
+              <div class="form-check">
+                <input type="checkbox"
+                  name="I_certify_that_the_information_given_above_are_the_truth_and_nothing_but_the_truth" value="True"
+                  class="form-check-input" id="Declaration">
+                <label class="form-check-label" for="Declaration">I <span id="name" class="fw-bold"> ,</span> certify
+                  that
+                  the information given above are the truth and nothing but the truth</label>
+              </div>
+              <hr class="my-4">
+              <!-- Parents Data -->
+
+            </div>
+
+          </div>
+        </div>
+        <!-- Parents Data -->
+        <div class="col-md-4">
+          <div class="card my-4 my-md-2 p-4 shadow-sm " style="max-width: 312px;  margin: 0 auto;">
+            <h4 class="mb-3">Parents Data</h4>
+
+            <div class="">
+              <label for="zip" class="form-label mb-0">Name of Parent/Gaurdian</label>
+              <input type="text" name="Parents_Name" class="form-control" id="zip" placeholder="" required>
+            </div>
+
+            <div class="mt-2">
+              <label for="zip" class="form-label mb-0">Residential Address</label>
+              <input type="text" name="Addressp" class="form-control" id="zip" placeholder="" required>
+            </div>
+
+            <div class="mt-2">
+              <label for="zip" class="form-label mb-0">Phone number</label>
+              <input type="text" name="Phone_numberp" class="form-control" id="zip" placeholder="" required>
+            </div>
+
+            <div class="mt-2">
+              <label for="zip" class="form-label mb-0">Email</label>
+              <input type="text" name="Emailp" class="form-control" id="zip" placeholder="" required>
+            </div>
+
+            <div class="mt-2">
+              <label for="religion" class="form-label mb-0">Religous/Denomination</label>
+              <input type="text" name="religion" class="form-control" id="religion" placeholder="" required>
+            </div>
+
+            <div class="mt-2">
+              <label for="Church" class="form-label mb-0">Home Church</label>
+              <input type="text" name="Church" class="form-control" id="Church" placeholder="" required>
+            </div>
+
+            <!-- Comment on the Child -->
+
+            <div class="mt-2">
+              <label for="Comment" class="form-label mb-0">Parents/Guardian comment on the Child</label>
+              <input type="text" name="Comment" class="form-control" id="Comment" placeholder="" required>
+            </div>
+
+            <div class="mt-2">
+              <label for="Occupation" class="form-label mb-0">Parents/Guardian Occupation</label>
+              <input type="Occupation" name="Occupation" class="form-control" id="Occupation" placeholder="" required>
+            </div>
+
+            <p class="pt-2 m-0">does your Child have any disability?
+              <p>
+              <div class="form-check">
+                <input id="No" name="Disability" value="No" type="radio" class="form-check-input" checked required>
+                <label class="form-check-label" for="No">No</label>
+              </div>
+              <div class="form-check">
+                <input id="Yes" name="Disability" value="No" type="radio" class="form-check-input" required>
+                <label class="form-check-label" for="Yes">Yes</label>
+              </div>
+              <br>
+              <!-- Specify -->
+              <div class="">
+                <label for="zip" class="form-label">if yes specify:</label>
+                <input type="text" name="Specify" class="form-control" id="zip" placeholder="">
+              </div>
+
+            <hr class="my-4">
+            <button class="w-100 btn btn-primary btn-lg" type="submit">Register</button>
+          </div>
+        </div>
+
+      </div>
+    </form>
+  </div>
+</section>
+
+
+{% endblock %}

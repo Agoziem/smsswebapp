@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content%}
+<section class="p-2">
+	<div class="container">
+		<h3 class="mt-4 text-center" style="font-family: 'League Spartan', sans-serif;">preview your form entries <i
+				class="ms-2 bi bi-info-circle-fill"></i></h3>
+		<div class="p-2 d-flex align-items-center">
+			<div class="p-2">
+		
+				<img src="" width="80%" />
+
+			</div>
+			<div class=" text-center mx-2 p-2">
+				<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" fill="currentColor"
+					class="bi bi-person-bounding-box" viewBox="0 0 16 16">
+					<path
+						d="M1.5 1a.5.5 0 0 0-.5.5v3a.5.5 0 0 1-1 0v-3A1.5 1.5 0 0 1 1.5 0h3a.5.5 0 0 1 0 1h-3zM11 .5a.5.5 0 0 1 .5-.5h3A1.5 1.5 0 0 1 16 1.5v3a.5.5 0 0 1-1 0v-3a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 1-.5-.5zM.5 11a.5.5 0 0 1 .5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 1 0 1h-3A1.5 1.5 0 0 1 0 14.5v-3a.5.5 0 0 1 .5-.5zm15 0a.5.5 0 0 1 .5.5v3a1.5 1.5 0 0 1-1.5 1.5h-3a.5.5 0 0 1 0-1h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 1 .5-.5z" />
+					<path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm8-9a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" />
+				</svg>
+				passport
+			</div>
+		</div>
+		
+		<div class="row px-3 justify-content-center align-items-start">
+			<div class="container col-md">
+				<hr>
+				<h4> Student Data </h4>
+				<hr>
+				<span class="fw-bold"> First Name : </span>{{object.firstName}} <span class="fw-bold ms-2"> Last Name :
+				</span>{{object.lastName}}<br>
+				<span class="fw-bold"> address : </span>{{object.address}} <span class="fw-bold ms-2"> Town :
+				</span>{{object.town}}<br>
+				<span class="fw-bold"> LGA : </span>{{object.lGA}}<span class="fw-bold ms-2"> state of origin:
+				</span>{{object.state_of_Origin}}<br>
+				<span class="fw-bold"> Nationality : </span>{{object.nationality}}<span class="fw-bold ms-2"> Religion :
+				</span>{{object.religion}}<br>
+				<span class="fw-bold"> previous School attended : </span>{{object.school_attended}}<span
+					class="fw-bold ms-2"> Last Class passed: </span>{{object.Last_Class_passed}}<br>
+				{% if object.common_Ent_Exam_Number %}
+				<span class="fw-bold"> common Ent Exam Number : </span>{{object.common_Ent_Exam_Number}}<span
+					class="fw-bold ms-2"> Agg Score : </span>{{object.agg_Score}}<br>
+				{% endif %}
+				<span class="fw-bold"> class applying for : </span>{{object.class_applying_for}}<span
+					class="fw-bold ms-2">
+					disability : </span>{{object.disability}}<br>
+				{% if object.specify %}
+				<span class="fw-bold"> specify : </span>{{object.specify}}{% endif %}{% if object.certify %}<span
+					class="fw-bold"> I, certify that the information given above are the truth and nothing but the
+					truth</span><br>{% endif %}
+			</div>
+			<div class="container col-md">
+				<hr>
+				<h4> Parents Data </h4>
+				<hr>
+				<span class="fw-bold"> parents Name : </span>{{object.parents_Name}}<span class="fw-bold ms-2"> address
+					:
+				</span>{{object.addressp}}<br>
+				<span class="fw-bold"> phone number : </span>{{object.phone_numberp}}<span class="fw-bold ms-2"> Town :
+				</span>{{object.townp}}<br>
+				<span class="fw-bold"> LGA : </span>{{object.lGAp}}<span class="fw-bold ms-2"> State of Origin :
+				</span>{{object.state_of_Originp }}<br>
+				<span> • are you ready to cooperate with the School or PTA for the proper upbringing of your Child ?
+				</span><span class="fw-bold">{{object.question_1 }}</span><br>
+				<span> • Are you ready to pay all the approved fees as at when due ? </span><span
+					class="fw-bold">{{object.question_2 }}</span><br>
+				<span> • is your Child ready to obey all the school Rules and Regulations ? </span><span
+					class="fw-bold">{{object.question_3 }}</span><br>
+			</div>
+			<hr>
+		</div>
+		<a class="btn btn-primary mb-3" style="font-family: 'League Spartan', sans-serif;"
+				href="{% url 'Admission:pdf' object.id %}"> download form<i class="fa fa-download ms-1"></i></a>
+	</div>
+</section>
+{% endblock %}
