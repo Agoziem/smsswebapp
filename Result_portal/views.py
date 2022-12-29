@@ -146,9 +146,7 @@ def activation_view(request):
 def createPin(request):
 	student=Excelfiles()
 	student.readPin()
-	Studentpin=Students_Pin_and_ID.objects.all()
 	context = {
-	"pins": Studentpin,
 		}
 	return render(request, "pins.html", context)
 
