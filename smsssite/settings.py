@@ -25,7 +25,7 @@ SECRET_KEY = '%148lg7l*q#d4l%wz8bks)3hj%l(xz=c&0=h+o+pgzzxqn)!s&'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1','smssapp.herokuapp.com']
 
 
 # Application definition
