@@ -2732,6 +2732,8 @@ class Student(models.Model):
 								SubjectPosition=ws[char+str(row)].value
 							elif count == 13:
 								Remark=ws[char+str(row)].value
+					Result.objects.create(SN=SN,Name=Name,Class=Class,Subject=Subject,FirstTest=ResTest,SecondTest=SecondTest,Project=Project,FirstAss=FirstAss,SecondAss=SecondAss,CA=CA,Exam=Exam,Total=Total,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)# Jss2 //
+
 # Jss2 //
 	def createJuniorResult2(self,*args,**kwargs) -> None:
 		s3 = boto3.client('s3')
