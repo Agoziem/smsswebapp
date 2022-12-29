@@ -74,10 +74,10 @@ class AnnualStudent(models.Model):
 # Jss1A //
 	def createJuniorAnnual1(self,*args,**kwargs) -> None:
 		s3 = boto3.client('s3')
-		obj= s3.get_object(Bucket='okfswebbucket', Key='media/media/Jss1AAnnual.xlsx')
-		obj2= s3.get_object(Bucket='okfswebbucket', Key='media/media/Jss1BAnnual.xlsx')
-		obj3= s3.get_object(Bucket='okfswebbucket', Key='media/media/Jss1CAnnual.xlsx')
-		obj4= s3.get_object(Bucket='okfswebbucket', Key='media/media/Jss1DAnnual.xlsx')
+		obj= s3.get_object(Bucket='smssbucket', Key='media/media/Jss1AAnnual.xlsx')
+		obj2= s3.get_object(Bucket='smssbucket', Key='media/media/Jss1BAnnual.xlsx')
+		obj3= s3.get_object(Bucket='smssbucket', Key='media/media/Jss1CAnnual.xlsx')
+		obj4= s3.get_object(Bucket='smssbucket', Key='media/media/Jss1DAnnual.xlsx')
 		seniorClassExcel=[obj,obj2,obj3,obj4]
 		for file in seniorClassExcel:
 			binary_data = file['Body'].read()
@@ -421,10 +421,10 @@ class AnnualStudent(models.Model):
 # Jss 2 //
 	def createJuniorAnnual2(self,*args,**kwargs) -> None:
 		s3 = boto3.client('s3')
-		obj= s3.get_object(Bucket='okfswebbucket', Key='media/media/Jss2AAnnual.xlsx')
-		obj2= s3.get_object(Bucket='okfswebbucket', Key='media/media/Jss2BAnnual.xlsx')
-		obj3= s3.get_object(Bucket='okfswebbucket', Key='media/media/Jss2CAnnual.xlsx')
-		obj4= s3.get_object(Bucket='okfswebbucket', Key='media/media/Jss2DAnnual.xlsx')
+		obj= s3.get_object(Bucket='smssbucket', Key='media/media/Jss2AAnnual.xlsx')
+		obj2= s3.get_object(Bucket='smssbucket', Key='media/media/Jss2BAnnual.xlsx')
+		obj3= s3.get_object(Bucket='smssbucket', Key='media/media/Jss2CAnnual.xlsx')
+		obj4= s3.get_object(Bucket='smssbucket', Key='media/media/Jss2DAnnual.xlsx')
 		seniorClassExcel=[obj,obj2,obj3,obj4]
 		for file in seniorClassExcel:
 			binary_data = file['Body'].read()
@@ -771,10 +771,10 @@ class AnnualStudent(models.Model):
 # Jss 3 //
 	def createJuniorAnnual3(self,*args,**kwargs) -> None:
 		s3 = boto3.client('s3')
-		obj= s3.get_object(Bucket='okfswebbucket', Key='media/media/Jss3AAnnual.xlsx')
-		obj2= s3.get_object(Bucket='okfswebbucket', Key='media/media/Jss3BAnnual.xlsx')
-		obj3= s3.get_object(Bucket='okfswebbucket', Key='media/media/Jss3CAnnual.xlsx')
-		obj4= s3.get_object(Bucket='okfswebbucket', Key='media/media/Jss3DAnnual.xlsx')
+		obj= s3.get_object(Bucket='smssbucket', Key='media/media/Jss3AAnnual.xlsx')
+		obj2= s3.get_object(Bucket='smssbucket', Key='media/media/Jss3BAnnual.xlsx')
+		obj3= s3.get_object(Bucket='smssbucket', Key='media/media/Jss3CAnnual.xlsx')
+		obj4= s3.get_object(Bucket='smssbucket', Key='media/media/Jss3DAnnual.xlsx')
 		seniorClassExcel=[obj,obj2,obj3,obj4]
 		for file in seniorClassExcel:
 			binary_data = file['Body'].read()
@@ -1121,9 +1121,9 @@ class AnnualStudent(models.Model):
 # SS1
 	def createSeniorAnnual1(self,*args,**kwargs) -> None:
 		s3 = boto3.client('s3')
-		obj= s3.get_object(Bucket='okfswebbucket', Key='media/media/SS1AAnnual.xlsx')
-		obj2= s3.get_object(Bucket='okfswebbucket', Key='media/media/SS1BAnnual.xlsx')
-		obj3= s3.get_object(Bucket='okfswebbucket', Key='media/media/SS1CAnnual.xlsx')
+		obj= s3.get_object(Bucket='smssbucket', Key='media/media/SS1AAnnual.xlsx')
+		obj2= s3.get_object(Bucket='smssbucket', Key='media/media/SS1BAnnual.xlsx')
+		obj3= s3.get_object(Bucket='smssbucket', Key='media/media/SS1CAnnual.xlsx')
 		seniorClassExcel=[obj,obj2,obj3]
 		for file in seniorClassExcel:
 			binary_data = file['Body'].read()
@@ -1622,8 +1622,8 @@ class AnnualStudent(models.Model):
 # SS2
 	def createSeniorAnnual2(self,*args,**kwargs) -> None:
 		s3 = boto3.client('s3')
-		obj= s3.get_object(Bucket='okfswebbucket', Key='media/media/SS2AAnnual.xlsx')
-		obj2= s3.get_object(Bucket='okfswebbucket', Key='media/media/SS2BAnnual.xlsx')
+		obj= s3.get_object(Bucket='smssbucket', Key='media/media/SS2AAnnual.xlsx')
+		obj2= s3.get_object(Bucket='smssbucket', Key='media/media/SS2BAnnual.xlsx')
 		seniorClassExcel=[obj,obj2]
 		for file in seniorClassExcel:
 			binary_data = file['Body'].read()
@@ -1991,8 +1991,8 @@ class AnnualStudent(models.Model):
 # SS3///
 	def createSeniorAnnual3(self,*args,**kwargs) -> None:
 		s3 = boto3.client('s3')
-		obj= s3.get_object(Bucket='okfswebbucket', Key='media/media/SS3AAnnual.xlsx')
-		obj2= s3.get_object(Bucket='okfswebbucket', Key='media/media/SS3BAnnual.xlsx')
+		obj= s3.get_object(Bucket='smssbucket', Key='media/media/SS3AAnnual.xlsx')
+		obj2= s3.get_object(Bucket='smssbucket', Key='media/media/SS3BAnnual.xlsx')
 		seniorClassExcel=[obj,obj2]
 		for file in seniorClassExcel:
 			binary_data = file['Body'].read()
@@ -2410,10 +2410,10 @@ class Student(models.Model):
 # Jss1 //
 	def createJuniorResult1(self,*args,**kwargs) -> None:
 		s3 = boto3.client('s3')
-		obj= s3.get_object(Bucket='okfswebbucket', Key='media/media/Jss1ATermly.xlsx')
-		obj2= s3.get_object(Bucket='okfswebbucket', Key='media/media/Jss1BTermly.xlsx')
-		obj3= s3.get_object(Bucket='okfswebbucket', Key='media/media/Jss1CTermly.xlsx')
-		obj4= s3.get_object(Bucket='okfswebbucket', Key='media/media/Jss1DTermly.xlsx')
+		obj= s3.get_object(Bucket='smssbucket', Key='media/media/Jss1ATermly.xlsx')
+		obj2= s3.get_object(Bucket='smssbucket', Key='media/media/Jss1BTermly.xlsx')
+		obj3= s3.get_object(Bucket='smssbucket', Key='media/media/Jss1CTermly.xlsx')
+		obj4= s3.get_object(Bucket='smssbucket', Key='media/media/Jss1DTermly.xlsx')
 		seniorClassExcel=[obj,obj2,obj3,obj4]
 		for file in seniorClassExcel:
 			binary_data = file['Body'].read()
@@ -2832,10 +2832,10 @@ class Student(models.Model):
 # Jss2 //
 	def createJuniorResult2(self,*args,**kwargs) -> None:
 		s3 = boto3.client('s3')
-		obj= s3.get_object(Bucket='okfswebbucket', Key='media/media/Jss2ATermly.xlsx')
-		obj2= s3.get_object(Bucket='okfswebbucket', Key='media/media/Jss2BTermly.xlsx')
-		obj3= s3.get_object(Bucket='okfswebbucket', Key='media/media/Jss2CTermly.xlsx')
-		obj4= s3.get_object(Bucket='okfswebbucket', Key='media/media/Jss2DTermly.xlsx')
+		obj= s3.get_object(Bucket='smssbucket', Key='media/media/Jss2ATermly.xlsx')
+		obj2= s3.get_object(Bucket='smssbucket', Key='media/media/Jss2BTermly.xlsx')
+		obj3= s3.get_object(Bucket='smssbucket', Key='media/media/Jss2CTermly.xlsx')
+		obj4= s3.get_object(Bucket='smssbucket', Key='media/media/Jss2DTermly.xlsx')
 		seniorClassExcel=[obj,obj2,obj3,obj4]
 		for file in seniorClassExcel:
 			binary_data = file['Body'].read()
@@ -3251,10 +3251,10 @@ class Student(models.Model):
 # Jss3 ///
 	def createJuniorResult3(self,*args,**kwargs) -> None:
 		s3 = boto3.client('s3')
-		obj= s3.get_object(Bucket='okfswebbucket', Key='media/media/Jss3ATermly.xlsx')
-		obj2= s3.get_object(Bucket='okfswebbucket', Key='media/media/Jss3BTermly.xlsx')
-		obj3= s3.get_object(Bucket='okfswebbucket', Key='media/media/Jss3CTermly.xlsx')
-		obj4= s3.get_object(Bucket='okfswebbucket', Key='media/media/Jss3DTermly.xlsx')
+		obj= s3.get_object(Bucket='smssbucket', Key='media/media/Jss3ATermly.xlsx')
+		obj2= s3.get_object(Bucket='smssbucket', Key='media/media/Jss3BTermly.xlsx')
+		obj3= s3.get_object(Bucket='smssbucket', Key='media/media/Jss3CTermly.xlsx')
+		obj4= s3.get_object(Bucket='smssbucket', Key='media/media/Jss3DTermly.xlsx')
 		seniorClassExcel=[obj,obj2,obj3,obj4]
 		for file in seniorClassExcel:
 			binary_data = file['Body'].read()
@@ -3671,9 +3671,9 @@ class Student(models.Model):
 # Ss1 //
 	def createSeniorResult1(self,*args,**kwargs) -> None:
 		s3 = boto3.client('s3')
-		obj= s3.get_object(Bucket='okfswebbucket', Key='media/media/SS1ATermly.xlsx')
-		obj2= s3.get_object(Bucket='okfswebbucket', Key='media/media/SS1BTermly.xlsx')
-		obj3= s3.get_object(Bucket='okfswebbucket', Key='media/media/SS1CTermly.xlsx')
+		obj= s3.get_object(Bucket='smssbucket', Key='media/media/SS1ATermly.xlsx')
+		obj2= s3.get_object(Bucket='smssbucket', Key='media/media/SS1BTermly.xlsx')
+		obj3= s3.get_object(Bucket='smssbucket', Key='media/media/SS1CTermly.xlsx')
 		seniorClassExcel=[obj,obj2,obj3]
 		for file in seniorClassExcel:
 			binary_data = file['Body'].read()
@@ -4288,8 +4288,8 @@ class Student(models.Model):
 # SS2 //
 	def createSeniorResult2(self,*args,**kwargs) -> None:
 		s3 = boto3.client('s3')
-		obj= s3.get_object(Bucket='okfswebbucket', Key='media/media/SS2ATermly.xlsx')
-		obj2= s3.get_object(Bucket='okfswebbucket', Key='media/media/SS2BTermly.xlsx')
+		obj= s3.get_object(Bucket='smssbucket', Key='media/media/SS2ATermly.xlsx')
+		obj2= s3.get_object(Bucket='smssbucket', Key='media/media/SS2BTermly.xlsx')
 		seniorClassExcel=[obj,obj2]
 		for file in seniorClassExcel:
 			binary_data = file['Body'].read()
@@ -4739,8 +4739,8 @@ class Student(models.Model):
 # SS3 //
 	def createSeniorResult3(self,*args,**kwargs) -> None:
 		s3 = boto3.client('s3')
-		obj= s3.get_object(Bucket='okfswebbucket', Key='media/media/SS3ATermly.xlsx')
-		obj2= s3.get_object(Bucket='okfswebbucket', Key='media/media/SS3BTermly.xlsx')
+		obj= s3.get_object(Bucket='smssbucket', Key='media/media/SS3ATermly.xlsx')
+		obj2= s3.get_object(Bucket='smssbucket', Key='media/media/SS3BTermly.xlsx')
 		seniorClassExcel=[obj,obj2]
 		for file in seniorClassExcel:
 			binary_data = file['Body'].read()
@@ -5209,10 +5209,10 @@ class Excelfiles(models.Model):
 # Jss1 ///
 	def createJuniorStudent1(self,*args,**kwargs) -> None:
 		s3 = boto3.client('s3')
-		obj= s3.get_object(Bucket='okfswebbucket', Key='media/media/Jss1ATermly.xlsx')
-		obj2= s3.get_object(Bucket='okfswebbucket', Key='media/media/Jss1BTermly.xlsx')
-		obj3= s3.get_object(Bucket='okfswebbucket', Key='media/media/Jss1CTermly.xlsx')
-		obj4= s3.get_object(Bucket='okfswebbucket', Key='media/media/Jss1DTermly.xlsx')
+		obj= s3.get_object(Bucket='smssbucket', Key='media/media/Jss1ATermly.xlsx')
+		obj2= s3.get_object(Bucket='smssbucket', Key='media/media/Jss1BTermly.xlsx')
+		obj3= s3.get_object(Bucket='smssbucket', Key='media/media/Jss1CTermly.xlsx')
+		obj4= s3.get_object(Bucket='smssbucket', Key='media/media/Jss1DTermly.xlsx')
 		seniorClassExcel=[obj,obj2,obj3,obj4]
 		for file in seniorClassExcel:
 			binary_data = file['Body'].read()
@@ -5231,10 +5231,10 @@ class Excelfiles(models.Model):
 # Jss2 /// 
 	def createJuniorStudent2(self,*args,**kwargs) -> None:
 		s3 = boto3.client('s3')
-		obj= s3.get_object(Bucket='okfswebbucket', Key='media/media/Jss2ATermly.xlsx')
-		obj2= s3.get_object(Bucket='okfswebbucket', Key='media/media/Jss2BTermly.xlsx')
-		obj3= s3.get_object(Bucket='okfswebbucket', Key='media/media/Jss2CTermly.xlsx')
-		obj4= s3.get_object(Bucket='okfswebbucket', Key='media/media/Jss2DTermly.xlsx')
+		obj= s3.get_object(Bucket='smssbucket', Key='media/media/Jss2ATermly.xlsx')
+		obj2= s3.get_object(Bucket='smssbucket', Key='media/media/Jss2BTermly.xlsx')
+		obj3= s3.get_object(Bucket='smssbucket', Key='media/media/Jss2CTermly.xlsx')
+		obj4= s3.get_object(Bucket='smssbucket', Key='media/media/Jss2DTermly.xlsx')
 		seniorClassExcel=[obj,obj2,obj3,obj4]
 		for file in seniorClassExcel:
 			binary_data = file['Body'].read()
@@ -5253,10 +5253,10 @@ class Excelfiles(models.Model):
 # Jss3 //
 	def createJuniorStudent3(self,*args,**kwargs) -> None:
 		s3 = boto3.client('s3')
-		obj= s3.get_object(Bucket='okfswebbucket', Key='media/media/Jss3ATermly.xlsx')
-		obj2= s3.get_object(Bucket='okfswebbucket', Key='media/media/Jss3BTermly.xlsx')
-		obj3= s3.get_object(Bucket='okfswebbucket', Key='media/media/Jss3CTermly.xlsx')
-		obj4= s3.get_object(Bucket='okfswebbucket', Key='media/media/Jss3DTermly.xlsx')
+		obj= s3.get_object(Bucket='smssbucket', Key='media/media/Jss3ATermly.xlsx')
+		obj2= s3.get_object(Bucket='smssbucket', Key='media/media/Jss3BTermly.xlsx')
+		obj3= s3.get_object(Bucket='smssbucket', Key='media/media/Jss3CTermly.xlsx')
+		obj4= s3.get_object(Bucket='smssbucket', Key='media/media/Jss3DTermly.xlsx')
 		seniorClassExcel=[obj,obj2,obj3,obj4]
 		for file in seniorClassExcel:
 			binary_data = file['Body'].read()
@@ -5275,9 +5275,9 @@ class Excelfiles(models.Model):
 # SS1 //
 	def createSeniorStudents1(self,*args,**kwargs) -> None:
 		s3 = boto3.client('s3')
-		obj= s3.get_object(Bucket='okfswebbucket', Key='media/media/SS1ATermly.xlsx')
-		obj2= s3.get_object(Bucket='okfswebbucket', Key='media/media/SS1BTermly.xlsx')
-		obj3= s3.get_object(Bucket='okfswebbucket', Key='media/media/SS1CTermly.xlsx')
+		obj= s3.get_object(Bucket='smssbucket', Key='media/media/SS1ATermly.xlsx')
+		obj2= s3.get_object(Bucket='smssbucket', Key='media/media/SS1BTermly.xlsx')
+		obj3= s3.get_object(Bucket='smssbucket', Key='media/media/SS1CTermly.xlsx')
 		seniorClassExcel=[obj,obj2,obj3]
 		for file in seniorClassExcel:
 			binary_data = file['Body'].read()
@@ -5296,8 +5296,8 @@ class Excelfiles(models.Model):
 # SS2 ///
 	def createSeniorStudents2(self,*args,**kwargs) -> None:
 		s3 = boto3.client('s3')
-		obj= s3.get_object(Bucket='okfswebbucket', Key='media/media/SS2ATermly.xlsx')
-		obj2= s3.get_object(Bucket='okfswebbucket', Key='media/media/SS2BTermly.xlsx')
+		obj= s3.get_object(Bucket='smssbucket', Key='media/media/SS2ATermly.xlsx')
+		obj2= s3.get_object(Bucket='smssbucket', Key='media/media/SS2BTermly.xlsx')
 		seniorClassExcel=[obj,obj2]
 		for file in seniorClassExcel:
 			binary_data = file['Body'].read()
@@ -5316,8 +5316,8 @@ class Excelfiles(models.Model):
 # SS3 // 
 	def createSeniorStudents3(self,*args,**kwargs) -> None:
 		s3 = boto3.client('s3')
-		obj= s3.get_object(Bucket='okfswebbucket', Key='media/media/SS3ATermly.xlsx')
-		obj2= s3.get_object(Bucket='okfswebbucket', Key='media/media/SS3BTermly.xlsx')
+		obj= s3.get_object(Bucket='smssbucket', Key='media/media/SS3ATermly.xlsx')
+		obj2= s3.get_object(Bucket='smssbucket', Key='media/media/SS3BTermly.xlsx')
 		seniorClassExcel=[obj,obj2]
 		for file in seniorClassExcel:
 			binary_data = file['Body'].read()
@@ -5340,10 +5340,10 @@ class Excelfiles(models.Model):
 
 	def createJuniorStudentAnnual1(self,*args,**kwargs) -> None:
 		s3 = boto3.client('s3')
-		obj= s3.get_object(Bucket='okfswebbucket', Key='media/media/Jss1AAnnual.xlsx')
-		obj2= s3.get_object(Bucket='okfswebbucket', Key='media/media/Jss1BAnnual.xlsx')
-		obj3= s3.get_object(Bucket='okfswebbucket', Key='media/media/Jss1CAnnual.xlsx')
-		obj4= s3.get_object(Bucket='okfswebbucket', Key='media/media/Jss1DAnnual.xlsx')
+		obj= s3.get_object(Bucket='smssbucket', Key='media/media/Jss1AAnnual.xlsx')
+		obj2= s3.get_object(Bucket='smssbucket', Key='media/media/Jss1BAnnual.xlsx')
+		obj3= s3.get_object(Bucket='smssbucket', Key='media/media/Jss1CAnnual.xlsx')
+		obj4= s3.get_object(Bucket='smssbucket', Key='media/media/Jss1DAnnual.xlsx')
 		seniorClassExcel=[obj,obj2,obj3,obj4]
 		for file in seniorClassExcel:
 			binary_data = file['Body'].read()
@@ -5362,10 +5362,10 @@ class Excelfiles(models.Model):
 # Jss2 //
 	def createJuniorStudentAnnual2(self,*args,**kwargs) -> None:
 		s3 = boto3.client('s3')
-		obj= s3.get_object(Bucket='okfswebbucket', Key='media/media/Jss2AAnnual.xlsx')
-		obj2= s3.get_object(Bucket='okfswebbucket', Key='media/media/Jss2BAnnual.xlsx')
-		obj3= s3.get_object(Bucket='okfswebbucket', Key='media/media/Jss2CAnnual.xlsx')
-		obj4= s3.get_object(Bucket='okfswebbucket', Key='media/media/Jss2DAnnual.xlsx')
+		obj= s3.get_object(Bucket='smssbucket', Key='media/media/Jss2AAnnual.xlsx')
+		obj2= s3.get_object(Bucket='smssbucket', Key='media/media/Jss2BAnnual.xlsx')
+		obj3= s3.get_object(Bucket='smssbucket', Key='media/media/Jss2CAnnual.xlsx')
+		obj4= s3.get_object(Bucket='smssbucket', Key='media/media/Jss2DAnnual.xlsx')
 		seniorClassExcel=[obj,obj2,obj3,obj4]
 		for file in seniorClassExcel:
 			binary_data = file['Body'].read()
@@ -5384,10 +5384,10 @@ class Excelfiles(models.Model):
 # Jss3 //
 	def createJuniorStudentAnnual3(self,*args,**kwargs) -> None:
 		s3 = boto3.client('s3')
-		obj= s3.get_object(Bucket='okfswebbucket', Key='media/media/Jss3AAnnual.xlsx')
-		obj2= s3.get_object(Bucket='okfswebbucket', Key='media/media/Jss3BAnnual.xlsx')
-		obj3= s3.get_object(Bucket='okfswebbucket', Key='media/media/Jss3CAnnual.xlsx')
-		obj4= s3.get_object(Bucket='okfswebbucket', Key='media/media/Jss3DAnnual.xlsx')
+		obj= s3.get_object(Bucket='smssbucket', Key='media/media/Jss3AAnnual.xlsx')
+		obj2= s3.get_object(Bucket='smssbucket', Key='media/media/Jss3BAnnual.xlsx')
+		obj3= s3.get_object(Bucket='smssbucket', Key='media/media/Jss3CAnnual.xlsx')
+		obj4= s3.get_object(Bucket='smssbucket', Key='media/media/Jss3DAnnual.xlsx')
 		seniorClassExcel=[obj,obj2,obj3,obj4]
 		for file in seniorClassExcel:
 			binary_data = file['Body'].read()
@@ -5406,9 +5406,9 @@ class Excelfiles(models.Model):
 # Ss1 //
 	def createSeniorStudentsAnnual1(self,*args,**kwargs) -> None:
 		s3 = boto3.client('s3')
-		obj= s3.get_object(Bucket='okfswebbucket', Key='media/media/SS1AAnnual.xlsx')
-		obj2= s3.get_object(Bucket='okfswebbucket', Key='media/media/SS1BAnnual.xlsx')
-		obj3= s3.get_object(Bucket='okfswebbucket', Key='media/media/SS1CAnnual.xlsx')
+		obj= s3.get_object(Bucket='smssbucket', Key='media/media/SS1AAnnual.xlsx')
+		obj2= s3.get_object(Bucket='smssbucket', Key='media/media/SS1BAnnual.xlsx')
+		obj3= s3.get_object(Bucket='smssbucket', Key='media/media/SS1CAnnual.xlsx')
 		seniorClassExcel=[obj,obj2,obj3]
 		for file in seniorClassExcel:
 			binary_data = file['Body'].read()
@@ -5427,8 +5427,8 @@ class Excelfiles(models.Model):
 # Ss2 //
 	def createSeniorStudentsAnnual2(self,*args,**kwargs) -> None:
 		s3 = boto3.client('s3')
-		obj= s3.get_object(Bucket='okfswebbucket', Key='media/media/SS2AAnnual.xlsx')
-		obj2= s3.get_object(Bucket='okfswebbucket', Key='media/media/SS2BAnnual.xlsx')
+		obj= s3.get_object(Bucket='smssbucket', Key='media/media/SS2AAnnual.xlsx')
+		obj2= s3.get_object(Bucket='smssbucket', Key='media/media/SS2BAnnual.xlsx')
 		seniorClassExcel=[obj,obj2]
 		for file in seniorClassExcel:
 			binary_data = file['Body'].read()
@@ -5447,8 +5447,8 @@ class Excelfiles(models.Model):
 # Ss3 //
 	def createSeniorStudentsAnnual3(self,*args,**kwargs) -> None:
 		s3 = boto3.client('s3')
-		obj= s3.get_object(Bucket='okfswebbucket', Key='media/media/SS3AAnnual.xlsx')
-		obj2= s3.get_object(Bucket='okfswebbucket', Key='media/media/SS3BAnnual.xlsx')
+		obj= s3.get_object(Bucket='smssbucket', Key='media/media/SS3AAnnual.xlsx')
+		obj2= s3.get_object(Bucket='smssbucket', Key='media/media/SS3BAnnual.xlsx')
 	
 		seniorClassExcel=[obj,obj2]
 		for file in seniorClassExcel:
@@ -5473,7 +5473,7 @@ class Excelfiles(models.Model):
 
 	def readPin(self,*args,**kwargs)-> None:
 		s3 = boto3.client('s3')
-		obj= s3.get_object(Bucket='okfswebbucket', Key='media/media/Students_details_Main_SMSS.xlsx') 
+		obj= s3.get_object(Bucket='smssbucket', Key='media/media/Students_details_Main_SMSS.xlsx') 
 		binary_data = obj['Body'].read()
 		wb = load_workbook(io.BytesIO(binary_data))
 		for sheet in wb:
