@@ -110,7 +110,6 @@ class AnnualStudent(models.Model):
 								SubjectPosition=ws[char+str(row)].value
 							elif count == 10:
 								Remark=ws[char+str(row)].value
-						AnnualResult.objects.create(SN=SN,Name=Name,Class=Class,Subject=Subject,FirstTerm=FirstTerm,SecondTerm=SecondTerm,ThirdTerm=ThirdTerm,Total=Total,Average=Average,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)
 					
 					elif count == 2:
 						for count, col in enumerate(range(1,11),start=1):
@@ -135,7 +134,6 @@ class AnnualStudent(models.Model):
 								SubjectPosition=ws[char+str(row)].value
 							elif count == 10:
 								Remark=ws[char+str(row)].value
-						AnnualResult.objects.create(SN=SN,Name=Name,Class=Class,Subject=Subject,FirstTerm=FirstTerm,SecondTerm=SecondTerm,ThirdTerm=ThirdTerm,Total=Total,Average=Average,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)
 					
 					elif count == 3:
 						for count, col in enumerate(range(1,11),start=1):
@@ -161,7 +159,6 @@ class AnnualStudent(models.Model):
 								SubjectPosition=ws[char+str(row)].value
 							elif count == 10:
 								Remark=ws[char+str(row)].value
-						AnnualResult.objects.create(SN=SN,Name=Name,Class=Class,Subject=Subject,FirstTerm=FirstTerm,SecondTerm=SecondTerm,ThirdTerm=ThirdTerm,Total=Total,Average=Average,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)
 					
 					elif count == 4:
 						for count, col in enumerate(range(1,11),start=1):
@@ -187,7 +184,6 @@ class AnnualStudent(models.Model):
 								SubjectPosition=ws[char+str(row)].value
 							elif count == 10:
 								Remark=ws[char+str(row)].value
-						AnnualResult.objects.create(SN=SN,Name=Name,Class=Class,Subject=Subject,FirstTerm=FirstTerm,SecondTerm=SecondTerm,ThirdTerm=ThirdTerm,Total=Total,Average=Average,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)
 					
 					elif count == 5:
 						for count, col in enumerate(range(1,11),start=1):
@@ -213,7 +209,6 @@ class AnnualStudent(models.Model):
 								SubjectPosition=ws[char+str(row)].value
 							elif count == 10:
 								Remark=ws[char+str(row)].value
-						AnnualResult.objects.create(SN=SN,Name=Name,Class=Class,Subject=Subject,FirstTerm=FirstTerm,SecondTerm=SecondTerm,ThirdTerm=ThirdTerm,Total=Total,Average=Average,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)
 
 					elif count == 6:
 						for count, col in enumerate(range(1,11),start=1):
@@ -239,7 +234,6 @@ class AnnualStudent(models.Model):
 								SubjectPosition=ws[char+str(row)].value
 							elif count == 10:
 								Remark=ws[char+str(row)].value
-						AnnualResult.objects.create(SN=SN,Name=Name,Class=Class,Subject=Subject,FirstTerm=FirstTerm,SecondTerm=SecondTerm,ThirdTerm=ThirdTerm,Total=Total,Average=Average,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)
 					
 					elif count == 7:
 						for count, col in enumerate(range(1,11),start=1):
@@ -265,7 +259,6 @@ class AnnualStudent(models.Model):
 								SubjectPosition=ws[char+str(row)].value
 							elif count == 10:
 								Remark=ws[char+str(row)].value
-						AnnualResult.objects.create(SN=SN,Name=Name,Class=Class,Subject=Subject,FirstTerm=FirstTerm,SecondTerm=SecondTerm,ThirdTerm=ThirdTerm,Total=Total,Average=Average,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)
 					
 					elif count == 8:
 						for count, col in enumerate(range(1,11),start=1):
@@ -291,7 +284,6 @@ class AnnualStudent(models.Model):
 								SubjectPosition=ws[char+str(row)].value
 							elif count == 10:
 								Remark=ws[char+str(row)].value
-						AnnualResult.objects.create(SN=SN,Name=Name,Class=Class,Subject=Subject,FirstTerm=FirstTerm,SecondTerm=SecondTerm,ThirdTerm=ThirdTerm,Total=Total,Average=Average,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)
 					
 					elif count == 9:
 						for count, col in enumerate(range(1,11),start=1):
@@ -317,7 +309,6 @@ class AnnualStudent(models.Model):
 								SubjectPosition=ws[char+str(row)].value
 							elif count == 10:
 								Remark=ws[char+str(row)].value
-						AnnualResult.objects.create(SN=SN,Name=Name,Class=Class,Subject=Subject,FirstTerm=FirstTerm,SecondTerm=SecondTerm,ThirdTerm=ThirdTerm,Total=Total,Average=Average,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)
 					elif count == 10:
 						for count, col in enumerate(range(1,11),start=1):
 							char=get_column_letter(col)
@@ -342,7 +333,6 @@ class AnnualStudent(models.Model):
 								SubjectPosition=ws[char+str(row)].value
 							elif count == 10:
 								Remark=ws[char+str(row)].value
-						AnnualResult.objects.create(SN=SN,Name=Name,Class=Class,Subject=Subject,FirstTerm=FirstTerm,SecondTerm=SecondTerm,ThirdTerm=ThirdTerm,Total=Total,Average=Average,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)
 					elif count == 11:
 						for count, col in enumerate(range(1,11),start=1):
 							char=get_column_letter(col)
@@ -367,7 +357,6 @@ class AnnualStudent(models.Model):
 								SubjectPosition=ws[char+str(row)].value
 							elif count == 10:
 								Remark=ws[char+str(row)].value
-						AnnualResult.objects.create(SN=SN,Name=Name,Class=Class,Subject=Subject,FirstTerm=FirstTerm,SecondTerm=SecondTerm,ThirdTerm=ThirdTerm,Total=Total,Average=Average,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)
 					elif count == 12:
 						for count, col in enumerate(range(1,11),start=1):
 							char=get_column_letter(col)
@@ -392,7 +381,6 @@ class AnnualStudent(models.Model):
 								SubjectPosition=ws[char+str(row)].value
 							elif count == 10:
 								Remark=ws[char+str(row)].value
-						AnnualResult.objects.create(SN=SN,Name=Name,Class=Class,Subject=Subject,FirstTerm=FirstTerm,SecondTerm=SecondTerm,ThirdTerm=ThirdTerm,Total=Total,Average=Average,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)
 					elif count == 13:
 						for count, col in enumerate(range(1,11),start=1):
 							char=get_column_letter(col)
@@ -417,7 +405,7 @@ class AnnualStudent(models.Model):
 								SubjectPosition=ws[char+str(row)].value
 							elif count == 10:
 								Remark=ws[char+str(row)].value
-						AnnualResult.objects.create(SN=SN,Name=Name,Class=Class,Subject=Subject,FirstTerm=FirstTerm,SecondTerm=SecondTerm,ThirdTerm=ThirdTerm,Total=Total,Average=Average,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)		
+					AnnualResult.objects.create(SN=SN,Name=Name,Class=Class,Subject=Subject,FirstTerm=FirstTerm,SecondTerm=SecondTerm,ThirdTerm=ThirdTerm,Total=Total,Average=Average,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)		
 # Jss 2 //
 	def createJuniorAnnual2(self,*args,**kwargs) -> None:
 		s3 = boto3.client('s3')
@@ -458,7 +446,6 @@ class AnnualStudent(models.Model):
 								SubjectPosition=ws[char+str(row)].value
 							elif count == 10:
 								Remark=ws[char+str(row)].value
-						AnnualResult.objects.create(SN=SN,Name=Name,Class=Class,Subject=Subject,FirstTerm=FirstTerm,SecondTerm=SecondTerm,ThirdTerm=ThirdTerm,Total=Total,Average=Average,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)
 					
 					elif count == 2:
 						for count, col in enumerate(range(1,11),start=1):
@@ -484,7 +471,6 @@ class AnnualStudent(models.Model):
 								SubjectPosition=ws[char+str(row)].value
 							elif count == 10:
 								Remark=ws[char+str(row)].value
-						AnnualResult.objects.create(SN=SN,Name=Name,Class=Class,Subject=Subject,FirstTerm=FirstTerm,SecondTerm=SecondTerm,ThirdTerm=ThirdTerm,Total=Total,Average=Average,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)
 					
 					elif count == 3:
 						for count, col in enumerate(range(1,11),start=1):
@@ -510,7 +496,6 @@ class AnnualStudent(models.Model):
 								SubjectPosition=ws[char+str(row)].value
 							elif count == 10:
 								Remark=ws[char+str(row)].value
-						AnnualResult.objects.create(SN=SN,Name=Name,Class=Class,Subject=Subject,FirstTerm=FirstTerm,SecondTerm=SecondTerm,ThirdTerm=ThirdTerm,Total=Total,Average=Average,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)
 					
 					elif count == 4:
 						for count, col in enumerate(range(1,11),start=1):
@@ -536,7 +521,6 @@ class AnnualStudent(models.Model):
 								SubjectPosition=ws[char+str(row)].value
 							elif count == 10:
 								Remark=ws[char+str(row)].value
-						AnnualResult.objects.create(SN=SN,Name=Name,Class=Class,Subject=Subject,FirstTerm=FirstTerm,SecondTerm=SecondTerm,ThirdTerm=ThirdTerm,Total=Total,Average=Average,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)
 					
 					elif count == 5:
 						for count, col in enumerate(range(1,11),start=1):
@@ -562,7 +546,6 @@ class AnnualStudent(models.Model):
 								SubjectPosition=ws[char+str(row)].value
 							elif count == 10:
 								Remark=ws[char+str(row)].value
-						AnnualResult.objects.create(SN=SN,Name=Name,Class=Class,Subject=Subject,FirstTerm=FirstTerm,SecondTerm=SecondTerm,ThirdTerm=ThirdTerm,Total=Total,Average=Average,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)
 
 					elif count == 6:
 						for count, col in enumerate(range(1,11),start=1):
@@ -588,7 +571,6 @@ class AnnualStudent(models.Model):
 								SubjectPosition=ws[char+str(row)].value
 							elif count == 10:
 								Remark=ws[char+str(row)].value
-						AnnualResult.objects.create(SN=SN,Name=Name,Class=Class,Subject=Subject,FirstTerm=FirstTerm,SecondTerm=SecondTerm,ThirdTerm=ThirdTerm,Total=Total,Average=Average,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)
 					
 					elif count == 7:
 						for count, col in enumerate(range(1,11),start=1):
@@ -614,7 +596,6 @@ class AnnualStudent(models.Model):
 								SubjectPosition=ws[char+str(row)].value
 							elif count == 10:
 								Remark=ws[char+str(row)].value
-						AnnualResult.objects.create(SN=SN,Name=Name,Class=Class,Subject=Subject,FirstTerm=FirstTerm,SecondTerm=SecondTerm,ThirdTerm=ThirdTerm,Total=Total,Average=Average,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)
 					
 					elif count == 8:
 						for count, col in enumerate(range(1,11),start=1):
@@ -640,7 +621,6 @@ class AnnualStudent(models.Model):
 								SubjectPosition=ws[char+str(row)].value
 							elif count == 10:
 								Remark=ws[char+str(row)].value
-						AnnualResult.objects.create(SN=SN,Name=Name,Class=Class,Subject=Subject,FirstTerm=FirstTerm,SecondTerm=SecondTerm,ThirdTerm=ThirdTerm,Total=Total,Average=Average,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)
 				
 					elif count == 9:
 						for count, col in enumerate(range(1,11),start=1):
@@ -666,7 +646,6 @@ class AnnualStudent(models.Model):
 								SubjectPosition=ws[char+str(row)].value
 							elif count == 10:
 								Remark=ws[char+str(row)].value
-						AnnualResult.objects.create(SN=SN,Name=Name,Class=Class,Subject=Subject,FirstTerm=FirstTerm,SecondTerm=SecondTerm,ThirdTerm=ThirdTerm,Total=Total,Average=Average,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)
 
 					elif count == 10:
 						for count, col in enumerate(range(1,11),start=1):
@@ -692,7 +671,6 @@ class AnnualStudent(models.Model):
 								SubjectPosition=ws[char+str(row)].value
 							elif count == 10:
 								Remark=ws[char+str(row)].value
-						AnnualResult.objects.create(SN=SN,Name=Name,Class=Class,Subject=Subject,FirstTerm=FirstTerm,SecondTerm=SecondTerm,ThirdTerm=ThirdTerm,Total=Total,Average=Average,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)
 					elif count == 11:
 						for count, col in enumerate(range(1,11),start=1):
 							char=get_column_letter(col)
@@ -717,7 +695,6 @@ class AnnualStudent(models.Model):
 								SubjectPosition=ws[char+str(row)].value
 							elif count == 10:
 								Remark=ws[char+str(row)].value
-						AnnualResult.objects.create(SN=SN,Name=Name,Class=Class,Subject=Subject,FirstTerm=FirstTerm,SecondTerm=SecondTerm,ThirdTerm=ThirdTerm,Total=Total,Average=Average,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)
 					elif count == 12:
 						for count, col in enumerate(range(1,11),start=1):
 							char=get_column_letter(col)
@@ -742,7 +719,6 @@ class AnnualStudent(models.Model):
 								SubjectPosition=ws[char+str(row)].value
 							elif count == 10:
 								Remark=ws[char+str(row)].value
-						AnnualResult.objects.create(SN=SN,Name=Name,Class=Class,Subject=Subject,FirstTerm=FirstTerm,SecondTerm=SecondTerm,ThirdTerm=ThirdTerm,Total=Total,Average=Average,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)
 					elif count == 13:
 						for count, col in enumerate(range(1,11),start=1):
 							char=get_column_letter(col)
@@ -767,7 +743,6 @@ class AnnualStudent(models.Model):
 								SubjectPosition=ws[char+str(row)].value
 							elif count == 10:
 								Remark=ws[char+str(row)].value
-						AnnualResult.objects.create(SN=SN,Name=Name,Class=Class,Subject=Subject,FirstTerm=FirstTerm,SecondTerm=SecondTerm,ThirdTerm=ThirdTerm,Total=Total,Average=Average,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)
 # Jss 3 //
 	def createJuniorAnnual3(self,*args,**kwargs) -> None:
 		s3 = boto3.client('s3')
@@ -808,7 +783,6 @@ class AnnualStudent(models.Model):
 								SubjectPosition=ws[char+str(row)].value
 							elif count == 10:
 								Remark=ws[char+str(row)].value
-						AnnualResult.objects.create(SN=SN,Name=Name,Class=Class,Subject=Subject,FirstTerm=FirstTerm,SecondTerm=SecondTerm,ThirdTerm=ThirdTerm,Total=Total,Average=Average,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)
 					
 					elif count == 2:
 						for count, col in enumerate(range(1,11),start=1):
@@ -834,7 +808,6 @@ class AnnualStudent(models.Model):
 								SubjectPosition=ws[char+str(row)].value
 							elif count == 10:
 								Remark=ws[char+str(row)].value
-						AnnualResult.objects.create(SN=SN,Name=Name,Class=Class,Subject=Subject,FirstTerm=FirstTerm,SecondTerm=SecondTerm,ThirdTerm=ThirdTerm,Total=Total,Average=Average,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)
 					
 					elif count == 3:
 						for count, col in enumerate(range(1,11),start=1):
@@ -860,7 +833,6 @@ class AnnualStudent(models.Model):
 								SubjectPosition=ws[char+str(row)].value
 							elif count == 10:
 								Remark=ws[char+str(row)].value
-						AnnualResult.objects.create(SN=SN,Name=Name,Class=Class,Subject=Subject,FirstTerm=FirstTerm,SecondTerm=SecondTerm,ThirdTerm=ThirdTerm,Total=Total,Average=Average,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)
 					
 					elif count == 4:
 						for count, col in enumerate(range(1,11),start=1):
@@ -886,7 +858,6 @@ class AnnualStudent(models.Model):
 								SubjectPosition=ws[char+str(row)].value
 							elif count == 10:
 								Remark=ws[char+str(row)].value
-						AnnualResult.objects.create(SN=SN,Name=Name,Class=Class,Subject=Subject,FirstTerm=FirstTerm,SecondTerm=SecondTerm,ThirdTerm=ThirdTerm,Total=Total,Average=Average,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)
 					
 					elif count == 5:
 						for count, col in enumerate(range(1,11),start=1):
@@ -912,7 +883,6 @@ class AnnualStudent(models.Model):
 								SubjectPosition=ws[char+str(row)].value
 							elif count == 10:
 								Remark=ws[char+str(row)].value
-						AnnualResult.objects.create(SN=SN,Name=Name,Class=Class,Subject=Subject,FirstTerm=FirstTerm,SecondTerm=SecondTerm,ThirdTerm=ThirdTerm,Total=Total,Average=Average,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)
 
 					elif count == 6:
 						for count, col in enumerate(range(1,11),start=1):
@@ -938,7 +908,6 @@ class AnnualStudent(models.Model):
 								SubjectPosition=ws[char+str(row)].value
 							elif count == 10:
 								Remark=ws[char+str(row)].value
-						AnnualResult.objects.create(SN=SN,Name=Name,Class=Class,Subject=Subject,FirstTerm=FirstTerm,SecondTerm=SecondTerm,ThirdTerm=ThirdTerm,Total=Total,Average=Average,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)
 					
 					elif count == 7:
 						for count, col in enumerate(range(1,11),start=1):
@@ -964,7 +933,6 @@ class AnnualStudent(models.Model):
 								SubjectPosition=ws[char+str(row)].value
 							elif count == 10:
 								Remark=ws[char+str(row)].value
-						AnnualResult.objects.create(SN=SN,Name=Name,Class=Class,Subject=Subject,FirstTerm=FirstTerm,SecondTerm=SecondTerm,ThirdTerm=ThirdTerm,Total=Total,Average=Average,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)
 					
 					elif count == 8:
 						for count, col in enumerate(range(1,11),start=1):
@@ -990,7 +958,6 @@ class AnnualStudent(models.Model):
 								SubjectPosition=ws[char+str(row)].value
 							elif count == 10:
 								Remark=ws[char+str(row)].value
-						AnnualResult.objects.create(SN=SN,Name=Name,Class=Class,Subject=Subject,FirstTerm=FirstTerm,SecondTerm=SecondTerm,ThirdTerm=ThirdTerm,Total=Total,Average=Average,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)
 					
 					elif count == 9:
 						for count, col in enumerate(range(1,11),start=1):
@@ -1016,7 +983,6 @@ class AnnualStudent(models.Model):
 								SubjectPosition=ws[char+str(row)].value
 							elif count == 10:
 								Remark=ws[char+str(row)].value
-						AnnualResult.objects.create(SN=SN,Name=Name,Class=Class,Subject=Subject,FirstTerm=FirstTerm,SecondTerm=SecondTerm,ThirdTerm=ThirdTerm,Total=Total,Average=Average,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)	
 
 					elif count == 10:
 						for count, col in enumerate(range(1,11),start=1):
@@ -1042,7 +1008,6 @@ class AnnualStudent(models.Model):
 								SubjectPosition=ws[char+str(row)].value
 							elif count == 10:
 								Remark=ws[char+str(row)].value
-						AnnualResult.objects.create(SN=SN,Name=Name,Class=Class,Subject=Subject,FirstTerm=FirstTerm,SecondTerm=SecondTerm,ThirdTerm=ThirdTerm,Total=Total,Average=Average,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)
 					elif count == 11:
 						for count, col in enumerate(range(1,11),start=1):
 							char=get_column_letter(col)
@@ -1067,7 +1032,6 @@ class AnnualStudent(models.Model):
 								SubjectPosition=ws[char+str(row)].value
 							elif count == 10:
 								Remark=ws[char+str(row)].value
-						AnnualResult.objects.create(SN=SN,Name=Name,Class=Class,Subject=Subject,FirstTerm=FirstTerm,SecondTerm=SecondTerm,ThirdTerm=ThirdTerm,Total=Total,Average=Average,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)
 					elif count == 12:
 						for count, col in enumerate(range(1,11),start=1):
 							char=get_column_letter(col)
@@ -1092,7 +1056,6 @@ class AnnualStudent(models.Model):
 								SubjectPosition=ws[char+str(row)].value
 							elif count == 10:
 								Remark=ws[char+str(row)].value
-						AnnualResult.objects.create(SN=SN,Name=Name,Class=Class,Subject=Subject,FirstTerm=FirstTerm,SecondTerm=SecondTerm,ThirdTerm=ThirdTerm,Total=Total,Average=Average,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)
 					elif count == 13:
 						for count, col in enumerate(range(1,11),start=1):
 							char=get_column_letter(col)
@@ -1117,7 +1080,7 @@ class AnnualStudent(models.Model):
 								SubjectPosition=ws[char+str(row)].value
 							elif count == 10:
 								Remark=ws[char+str(row)].value
-						AnnualResult.objects.create(SN=SN,Name=Name,Class=Class,Subject=Subject,FirstTerm=FirstTerm,SecondTerm=SecondTerm,ThirdTerm=ThirdTerm,Total=Total,Average=Average,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)					
+					AnnualResult.objects.create(SN=SN,Name=Name,Class=Class,Subject=Subject,FirstTerm=FirstTerm,SecondTerm=SecondTerm,ThirdTerm=ThirdTerm,Total=Total,Average=Average,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)					
 # SS1
 	def createSeniorAnnual1(self,*args,**kwargs) -> None:
 		s3 = boto3.client('s3')
@@ -1157,7 +1120,6 @@ class AnnualStudent(models.Model):
 								SubjectPosition=ws[char+str(row)].value
 							elif count == 10:
 								Remark=ws[char+str(row)].value
-						AnnualResult.objects.create(SN=SN,Name=Name,Class=Class,Subject=Subject,FirstTerm=FirstTerm,SecondTerm=SecondTerm,ThirdTerm=ThirdTerm,Total=Total,Average=Average,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)
 					
 					elif count == 2:
 						for count, col in enumerate(range(1,11),start=1):
@@ -1183,7 +1145,6 @@ class AnnualStudent(models.Model):
 								SubjectPosition=ws[char+str(row)].value
 							elif count == 10:
 								Remark=ws[char+str(row)].value
-						AnnualResult.objects.create(SN=SN,Name=Name,Class=Class,Subject=Subject,FirstTerm=FirstTerm,SecondTerm=SecondTerm,ThirdTerm=ThirdTerm,Total=Total,Average=Average,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)
 					
 					elif count == 3:
 						for count, col in enumerate(range(1,11),start=1):
@@ -1209,7 +1170,6 @@ class AnnualStudent(models.Model):
 								SubjectPosition=ws[char+str(row)].value
 							elif count == 10:
 								Remark=ws[char+str(row)].value
-						AnnualResult.objects.create(SN=SN,Name=Name,Class=Class,Subject=Subject,FirstTerm=FirstTerm,SecondTerm=SecondTerm,ThirdTerm=ThirdTerm,Total=Total,Average=Average,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)
 					
 					elif count == 4:
 						for count, col in enumerate(range(1,11),start=1):
@@ -1235,7 +1195,6 @@ class AnnualStudent(models.Model):
 								SubjectPosition=ws[char+str(row)].value
 							elif count == 10:
 								Remark=ws[char+str(row)].value
-						AnnualResult.objects.create(SN=SN,Name=Name,Class=Class,Subject=Subject,FirstTerm=FirstTerm,SecondTerm=SecondTerm,ThirdTerm=ThirdTerm,Total=Total,Average=Average,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)
 					
 					elif count == 5:
 						for count, col in enumerate(range(1,11),start=1):
@@ -1261,7 +1220,6 @@ class AnnualStudent(models.Model):
 								SubjectPosition=ws[char+str(row)].value
 							elif count == 10:
 								Remark=ws[char+str(row)].value
-						AnnualResult.objects.create(SN=SN,Name=Name,Class=Class,Subject=Subject,FirstTerm=FirstTerm,SecondTerm=SecondTerm,ThirdTerm=ThirdTerm,Total=Total,Average=Average,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)
 					
 					elif count == 6:
 						for count, col in enumerate(range(1,11),start=1):
@@ -1287,7 +1245,6 @@ class AnnualStudent(models.Model):
 								SubjectPosition=ws[char+str(row)].value
 							elif count == 10:
 								Remark=ws[char+str(row)].value
-						AnnualResult.objects.create(SN=SN,Name=Name,Class=Class,Subject=Subject,FirstTerm=FirstTerm,SecondTerm=SecondTerm,ThirdTerm=ThirdTerm,Total=Total,Average=Average,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)
 					
 					elif count == 7:
 						for count, col in enumerate(range(1,11),start=1):
@@ -1313,7 +1270,6 @@ class AnnualStudent(models.Model):
 								SubjectPosition=ws[char+str(row)].value
 							elif count == 10:
 								Remark=ws[char+str(row)].value
-						AnnualResult.objects.create(SN=SN,Name=Name,Class=Class,Subject=Subject,FirstTerm=FirstTerm,SecondTerm=SecondTerm,ThirdTerm=ThirdTerm,Total=Total,Average=Average,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)
 					
 					elif count == 8:
 						for count, col in enumerate(range(1,11),start=1):
@@ -1339,7 +1295,6 @@ class AnnualStudent(models.Model):
 								SubjectPosition=ws[char+str(row)].value
 							elif count == 10:
 								Remark=ws[char+str(row)].value
-						AnnualResult.objects.create(SN=SN,Name=Name,Class=Class,Subject=Subject,FirstTerm=FirstTerm,SecondTerm=SecondTerm,ThirdTerm=ThirdTerm,Total=Total,Average=Average,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)
 					
 					elif count == 9:
 						for count, col in enumerate(range(1,11),start=1):
@@ -1365,7 +1320,6 @@ class AnnualStudent(models.Model):
 								SubjectPosition=ws[char+str(row)].value
 							elif count == 10:
 								Remark=ws[char+str(row)].value
-						AnnualResult.objects.create(SN=SN,Name=Name,Class=Class,Subject=Subject,FirstTerm=FirstTerm,SecondTerm=SecondTerm,ThirdTerm=ThirdTerm,Total=Total,Average=Average,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)
 					
 					elif count == 10:
 						for count, col in enumerate(range(1,11),start=1):
@@ -1391,7 +1345,6 @@ class AnnualStudent(models.Model):
 								SubjectPosition=ws[char+str(row)].value
 							elif count == 10:
 								Remark=ws[char+str(row)].value
-						AnnualResult.objects.create(SN=SN,Name=Name,Class=Class,Subject=Subject,FirstTerm=FirstTerm,SecondTerm=SecondTerm,ThirdTerm=ThirdTerm,Total=Total,Average=Average,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)
 					
 					elif count == 11:
 						for count, col in enumerate(range(1,11),start=1):
@@ -1417,7 +1370,6 @@ class AnnualStudent(models.Model):
 								SubjectPosition=ws[char+str(row)].value
 							elif count == 10:
 								Remark=ws[char+str(row)].value
-						AnnualResult.objects.create(SN=SN,Name=Name,Class=Class,Subject=Subject,FirstTerm=FirstTerm,SecondTerm=SecondTerm,ThirdTerm=ThirdTerm,Total=Total,Average=Average,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)
 					elif count == 12:
 						for count, col in enumerate(range(1,11),start=1):
 							char=get_column_letter(col)
@@ -1442,7 +1394,6 @@ class AnnualStudent(models.Model):
 								SubjectPosition=ws[char+str(row)].value
 							elif count == 10:
 								Remark=ws[char+str(row)].value
-						AnnualResult.objects.create(SN=SN,Name=Name,Class=Class,Subject=Subject,FirstTerm=FirstTerm,SecondTerm=SecondTerm,ThirdTerm=ThirdTerm,Total=Total,Average=Average,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)
 					elif count == 13:
 						for count, col in enumerate(range(1,15),start=1):
 							char=get_column_letter(col)
@@ -1467,7 +1418,6 @@ class AnnualStudent(models.Model):
 								SubjectPosition=ws[char+str(row)].value
 							elif count == 10:
 								Remark=ws[char+str(row)].value
-						AnnualResult.objects.create(SN=SN,Name=Name,Class=Class,Subject=Subject,FirstTerm=FirstTerm,SecondTerm=SecondTerm,ThirdTerm=ThirdTerm,Total=Total,Average=Average,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)	
 					elif count == 14:
 						for count, col in enumerate(range(1,15),start=1):
 							char=get_column_letter(col)
@@ -1492,7 +1442,6 @@ class AnnualStudent(models.Model):
 								SubjectPosition=ws[char+str(row)].value
 							elif count == 10:
 								Remark=ws[char+str(row)].value
-						AnnualResult.objects.create(SN=SN,Name=Name,Class=Class,Subject=Subject,FirstTerm=FirstTerm,SecondTerm=SecondTerm,ThirdTerm=ThirdTerm,Total=Total,Average=Average,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)	
 					elif count == 15:
 						for count, col in enumerate(range(1,15),start=1):
 							char=get_column_letter(col)
@@ -1517,7 +1466,6 @@ class AnnualStudent(models.Model):
 								SubjectPosition=ws[char+str(row)].value
 							elif count == 10:
 								Remark=ws[char+str(row)].value
-						AnnualResult.objects.create(SN=SN,Name=Name,Class=Class,Subject=Subject,FirstTerm=FirstTerm,SecondTerm=SecondTerm,ThirdTerm=ThirdTerm,Total=Total,Average=Average,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)	
 					elif count == 16:
 						for count, col in enumerate(range(1,15),start=1):
 							char=get_column_letter(col)
@@ -1542,7 +1490,6 @@ class AnnualStudent(models.Model):
 								SubjectPosition=ws[char+str(row)].value
 							elif count == 10:
 								Remark=ws[char+str(row)].value
-						AnnualResult.objects.create(SN=SN,Name=Name,Class=Class,Subject=Subject,FirstTerm=FirstTerm,SecondTerm=SecondTerm,ThirdTerm=ThirdTerm,Total=Total,Average=Average,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)	
 					elif count == 17:
 						for count, col in enumerate(range(1,15),start=1):
 							char=get_column_letter(col)
@@ -1567,7 +1514,6 @@ class AnnualStudent(models.Model):
 								SubjectPosition=ws[char+str(row)].value
 							elif count == 10:
 								Remark=ws[char+str(row)].value
-						AnnualResult.objects.create(SN=SN,Name=Name,Class=Class,Subject=Subject,FirstTerm=FirstTerm,SecondTerm=SecondTerm,ThirdTerm=ThirdTerm,Total=Total,Average=Average,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)	
 					elif count == 18:
 						for count, col in enumerate(range(1,15),start=1):
 							char=get_column_letter(col)
@@ -1592,7 +1538,6 @@ class AnnualStudent(models.Model):
 								SubjectPosition=ws[char+str(row)].value
 							elif count == 10:
 								Remark=ws[char+str(row)].value
-						AnnualResult.objects.create(SN=SN,Name=Name,Class=Class,Subject=Subject,FirstTerm=FirstTerm,SecondTerm=SecondTerm,ThirdTerm=ThirdTerm,Total=Total,Average=Average,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)	
 
 					elif count == 19:
 						for count, col in enumerate(range(1,15),start=1):
@@ -1618,7 +1563,7 @@ class AnnualStudent(models.Model):
 								SubjectPosition=ws[char+str(row)].value
 							elif count == 10:
 								Remark=ws[char+str(row)].value
-						AnnualResult.objects.create(SN=SN,Name=Name,Class=Class,Subject=Subject,FirstTerm=FirstTerm,SecondTerm=SecondTerm,ThirdTerm=ThirdTerm,Total=Total,Average=Average,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)	
+					AnnualResult.objects.create(SN=SN,Name=Name,Class=Class,Subject=Subject,FirstTerm=FirstTerm,SecondTerm=SecondTerm,ThirdTerm=ThirdTerm,Total=Total,Average=Average,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)	
 # SS2
 	def createSeniorAnnual2(self,*args,**kwargs) -> None:
 		s3 = boto3.client('s3')
@@ -1657,7 +1602,6 @@ class AnnualStudent(models.Model):
 								SubjectPosition=ws[char+str(row)].value
 							elif count == 10:
 								Remark=ws[char+str(row)].value
-						AnnualResult.objects.create(SN=SN,Name=Name,Class=Class,Subject=Subject,FirstTerm=FirstTerm,SecondTerm=SecondTerm,ThirdTerm=ThirdTerm,Total=Total,Average=Average,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)
 					if count == 2:
 						for count, col in enumerate(range(1,11),start=1):
 							char=get_column_letter(col)
@@ -1682,7 +1626,6 @@ class AnnualStudent(models.Model):
 								SubjectPosition=ws[char+str(row)].value
 							elif count == 10:
 								Remark=ws[char+str(row)].value
-						AnnualResult.objects.create(SN=SN,Name=Name,Class=Class,Subject=Subject,FirstTerm=FirstTerm,SecondTerm=SecondTerm,ThirdTerm=ThirdTerm,Total=Total,Average=Average,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)
 					if count == 3:
 						for count, col in enumerate(range(1,11),start=1):
 							char=get_column_letter(col)
@@ -1707,7 +1650,6 @@ class AnnualStudent(models.Model):
 								SubjectPosition=ws[char+str(row)].value
 							elif count == 10:
 								Remark=ws[char+str(row)].value
-						AnnualResult.objects.create(SN=SN,Name=Name,Class=Class,Subject=Subject,FirstTerm=FirstTerm,SecondTerm=SecondTerm,ThirdTerm=ThirdTerm,Total=Total,Average=Average,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)
 					if count == 4:
 						for count, col in enumerate(range(1,11),start=1):
 							char=get_column_letter(col)
@@ -1732,7 +1674,6 @@ class AnnualStudent(models.Model):
 								SubjectPosition=ws[char+str(row)].value
 							elif count == 10:
 								Remark=ws[char+str(row)].value
-						AnnualResult.objects.create(SN=SN,Name=Name,Class=Class,Subject=Subject,FirstTerm=FirstTerm,SecondTerm=SecondTerm,ThirdTerm=ThirdTerm,Total=Total,Average=Average,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)
 					if count == 5:
 						for count, col in enumerate(range(1,11),start=1):
 							char=get_column_letter(col)
@@ -1757,7 +1698,6 @@ class AnnualStudent(models.Model):
 								SubjectPosition=ws[char+str(row)].value
 							elif count == 10:
 								Remark=ws[char+str(row)].value
-						AnnualResult.objects.create(SN=SN,Name=Name,Class=Class,Subject=Subject,FirstTerm=FirstTerm,SecondTerm=SecondTerm,ThirdTerm=ThirdTerm,Total=Total,Average=Average,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)
 					if count == 6:
 						for count, col in enumerate(range(1,11),start=1):
 							char=get_column_letter(col)
@@ -1782,7 +1722,6 @@ class AnnualStudent(models.Model):
 								SubjectPosition=ws[char+str(row)].value
 							elif count == 10:
 								Remark=ws[char+str(row)].value
-						AnnualResult.objects.create(SN=SN,Name=Name,Class=Class,Subject=Subject,FirstTerm=FirstTerm,SecondTerm=SecondTerm,ThirdTerm=ThirdTerm,Total=Total,Average=Average,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)
 					if count == 7:
 						for count, col in enumerate(range(1,11),start=1):
 							char=get_column_letter(col)
@@ -1807,7 +1746,6 @@ class AnnualStudent(models.Model):
 								SubjectPosition=ws[char+str(row)].value
 							elif count == 10:
 								Remark=ws[char+str(row)].value
-						AnnualResult.objects.create(SN=SN,Name=Name,Class=Class,Subject=Subject,FirstTerm=FirstTerm,SecondTerm=SecondTerm,ThirdTerm=ThirdTerm,Total=Total,Average=Average,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)
 					if count == 8:
 						for count, col in enumerate(range(1,11),start=1):
 							char=get_column_letter(col)
@@ -1832,7 +1770,6 @@ class AnnualStudent(models.Model):
 								SubjectPosition=ws[char+str(row)].value
 							elif count == 10:
 								Remark=ws[char+str(row)].value
-						AnnualResult.objects.create(SN=SN,Name=Name,Class=Class,Subject=Subject,FirstTerm=FirstTerm,SecondTerm=SecondTerm,ThirdTerm=ThirdTerm,Total=Total,Average=Average,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)
 					if count == 9:
 						for count, col in enumerate(range(1,11),start=1):
 							char=get_column_letter(col)
@@ -1857,7 +1794,6 @@ class AnnualStudent(models.Model):
 								SubjectPosition=ws[char+str(row)].value
 							elif count == 10:
 								Remark=ws[char+str(row)].value
-						AnnualResult.objects.create(SN=SN,Name=Name,Class=Class,Subject=Subject,FirstTerm=FirstTerm,SecondTerm=SecondTerm,ThirdTerm=ThirdTerm,Total=Total,Average=Average,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)
 
 					if count == 10:
 						for count, col in enumerate(range(1,11),start=1):
@@ -1883,7 +1819,6 @@ class AnnualStudent(models.Model):
 								SubjectPosition=ws[char+str(row)].value
 							elif count == 10:
 								Remark=ws[char+str(row)].value
-						AnnualResult.objects.create(SN=SN,Name=Name,Class=Class,Subject=Subject,FirstTerm=FirstTerm,SecondTerm=SecondTerm,ThirdTerm=ThirdTerm,Total=Total,Average=Average,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)
 
 					if count == 11:
 						for count, col in enumerate(range(1,11),start=1):
@@ -1909,7 +1844,6 @@ class AnnualStudent(models.Model):
 								SubjectPosition=ws[char+str(row)].value
 							elif count == 10:
 								Remark=ws[char+str(row)].value
-						AnnualResult.objects.create(SN=SN,Name=Name,Class=Class,Subject=Subject,FirstTerm=FirstTerm,SecondTerm=SecondTerm,ThirdTerm=ThirdTerm,Total=Total,Average=Average,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)
 
 					if count == 12:
 						for count, col in enumerate(range(1,11),start=1):
@@ -1935,9 +1869,6 @@ class AnnualStudent(models.Model):
 								SubjectPosition=ws[char+str(row)].value
 							elif count == 10:
 								Remark=ws[char+str(row)].value
-						AnnualResult.objects.create(SN=SN,Name=Name,Class=Class,Subject=Subject,FirstTerm=FirstTerm,SecondTerm=SecondTerm,ThirdTerm=ThirdTerm,Total=Total,Average=Average,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)
-
-
 					if count == 13:
 						for count, col in enumerate(range(1,11),start=1):
 							char=get_column_letter(col)
@@ -1962,7 +1893,6 @@ class AnnualStudent(models.Model):
 								SubjectPosition=ws[char+str(row)].value
 							elif count == 10:
 								Remark=ws[char+str(row)].value
-						AnnualResult.objects.create(SN=SN,Name=Name,Class=Class,Subject=Subject,FirstTerm=FirstTerm,SecondTerm=SecondTerm,ThirdTerm=ThirdTerm,Total=Total,Average=Average,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)
 					if count == 14:
 						for count, col in enumerate(range(1,11),start=1):
 							char=get_column_letter(col)
@@ -1987,7 +1917,7 @@ class AnnualStudent(models.Model):
 								SubjectPosition=ws[char+str(row)].value
 							elif count == 10:
 								Remark=ws[char+str(row)].value
-						AnnualResult.objects.create(SN=SN,Name=Name,Class=Class,Subject=Subject,FirstTerm=FirstTerm,SecondTerm=SecondTerm,ThirdTerm=ThirdTerm,Total=Total,Average=Average,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)
+					AnnualResult.objects.create(SN=SN,Name=Name,Class=Class,Subject=Subject,FirstTerm=FirstTerm,SecondTerm=SecondTerm,ThirdTerm=ThirdTerm,Total=Total,Average=Average,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)
 # SS3///
 	def createSeniorAnnual3(self,*args,**kwargs) -> None:
 		s3 = boto3.client('s3')
@@ -2026,7 +1956,6 @@ class AnnualStudent(models.Model):
 								SubjectPosition=ws[char+str(row)].value
 							elif count == 10:
 								Remark=ws[char+str(row)].value
-						AnnualResult.objects.create(SN=SN,Name=Name,Class=Class,Subject=Subject,FirstTerm=FirstTerm,SecondTerm=SecondTerm,ThirdTerm=ThirdTerm,Total=Total,Average=Average,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)
 					if count == 2:
 						for count, col in enumerate(range(1,11),start=1):
 							char=get_column_letter(col)
@@ -2051,7 +1980,6 @@ class AnnualStudent(models.Model):
 								SubjectPosition=ws[char+str(row)].value
 							elif count == 10:
 								Remark=ws[char+str(row)].value
-						AnnualResult.objects.create(SN=SN,Name=Name,Class=Class,Subject=Subject,FirstTerm=FirstTerm,SecondTerm=SecondTerm,ThirdTerm=ThirdTerm,Total=Total,Average=Average,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)
 					if count == 3:
 						for count, col in enumerate(range(1,11),start=1):
 							char=get_column_letter(col)
@@ -2076,7 +2004,6 @@ class AnnualStudent(models.Model):
 								SubjectPosition=ws[char+str(row)].value
 							elif count == 10:
 								Remark=ws[char+str(row)].value
-						AnnualResult.objects.create(SN=SN,Name=Name,Class=Class,Subject=Subject,FirstTerm=FirstTerm,SecondTerm=SecondTerm,ThirdTerm=ThirdTerm,Total=Total,Average=Average,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)
 					if count == 4:
 						for count, col in enumerate(range(1,11),start=1):
 							char=get_column_letter(col)
@@ -2101,7 +2028,6 @@ class AnnualStudent(models.Model):
 								SubjectPosition=ws[char+str(row)].value
 							elif count == 10:
 								Remark=ws[char+str(row)].value
-						AnnualResult.objects.create(SN=SN,Name=Name,Class=Class,Subject=Subject,FirstTerm=FirstTerm,SecondTerm=SecondTerm,ThirdTerm=ThirdTerm,Total=Total,Average=Average,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)
 					if count == 5:
 						for count, col in enumerate(range(1,11),start=1):
 							char=get_column_letter(col)
@@ -2126,7 +2052,6 @@ class AnnualStudent(models.Model):
 								SubjectPosition=ws[char+str(row)].value
 							elif count == 10:
 								Remark=ws[char+str(row)].value
-						AnnualResult.objects.create(SN=SN,Name=Name,Class=Class,Subject=Subject,FirstTerm=FirstTerm,SecondTerm=SecondTerm,ThirdTerm=ThirdTerm,Total=Total,Average=Average,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)
 					if count == 6:
 						for count, col in enumerate(range(1,11),start=1):
 							char=get_column_letter(col)
@@ -2151,7 +2076,6 @@ class AnnualStudent(models.Model):
 								SubjectPosition=ws[char+str(row)].value
 							elif count == 10:
 								Remark=ws[char+str(row)].value
-						AnnualResult.objects.create(SN=SN,Name=Name,Class=Class,Subject=Subject,FirstTerm=FirstTerm,SecondTerm=SecondTerm,ThirdTerm=ThirdTerm,Total=Total,Average=Average,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)
 					if count == 7:
 						for count, col in enumerate(range(1,11),start=1):
 							char=get_column_letter(col)
@@ -2176,7 +2100,6 @@ class AnnualStudent(models.Model):
 								SubjectPosition=ws[char+str(row)].value
 							elif count == 10:
 								Remark=ws[char+str(row)].value
-						AnnualResult.objects.create(SN=SN,Name=Name,Class=Class,Subject=Subject,FirstTerm=FirstTerm,SecondTerm=SecondTerm,ThirdTerm=ThirdTerm,Total=Total,Average=Average,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)
 					if count == 8:
 						for count, col in enumerate(range(1,11),start=1):
 							char=get_column_letter(col)
@@ -2201,7 +2124,6 @@ class AnnualStudent(models.Model):
 								SubjectPosition=ws[char+str(row)].value
 							elif count == 10:
 								Remark=ws[char+str(row)].value
-						AnnualResult.objects.create(SN=SN,Name=Name,Class=Class,Subject=Subject,FirstTerm=FirstTerm,SecondTerm=SecondTerm,ThirdTerm=ThirdTerm,Total=Total,Average=Average,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)
 					if count == 9:
 						for count, col in enumerate(range(1,11),start=1):
 							char=get_column_letter(col)
@@ -2226,8 +2148,6 @@ class AnnualStudent(models.Model):
 								SubjectPosition=ws[char+str(row)].value
 							elif count == 10:
 								Remark=ws[char+str(row)].value
-						AnnualResult.objects.create(SN=SN,Name=Name,Class=Class,Subject=Subject,FirstTerm=FirstTerm,SecondTerm=SecondTerm,ThirdTerm=ThirdTerm,Total=Total,Average=Average,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)
-
 					if count == 10:
 						for count, col in enumerate(range(1,11),start=1):
 							char=get_column_letter(col)
@@ -2252,7 +2172,6 @@ class AnnualStudent(models.Model):
 								SubjectPosition=ws[char+str(row)].value
 							elif count == 10:
 								Remark=ws[char+str(row)].value
-						AnnualResult.objects.create(SN=SN,Name=Name,Class=Class,Subject=Subject,FirstTerm=FirstTerm,SecondTerm=SecondTerm,ThirdTerm=ThirdTerm,Total=Total,Average=Average,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)
 
 					if count == 11:
 						for count, col in enumerate(range(1,11),start=1):
@@ -2278,7 +2197,6 @@ class AnnualStudent(models.Model):
 								SubjectPosition=ws[char+str(row)].value
 							elif count == 10:
 								Remark=ws[char+str(row)].value
-						AnnualResult.objects.create(SN=SN,Name=Name,Class=Class,Subject=Subject,FirstTerm=FirstTerm,SecondTerm=SecondTerm,ThirdTerm=ThirdTerm,Total=Total,Average=Average,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)
 
 					if count == 12:
 						for count, col in enumerate(range(1,11),start=1):
@@ -2304,7 +2222,6 @@ class AnnualStudent(models.Model):
 								SubjectPosition=ws[char+str(row)].value
 							elif count == 10:
 								Remark=ws[char+str(row)].value
-						AnnualResult.objects.create(SN=SN,Name=Name,Class=Class,Subject=Subject,FirstTerm=FirstTerm,SecondTerm=SecondTerm,ThirdTerm=ThirdTerm,Total=Total,Average=Average,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)
 
 					if count == 13:
 						for count, col in enumerate(range(1,11),start=1):
@@ -2330,7 +2247,6 @@ class AnnualStudent(models.Model):
 								SubjectPosition=ws[char+str(row)].value
 							elif count == 10:
 								Remark=ws[char+str(row)].value
-						AnnualResult.objects.create(SN=SN,Name=Name,Class=Class,Subject=Subject,FirstTerm=FirstTerm,SecondTerm=SecondTerm,ThirdTerm=ThirdTerm,Total=Total,Average=Average,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)
 					
 					if count == 14:
 						for count, col in enumerate(range(1,11),start=1):
@@ -2356,7 +2272,7 @@ class AnnualStudent(models.Model):
 								SubjectPosition=ws[char+str(row)].value
 							elif count == 10:
 								Remark=ws[char+str(row)].value
-						AnnualResult.objects.create(SN=SN,Name=Name,Class=Class,Subject=Subject,FirstTerm=FirstTerm,SecondTerm=SecondTerm,ThirdTerm=ThirdTerm,Total=Total,Average=Average,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)
+					AnnualResult.objects.create(SN=SN,Name=Name,Class=Class,Subject=Subject,FirstTerm=FirstTerm,SecondTerm=SecondTerm,ThirdTerm=ThirdTerm,Total=Total,Average=Average,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)
 
 # /////////////////////////////////////////////////////////////////////////
 
@@ -2453,7 +2369,6 @@ class Student(models.Model):
 								SubjectPosition=ws[char+str(row)].value
 							elif count == 13:
 								Remark=ws[char+str(row)].value
-						Result.objects.create(SN=SN,Name=Name,Class=Class,Subject=Subject,FirstTest=ResTest,SecondTest=SecondTest,Project=Project,FirstAss=FirstAss,SecondAss=SecondAss,CA=CA,Exam=Exam,Total=Total,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)
 					
 					elif count == 2:
 						for count, col in enumerate(range(1,14),start=1):
@@ -2485,7 +2400,6 @@ class Student(models.Model):
 								SubjectPosition=ws[char+str(row)].value
 							elif count == 13:
 								Remark=ws[char+str(row)].value
-						Result.objects.create(SN=SN,Name=Name,Class=Class,Subject=Subject,FirstTest=ResTest,SecondTest=SecondTest,Project=Project,FirstAss=FirstAss,SecondAss=SecondAss,CA=CA,Exam=Exam,Total=Total,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)			
 					elif count == 3:
 						for count, col in enumerate(range(1,14),start=1):
 							char=get_column_letter(col)
@@ -2516,7 +2430,6 @@ class Student(models.Model):
 								SubjectPosition=ws[char+str(row)].value
 							elif count == 13:
 								Remark=ws[char+str(row)].value
-						Result.objects.create(SN=SN,Name=Name,Class=Class,Subject=Subject,FirstTest=ResTest,SecondTest=SecondTest,Project=Project,FirstAss=FirstAss,SecondAss=SecondAss,CA=CA,Exam=Exam,Total=Total,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)					
 					elif count == 4:
 						for count, col in enumerate(range(1,14),start=1):
 							char=get_column_letter(col)
@@ -2547,7 +2460,6 @@ class Student(models.Model):
 								SubjectPosition=ws[char+str(row)].value
 							elif count == 13:
 								Remark=ws[char+str(row)].value
-						Result.objects.create(SN=SN,Name=Name,Class=Class,Subject=Subject,FirstTest=ResTest,SecondTest=SecondTest,Project=Project,FirstAss=FirstAss,SecondAss=SecondAss,CA=CA,Exam=Exam,Total=Total,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)					
 					elif count == 5:
 						for count, col in enumerate(range(1,14),start=1):
 							char=get_column_letter(col)
@@ -2578,7 +2490,6 @@ class Student(models.Model):
 								SubjectPosition=ws[char+str(row)].value
 							elif count == 13:
 								Remark=ws[char+str(row)].value
-						Result.objects.create(SN=SN,Name=Name,Class=Class,Subject=Subject,FirstTest=ResTest,SecondTest=SecondTest,Project=Project,FirstAss=FirstAss,SecondAss=SecondAss,CA=CA,Exam=Exam,Total=Total,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)
 					elif count == 6:
 						for count, col in enumerate(range(1,14),start=1):
 							char=get_column_letter(col)
@@ -2609,7 +2520,6 @@ class Student(models.Model):
 								SubjectPosition=ws[char+str(row)].value
 							elif count == 13:
 								Remark=ws[char+str(row)].value
-						Result.objects.create(SN=SN,Name=Name,Class=Class,Subject=Subject,FirstTest=ResTest,SecondTest=SecondTest,Project=Project,FirstAss=FirstAss,SecondAss=SecondAss,CA=CA,Exam=Exam,Total=Total,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)					
 					elif count == 7:
 						for count, col in enumerate(range(1,14),start=1):
 							char=get_column_letter(col)
@@ -2640,7 +2550,6 @@ class Student(models.Model):
 								SubjectPosition=ws[char+str(row)].value
 							elif count == 13:
 								Remark=ws[char+str(row)].value
-						Result.objects.create(SN=SN,Name=Name,Class=Class,Subject=Subject,FirstTest=ResTest,SecondTest=SecondTest,Project=Project,FirstAss=FirstAss,SecondAss=SecondAss,CA=CA,Exam=Exam,Total=Total,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)					
 					elif count == 8:
 						for count, col in enumerate(range(1,14),start=1):
 							char=get_column_letter(col)
@@ -2671,7 +2580,6 @@ class Student(models.Model):
 								SubjectPosition=ws[char+str(row)].value
 							elif count == 13:
 								Remark=ws[char+str(row)].value
-						Result.objects.create(SN=SN,Name=Name,Class=Class,Subject=Subject,FirstTest=ResTest,SecondTest=SecondTest,Project=Project,FirstAss=FirstAss,SecondAss=SecondAss,CA=CA,Exam=Exam,Total=Total,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)					
 					elif count == 9:
 						for count, col in enumerate(range(1,14),start=1):
 							char=get_column_letter(col)
@@ -2702,7 +2610,6 @@ class Student(models.Model):
 								SubjectPosition=ws[char+str(row)].value
 							elif count == 13:
 								Remark=ws[char+str(row)].value
-						Result.objects.create(SN=SN,Name=Name,Class=Class,Subject=Subject,FirstTest=ResTest,SecondTest=SecondTest,Project=Project,FirstAss=FirstAss,SecondAss=SecondAss,CA=CA,Exam=Exam,Total=Total,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)# Jss2 //
 					
 					elif count == 10:
 						for count, col in enumerate(range(1,14),start=1):
@@ -2734,7 +2641,6 @@ class Student(models.Model):
 								SubjectPosition=ws[char+str(row)].value
 							elif count == 13:
 								Remark=ws[char+str(row)].value
-						Result.objects.create(SN=SN,Name=Name,Class=Class,Subject=Subject,FirstTest=ResTest,SecondTest=SecondTest,Project=Project,FirstAss=FirstAss,SecondAss=SecondAss,CA=CA,Exam=Exam,Total=Total,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)# Jss2 //
 
 					elif count == 11:
 						for count, col in enumerate(range(1,14),start=1):
@@ -2766,7 +2672,6 @@ class Student(models.Model):
 								SubjectPosition=ws[char+str(row)].value
 							elif count == 13:
 								Remark=ws[char+str(row)].value
-						Result.objects.create(SN=SN,Name=Name,Class=Class,Subject=Subject,FirstTest=ResTest,SecondTest=SecondTest,Project=Project,FirstAss=FirstAss,SecondAss=SecondAss,CA=CA,Exam=Exam,Total=Total,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)# Jss2 //
 					elif count == 12:
 						for count, col in enumerate(range(1,14),start=1):
 							char=get_column_letter(col)
@@ -2797,7 +2702,6 @@ class Student(models.Model):
 								SubjectPosition=ws[char+str(row)].value
 							elif count == 13:
 								Remark=ws[char+str(row)].value
-						Result.objects.create(SN=SN,Name=Name,Class=Class,Subject=Subject,FirstTest=ResTest,SecondTest=SecondTest,Project=Project,FirstAss=FirstAss,SecondAss=SecondAss,CA=CA,Exam=Exam,Total=Total,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)
 					elif count == 13:
 						for count, col in enumerate(range(1,14),start=1):
 							char=get_column_letter(col)
@@ -2828,7 +2732,6 @@ class Student(models.Model):
 								SubjectPosition=ws[char+str(row)].value
 							elif count == 13:
 								Remark=ws[char+str(row)].value
-						Result.objects.create(SN=SN,Name=Name,Class=Class,Subject=Subject,FirstTest=ResTest,SecondTest=SecondTest,Project=Project,FirstAss=FirstAss,SecondAss=SecondAss,CA=CA,Exam=Exam,Total=Total,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)# Jss2 //
 # Jss2 //
 	def createJuniorResult2(self,*args,**kwargs) -> None:
 		s3 = boto3.client('s3')
@@ -2874,7 +2777,6 @@ class Student(models.Model):
 								SubjectPosition=ws[char+str(row)].value
 							elif count == 13:
 								Remark=ws[char+str(row)].value
-						Result.objects.create(SN=SN,Name=Name,Class=Class,Subject=Subject,FirstTest=ResTest,SecondTest=SecondTest,Project=Project,FirstAss=FirstAss,SecondAss=SecondAss,CA=CA,Exam=Exam,Total=Total,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)					
 					elif count == 2:
 						for count, col in enumerate(range(1,14),start=1):
 							char=get_column_letter(col)
@@ -2905,7 +2807,6 @@ class Student(models.Model):
 								SubjectPosition=ws[char+str(row)].value
 							elif count == 13:
 								Remark=ws[char+str(row)].value
-						Result.objects.create(SN=SN,Name=Name,Class=Class,Subject=Subject,FirstTest=ResTest,SecondTest=SecondTest,Project=Project,FirstAss=FirstAss,SecondAss=SecondAss,CA=CA,Exam=Exam,Total=Total,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)					
 					elif count == 3:
 						for count, col in enumerate(range(1,14),start=1):
 							char=get_column_letter(col)
@@ -2936,7 +2837,6 @@ class Student(models.Model):
 								SubjectPosition=ws[char+str(row)].value
 							elif count == 13:
 								Remark=ws[char+str(row)].value
-						Result.objects.create(SN=SN,Name=Name,Class=Class,Subject=Subject,FirstTest=ResTest,SecondTest=SecondTest,Project=Project,FirstAss=FirstAss,SecondAss=SecondAss,CA=CA,Exam=Exam,Total=Total,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)					
 					elif count == 4:
 						for count, col in enumerate(range(1,14),start=1):
 							char=get_column_letter(col)
@@ -2967,7 +2867,6 @@ class Student(models.Model):
 								SubjectPosition=ws[char+str(row)].value
 							elif count == 13:
 								Remark=ws[char+str(row)].value
-						Result.objects.create(SN=SN,Name=Name,Class=Class,Subject=Subject,FirstTest=ResTest,SecondTest=SecondTest,Project=Project,FirstAss=FirstAss,SecondAss=SecondAss,CA=CA,Exam=Exam,Total=Total,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)					
 					elif count == 5:
 						for count, col in enumerate(range(1,14),start=1):
 							char=get_column_letter(col)
@@ -2998,7 +2897,6 @@ class Student(models.Model):
 								SubjectPosition=ws[char+str(row)].value
 							elif count == 13:
 								Remark=ws[char+str(row)].value
-						Result.objects.create(SN=SN,Name=Name,Class=Class,Subject=Subject,FirstTest=ResTest,SecondTest=SecondTest,Project=Project,FirstAss=FirstAss,SecondAss=SecondAss,CA=CA,Exam=Exam,Total=Total,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)
 					elif count == 6:
 						for count, col in enumerate(range(1,14),start=1):
 							char=get_column_letter(col)
@@ -3029,7 +2927,6 @@ class Student(models.Model):
 								SubjectPosition=ws[char+str(row)].value
 							elif count == 13:
 								Remark=ws[char+str(row)].value
-						Result.objects.create(SN=SN,Name=Name,Class=Class,Subject=Subject,FirstTest=ResTest,SecondTest=SecondTest,Project=Project,FirstAss=FirstAss,SecondAss=SecondAss,CA=CA,Exam=Exam,Total=Total,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)					
 					elif count == 7:
 						for count, col in enumerate(range(1,14),start=1):
 							char=get_column_letter(col)
@@ -3060,7 +2957,6 @@ class Student(models.Model):
 								SubjectPosition=ws[char+str(row)].value
 							elif count == 13:
 								Remark=ws[char+str(row)].value
-						Result.objects.create(SN=SN,Name=Name,Class=Class,Subject=Subject,FirstTest=ResTest,SecondTest=SecondTest,Project=Project,FirstAss=FirstAss,SecondAss=SecondAss,CA=CA,Exam=Exam,Total=Total,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)					
 					elif count == 8:
 						for count, col in enumerate(range(1,14),start=1):
 							char=get_column_letter(col)
@@ -3091,7 +2987,6 @@ class Student(models.Model):
 								SubjectPosition=ws[char+str(row)].value
 							elif count == 13:
 								Remark=ws[char+str(row)].value
-						Result.objects.create(SN=SN,Name=Name,Class=Class,Subject=Subject,FirstTest=ResTest,SecondTest=SecondTest,Project=Project,FirstAss=FirstAss,SecondAss=SecondAss,CA=CA,Exam=Exam,Total=Total,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)					
 					elif count == 9:
 						for count, col in enumerate(range(1,14),start=1):
 							char=get_column_letter(col)
@@ -3122,7 +3017,6 @@ class Student(models.Model):
 								SubjectPosition=ws[char+str(row)].value
 							elif count == 13:
 								Remark=ws[char+str(row)].value
-						Result.objects.create(SN=SN,Name=Name,Class=Class,Subject=Subject,FirstTest=ResTest,SecondTest=SecondTest,Project=Project,FirstAss=FirstAss,SecondAss=SecondAss,CA=CA,Exam=Exam,Total=Total,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)# Jss3//
 	
 					elif count == 10:
 						for count, col in enumerate(range(1,14),start=1):
@@ -3154,7 +3048,6 @@ class Student(models.Model):
 								SubjectPosition=ws[char+str(row)].value
 							elif count == 13:
 								Remark=ws[char+str(row)].value
-						Result.objects.create(SN=SN,Name=Name,Class=Class,Subject=Subject,FirstTest=ResTest,SecondTest=SecondTest,Project=Project,FirstAss=FirstAss,SecondAss=SecondAss,CA=CA,Exam=Exam,Total=Total,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)
 					elif count == 11:
 						for count, col in enumerate(range(1,14),start=1):
 							char=get_column_letter(col)
@@ -3185,7 +3078,6 @@ class Student(models.Model):
 								SubjectPosition=ws[char+str(row)].value
 							elif count == 13:
 								Remark=ws[char+str(row)].value
-						Result.objects.create(SN=SN,Name=Name,Class=Class,Subject=Subject,FirstTest=ResTest,SecondTest=SecondTest,Project=Project,FirstAss=FirstAss,SecondAss=SecondAss,CA=CA,Exam=Exam,Total=Total,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)# Jss2 //
 					elif count == 12:
 						for count, col in enumerate(range(1,14),start=1):
 							char=get_column_letter(col)
@@ -3216,7 +3108,6 @@ class Student(models.Model):
 								SubjectPosition=ws[char+str(row)].value
 							elif count == 13:
 								Remark=ws[char+str(row)].value
-						Result.objects.create(SN=SN,Name=Name,Class=Class,Subject=Subject,FirstTest=ResTest,SecondTest=SecondTest,Project=Project,FirstAss=FirstAss,SecondAss=SecondAss,CA=CA,Exam=Exam,Total=Total,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)# Jss2 //
 					elif count == 13:
 						for count, col in enumerate(range(1,14),start=1):
 							char=get_column_letter(col)
@@ -3247,7 +3138,7 @@ class Student(models.Model):
 								SubjectPosition=ws[char+str(row)].value
 							elif count == 13:
 								Remark=ws[char+str(row)].value
-						Result.objects.create(SN=SN,Name=Name,Class=Class,Subject=Subject,FirstTest=ResTest,SecondTest=SecondTest,Project=Project,FirstAss=FirstAss,SecondAss=SecondAss,CA=CA,Exam=Exam,Total=Total,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)# Jss2 //
+					Result.objects.create(SN=SN,Name=Name,Class=Class,Subject=Subject,FirstTest=ResTest,SecondTest=SecondTest,Project=Project,FirstAss=FirstAss,SecondAss=SecondAss,CA=CA,Exam=Exam,Total=Total,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)# Jss2 //
 # Jss3 ///
 	def createJuniorResult3(self,*args,**kwargs) -> None:
 		s3 = boto3.client('s3')
@@ -3294,7 +3185,6 @@ class Student(models.Model):
 								SubjectPosition=ws[char+str(row)].value
 							elif count == 13:
 								Remark=ws[char+str(row)].value
-						Result.objects.create(SN=SN,Name=Name,Class=Class,Subject=Subject,FirstTest=ResTest,SecondTest=SecondTest,Project=Project,FirstAss=FirstAss,SecondAss=SecondAss,CA=CA,Exam=Exam,Total=Total,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)					
 					elif count == 2:
 						for count, col in enumerate(range(1,14),start=1):
 							char=get_column_letter(col)
@@ -3325,7 +3215,6 @@ class Student(models.Model):
 								SubjectPosition=ws[char+str(row)].value
 							elif count == 13:
 								Remark=ws[char+str(row)].value
-						Result.objects.create(SN=SN,Name=Name,Class=Class,Subject=Subject,FirstTest=ResTest,SecondTest=SecondTest,Project=Project,FirstAss=FirstAss,SecondAss=SecondAss,CA=CA,Exam=Exam,Total=Total,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)					
 					elif count == 3:
 						for count, col in enumerate(range(1,14),start=1):
 							char=get_column_letter(col)
@@ -3356,7 +3245,6 @@ class Student(models.Model):
 								SubjectPosition=ws[char+str(row)].value
 							elif count == 13:
 								Remark=ws[char+str(row)].value
-						Result.objects.create(SN=SN,Name=Name,Class=Class,Subject=Subject,FirstTest=ResTest,SecondTest=SecondTest,Project=Project,FirstAss=FirstAss,SecondAss=SecondAss,CA=CA,Exam=Exam,Total=Total,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)					
 					elif count == 4:
 						for count, col in enumerate(range(1,14),start=1):
 							char=get_column_letter(col)
@@ -3387,7 +3275,6 @@ class Student(models.Model):
 								SubjectPosition=ws[char+str(row)].value
 							elif count == 13:
 								Remark=ws[char+str(row)].value
-						Result.objects.create(SN=SN,Name=Name,Class=Class,Subject=Subject,FirstTest=ResTest,SecondTest=SecondTest,Project=Project,FirstAss=FirstAss,SecondAss=SecondAss,CA=CA,Exam=Exam,Total=Total,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)					
 					elif count == 5:
 						for count, col in enumerate(range(1,14),start=1):
 							char=get_column_letter(col)
@@ -3418,7 +3305,6 @@ class Student(models.Model):
 								SubjectPosition=ws[char+str(row)].value
 							elif count == 13:
 								Remark=ws[char+str(row)].value
-						Result.objects.create(SN=SN,Name=Name,Class=Class,Subject=Subject,FirstTest=ResTest,SecondTest=SecondTest,Project=Project,FirstAss=FirstAss,SecondAss=SecondAss,CA=CA,Exam=Exam,Total=Total,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)
 					elif count == 6:
 						for count, col in enumerate(range(1,14),start=1):
 							char=get_column_letter(col)
@@ -3449,7 +3335,6 @@ class Student(models.Model):
 								SubjectPosition=ws[char+str(row)].value
 							elif count == 13:
 								Remark=ws[char+str(row)].value
-						Result.objects.create(SN=SN,Name=Name,Class=Class,Subject=Subject,FirstTest=ResTest,SecondTest=SecondTest,Project=Project,FirstAss=FirstAss,SecondAss=SecondAss,CA=CA,Exam=Exam,Total=Total,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)					
 					elif count == 7:
 						for count, col in enumerate(range(1,14),start=1):
 							char=get_column_letter(col)
@@ -3480,7 +3365,6 @@ class Student(models.Model):
 								SubjectPosition=ws[char+str(row)].value
 							elif count == 13:
 								Remark=ws[char+str(row)].value
-						Result.objects.create(SN=SN,Name=Name,Class=Class,Subject=Subject,FirstTest=ResTest,SecondTest=SecondTest,Project=Project,FirstAss=FirstAss,SecondAss=SecondAss,CA=CA,Exam=Exam,Total=Total,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)					
 					elif count == 8:
 						for count, col in enumerate(range(1,14),start=1):
 							char=get_column_letter(col)
@@ -3511,7 +3395,6 @@ class Student(models.Model):
 								SubjectPosition=ws[char+str(row)].value
 							elif count == 13:
 								Remark=ws[char+str(row)].value
-						Result.objects.create(SN=SN,Name=Name,Class=Class,Subject=Subject,FirstTest=ResTest,SecondTest=SecondTest,Project=Project,FirstAss=FirstAss,SecondAss=SecondAss,CA=CA,Exam=Exam,Total=Total,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)					
 					elif count == 9:
 						for count, col in enumerate(range(1,14),start=1):
 							char=get_column_letter(col)
@@ -3542,7 +3425,6 @@ class Student(models.Model):
 								SubjectPosition=ws[char+str(row)].value
 							elif count == 13:
 								Remark=ws[char+str(row)].value
-						Result.objects.create(SN=SN,Name=Name,Class=Class,Subject=Subject,FirstTest=ResTest,SecondTest=SecondTest,Project=Project,FirstAss=FirstAss,SecondAss=SecondAss,CA=CA,Exam=Exam,Total=Total,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)# SS1 ///
 	
 					elif count == 10:
 						for count, col in enumerate(range(1,14),start=1):
@@ -3574,7 +3456,6 @@ class Student(models.Model):
 								SubjectPosition=ws[char+str(row)].value
 							elif count == 13:
 								Remark=ws[char+str(row)].value
-						Result.objects.create(SN=SN,Name=Name,Class=Class,Subject=Subject,FirstTest=ResTest,SecondTest=SecondTest,Project=Project,FirstAss=FirstAss,SecondAss=SecondAss,CA=CA,Exam=Exam,Total=Total,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)# Jss2 //
 					elif count == 11:
 						for count, col in enumerate(range(1,14),start=1):
 							char=get_column_letter(col)
@@ -3605,7 +3486,6 @@ class Student(models.Model):
 								SubjectPosition=ws[char+str(row)].value
 							elif count == 13:
 								Remark=ws[char+str(row)].value
-						Result.objects.create(SN=SN,Name=Name,Class=Class,Subject=Subject,FirstTest=ResTest,SecondTest=SecondTest,Project=Project,FirstAss=FirstAss,SecondAss=SecondAss,CA=CA,Exam=Exam,Total=Total,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)# Jss2 //
 					elif count == 12:
 						for count, col in enumerate(range(1,14),start=1):
 							char=get_column_letter(col)
@@ -3636,7 +3516,6 @@ class Student(models.Model):
 								SubjectPosition=ws[char+str(row)].value
 							elif count == 13:
 								Remark=ws[char+str(row)].value
-						Result.objects.create(SN=SN,Name=Name,Class=Class,Subject=Subject,FirstTest=ResTest,SecondTest=SecondTest,Project=Project,FirstAss=FirstAss,SecondAss=SecondAss,CA=CA,Exam=Exam,Total=Total,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)# Jss2 //
 					elif count == 13:
 						for count, col in enumerate(range(1,14),start=1):
 							char=get_column_letter(col)
@@ -3667,7 +3546,7 @@ class Student(models.Model):
 								SubjectPosition=ws[char+str(row)].value
 							elif count == 13:
 								Remark=ws[char+str(row)].value
-						Result.objects.create(SN=SN,Name=Name,Class=Class,Subject=Subject,FirstTest=ResTest,SecondTest=SecondTest,Project=Project,FirstAss=FirstAss,SecondAss=SecondAss,CA=CA,Exam=Exam,Total=Total,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)# Jss2 //
+					Result.objects.create(SN=SN,Name=Name,Class=Class,Subject=Subject,FirstTest=ResTest,SecondTest=SecondTest,Project=Project,FirstAss=FirstAss,SecondAss=SecondAss,CA=CA,Exam=Exam,Total=Total,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)# Jss2 //
 # Ss1 //
 	def createSeniorResult1(self,*args,**kwargs) -> None:
 		s3 = boto3.client('s3')
@@ -3713,7 +3592,6 @@ class Student(models.Model):
 								SubjectPosition=ws[char+str(row)].value
 							elif count == 13:
 								Remark=ws[char+str(row)].value
-						Result.objects.create(SN=SN,Name=Name,Class=Class,Subject=Subject,FirstTest=ResTest,SecondTest=SecondTest,Project=Project,FirstAss=FirstAss,SecondAss=SecondAss,CA=CA,Exam=Exam,Total=Total,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)					
 					elif count == 2:
 						for count, col in enumerate(range(1,14),start=1):
 							char=get_column_letter(col)
@@ -3744,7 +3622,6 @@ class Student(models.Model):
 								SubjectPosition=ws[char+str(row)].value
 							elif count == 13:
 								Remark=ws[char+str(row)].value
-						Result.objects.create(SN=SN,Name=Name,Class=Class,Subject=Subject,FirstTest=ResTest,SecondTest=SecondTest,Project=Project,FirstAss=FirstAss,SecondAss=SecondAss,CA=CA,Exam=Exam,Total=Total,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)					
 					
 					elif count == 3:
 						for count, col in enumerate(range(1,14),start=1):
@@ -3776,7 +3653,6 @@ class Student(models.Model):
 								SubjectPosition=ws[char+str(row)].value
 							elif count == 13:
 								Remark=ws[char+str(row)].value
-						Result.objects.create(SN=SN,Name=Name,Class=Class,Subject=Subject,FirstTest=ResTest,SecondTest=SecondTest,Project=Project,FirstAss=FirstAss,SecondAss=SecondAss,CA=CA,Exam=Exam,Total=Total,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)					
 					
 					elif count == 4:
 						for count, col in enumerate(range(1,14),start=1):
@@ -3808,7 +3684,6 @@ class Student(models.Model):
 								SubjectPosition=ws[char+str(row)].value
 							elif count == 13:
 								Remark=ws[char+str(row)].value
-						Result.objects.create(SN=SN,Name=Name,Class=Class,Subject=Subject,FirstTest=ResTest,SecondTest=SecondTest,Project=Project,FirstAss=FirstAss,SecondAss=SecondAss,CA=CA,Exam=Exam,Total=Total,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)					
 					
 					elif count == 5:
 						for count, col in enumerate(range(1,14),start=1):
@@ -3840,7 +3715,6 @@ class Student(models.Model):
 								SubjectPosition=ws[char+str(row)].value
 							elif count == 13:
 								Remark=ws[char+str(row)].value
-						Result.objects.create(SN=SN,Name=Name,Class=Class,Subject=Subject,FirstTest=ResTest,SecondTest=SecondTest,Project=Project,FirstAss=FirstAss,SecondAss=SecondAss,CA=CA,Exam=Exam,Total=Total,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)					
 					
 					elif count == 6:
 						for count, col in enumerate(range(1,14),start=1):
@@ -3872,7 +3746,6 @@ class Student(models.Model):
 								SubjectPosition=ws[char+str(row)].value
 							elif count == 13:
 								Remark=ws[char+str(row)].value
-						Result.objects.create(SN=SN,Name=Name,Class=Class,Subject=Subject,FirstTest=ResTest,SecondTest=SecondTest,Project=Project,FirstAss=FirstAss,SecondAss=SecondAss,CA=CA,Exam=Exam,Total=Total,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)					
 					
 					elif count == 7:
 						for count, col in enumerate(range(1,14),start=1):
@@ -3904,7 +3777,6 @@ class Student(models.Model):
 								SubjectPosition=ws[char+str(row)].value
 							elif count == 13:
 								Remark=ws[char+str(row)].value
-						Result.objects.create(SN=SN,Name=Name,Class=Class,Subject=Subject,FirstTest=ResTest,SecondTest=SecondTest,Project=Project,FirstAss=FirstAss,SecondAss=SecondAss,CA=CA,Exam=Exam,Total=Total,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)					
 					
 					elif count == 8:
 						for count, col in enumerate(range(1,14),start=1):
@@ -3936,7 +3808,6 @@ class Student(models.Model):
 								SubjectPosition=ws[char+str(row)].value
 							elif count == 13:
 								Remark=ws[char+str(row)].value
-						Result.objects.create(SN=SN,Name=Name,Class=Class,Subject=Subject,FirstTest=ResTest,SecondTest=SecondTest,Project=Project,FirstAss=FirstAss,SecondAss=SecondAss,CA=CA,Exam=Exam,Total=Total,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)					
 					
 					elif count == 9:
 						for count, col in enumerate(range(1,14),start=1):
@@ -3968,7 +3839,6 @@ class Student(models.Model):
 								SubjectPosition=ws[char+str(row)].value
 							elif count == 13:
 								Remark=ws[char+str(row)].value
-						Result.objects.create(SN=SN,Name=Name,Class=Class,Subject=Subject,FirstTest=ResTest,SecondTest=SecondTest,Project=Project,FirstAss=FirstAss,SecondAss=SecondAss,CA=CA,Exam=Exam,Total=Total,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)					
 					
 					elif count == 10:
 						for count, col in enumerate(range(1,14),start=1):
@@ -4000,7 +3870,6 @@ class Student(models.Model):
 								SubjectPosition=ws[char+str(row)].value
 							elif count == 13:
 								Remark=ws[char+str(row)].value
-						Result.objects.create(SN=SN,Name=Name,Class=Class,Subject=Subject,FirstTest=ResTest,SecondTest=SecondTest,Project=Project,FirstAss=FirstAss,SecondAss=SecondAss,CA=CA,Exam=Exam,Total=Total,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)					
 					
 					elif count == 11:
 						for count, col in enumerate(range(1,14),start=1):
@@ -4032,7 +3901,6 @@ class Student(models.Model):
 								SubjectPosition=ws[char+str(row)].value
 							elif count == 13:
 								Remark=ws[char+str(row)].value
-						Result.objects.create(SN=SN,Name=Name,Class=Class,Subject=Subject,FirstTest=ResTest,SecondTest=SecondTest,Project=Project,FirstAss=FirstAss,SecondAss=SecondAss,CA=CA,Exam=Exam,Total=Total,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)					
 					elif count == 12:
 						for count, col in enumerate(range(1,14),start=1):
 							char=get_column_letter(col)
@@ -4063,7 +3931,6 @@ class Student(models.Model):
 								SubjectPosition=ws[char+str(row)].value
 							elif count == 13:
 								Remark=ws[char+str(row)].value
-						Result.objects.create(SN=SN,Name=Name,Class=Class,Subject=Subject,FirstTest=ResTest,SecondTest=SecondTest,Project=Project,FirstAss=FirstAss,SecondAss=SecondAss,CA=CA,Exam=Exam,Total=Total,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)					
 					elif count == 13:
 						for count, col in enumerate(range(1,14),start=1):
 							char=get_column_letter(col)
@@ -4094,7 +3961,6 @@ class Student(models.Model):
 								SubjectPosition=ws[char+str(row)].value
 							elif count == 13:
 								Remark=ws[char+str(row)].value
-						Result.objects.create(SN=SN,Name=Name,Class=Class,Subject=Subject,FirstTest=ResTest,SecondTest=SecondTest,Project=Project,FirstAss=FirstAss,SecondAss=SecondAss,CA=CA,Exam=Exam,Total=Total,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)					
 
 					elif count == 14:
 						for count, col in enumerate(range(1,14),start=1):
@@ -4126,7 +3992,6 @@ class Student(models.Model):
 								SubjectPosition=ws[char+str(row)].value
 							elif count == 13:
 								Remark=ws[char+str(row)].value
-						Result.objects.create(SN=SN,Name=Name,Class=Class,Subject=Subject,FirstTest=ResTest,SecondTest=SecondTest,Project=Project,FirstAss=FirstAss,SecondAss=SecondAss,CA=CA,Exam=Exam,Total=Total,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)					
 					
 					elif count == 15:
 						for count, col in enumerate(range(1,14),start=1):
@@ -4158,7 +4023,6 @@ class Student(models.Model):
 								SubjectPosition=ws[char+str(row)].value
 							elif count == 13:
 								Remark=ws[char+str(row)].value
-						Result.objects.create(SN=SN,Name=Name,Class=Class,Subject=Subject,FirstTest=ResTest,SecondTest=SecondTest,Project=Project,FirstAss=FirstAss,SecondAss=SecondAss,CA=CA,Exam=Exam,Total=Total,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)					
 					elif count == 16:
 						for count, col in enumerate(range(1,14),start=1):
 							char=get_column_letter(col)
@@ -4189,7 +4053,6 @@ class Student(models.Model):
 								SubjectPosition=ws[char+str(row)].value
 							elif count == 13:
 								Remark=ws[char+str(row)].value
-						Result.objects.create(SN=SN,Name=Name,Class=Class,Subject=Subject,FirstTest=ResTest,SecondTest=SecondTest,Project=Project,FirstAss=FirstAss,SecondAss=SecondAss,CA=CA,Exam=Exam,Total=Total,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)					
 					elif count == 17:
 						for count, col in enumerate(range(1,14),start=1):
 							char=get_column_letter(col)
@@ -4220,7 +4083,6 @@ class Student(models.Model):
 								SubjectPosition=ws[char+str(row)].value
 							elif count == 13:
 								Remark=ws[char+str(row)].value
-						Result.objects.create(SN=SN,Name=Name,Class=Class,Subject=Subject,FirstTest=ResTest,SecondTest=SecondTest,Project=Project,FirstAss=FirstAss,SecondAss=SecondAss,CA=CA,Exam=Exam,Total=Total,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)					
 					
 					elif count == 18:
 						for count, col in enumerate(range(1,14),start=1):
@@ -4252,7 +4114,6 @@ class Student(models.Model):
 								SubjectPosition=ws[char+str(row)].value
 							elif count == 13:
 								Remark=ws[char+str(row)].value
-						Result.objects.create(SN=SN,Name=Name,Class=Class,Subject=Subject,FirstTest=ResTest,SecondTest=SecondTest,Project=Project,FirstAss=FirstAss,SecondAss=SecondAss,CA=CA,Exam=Exam,Total=Total,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)					
 
 					elif count == 19:
 						for count, col in enumerate(range(1,14),start=1):
@@ -4284,7 +4145,7 @@ class Student(models.Model):
 								SubjectPosition=ws[char+str(row)].value
 							elif count == 13:
 								Remark=ws[char+str(row)].value
-						Result.objects.create(SN=SN,Name=Name,Class=Class,Subject=Subject,FirstTest=ResTest,SecondTest=SecondTest,Project=Project,FirstAss=FirstAss,SecondAss=SecondAss,CA=CA,Exam=Exam,Total=Total,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)					
+					Result.objects.create(SN=SN,Name=Name,Class=Class,Subject=Subject,FirstTest=ResTest,SecondTest=SecondTest,Project=Project,FirstAss=FirstAss,SecondAss=SecondAss,CA=CA,Exam=Exam,Total=Total,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)					
 # SS2 //
 	def createSeniorResult2(self,*args,**kwargs) -> None:
 		s3 = boto3.client('s3')
@@ -4329,7 +4190,6 @@ class Student(models.Model):
 								SubjectPosition=ws[char+str(row)].value
 							elif count == 13:
 								Remark=ws[char+str(row)].value
-						Result.objects.create(SN=SN,Name=Name,Class=Class,Subject=Subject,FirstTest=ResTest,SecondTest=SecondTest,Project=Project,FirstAss=FirstAss,SecondAss=SecondAss,CA=CA,Exam=Exam,Total=Total,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)					
 					if count == 2:
 						for count, col in enumerate(range(1,14),start=1):
 							char=get_column_letter(col)
@@ -4360,7 +4220,6 @@ class Student(models.Model):
 								SubjectPosition=ws[char+str(row)].value
 							elif count == 13:
 								Remark=ws[char+str(row)].value
-						Result.objects.create(SN=SN,Name=Name,Class=Class,Subject=Subject,FirstTest=ResTest,SecondTest=SecondTest,Project=Project,FirstAss=FirstAss,SecondAss=SecondAss,CA=CA,Exam=Exam,Total=Total,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)					
 					if count == 3:
 						for count, col in enumerate(range(1,14),start=1):
 							char=get_column_letter(col)
@@ -4391,7 +4250,6 @@ class Student(models.Model):
 								SubjectPosition=ws[char+str(row)].value
 							elif count == 13:
 								Remark=ws[char+str(row)].value
-						Result.objects.create(SN=SN,Name=Name,Class=Class,Subject=Subject,FirstTest=ResTest,SecondTest=SecondTest,Project=Project,FirstAss=FirstAss,SecondAss=SecondAss,CA=CA,Exam=Exam,Total=Total,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)					
 					if count == 4:
 						for count, col in enumerate(range(1,14),start=1):
 							char=get_column_letter(col)
@@ -4422,7 +4280,6 @@ class Student(models.Model):
 								SubjectPosition=ws[char+str(row)].value
 							elif count == 13:
 								Remark=ws[char+str(row)].value
-						Result.objects.create(SN=SN,Name=Name,Class=Class,Subject=Subject,FirstTest=ResTest,SecondTest=SecondTest,Project=Project,FirstAss=FirstAss,SecondAss=SecondAss,CA=CA,Exam=Exam,Total=Total,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)					
 					if count == 5:
 						for count, col in enumerate(range(1,14),start=1):
 							char=get_column_letter(col)
@@ -4453,7 +4310,6 @@ class Student(models.Model):
 								SubjectPosition=ws[char+str(row)].value
 							elif count == 13:
 								Remark=ws[char+str(row)].value
-						Result.objects.create(SN=SN,Name=Name,Class=Class,Subject=Subject,FirstTest=ResTest,SecondTest=SecondTest,Project=Project,FirstAss=FirstAss,SecondAss=SecondAss,CA=CA,Exam=Exam,Total=Total,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)					
 					if count == 6:
 						for count, col in enumerate(range(1,14),start=1):
 							char=get_column_letter(col)
@@ -4484,7 +4340,6 @@ class Student(models.Model):
 								SubjectPosition=ws[char+str(row)].value
 							elif count == 13:
 								Remark=ws[char+str(row)].value
-						Result.objects.create(SN=SN,Name=Name,Class=Class,Subject=Subject,FirstTest=ResTest,SecondTest=SecondTest,Project=Project,FirstAss=FirstAss,SecondAss=SecondAss,CA=CA,Exam=Exam,Total=Total,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)					
 					if count == 7:
 						for count, col in enumerate(range(1,14),start=1):
 							char=get_column_letter(col)
@@ -4515,7 +4370,6 @@ class Student(models.Model):
 								SubjectPosition=ws[char+str(row)].value
 							elif count == 13:
 								Remark=ws[char+str(row)].value
-						Result.objects.create(SN=SN,Name=Name,Class=Class,Subject=Subject,FirstTest=ResTest,SecondTest=SecondTest,Project=Project,FirstAss=FirstAss,SecondAss=SecondAss,CA=CA,Exam=Exam,Total=Total,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)					
 					if count == 8:
 						for count, col in enumerate(range(1,14),start=1):
 							char=get_column_letter(col)
@@ -4546,7 +4400,6 @@ class Student(models.Model):
 								SubjectPosition=ws[char+str(row)].value
 							elif count == 13:
 								Remark=ws[char+str(row)].value
-						Result.objects.create(SN=SN,Name=Name,Class=Class,Subject=Subject,FirstTest=ResTest,SecondTest=SecondTest,Project=Project,FirstAss=FirstAss,SecondAss=SecondAss,CA=CA,Exam=Exam,Total=Total,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)					
 					if count == 9:
 						for count, col in enumerate(range(1,14),start=1):
 							char=get_column_letter(col)
@@ -4577,7 +4430,6 @@ class Student(models.Model):
 								SubjectPosition=ws[char+str(row)].value
 							elif count == 13:
 								Remark=ws[char+str(row)].value
-						Result.objects.create(SN=SN,Name=Name,Class=Class,Subject=Subject,FirstTest=ResTest,SecondTest=SecondTest,Project=Project,FirstAss=FirstAss,SecondAss=SecondAss,CA=CA,Exam=Exam,Total=Total,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)					
 					
 					if count == 10:
 						for count, col in enumerate(range(1,14),start=1):
@@ -4609,7 +4461,6 @@ class Student(models.Model):
 								SubjectPosition=ws[char+str(row)].value
 							elif count == 13:
 								Remark=ws[char+str(row)].value
-						Result.objects.create(SN=SN,Name=Name,Class=Class,Subject=Subject,FirstTest=ResTest,SecondTest=SecondTest,Project=Project,FirstAss=FirstAss,SecondAss=SecondAss,CA=CA,Exam=Exam,Total=Total,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)					
 
 					if count == 11:
 						for count, col in enumerate(range(1,14),start=1):
@@ -4641,7 +4492,6 @@ class Student(models.Model):
 								SubjectPosition=ws[char+str(row)].value
 							elif count == 13:
 								Remark=ws[char+str(row)].value
-						Result.objects.create(SN=SN,Name=Name,Class=Class,Subject=Subject,FirstTest=ResTest,SecondTest=SecondTest,Project=Project,FirstAss=FirstAss,SecondAss=SecondAss,CA=CA,Exam=Exam,Total=Total,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)					
 
 					if count == 12:
 						for count, col in enumerate(range(1,14),start=1):
@@ -4673,7 +4523,6 @@ class Student(models.Model):
 								SubjectPosition=ws[char+str(row)].value
 							elif count == 13:
 								Remark=ws[char+str(row)].value
-						Result.objects.create(SN=SN,Name=Name,Class=Class,Subject=Subject,FirstTest=ResTest,SecondTest=SecondTest,Project=Project,FirstAss=FirstAss,SecondAss=SecondAss,CA=CA,Exam=Exam,Total=Total,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)					
 					if count == 13:
 						for count, col in enumerate(range(1,14),start=1):
 							char=get_column_letter(col)
@@ -4704,7 +4553,6 @@ class Student(models.Model):
 								SubjectPosition=ws[char+str(row)].value
 							elif count == 13:
 								Remark=ws[char+str(row)].value
-						Result.objects.create(SN=SN,Name=Name,Class=Class,Subject=Subject,FirstTest=ResTest,SecondTest=SecondTest,Project=Project,FirstAss=FirstAss,SecondAss=SecondAss,CA=CA,Exam=Exam,Total=Total,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)					
 					if count == 14:
 						for count, col in enumerate(range(1,14),start=1):
 							char=get_column_letter(col)
@@ -4735,7 +4583,7 @@ class Student(models.Model):
 								SubjectPosition=ws[char+str(row)].value
 							elif count == 13:
 								Remark=ws[char+str(row)].value
-						Result.objects.create(SN=SN,Name=Name,Class=Class,Subject=Subject,FirstTest=ResTest,SecondTest=SecondTest,Project=Project,FirstAss=FirstAss,SecondAss=SecondAss,CA=CA,Exam=Exam,Total=Total,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)					
+					Result.objects.create(SN=SN,Name=Name,Class=Class,Subject=Subject,FirstTest=ResTest,SecondTest=SecondTest,Project=Project,FirstAss=FirstAss,SecondAss=SecondAss,CA=CA,Exam=Exam,Total=Total,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)					
 # SS3 //
 	def createSeniorResult3(self,*args,**kwargs) -> None:
 		s3 = boto3.client('s3')
@@ -5471,7 +5319,6 @@ class Excelfiles(models.Model):
 							student_id=ws[char+str(row)].value
 						elif count == 5:
 							student_class=ws[char+str(row)].value
-					Students_Pin_and_ID.objects.create(SN=SN,student_name=student_name,student_id=student_id,student_pin=student_pin,student_class=student_class)
 				if count == 2:
 					for count, col in enumerate(range(1,6),start=1):
 						char=get_column_letter(col)	
@@ -5485,7 +5332,6 @@ class Excelfiles(models.Model):
 							student_id=ws[char+str(row)].value
 						elif count == 5:
 							student_class=ws[char+str(row)].value
-					Students_Pin_and_ID.objects.create(SN=SN,student_name=student_name,student_id=student_id,student_pin=student_pin,student_class=student_class)
 				if count == 3:
 					for count, col in enumerate(range(1,6),start=1):
 						char=get_column_letter(col)	
@@ -5499,7 +5345,6 @@ class Excelfiles(models.Model):
 							student_id=ws[char+str(row)].value
 						elif count == 5:
 							student_class=ws[char+str(row)].value
-					Students_Pin_and_ID.objects.create(SN=SN,student_name=student_name,student_id=student_id,student_pin=student_pin,student_class=student_class)
 				if count == 4:
 					for count, col in enumerate(range(1,6),start=1):
 						char=get_column_letter(col)	
@@ -5513,7 +5358,6 @@ class Excelfiles(models.Model):
 							student_id=ws[char+str(row)].value
 						elif count == 5:
 							student_class=ws[char+str(row)].value
-					Students_Pin_and_ID.objects.create(SN=SN,student_name=student_name,student_id=student_id,student_pin=student_pin,student_class=student_class)
 				if count == 5:
 					for count, col in enumerate(range(1,6),start=1):
 						char=get_column_letter(col)	
@@ -5527,7 +5371,6 @@ class Excelfiles(models.Model):
 							student_id=ws[char+str(row)].value
 						elif count == 5:
 							student_class=ws[char+str(row)].value
-					Students_Pin_and_ID.objects.create(SN=SN,student_name=student_name,student_id=student_id,student_pin=student_pin,student_class=student_class)
 				if count == 6:
 					for count, col in enumerate(range(1,6),start=1):
 						char=get_column_letter(col)	
@@ -5541,7 +5384,6 @@ class Excelfiles(models.Model):
 							student_id=ws[char+str(row)].value
 						elif count == 5:
 							student_class=ws[char+str(row)].value
-					Students_Pin_and_ID.objects.create(SN=SN,student_name=student_name,student_id=student_id,student_pin=student_pin,student_class=student_class)
 				if count == 7:
 					for count, col in enumerate(range(1,6),start=1):
 						char=get_column_letter(col)	
@@ -5555,7 +5397,6 @@ class Excelfiles(models.Model):
 							student_id=ws[char+str(row)].value
 						elif count == 5:
 							student_class=ws[char+str(row)].value
-					Students_Pin_and_ID.objects.create(SN=SN,student_name=student_name,student_id=student_id,student_pin=student_pin,student_class=student_class)
 				if count == 8:
 					for count, col in enumerate(range(1,6),start=1):
 						char=get_column_letter(col)	
@@ -5569,7 +5410,6 @@ class Excelfiles(models.Model):
 							student_id=ws[char+str(row)].value
 						elif count == 5:
 							student_class=ws[char+str(row)].value
-					Students_Pin_and_ID.objects.create(SN=SN,student_name=student_name,student_id=student_id,student_pin=student_pin,student_class=student_class)
 				if count == 9:
 					for count, col in enumerate(range(1,6),start=1):
 						char=get_column_letter(col)	
@@ -5583,7 +5423,6 @@ class Excelfiles(models.Model):
 							student_id=ws[char+str(row)].value
 						elif count == 5:
 							student_class=ws[char+str(row)].value
-					Students_Pin_and_ID.objects.create(SN=SN,student_name=student_name,student_id=student_id,student_pin=student_pin,student_class=student_class)
 				if count == 10:
 					for count, col in enumerate(range(1,6),start=1):
 						char=get_column_letter(col)	
@@ -5597,7 +5436,6 @@ class Excelfiles(models.Model):
 							student_id=ws[char+str(row)].value
 						elif count == 5:
 							student_class=ws[char+str(row)].value
-					Students_Pin_and_ID.objects.create(SN=SN,student_name=student_name,student_id=student_id,student_pin=student_pin,student_class=student_class)
 				if count == 11:
 					for count, col in enumerate(range(1,6),start=1):
 						char=get_column_letter(col)	
@@ -5611,7 +5449,6 @@ class Excelfiles(models.Model):
 							student_id=ws[char+str(row)].value
 						elif count == 5:
 							student_class=ws[char+str(row)].value
-					Students_Pin_and_ID.objects.create(SN=SN,student_name=student_name,student_id=student_id,student_pin=student_pin,student_class=student_class)
 				if count == 12:
 					for count, col in enumerate(range(1,6),start=1):
 						char=get_column_letter(col)	
@@ -5625,7 +5462,6 @@ class Excelfiles(models.Model):
 							student_id=ws[char+str(row)].value
 						elif count == 5:
 							student_class=ws[char+str(row)].value
-					Students_Pin_and_ID.objects.create(SN=SN,student_name=student_name,student_id=student_id,student_pin=student_pin,student_class=student_class)
 				if count == 13:
 					for count, col in enumerate(range(1,6),start=1):
 						char=get_column_letter(col)	
@@ -5639,7 +5475,6 @@ class Excelfiles(models.Model):
 							student_id=ws[char+str(row)].value
 						elif count == 5:
 							student_class=ws[char+str(row)].value
-					Students_Pin_and_ID.objects.create(SN=SN,student_name=student_name,student_id=student_id,student_pin=student_pin,student_class=student_class)
 				if count == 14:
 					for count, col in enumerate(range(1,6),start=1):
 						char=get_column_letter(col)	
@@ -5653,7 +5488,6 @@ class Excelfiles(models.Model):
 							student_id=ws[char+str(row)].value
 						elif count == 5:
 							student_class=ws[char+str(row)].value
-					Students_Pin_and_ID.objects.create(SN=SN,student_name=student_name,student_id=student_id,student_pin=student_pin,student_class=student_class)
 				if count == 15:
 					for count, col in enumerate(range(1,6),start=1):
 						char=get_column_letter(col)	
@@ -5667,7 +5501,6 @@ class Excelfiles(models.Model):
 							student_id=ws[char+str(row)].value
 						elif count == 5:
 							student_class=ws[char+str(row)].value
-					Students_Pin_and_ID.objects.create(SN=SN,student_name=student_name,student_id=student_id,student_pin=student_pin,student_class=student_class)
 				if count == 16:
 					for count, col in enumerate(range(1,6),start=1):
 						char=get_column_letter(col)	
@@ -5681,7 +5514,6 @@ class Excelfiles(models.Model):
 							student_id=ws[char+str(row)].value
 						elif count == 5:
 							student_class=ws[char+str(row)].value
-					Students_Pin_and_ID.objects.create(SN=SN,student_name=student_name,student_id=student_id,student_pin=student_pin,student_class=student_class)
 				if count == 17:
 					for count, col in enumerate(range(1,6),start=1):
 						char=get_column_letter(col)	
@@ -5695,7 +5527,6 @@ class Excelfiles(models.Model):
 							student_id=ws[char+str(row)].value
 						elif count == 5:
 							student_class=ws[char+str(row)].value
-					Students_Pin_and_ID.objects.create(SN=SN,student_name=student_name,student_id=student_id,student_pin=student_pin,student_class=student_class)
 				if count == 18:
 					for count, col in enumerate(range(1,6),start=1):
 						char=get_column_letter(col)	
@@ -5709,7 +5540,6 @@ class Excelfiles(models.Model):
 							student_id=ws[char+str(row)].value
 						elif count == 5:
 							student_class=ws[char+str(row)].value
-					Students_Pin_and_ID.objects.create(SN=SN,student_name=student_name,student_id=student_id,student_pin=student_pin,student_class=student_class)
 				if count == 19:
 					for count, col in enumerate(range(1,6),start=1):
 						char=get_column_letter(col)	
@@ -5723,7 +5553,6 @@ class Excelfiles(models.Model):
 							student_id=ws[char+str(row)].value
 						elif count == 5:
 							student_class=ws[char+str(row)].value
-					Students_Pin_and_ID.objects.create(SN=SN,student_name=student_name,student_id=student_id,student_pin=student_pin,student_class=student_class)
 				if count == 20:
 					for count, col in enumerate(range(1,6),start=1):
 						char=get_column_letter(col)	
@@ -5737,7 +5566,6 @@ class Excelfiles(models.Model):
 							student_id=ws[char+str(row)].value
 						elif count == 5:
 							student_class=ws[char+str(row)].value
-					Students_Pin_and_ID.objects.create(SN=SN,student_name=student_name,student_id=student_id,student_pin=student_pin,student_class=student_class)
 				if count == 21:
 					for count, col in enumerate(range(1,6),start=1):
 						char=get_column_letter(col)	
@@ -5751,7 +5579,6 @@ class Excelfiles(models.Model):
 							student_id=ws[char+str(row)].value
 						elif count == 5:
 							student_class=ws[char+str(row)].value
-					Students_Pin_and_ID.objects.create(SN=SN,student_name=student_name,student_id=student_id,student_pin=student_pin,student_class=student_class)
 				if count == 22:
 					for count, col in enumerate(range(1,6),start=1):
 						char=get_column_letter(col)	
@@ -5765,7 +5592,6 @@ class Excelfiles(models.Model):
 							student_id=ws[char+str(row)].value
 						elif count == 5:
 							student_class=ws[char+str(row)].value
-					Students_Pin_and_ID.objects.create(SN=SN,student_name=student_name,student_id=student_id,student_pin=student_pin,student_class=student_class)
 				if count == 23:
 					for count, col in enumerate(range(1,6),start=1):
 						char=get_column_letter(col)	
@@ -5779,7 +5605,6 @@ class Excelfiles(models.Model):
 							student_id=ws[char+str(row)].value
 						elif count == 5:
 							student_class=ws[char+str(row)].value
-					Students_Pin_and_ID.objects.create(SN=SN,student_name=student_name,student_id=student_id,student_pin=student_pin,student_class=student_class)
 				if count == 24:
 					for count, col in enumerate(range(1,6),start=1):
 						char=get_column_letter(col)	
@@ -5793,7 +5618,6 @@ class Excelfiles(models.Model):
 							student_id=ws[char+str(row)].value
 						elif count == 5:
 							student_class=ws[char+str(row)].value
-					Students_Pin_and_ID.objects.create(SN=SN,student_name=student_name,student_id=student_id,student_pin=student_pin,student_class=student_class)
 				if count == 25:
 					for count, col in enumerate(range(1,6),start=1):
 						char=get_column_letter(col)	
@@ -5807,7 +5631,6 @@ class Excelfiles(models.Model):
 							student_id=ws[char+str(row)].value
 						elif count == 5:
 							student_class=ws[char+str(row)].value
-					Students_Pin_and_ID.objects.create(SN=SN,student_name=student_name,student_id=student_id,student_pin=student_pin,student_class=student_class)
 				if count == 26:
 					for count, col in enumerate(range(1,6),start=1):
 						char=get_column_letter(col)	
@@ -5821,7 +5644,6 @@ class Excelfiles(models.Model):
 							student_id=ws[char+str(row)].value
 						elif count == 5:
 							student_class=ws[char+str(row)].value
-					Students_Pin_and_ID.objects.create(SN=SN,student_name=student_name,student_id=student_id,student_pin=student_pin,student_class=student_class)
 				if count == 27:
 					for count, col in enumerate(range(1,6),start=1):
 						char=get_column_letter(col)	
@@ -5835,7 +5657,6 @@ class Excelfiles(models.Model):
 							student_id=ws[char+str(row)].value
 						elif count == 5:
 							student_class=ws[char+str(row)].value
-					Students_Pin_and_ID.objects.create(SN=SN,student_name=student_name,student_id=student_id,student_pin=student_pin,student_class=student_class)
 				if count == 28:
 					for count, col in enumerate(range(1,6),start=1):
 						char=get_column_letter(col)	
@@ -5849,7 +5670,6 @@ class Excelfiles(models.Model):
 							student_id=ws[char+str(row)].value
 						elif count == 5:
 							student_class=ws[char+str(row)].value
-					Students_Pin_and_ID.objects.create(SN=SN,student_name=student_name,student_id=student_id,student_pin=student_pin,student_class=student_class)
 				if count == 29:
 					for count, col in enumerate(range(1,6),start=1):
 						char=get_column_letter(col)	
@@ -5863,7 +5683,6 @@ class Excelfiles(models.Model):
 							student_id=ws[char+str(row)].value
 						elif count == 5:
 							student_class=ws[char+str(row)].value
-					Students_Pin_and_ID.objects.create(SN=SN,student_name=student_name,student_id=student_id,student_pin=student_pin,student_class=student_class)
 				if count == 30:
 					for count, col in enumerate(range(1,6),start=1):
 						char=get_column_letter(col)	
@@ -5877,7 +5696,6 @@ class Excelfiles(models.Model):
 							student_id=ws[char+str(row)].value
 						elif count == 5:
 							student_class=ws[char+str(row)].value
-					Students_Pin_and_ID.objects.create(SN=SN,student_name=student_name,student_id=student_id,student_pin=student_pin,student_class=student_class)
 				if count == 31:
 					for count, col in enumerate(range(1,6),start=1):
 						char=get_column_letter(col)	
@@ -5891,7 +5709,6 @@ class Excelfiles(models.Model):
 							student_id=ws[char+str(row)].value
 						elif count == 5:
 							student_class=ws[char+str(row)].value
-					Students_Pin_and_ID.objects.create(SN=SN,student_name=student_name,student_id=student_id,student_pin=student_pin,student_class=student_class)
 				if count == 32:
 					for count, col in enumerate(range(1,6),start=1):
 						char=get_column_letter(col)	
@@ -5905,7 +5722,6 @@ class Excelfiles(models.Model):
 							student_id=ws[char+str(row)].value
 						elif count == 5:
 							student_class=ws[char+str(row)].value
-					Students_Pin_and_ID.objects.create(SN=SN,student_name=student_name,student_id=student_id,student_pin=student_pin,student_class=student_class)
 				if count == 33:
 					for count, col in enumerate(range(1,6),start=1):
 						char=get_column_letter(col)	
@@ -5919,7 +5735,6 @@ class Excelfiles(models.Model):
 							student_id=ws[char+str(row)].value
 						elif count == 5:
 							student_class=ws[char+str(row)].value
-					Students_Pin_and_ID.objects.create(SN=SN,student_name=student_name,student_id=student_id,student_pin=student_pin,student_class=student_class)
 				if count == 34:
 					for count, col in enumerate(range(1,6),start=1):
 						char=get_column_letter(col)	
@@ -5933,7 +5748,6 @@ class Excelfiles(models.Model):
 							student_id=ws[char+str(row)].value
 						elif count == 5:
 							student_class=ws[char+str(row)].value
-					Students_Pin_and_ID.objects.create(SN=SN,student_name=student_name,student_id=student_id,student_pin=student_pin,student_class=student_class)
 				if count == 35:
 					for count, col in enumerate(range(1,6),start=1):
 						char=get_column_letter(col)	
@@ -5947,7 +5761,6 @@ class Excelfiles(models.Model):
 							student_id=ws[char+str(row)].value
 						elif count == 5:
 							student_class=ws[char+str(row)].value
-					Students_Pin_and_ID.objects.create(SN=SN,student_name=student_name,student_id=student_id,student_pin=student_pin,student_class=student_class)
 				if count == 36:
 					for count, col in enumerate(range(1,6),start=1):
 						char=get_column_letter(col)	
@@ -5961,7 +5774,6 @@ class Excelfiles(models.Model):
 							student_id=ws[char+str(row)].value
 						elif count == 5:
 							student_class=ws[char+str(row)].value
-					Students_Pin_and_ID.objects.create(SN=SN,student_name=student_name,student_id=student_id,student_pin=student_pin,student_class=student_class)
 				if count == 37:
 					for count, col in enumerate(range(1,6),start=1):
 						char=get_column_letter(col)	
@@ -5975,7 +5787,6 @@ class Excelfiles(models.Model):
 							student_id=ws[char+str(row)].value
 						elif count == 5:
 							student_class=ws[char+str(row)].value
-					Students_Pin_and_ID.objects.create(SN=SN,student_name=student_name,student_id=student_id,student_pin=student_pin,student_class=student_class)
 				if count == 38:
 					for count, col in enumerate(range(1,6),start=1):
 						char=get_column_letter(col)	
@@ -5989,7 +5800,6 @@ class Excelfiles(models.Model):
 							student_id=ws[char+str(row)].value
 						elif count == 5:
 							student_class=ws[char+str(row)].value
-					Students_Pin_and_ID.objects.create(SN=SN,student_name=student_name,student_id=student_id,student_pin=student_pin,student_class=student_class)
 				if count == 39:
 					for count, col in enumerate(range(1,6),start=1):
 						char=get_column_letter(col)	
@@ -6003,7 +5813,6 @@ class Excelfiles(models.Model):
 							student_id=ws[char+str(row)].value
 						elif count == 5:
 							student_class=ws[char+str(row)].value
-					Students_Pin_and_ID.objects.create(SN=SN,student_name=student_name,student_id=student_id,student_pin=student_pin,student_class=student_class)
 				if count == 40:
 					for count, col in enumerate(range(1,6),start=1):
 						char=get_column_letter(col)	
@@ -6017,7 +5826,6 @@ class Excelfiles(models.Model):
 							student_id=ws[char+str(row)].value
 						elif count == 5:
 							student_class=ws[char+str(row)].value
-					Students_Pin_and_ID.objects.create(SN=SN,student_name=student_name,student_id=student_id,student_pin=student_pin,student_class=student_class)
 				if count == 41:
 					for count, col in enumerate(range(1,6),start=1):
 						char=get_column_letter(col)	
@@ -6031,7 +5839,6 @@ class Excelfiles(models.Model):
 							student_id=ws[char+str(row)].value
 						elif count == 5:
 							student_class=ws[char+str(row)].value
-					Students_Pin_and_ID.objects.create(SN=SN,student_name=student_name,student_id=student_id,student_pin=student_pin,student_class=student_class)
 				if count == 42:
 					for count, col in enumerate(range(1,6),start=1):
 						char=get_column_letter(col)	
@@ -6045,7 +5852,6 @@ class Excelfiles(models.Model):
 							student_id=ws[char+str(row)].value
 						elif count == 5:
 							student_class=ws[char+str(row)].value
-					Students_Pin_and_ID.objects.create(SN=SN,student_name=student_name,student_id=student_id,student_pin=student_pin,student_class=student_class)
 				if count == 43:
 					for count, col in enumerate(range(1,6),start=1):
 						char=get_column_letter(col)	
@@ -6059,7 +5865,6 @@ class Excelfiles(models.Model):
 							student_id=ws[char+str(row)].value
 						elif count == 5:
 							student_class=ws[char+str(row)].value
-					Students_Pin_and_ID.objects.create(SN=SN,student_name=student_name,student_id=student_id,student_pin=student_pin,student_class=student_class)
 				if count == 44:
 					for count, col in enumerate(range(1,6),start=1):
 						char=get_column_letter(col)	
@@ -6073,7 +5878,6 @@ class Excelfiles(models.Model):
 							student_id=ws[char+str(row)].value
 						elif count == 5:
 							student_class=ws[char+str(row)].value
-					Students_Pin_and_ID.objects.create(SN=SN,student_name=student_name,student_id=student_id,student_pin=student_pin,student_class=student_class)
 				if count == 45:
 					for count, col in enumerate(range(1,6),start=1):
 						char=get_column_letter(col)	
@@ -6087,7 +5891,6 @@ class Excelfiles(models.Model):
 							student_id=ws[char+str(row)].value
 						elif count == 5:
 							student_class=ws[char+str(row)].value
-					Students_Pin_and_ID.objects.create(SN=SN,student_name=student_name,student_id=student_id,student_pin=student_pin,student_class=student_class)
 				if count == 46:
 					for count, col in enumerate(range(1,6),start=1):
 						char=get_column_letter(col)	
@@ -6101,7 +5904,6 @@ class Excelfiles(models.Model):
 							student_id=ws[char+str(row)].value
 						elif count == 5:
 							student_class=ws[char+str(row)].value
-					Students_Pin_and_ID.objects.create(SN=SN,student_name=student_name,student_id=student_id,student_pin=student_pin,student_class=student_class)
 				if count == 47:
 					for count, col in enumerate(range(1,6),start=1):
 						char=get_column_letter(col)	
@@ -6115,7 +5917,6 @@ class Excelfiles(models.Model):
 							student_id=ws[char+str(row)].value
 						elif count == 5:
 							student_class=ws[char+str(row)].value
-					Students_Pin_and_ID.objects.create(SN=SN,student_name=student_name,student_id=student_id,student_pin=student_pin,student_class=student_class)
 				if count == 48:
 					for count, col in enumerate(range(1,6),start=1):
 						char=get_column_letter(col)	
@@ -6129,7 +5930,6 @@ class Excelfiles(models.Model):
 							student_id=ws[char+str(row)].value
 						elif count == 5:
 							student_class=ws[char+str(row)].value
-					Students_Pin_and_ID.objects.create(SN=SN,student_name=student_name,student_id=student_id,student_pin=student_pin,student_class=student_class)
 				if count == 49:
 					for count, col in enumerate(range(1,6),start=1):
 						char=get_column_letter(col)	
@@ -6143,7 +5943,6 @@ class Excelfiles(models.Model):
 							student_id=ws[char+str(row)].value
 						elif count == 5:
 							student_class=ws[char+str(row)].value
-					Students_Pin_and_ID.objects.create(SN=SN,student_name=student_name,student_id=student_id,student_pin=student_pin,student_class=student_class)
 				if count == 50:
 					for count, col in enumerate(range(1,6),start=1):
 						char=get_column_letter(col)	
@@ -6157,7 +5956,7 @@ class Excelfiles(models.Model):
 							student_id=ws[char+str(row)].value
 						elif count == 5:
 							student_class=ws[char+str(row)].value
-					Students_Pin_and_ID.objects.create(SN=SN,student_name=student_name,student_id=student_id,student_pin=student_pin,student_class=student_class)   
+				Students_Pin_and_ID.objects.create(SN=SN,student_name=student_name,student_id=student_id,student_pin=student_pin,student_class=student_class)   
 # Model for the Pins		
 
 class Students_Pin_and_ID(models.Model):
