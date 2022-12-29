@@ -39,7 +39,7 @@ urlpatterns = [
     # Ss2 Details
     path('activation/createseniorstudents2/', createseniorstudent2_view, name='seniorstudents2'),
     # Ss3 Details
-    path('activation/createseniorstudents3/', createseniorstudent2_view, name='seniorstudents3'),
+    path('activation/createseniorstudents3/', createseniorstudent3_view, name='seniorstudents3'),
 
 
 #  Results ///////////////////////////////////////////
