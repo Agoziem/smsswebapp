@@ -25,7 +25,7 @@ SECRET_KEY=config('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', default=False, cast=bool)
 
-ALLOWED_HOSTS = ['127.0.0.1','smssapp.herokuapp.com','www.stmarksstandardsecondaryschool.com']
+ALLOWED_HOSTS = ['127.0.0.1','smssapp.herokuapp.com','www.stmarksstandardsecondaryschool.com','stmarksstandardsecondaryschool.com']
 
 
 # Application definition
@@ -173,6 +173,6 @@ PAYSTACK_SECRET_KEY = 'sk_test_eee99a387e1d38ed511815aef40f9a508d1030b6'
 
 MAPBOXGL_ACCESSTOKEN=config('MAPBOXGL_ACCESSTOKEN', default='')
 
-# if os.getcwd() == '/app':
-# 	SECURE_PROXY_SSL_HEADER=('HTTP_X_FORWARDING_PROTO','https')
-# 	SECURE_SSL_REDIRECT=True
+if os.getcwd() == '/app':
+	SECURE_PROXY_SSL_HEADER=('HTTP_X_FORWARDING_PROTO','https')
+	SECURE_SSL_REDIRECT=True
