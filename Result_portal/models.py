@@ -5729,7 +5729,7 @@ class Excelfiles(models.Model):
 						elif count == 2:
 							student_name=str(ws[char+str(row)].value).upper().strip()
 						elif count == 3:
-							student_pin=int(ws[char+str(row)].value)
+							student_pin=ws[char+str(row)].value
 						elif count == 4:
 							student_id=ws[char+str(row)].value
 						elif count == 5:
@@ -5820,7 +5820,7 @@ class Excelfiles(models.Model):
 						elif count == 2:
 							student_name=str(ws[char+str(row)].value).upper().strip()
 						elif count == 3:
-							student_pin=int(ws[char+str(row)].value)
+							student_pin=ws[char+str(row)].value
 						elif count == 4:
 							student_id=ws[char+str(row)].value
 						elif count == 5:
