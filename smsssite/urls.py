@@ -22,8 +22,8 @@ from django.conf import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('',home_view, name='home2'),
-    path('home/',home2_view, name='home'),
+    path('',home_view, name='home'),
+    # path('home/',home2_view, name='home'),
     path('submit_contact_form/', submit_contact_form, name='submit_contact_form' ),
     path('submit_sub_form/', submit_sub_form, name='submit_sub_form' ),
     path('Elibrary/', include('Elibrary.urls')),
