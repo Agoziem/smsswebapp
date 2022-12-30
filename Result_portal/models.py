@@ -2369,7 +2369,6 @@ class Student(models.Model):
 								SubjectPosition=ws[char+str(row)].value
 							elif count == 13:
 								Remark=ws[char+str(row)].value
-					
 					elif count == 2:
 						for count, col in enumerate(range(1,14),start=1):
 							char=get_column_letter(col)
@@ -2610,7 +2609,6 @@ class Student(models.Model):
 								SubjectPosition=ws[char+str(row)].value
 							elif count == 13:
 								Remark=ws[char+str(row)].value
-					
 					elif count == 10:
 						for count, col in enumerate(range(1,14),start=1):
 							char=get_column_letter(col)
@@ -2641,7 +2639,6 @@ class Student(models.Model):
 								SubjectPosition=ws[char+str(row)].value
 							elif count == 13:
 								Remark=ws[char+str(row)].value
-
 					elif count == 11:
 						for count, col in enumerate(range(1,14),start=1):
 							char=get_column_letter(col)

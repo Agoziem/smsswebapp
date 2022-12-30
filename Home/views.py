@@ -1,5 +1,6 @@
 from django.shortcuts import render,redirect
-from .models import PhotoGallery,School,Management,Subscription,Header,FAQ,UpcomingEvents,Contact
+from .models import *
+from Blog.models import Article
 # from .forms import Contactform
 from django.core.mail import send_mail
 from django.http import HttpResponse
@@ -22,12 +23,19 @@ def home2_view(request):
 	queryset4=FAQ.objects.all()
 	queryset5=UpcomingEvents.objects.all()
 	queryset6=PhotoGallery.objects.all()
+	queryset7=Teacher.objects.all()
+	queryset8=ParentsReview.objects.all()
+	queryset9=Article.objects.all()
 	
+	Articles=[]
 	photos=[]
 	homePhotos=[]
 	for photoobject in queryset6:
 		photos.append(photoobject)
 		homePhotos=photos[:6]
+	for article in queryset9:
+		Articles.append(article)
+		HomeArticles=Articles[:4]
 	context= {
 	'mapbox_private_key':settings.MAPBOXGL_ACCESSTOKEN,
 	'schools':queryset1,
@@ -36,6 +44,9 @@ def home2_view(request):
 	'FAQ':queryset4,
 	'events':queryset5,
 	'photos':homePhotos,
+	"Teachers":queryset7,
+	"parentsreviews":queryset8,
+	"articles":HomeArticles
 	}
 	return render(request,'home.html',context)
 	

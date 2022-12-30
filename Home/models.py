@@ -36,7 +36,24 @@ class Management(models.Model):
 	
 	def __str__(self):
 		return str(self.Profilename)
-		
+
+class Teacher(models.Model):
+	Name= models.CharField(max_length= 200, blank=True)
+	Phone_number= models.CharField(max_length= 200, blank=True)
+	Email= models.EmailField(max_length= 200, blank=True)
+	Role= models.CharField(max_length= 200, blank=True)
+	Subject=models.CharField(max_length= 200, blank=True)
+	Class_assigned=models.CharField(max_length= 200, blank=True)
+	Facebook_link=models.CharField(max_length= 200, blank=True)
+	Twitter_link=models.CharField(max_length= 200, blank=True)
+	Instagram_link=models.CharField(max_length= 200, blank=True)
+	Headshot=models.ImageField(upload_to='assets', blank=True,default='assets/default.png')
+	
+	def __str__(self):
+		return str(self.Name)
+
+
+				
 class Subscription(models.Model):
 	Email= models.EmailField(blank = True,null=True)
 	
@@ -68,7 +85,7 @@ class PhotoGallery(models.Model):
 		return url
 		
 class UpcomingEvents(models.Model):
-	Flier=models.ImageField(upload_to='assets', blank=True)
+	Flier=models.ImageField(upload_to='assets', blank=True,default='assets/No image.svg')
 	Eventtitle= models.CharField(max_length= 300, blank=True)
 	EventTopic= models.CharField(max_length= 300, blank=True)
 	Eventspeaker_Chairman= models.CharField(max_length= 300, blank=True)
@@ -94,3 +111,12 @@ class Contact(models.Model):
 
 	def __str__(self):
 		return str(self.email)
+
+class ParentsReview(models.Model):
+	Profileimage=models.ImageField(upload_to='assets', blank=True,default='assets/parents image.png')
+	Name=models.CharField(max_length= 300, blank=True)
+	Occupation= models.CharField(max_length= 300, blank=True)
+	Review= models.TextField(blank=True)
+	
+	def __str__(self):
+		return str(self.Name)

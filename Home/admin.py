@@ -1,5 +1,5 @@
 from django.contrib import admin
-from.models import School,Header,PhotoGallery,Management,UpcomingEvents,FAQ,Subscription,Contact
+from.models import *
 
 admin.site.register(School)
 admin.site.register(Subscription)
@@ -9,4 +9,6 @@ admin.site.register(PhotoGallery)
 admin.site.register(UpcomingEvents)
 admin.site.register(FAQ)
 admin.site.register(Contact)
+admin.site.register(Teacher)
+admin.site.register(ParentsReview)
 

@@ -81,25 +81,29 @@
         <div class=" d-md-none">
             <div class="d-flex justify-content-center">
                 <div>
-                    <img class="mb-2 img-fluid" src="{% static 'images/Good moral.svg' %}" alt="" style="width: 146.5px;height:88.81px;">
+                    <img class="mb-2 img-fluid" src="{% static 'images/Good moral.svg' %}" alt=""
+                        style="width: 146.5px;height:88.81px;">
                     <p>Good Morals</p>
                 </div>
                 <div>
-                    <img class="mb-2 img-fluid" src="{% static 'images/Excellence.svg' %}" alt="" style="width: 88.81px;height:88.81px;">
+                    <img class="mb-2 img-fluid" src="{% static 'images/Excellence.svg' %}" alt=""
+                        style="width: 88.81px;height:88.81px;">
                     <p>Academic Excellence</p>
                 </div>
             </div>
             <div class="d-flex justify-content-center">
                 <div>
-                    <img class="mb-2 img-fluid" src="{% static 'images/Creativity.svg' %}" alt="" style="width: 146.5px;height:88.81px;" >
+                    <img class="mb-2 img-fluid" src="{% static 'images/Creativity.svg' %}" alt=""
+                        style="width: 146.5px;height:88.81px;">
                     <p>Creativity</p>
                 </div>
                 <div>
-                    <img class="mb-2 img-fluid" src="{% static 'images/Innovation.svg' %}" alt="" style="width: 88.81px;height:88.81px;">
+                    <img class="mb-2 img-fluid" src="{% static 'images/Innovation.svg' %}" alt=""
+                        style="width: 88.81px;height:88.81px;">
                     <p class="text-start ps-3">Inovation</p>
                 </div>
             </div>
-            
+
         </div>
     </div>
     <div>
@@ -117,7 +121,7 @@
         </div>
         <div class="row px-2 align-items-center justify-content-center">
             <div class="col-md d-flex justify-content-center ">
-                <img  src="{% static 'images/Track image.png' %}" style="width: min(390px,100%);"  alt="" />
+                <img src="{% static 'images/Track image.png' %}" style="width: min(390px,100%);" alt="" />
             </div>
             <div class="col-md py-5 d-flex d-md-block flex-column align-items-center">
                 <div class="Track_Card mb-3">
@@ -173,8 +177,11 @@
                 13th September 2010, with F. I Okey as the pioneer principal. We pride ourselves with raising
                 morally sound students who through Godly counsels, technological and innovative schemes such as
                 skill aquisition classes, social activities and other extra-curricular activities that will help the
-                total development of our young ones to take their place in the society</p>
-
+                total development of our young ones to take their place in the society
+            </p>
+            <a href="#" class="btn btn-primary mt-1 mb-2">
+                Know more about us <i class="fa fa-angle-double-right ms-1"></i>
+            </a>
         </div>
         <div class="col-md col-lg px-0">
             <img src="{% static 'images/front Building Retouched.jpg' %}" class=" img-fluid " alt="...">
@@ -229,6 +236,7 @@
 </div>
 
 <!-- Articles  -->
+
 <section id="Articles" class="Articles my-4">
     <div class="text-center sideline_text">Our Articles</div>
     <h1 class="text-center">Educating & Enligtening Articles</h1>
@@ -236,59 +244,30 @@
         <div class="Nrule"></div>
         <div class="Nrule2"></div>
     </div>
-
+    {% if articles %}
     <div class="Article_container px-2 px-md-4">
+        {% for article in articles %}
         <div class="card shadow-sm" style="width: 18rem;">
-            <img src="{% static 'images/Physics.jpg' %}" class="card-img-top" alt="...">
+            <img src="{{ article.thumb.url }}" class="card-img-top" alt="...">
             <div class="card-body">
-                <h5 class="card-title">Physical Science</h5>
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-                    card's content.</p>
+                <h5 class="card-title">{{ article.title }}</h5>
+                <p class="card-text">{{ article.snippet|safe }}</p>
                 <div class="d-flex justify-content-center mb-2">
-                    <a href="#" class="btn btn-primary">Read more</a>
+                    <a href="" class="btn btn-primary">Read more</a>
                 </div>
             </div>
         </div>
-
-        <div class="card shadow-sm" style="width: 18rem;">
-            <img src="{% static 'images/Chemistry.jpg' %}" class="card-img-top" alt="...">
-            <div class="card-body">
-                <h5 class="card-title">Chemistry of Nature</h5>
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-                    card's content.</p>
-                <div class="d-flex justify-content-center mb-2">
-                    <a href="#" class="btn btn-primary">Read more</a>
-                </div>
-            </div>
-        </div>
-
-        <div class="card shadow-sm" style="width: 18rem;">
-            <img src="{% static 'images/Arts.jpg' %}" class="card-img-top" alt="...">
-            <div class="card-body">
-                <h5 class="card-title">Arts & Culture</h5>
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-                    card's content.</p>
-                <div class="d-flex justify-content-center mb-2">
-                    <a href="#" class="btn btn-primary">Read more</a>
-                </div>
-            </div>
-        </div>
-
-        <div class="card shadow-sm" style="width: 18rem;">
-            <img src="{% static 'images/African-culture.webp' %}" class="card-img-top" alt="...">
-            <div class="card-body">
-                <h5 class="card-title">African Heritage</h5>
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-                    card's content.</p>
-                <div class="d-flex justify-content-center mb-2">
-                    <a href="#" class="btn btn-primary">Read more</a>
-                </div>
-
-            </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div id="events" class="mt-3">
+        <div class="container-fluid py-5 ps-3 text-center">
+            <h5 class="px-3 sideline_text">Articles not available Yet </h5>
         </div>
     </div>
+    {% endif %}
     <div class="d-flex justify-content-center">
-        <a href="#" class=" btn btn-primary mt-4">
+        <a href="" class=" btn btn-primary mt-4">
             View more Articles
         </a>
     </div>
@@ -302,61 +281,9 @@
         <h1 class=" text-center mb-2 text-light">Admission Requirements</h1>
         <hr style="color: #fff;" />
         <div class="row justify-content-center">
-            <div class="col-md">
+            <div class="col-md-8">
                 <div>
-                    <div class="text-center sideline_text text-light">Junior Section</div>
-                    <ol class=" text-start">
-                        <li class="p mb-1" style="color: #fff;">The approved text-books as contained in the recommended
-                            list of
-                            books.
-                        </li>
-                        <li class="p mb-1" style="color: #fff;"> Exercise books for junior students includes 5 long
-                            notes, 5-80
-                            leaves,
-                            5-60
-                            leaves 15-20 leaves. While for senior include 15 long notes and 15-20 leaves</li>
-                        <li class="p  mb-1" style="color: #fff;"> Revised Standard Version Bible, Ancient& modern and
-                            student
-                            manual
-                            Assembly.</li>
-                        <li class="p  mb-1" style="color: #fff;"> A pair of black container shoe, Navy blue beret for
-                            girls, a
-                            pair of
-                            white socks
-                            and white canvas</li>
-                        <li class="p  mb-1" style="color: #fff;"> A wooden locker and wooden back chair (please no iron
-                            locker
-                            or Seat)
-                        </li>
-                        <li class="p  mb-1" style="color: #fff;"> 1 packet of white board maker (black), 2 brooms, 1
-                            ream of A4,
-                            1 Big
-                            Tissue <br>
-                            <span class="fw-bold " style="color: #fff;">N/B:</span> Please note that all these are
-                            subject to
-                            review in
-                            subsequent
-                            times . Also all the items required must be presented before admission
-                        </li>
-                    </ol>
-                </div>
-                <h6 class=" text-center fw-bold text-white  mb-2">things not PERMITTED</h6>
-                <div>
-                    <ol class=" text-start">
-                        <li class="p text-white mb-1">Students must not bring personal items such as toys, radio,
-                            cameras,</li>
-                        <li class="p text-white mb-1"> phones, games, and any sharp objects etc.</li>
-                        <li class="p text-white mb-1"> No indiscriminate use of drugs, if a child is on medication the
-                            school
-                            must be
-                            informed.</li>
-                        <li class="p text-white mb-1"> Improper dressing. dirtiness and lateness</li>
-                    </ol>
-                </div>
-            </div>
-            <div class="col-md">
-                <div>
-                    <div class="text-center sideline_text text-light">Senior Section</div>
+                    <div class="text-center sideline_text text-light"> Things Needed</div>
                     <ol class=" text-start">
                         <li class="p mb-1" style="color: #fff;">The approved text-books as contained in the recommended
                             list of
@@ -409,7 +336,7 @@
 
         </div>
         <a href="{% url 'Admission_form:initiate_payment' %}" class="btn btn-secondary mt-1">
-            Go to Admission Portal <i class="fa fa-angle-double-right ms-1"></i>
+            Purchase Entrance Examination Form <i class="fa fa-angle-double-right ms-1"></i>
         </a>
     </div>
 </section>
@@ -478,26 +405,26 @@
         <div class="Slide-container swiper">
             <div class="slider_content slider_content2">
                 <div class="slider_wrapper swiper-wrapper">
-                    {% for management in managements %}
+                    {% for Teacher in Teachers %}
                     <div class="Slidercard2 swiper-slide">
                         <div class="card-body d-flex flex-column align-items-center p-0 ">
                             <div class="card_profile_bg2"></div>
                             <div class="card_profile_image_box2 mb-3">
-                                <img src="{{management.Profileimage.url}}" class="profile_image2" alt="" />
+                                <img src="{{Teacher.Headshot.url}}" class="profile_image2" alt="" />
                             </div>
                             <div class="card-title2 text-center">
-                                <h6 class="mb-0">{{ management.Profilename }}</h6>
+                                <h6 class="mb-0">{{ Teacher.Name }}</h6>
                                 <p class="text-muted my-1">
-                                    {{management.Role}} <br />
-                                    {{ management.Phonenumber }}
+                                    {{Teacher.Role}} <br />
+                                    {{ Teacher.Phone_number }}
                                 </p>
                             </div>
                             <div>
-                                <a href="{{ management.Twitterpage }}"><img class="img-fluid"
+                                <a href="{{ Teacher.Twitter_link }}"><img class="img-fluid"
                                         src="{% static 'images/twitter icon Teacher.svg' %}" alt=""></a>
-                                <a href="{{ management.Facebookpage }}"><img class="img-fluid"
+                                <a href="{{ Teacher.Facebook_link }}"><img class="img-fluid"
                                         src="{% static 'images/facebook icon Teacher.svg' %}" alt=""></a>
-                                <a href="{{ management.Whatsapp }}"><img class="img-fluid"
+                                <a href="{{ Teacher.Instagram_link }}"><img class="img-fluid"
                                         src="{% static 'images/instagram icon Teacher.svg' %}" alt=""></a>
                             </div>
                         </div>
@@ -523,10 +450,9 @@
         <h1 class="fw-bold">View Our Photo Gallery</h1>
         <div class="d-flex justify-content-center">
             <div class="Photogallery">
-                <img class="grid_img img-fluid  img-thumbnail" src="{% static 'images/African-culture.webp' %}" alt="">
-                <img class="grid_img img-fluid  img-thumbnail" src="{% static 'images/African-culture.webp' %}" alt="">
-                <img class="grid_img img-fluid  img-thumbnail" src="{% static 'images/African-culture.webp' %}" alt="">
-                <img class="grid_img img-fluid  img-thumbnail" src="{% static 'images/African-culture.webp' %}" alt="">
+                {% for picture in photos %}
+                <img class="grid_img img-fluid  img-thumbnail" src="{{ picture.imageURL }}" alt="">
+                {% endfor %}
             </div>
         </div>
 
@@ -540,7 +466,7 @@
 
 <section id="FAQ" class="FAQ_News p-2 pb-4 my-4">
     <div class="sideline_text text-center">be kept abrest with our news and update</div>
-    <h1 class="text-center">News Update & FAQ</h1>
+    <h1 class="text-center">Events Update & FAQ</h1>
     <div class="multiplerule my-3 d-flex justify-content-center">
         <div class="Nrule"></div>
         <div class="Nrule2"></div>
@@ -548,111 +474,49 @@
     <div class="container">
         <div class="row justify-content-between align-items-center">
             <div class="col-md pt-3">
+                {% if events %}
+                {% for event in events %}
                 <div class="Events_Card mb-3">
-                    <img class="Events_Card_image d-none d-sm-block d-md-block" src="{% static 'images/Exam Picture.jpg' %}" alt="">
+                    <img class="Events_Card_image d-none d-sm-block d-md-block" src="{{ event.Flier.url }}" alt="">
                     <div class="Events_Card_text py-3 ">
-                        <h5 class="Events_Card_text_heading">Ist Term Retreat</h5>
+                        <h5 class="Events_Card_text_heading">{{ event.Eventtitle }}</h5>
                         <div class="Events_Card_text_body">
+                            {% if event.Eventspeaker_Chairman %}
                             <div class="Event_time_p">
-                                Speaker : Mr Ogbuagu Chinonso
-                            </div>
-                            <div class="Event_time_p">
-                                Venue : School Premises and Hall
-                            </div>
-                        </div>
-                        <div class="d-flex justify-content-center mt-4 align-items-center">
-                            <div class="Events_Card_details d-flex d-flex justify-content-between align-items-center">
-                                <img class="Event_time_icon" src="{% static 'images/Event_time_icon.svg' %}" alt="">
-                                <div class="Event_time_p ms-2">
-                                    8:00am
-                                </div>
-                            </div>
-                            <div class="Events_Card_details mx-3 d-flex justify-content-between align-items-center">
-                                <img class="Event_date_icon" src="{% static 'images/Event_date_icon.svg' %}" alt="">
-                                <div class="Event_time_p ms-2">
-                                    20th-28th
-                                    December 2023
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-                <div class="Events_Card mb-3">
-                    <img class="Events_Card_image d-none d-sm-block d-md-block" src="{% static 'images/No image.svg' %}" alt="">
-                    <div class="Events_Card_text py-3">
-                        <h5 class="Events_Card_text_heading">Examination begins</h5>
-                        <div class="Events_Card_text_body">
-                            <!-- <div class="Event_time_p">
-                                Speaker : Mr Ogbuagu Chinonso
-                            </div> -->
-                            <div class="Event_time_p">
-                                Venue : School Premises and Hall
-                            </div>
-                        </div>
-                        <div class="d-flex justify-content-center mt-4 align-items-center">
-                            <div class="Events_Card_details d-flex d-flex justify-content-between align-items-center">
-                                <img class="Event_time_icon" src="{% static 'images/Event_time_icon.svg' %}" alt="">
-                                <div class="Event_time_p ms-2">
-                                    8:00am
-                                </div>
-                            </div>
-                            <div class="Events_Card_details mx-3 d-flex justify-content-between align-items-center">
-                                <img class="Event_date_icon" src="{% static 'images/Event_date_icon.svg' %}" alt="">
-                                <div class="Event_time_p ms-2">
-                                    20th-28th
-                                    December 2023
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-                <!-- {% if events %} -->
-                <!-- <ol class="list-group-flush  bg-light p-0">
-                        {% for program in events %}
-                        <li class="list-group-item d-flex align-items-center">
-                            <div class="ms-2 ">
-                                <h4 class="text-start"> {{ program.Eventtitle}}</h4>
-                                <p>
-                                    <span class="fw-bold">{{ program.EventTopic}}</span><br>
-                                    <span class="fw-bold"> {{ program.Eventspeaker_Chairman }}</span>
-                                </p>
-                                <p class="small">
-                                    <span class="fw-bold"><i
-                                            class="bi bi-clock-fill me-3"></i></span>{{program.Eventtime }}<br>
-                                    <span class="fw-bold"><i
-                                            class="bi bi-calendar-event-fill me-3"></i></span>{{program.Eventdate }}<br>
-                                    <span class="fw-bold"><i
-                                            class="bi bi-geo-alt-fill me-3"></i></span>{{program.Eventvenue }}<br>
-                                </p>
-                            </div>
-                            {% if not program.Flier %}
-                            <div class="ms-auto">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="110" height="110" fill="currentColor"
-                                    class="bi bi-file-earmark-image" viewBox="0 0 16 16">
-                                    <path d="M6.502 7a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z" />
-                                    <path
-                                        d="M14 14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h5.5L14 4.5V14zM4 1a1 1 0 0 0-1 1v10l2.224-2.224a.5.5 0 0 1 .61-.075L8 11l2.157-3.02a.5.5 0 0 1 .76-.063L13 10V4.5h-2A1.5 1.5 0 0 1 9.5 3V1H4z" />
-                                </svg>
-                                <p class="text-center">flier not available</p>
-                            </div>
-                            {% else %}
-                            <div class="ms-0 ms-md-auto d-none d-sm-block d-md-block  w-50">
-                                <img src="{{ program.Flier.url }}" class="img-fluid img-thumbnail mb-3  " alt="" />
+                                Speaker : {{ event.Eventspeaker_Chairman }}
                             </div>
                             {% endif %}
-                        </li>
-                        {% endfor %}
-                    </ol> -->
-                <!-- {% else %}
+                            <div class="Event_time_p">
+                                Venue : {{ event.Eventvenue }}
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-center mt-4 align-items-center">
+                            <div class="Events_Card_details d-flex d-flex justify-content-between align-items-center">
+                                <img class="Event_time_icon" src="{% static 'images/Event_time_icon.svg' %}" alt="">
+                                <div class="Event_time_p ms-2">
+                                    {{ event.Eventtime }}
+                                </div>
+                            </div>
+                            <div class="Events_Card_details mx-3 d-flex justify-content-between align-items-center">
+                                <img class="Event_date_icon" src="{% static 'images/Event_date_icon.svg' %}" alt="">
+                                <div class="Event_time_p ms-2">
+                                    {{ event.Eventdate }}
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                {% endfor %}
+
+                {% else %}
 
                 <div id="events">
                     <div class="container-fluid py-5 ps-3 text-center">
                         <h5 class="px-3">no Events yet !!</h5>
                     </div>
-                    {% endif %} -->
-                <!-- </div> -->
+                </div>
+                {% endif %}
             </div>
             <div class="col-md">
                 <div class="accordion text-dark accordion-flush" id="questions">
@@ -692,24 +556,25 @@
             <div class="Nrule"></div>
             <div class="Nrule2"></div>
         </div>
+        {% if parentsreviews %}
         <div class="Slide-container swiper">
             <div class="slider_content">
                 <div class="slider_wrapper swiper-wrapper">
-                    {% for management in managements %}
+                    {% for review in parentsreviews %}
                     <div class="ParentSlidercard swiper-slide">
 
                         <!-- Position differently -->
                         <div class="card_profile">
                             <div class="card_profile_image_box me-2">
-                                <img src="{{management.Profileimage.url}}" class="parents_profile_image " alt="" />
+                                <img src="{{review.Profileimage.url}}" class="parents_profile_image " alt="" />
                             </div>
 
 
                         </div>
                         <div class="card-title ms-2">
-                            <h6 class="mb-0">{{ management.Profilename }}</h6>
+                            <h6 class="mb-0">{{ review.Name }}</h6>
                             <p class=" my-1">
-                                {{management.Role}} <br />
+                                {{review.Occupation}} <br />
                             </p>
                         </div>
                         <img class="card_profile_icon" src="{% static 'images/Quote icon.svg' %}" alt=""
@@ -733,6 +598,13 @@
                 <div class="swiper-pagination"></div>
             </div>
         </div>
+        {% else %}
+        <div id="events" class="mt-3">
+            <div class="container-fluid py-5 ps-3 text-center">
+                <h5 class="px-3 sideline_text">no Reviews yet </h5>
+            </div>
+        </div>
+        {% endif %}
         <!-- Slide -->
     </div>
 </section>
