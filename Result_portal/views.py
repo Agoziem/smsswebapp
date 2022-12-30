@@ -80,7 +80,7 @@ def result_view(request,Classname):
 	if request.method=='POST':
 		try:
 			enteredpin=request.POST.get('Pin')
-			mainpin=int(enteredpin)
+			mainpin=enteredpin
 			studentpin=get_object_or_404(Students_Pin_and_ID,student_name=studentname)
 			if mainpin == studentpin.student_pin:
 				context={
