@@ -107,7 +107,7 @@ class UpcomingEvents(models.Model):
 		try:
 			url= self.Flier.url
 		except:
-			url=obj['Body']
+			url=obj
 		return url
 class FAQ(models.Model):
 	questionnumber=models.CharField(max_length= 300, blank=True)
