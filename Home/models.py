@@ -1,5 +1,6 @@
 from django.db import models
 from ckeditor.fields import RichTextField
+import boto3
 
 class School(models.Model):
 	Schoolid=models.IntegerField()
@@ -83,9 +84,14 @@ class PhotoGallery(models.Model):
 		except:
 			url=''
 		return url
-		
+
+
+s3 = boto3.client("s3")
+bucket_name= "smssbucket"
+s3_object="media/assets/No image.svg"
+obj=s3.get_object(Bucket=bucket_name,key=s3_object)
 class UpcomingEvents(models.Model):
-	Flier=models.ImageField(upload_to='assets', blank=True,default='assets/No image.svg')
+	Flier=models.ImageField(upload_to='assets', blank=True,default=obj)
 	Eventtitle= models.CharField(max_length= 300, blank=True)
 	EventTopic= models.CharField(max_length= 300, blank=True)
 	Eventspeaker_Chairman= models.CharField(max_length= 300, blank=True)

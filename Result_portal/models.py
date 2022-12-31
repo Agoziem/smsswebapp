@@ -5301,7 +5301,7 @@ class Excelfiles(models.Model):
 		s3 = boto3.client('s3')
 		obj= s3.get_object(Bucket='smssbucket', Key='media/media/Students_details_Main_SMSS.xlsx') 
 		binary_data = obj['Body'].read()
-		wb = load_workbook(io.BytesIO(binary_data))
+		wb = load_workbook(io.BytesIO(binary_data),data_only=True)
 		for sheet in wb:
 			ws=wb[sheet.title]
 			for count, row in enumerate(range(6,56),start=1):
