@@ -94,7 +94,7 @@ def result_view(request,Classname):
 					}
 				return render(request,"Result.html", context)
 			else:
-				messages.error(request, 'Invalid card pin , check your input and try again') 
+				messages.error(request, 'Invalid card pin , check your input and try again or text your "name","class" & "smss" to 08080982606 to recieve your correct pin') 
 				context = {
 					"students": Students_list,
 					"class":Student_class
@@ -110,19 +110,19 @@ def result_view(request,Classname):
 		
 def result_pdf_view(request,Name,Classname):
 	stuff=get_object_or_404(Student,Name=Name)
-	stuff2=get_object_or_404(AnnualStudent,Name=Name)
+	# stuff2=get_object_or_404(AnnualStudent,Name=Name)
 	queryset4=Result.objects.filter(Name=Name,Class=Classname)
-	queryset5=AnnualResult.objects.filter(Name=Name,Class=Classname)
+	# queryset5=AnnualResult.objects.filter(Name=Name,Class=Classname)
 	school=School.objects.all()
 	letter=Newsletter.objects.all()
 	template_path ='Result_pdf.html'
 	context={
-		"AnnualStudent":stuff2,
+		# "AnnualStudent":stuff2,
 		"Student":stuff,
 		"Result":queryset4,
 		'schoollogo': school,
 		'letter':letter,
-		'AnnualResult': queryset5,
+		# 'AnnualResult': queryset5,
 		}
 	response = HttpResponse(content_type='application/pdf')
 	response['Content-Disposition'] = 'attachment'; filename="Result.pdf"

@@ -109,6 +109,7 @@ class UpcomingEvents(models.Model):
 		except:
 			url=obj
 		return url
+		
 class FAQ(models.Model):
 	questionnumber=models.CharField(max_length= 300, blank=True)
 	Questions= models.CharField(max_length= 300, blank=True)
