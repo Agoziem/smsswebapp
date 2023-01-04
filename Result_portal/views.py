@@ -94,7 +94,7 @@ def result_view(request,Classname):
 					}
 				return render(request,"Result.html", context)
 			else:
-				messages.error(request, 'Invalid card pin , check your input and try again or text your "name","class" & "smss" to 08080982606 to recieve your correct pin') 
+				messages.error(request, 'Invalid card pin , check your input and try again or text your "name","class","the Pin on the Card" & "smss" to 08080982606 to recieve your correct pin') 
 				context = {
 					"students": Students_list,
 					"class":Student_class
