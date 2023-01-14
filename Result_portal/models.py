@@ -5144,9 +5144,9 @@ class Excelfiles(models.Model):
 				ws=wb[sheet.title]
 				Name=str(ws['B4'].value).upper().strip()
 				Class=ws['B6'].value
-				Position=ws['K29'].value
-				Average=ws['H29'].value
-				TotalScore=ws['E29'].value
+				Position=ws['K30'].value
+				Average=ws['H30'].value
+				TotalScore=ws['E30'].value
 				Totalnumber=ws['F6'].value
 				Term=ws['H6'].value
 				Academicsession=ws['K6'].value
