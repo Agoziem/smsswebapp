@@ -86,10 +86,10 @@ class PhotoGallery(models.Model):
 		return url
 
 
-s3 = boto3.client("s3")
-bucket_name= "smssbucket"
-s3_object="media/assets/No image.svg"
-obj=s3.get_object(Bucket=bucket_name,Key=s3_object)
+# s3 = boto3.client("s3")
+# bucket_name= "smssbucket"
+# s3_object="media/assets/No image.svg"
+# obj=s3.get_object(Bucket=bucket_name,Key=s3_object)
 class UpcomingEvents(models.Model):
 	Flier=models.ImageField(upload_to='assets', blank=True)
 	Eventtitle= models.CharField(max_length= 300, blank=True)
@@ -107,7 +107,7 @@ class UpcomingEvents(models.Model):
 		try:
 			url= self.Flier.url
 		except:
-			url=obj
+			url=""
 		return url
 		
 class FAQ(models.Model):

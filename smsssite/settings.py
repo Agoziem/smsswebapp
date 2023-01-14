@@ -31,6 +31,7 @@ ALLOWED_HOSTS = ['127.0.0.1','smssapp.herokuapp.com','www.stmarksstandardseconda
 # Application definition
 
 INSTALLED_APPS = [
+    'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -176,3 +177,13 @@ MAPBOXGL_ACCESSTOKEN=config('MAPBOXGL_ACCESSTOKEN', default='')
 if os.getcwd() == '/app':
 	SECURE_PROXY_SSL_HEADER=('HTTP_X_FORWARDING_PROTO','https')
 	SECURE_SSL_REDIRECT=True
+
+
+JAZZMIN_SETTINGS = {
+    "site_logo": "images/St Marks Logo.png",
+    "site_logo_classes": "img-circle",
+    "login_logo": None,
+    "copyright": "St Marks Standard Secondary School Omagba",
+    "show_ui_builder":True,
+    "custom_css": "css/admin.css",
+}

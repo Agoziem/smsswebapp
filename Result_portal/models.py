@@ -3560,7 +3560,7 @@ class Student(models.Model):
 				ws=wb[sheet.title]
 				Name=str(ws['B4'].value).upper().strip()
 				Class=ws['B6'].value
-				for count, row in enumerate(range(10,29),start=1):
+				for count, row in enumerate(range(10,30),start=1):
 					if count == 1:
 						for count, col in enumerate(range(1,14),start=1):
 							char=get_column_letter(col)
@@ -4144,7 +4144,38 @@ class Student(models.Model):
 								SubjectPosition=ws[char+str(row)].value
 							elif count == 13:
 								Remark=ws[char+str(row)].value
+					elif count == 20:
+						for count, col in enumerate(range(1,14),start=1):
+							char=get_column_letter(col)
+							
+							if count == 1:
+								SN=ws[char+str(row)].value
+							elif count == 2:
+								Subject=ws[char+str(row)].value
+							elif count == 3:
+								ResTest=ws[char+str(row)].value
+							elif count == 4:
+								FirstAss=ws[char+str(row)].value
+							elif count == 5:
+								Project=ws[char+str(row)].value
+							elif count == 6:
+								SecondAss=ws[char+str(row)].value
+							elif count == 7:
+								SecondTest=ws[char+str(row)].value
+							elif count == 8:
+								CA=ws[char+str(row)].value
+							elif count == 9:
+								Exam=ws[char+str(row)].value
+							elif count == 10:
+								Total=ws[char+str(row)].value
+							elif count == 11:
+								Grade=ws[char+str(row)].value
+							elif count == 12:
+								SubjectPosition=ws[char+str(row)].value
+							elif count == 13:
+								Remark=ws[char+str(row)].value
 					Result.objects.create(SN=SN,Name=Name,Class=Class,Subject=Subject,FirstTest=ResTest,SecondTest=SecondTest,Project=Project,FirstAss=FirstAss,SecondAss=SecondAss,CA=CA,Exam=Exam,Total=Total,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)					
+
 # SS2 //
 	def createSeniorResult2(self,*args,**kwargs) -> None:
 		s3 = boto3.client('s3')
