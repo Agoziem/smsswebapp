@@ -18,8 +18,8 @@
     --btn-cream-color: #fffef6;
     --btn-orange-color: rgb(250, 178, 44);
     --btn-dark-cream-color: #E5D5B5;
-    --main-font-family: "Century Gothic", sans-serif;
-    --secondary-font-family: 'League Spartan', sans-serif;
+    --main-font-family: "Century Gothic","Lato","League Spartan", sans-serif;
+    --secondary-font-family: "League Spartan", sans-serif;
     --display1-text-size: 60px;
     --display1-text-sm-size: 30px;
     --display2-text-size: 24px;
