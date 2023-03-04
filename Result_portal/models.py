@@ -5362,6 +5362,19 @@ class Excelfiles(models.Model):
 							student_id=ws[char+str(row)].value
 						elif count == 5:
 							student_class=ws[char+str(row)].value
+				if count == 3:
+					for count, col in enumerate(range(1,6),start=1):
+						char=get_column_letter(col)	
+						if count == 1:
+							SN=ws[char+str(row)].value
+						elif count == 2:
+							student_name=str(ws[char+str(row)].value).upper().strip()
+						elif count == 3:
+							student_pin=ws[char+str(row)].value
+						elif count == 4:
+							student_id=ws[char+str(row)].value
+						elif count == 5:
+							student_class=ws[char+str(row)].value
 				if count == 4:
 					for count, col in enumerate(range(1,6),start=1):
 						char=get_column_letter(col)	
@@ -5999,6 +6012,8 @@ class Students_Pin_and_ID(models.Model):
     # def __str__(self):
     #     return str(self.student)
         
+# Read it back to Excel
+
     # def save(self,*args,**kwargs):
     #     Name = str(self.student).upper().strip()
     #     self.student=Name
