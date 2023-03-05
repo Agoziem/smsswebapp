@@ -165,15 +165,13 @@ AWS_SECRET_ACCESS_KEY = config('AWS_SECRET_ACCESS_KEY', default='')
 AWS_STORAGE_BUCKET_NAME = config('AWS_STORAGE_BUCKET_NAME', default='')
 AWS_S3_CUSTOM_DOMAIN='%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
 AWS_S3_OBJECT_PARAMETERS={'CacheControl':'max-age=86400'}
-AWS_DEFAULT_ACL = config('AWS_DEFAULT_ACL', default='')
-AWS_S3_SIGNATURE_NAME = 's3v4'
 AWS_S3_REGION_NAME = 'us-east-1'
+STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 
 AWS_LOCATION = 'static'
-STATIC_ROOT=os.path.join(BASE_DIR,AWS_LOCATION) 
 STATICFILES_DIRS = [os.path.join(BASE_DIR, "assets"),]
 STATIC_URL='https://%s/%s/' % (AWS_S3_CUSTOM_DOMAIN,AWS_LOCATION)
-DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+
 
 # EMAIL_BACKEND='sendgrid_backend.SendgridBackend'
 # SENDGRID_API_KEY = config('SENDGRID_API_KEY', default='')
