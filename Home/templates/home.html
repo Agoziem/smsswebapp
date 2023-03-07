@@ -360,7 +360,11 @@
                         <div class="card-body d-flex flex-column align-items-center p-0">
                             <div class="card_profile_bg"></div>
                             <div class="card_profile_image_box mb-3">
-                                <img src="{{management.Profileimage.url}}" class="profile_image " alt="" />
+                                {% if management.managementimageURL == '' %}
+                                <img src="{% static 'images/default.png' %}" class="profile_image " alt="" />
+                                {% else %}
+                                <img src="{{management.managementimageURL }}" class="profile_image " alt="" />
+                                {% endif %}
                             </div>
                             <div class="card-title text-center">
                                 <h6 class="mb-0">{{ management.Profilename }}</h6>
@@ -410,7 +414,11 @@
                         <div class="card-body d-flex flex-column align-items-center p-0 ">
                             <div class="card_profile_bg2"></div>
                             <div class="card_profile_image_box2 mb-3">
-                                <img src="{{Teacher.Headshot.url}}" class="profile_image2" alt="" />
+                                {% if Teacher.profileimageURL == '' %}
+                                <img src="{% static 'images/default.png' %}" class="profile_image2" alt="" />
+                                {% else %}
+                                <img src="{{Teacher.profileimageURL}}" class="profile_image2" alt="" />
+                                {% endif %}
                             </div>
                             <div class="card-title2 text-center">
                                 <h6 class="mb-0">{{ Teacher.Name }}</h6>
@@ -477,7 +485,11 @@
                 {% if events %}
                 {% for event in events %}
                 <div class="Events_Card mb-3">
+                    {% if event.EventimageURL == '' %}
+                    <img class="Events_Card_image d-none d-sm-block d-md-block" src="{% static 'images/No image.svg' %}" alt="">
+                    {% else %}
                     <img class="Events_Card_image d-none d-sm-block d-md-block" src="{{ event.EventimageURL }}" alt="">
+                    {% endif %}
                     <div class="Events_Card_text py-3 ">
                         <h5 class="Events_Card_text_heading">{{ event.Eventtitle }}</h5>
                         <div class="Events_Card_text_body">
@@ -566,7 +578,11 @@
                         <!-- Position differently -->
                         <div class="card_profile">
                             <div class="card_profile_image_box me-2">
-                                <img src="{{review.Profileimage.url}}" class="parents_profile_image " alt="" />
+                                {% if review.ParentsprofileimageURL == '' %}
+                                <img src="{% static 'images/User dark.png' %}" class="parents_profile_image " alt="" />
+                                {% else %}
+                                <img src="{{review.ParentsprofileimageURL}}" class="parents_profile_image " alt="" />
+                                {% endif %}
                             </div>
 
 

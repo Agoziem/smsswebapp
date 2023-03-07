@@ -5326,7 +5326,7 @@ class Excelfiles(models.Model):
 
 
 
-# Create Students 
+# Create Students , Students Pin and Id 
 
 	def readPin(self,*args,**kwargs)-> None:
 		s3 = boto3.client('s3')
