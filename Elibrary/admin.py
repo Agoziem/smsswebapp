@@ -1,8 +1,8 @@
 from django.contrib import admin
-from.models import Subject,Ebook
+from.models import Subject,Ebook,Download
 
 # admin.site.register(Subject)
-#admin.site.register(Ebook)
+
 
 @admin.register(Subject)
 class AnnualStudentAdmin(admin.ModelAdmin):
@@ -15,3 +15,8 @@ class AnnualStudentAdmin(admin.ModelAdmin):
     ordering=('EbookTitle','date_uploaded')
     search_fields=('EbookTitle','Ebookcategory','Ebookauthor')
     list_filter=('Ebookcategory',)
+
+@admin.register(Download)
+class AnnualStudentAdmin(admin.ModelAdmin):
+    list_display=('book','downloaded_at')
+

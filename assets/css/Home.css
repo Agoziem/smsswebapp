@@ -1,13 +1,13 @@
 /* Define CSS Varibles for the Root Elements*/
 :root {
     --Wine-red: #3b0505;
-    --cream-color: #fffef6;
+    --cream-color: #ffffff;
     --dark-cream: #E5D5B5;
     --royal-blue-light: #011B4D;
     --royal-blue-dark: #020D23;
     --grey-color: #D9D9D9;
     --black: #000;
-    --main-bg-color: #fffef6;
+    --main-bg-color: #ffffff;
     --bg-wine-red: #3b0505;
     --bg-dark-wine-red: #220202;
     --bg-dark-cream: #E5D5B5;
@@ -15,7 +15,7 @@
     --bg-royal-blue-light: #011B4D;
     --bg-light: rgba(229, 213, 181, .19);
     --btn-wine-red: #3b0505;
-    --btn-cream-color: #fffef6;
+    --btn-cream-color: #fffefa;
     --btn-orange-color: rgb(250, 178, 44);
     --btn-dark-cream-color: #E5D5B5;
     --main-font-family: "Century Gothic","League Spartan", sans-serif;
@@ -39,7 +39,7 @@ body {
 body::before {
     display: block;
     content: '';
-    height: 42px;
+    height: 53px;
 }
 
 @media (max-width: 768px) {
@@ -49,6 +49,20 @@ body::before {
         height: 50px;
     }
 }
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+  
+  main{
+    flex: 1;
+    padding: 0;
+  }
+  
+  footer {
+    margin-top: auto;
+  }
 
 /* brand Logo */
 
@@ -133,7 +147,72 @@ textarea {
     font-weight: bold;
 }
 
+/* Style for the dropdown menu */
+.dropdown-menu{
+    position: absolute;
+    top: 100%;
+    right: 0;
+    z-index: 1000;
+    display: none;
+    min-width: 10rem;
+    padding: .5rem 0;
+    margin: .125rem 0 0;
+    font-size: 1rem;
+    color: #212529;
+    text-align: left;
+    list-style: none;
+    background-color: var(--main-bg-color);
+    background-clip: padding-box;
+    border-radius: 3px;
+    border: none;
+  }
+  
+  @media screen and (max-width: 992px) {
+    /* CSS styles here */
+    .dropdown-menu {
+        right: -61px;
+    }
+  }
 
+  /* Style for the dropdown menu items */
+  .dropdown-menu li {
+    display: block;
+    padding: .75rem 1.5rem;
+    clear: both;
+    font-weight: 400;
+    line-height: 1.1;
+    font-size: 15px;
+    color: black;
+    border-bottom: 1px solid #D9D9D9;
+  }
+
+  .dropdown-menu li:first-child {
+    background-color: var(--bg-wine-red);
+    color: #fff;
+    font-size: 18px;
+    padding: 1.6rem 1.8rem;
+  }
+  
+  /* Style for the dropdown menu item hover state */
+  .dropdown-menu li:hover {
+    background-color: var(--bg-dark-cream);
+  }
+
+
+  
+  /* Show the dropdown menu when the dropdown button is clicked */
+  .show {
+    display: block;
+  }
+  
+  .dropdown-item:hover{
+    background-color: var(--bg-dark-cream);
+    color: #000;
+  }
+  .dropdown-item{
+    background-color: var(--bg-dark-cream);
+    color: #000;
+  }
 /* //////////////////////// */
 
 
@@ -309,6 +388,10 @@ a {
     align-items: center;
     border-radius: var(--card-border-radius);
     width: 300px;
+}
+
+.hero-container{
+    padding-top: 18px;
 }
 
 .feature_item {
@@ -615,7 +698,7 @@ a {
 #Requirements {
     position: relative;
     /* background-color:#00072B; */
-    background: url('../images/School Gathering.jpg');
+    background: url('../images/Gathering.jpg');
     background-size: cover;
     background-position: top center;
     position: relative;
@@ -625,7 +708,7 @@ a {
     content: '';
     position: absolute;
     background-color: var(--bg-wine-red);
-    opacity: 0.96;
+    opacity: 0.85;
     top: 0;
     right: 0;
     bottom: 0;
@@ -1163,171 +1246,166 @@ a {
 }
 
 /* ////////////////////////////////////// */
-
-
-
-/* Small Screen Hambuger */
-
-.nav-bar-sm {
-    position: fixed;
-    top: 11vh;
-    left: -100%;
-    padding-top: 20px;
-    padding-bottom: 25px;
-    z-index: 3;
-    background-color: var(--cream-color);
-    width: 100%;
-    -webkit-transition: all 0.3s ease-in-out;
-    transition: all 0.3s ease-in-out;
-    
+/* Hamburger Menu Button */
+.menu {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--main-bg-color);
+  position: fixed;
+  top: 84px;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  z-index: 9999;
+  transition: all 0.3s ease-in-out;
 }
 
-.nav-bar-sm.active {
-    position: fixed;
-    top: 11vh;
+
+.menu.active {
     left: 0;
-    background-color: var(--cream-color);
-    width: 100%;
-    
-    
+    top: 84px;
+  }
+
+/* The main Menu */
+
+.menu ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0 19px;
+  height: 100%;
+  width: 100%;
 }
 
-.nav-bar-sm .active {
-    color: #F8A12D;
+.menu ul li {
+  font-weight: 500;
 }
 
-.nav-menu-sm {
-    list-style-type: none;
-    overflow-y: auto;
-
+.menu ul li a {
+  display: block;
+  padding: 10px 5px;
+  text-decoration: none;
+  color: var(--bg-wine-red);
+  font-size: 18px;
+  font-weight: 600;
 }
 
-.nav-item-sm {
-    margin-bottom: 10px;
+/* /////////////////////////////// */
+/* Sub Menu  */
+
+.menu .sub-menu{
+    display: none;
+    background-color: var(--main-bg-color);
+    min-width: 200px;
+    transition: all 0.3s ease-in-out;
+  }
+
+  .menu .sub-menu.active{
+    display: block;
+    margin-left: -5px;
+    min-width: 200px;
+  }
+
+.menu ul ul li a {
+  display: block;
+  padding: 8px  15px;
+  text-decoration: none;
+  color: #000;
+  font-size: 17px;
 }
 
-.nav-link-sm {
-    color: var(--Wine-red);
-    font-weight: bold;
-    text-decoration: none;
-    cursor: pointer;
-    font-size: 17px;
-}
-
-.nav-link-sm:hover {
-    color: #F8A12D;
-
+/* /////////////////////////////// */
+/* hamburger styling */
+.hamburger-menu {
+  display: block;
+  cursor: pointer;
+  z-index: 999;
+  padding-right: 10px;
 }
 
 .bar {
-    display: block;
-    width: 30px;
-    height: 3.5px;
-    margin: 5px auto;
-    -webkit-transition: all 0.3s ease-in-out;
-    transition: all 0.3s ease-in-out;
-    background-color: var(--bg-wine-red);
+  width: 25px;
+  height: 3px;
+  margin: 5px;
+  background-color: #000;
+  transition: transform 0.2s ease-in-out;
 }
 
-.hambuger.active .bar:nth-child(2) {
-    opacity: 0;
+.hamburger-menu.active .bar:nth-child(1) {
+  transform: translateY(8px) rotate(45deg);
 }
 
-.hambuger.active .bar:nth-child(1) {
-    transform: translateY(8px) rotate(45deg);
+.hamburger-menu.active .bar:nth-child(2) {
+  opacity: 0;
 }
 
-.hambuger.active .bar:nth-child(3) {
-    transform: translateY(-8px) rotate(-45deg);
+.hamburger-menu.active .bar:nth-child(3) {
+  transform: translateY(-8px) rotate(-45deg);
 }
 
-/* ////////////////////////////////////// */
-
-/* dropdown triger */
-.dropdowntrigger {
+/* /////////////////////////////// */
+/* the Submenu toggler (the li that produces the drop down) */
+.sub-menu-toggle{
     cursor: pointer;
 }
 
-.dropdownlist {
-    display: none;
+/* /////////////////////////////// */
+/* the Submenu icon styling and rotating */
+.sub-menu-toggle-icon {
+  cursor: pointer;
+  color: orange;
 }
 
-.dropdownlist.active {
+.sub-menu-toggle-icon .fas {
+  font-size: 16px;
+  margin-left: 5px;
+  transition: all 0.3s ease-in-out;
+}
+
+.sub-menu-toggle-icon.active .fas {
+  transform: rotate(180deg);
+}
+
+/* notice Styling  */
+
+.notice {
     display: block;
-}
+    background: linear-gradient(0deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), linear-gradient(0deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), #4E0707;
+    opacity: 0.8;
+    color: #fff;
+    padding: 15px;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 28px 40px 2px 8vw;
+  }
+  
+  .notice-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+  }
+  .notice-header i{
+    color: orange;
+  }
 
-.dropdownbtn {
-    transform: translateY(0px) rotate(0deg);
-}
-
-.dropdownbtn.active {
-    transform: translateY(0px) rotateX(180deg);
-}
-
-/* design for Small Screen Drop down */
-.drop-down-menu {
-    display: none;
-}
-
-.drop-down-menu li{
-    background-color: var(--main-bg-color);
-}
-
-.drop-down-menu li a{
-    color: var(--Wine-red) !important; 
-    font-weight: 600;
-}
-
-.drop-down-menu li a:hover{
-    color: orange !important; 
-    font-weight: 600;
-}
-
-.drop-down-menu.active {
-    display: block;
-}
-
-
-.drop-down-menu li {
-    list-style: none;
-    padding-left: 0;
-    border-bottom: 1px solid var(--Wine-red);
-    margin-bottom: 4px;
-}
-
-.drop-down-menu li a {
-    text-decoration: none;
-    color: #00072B;
-}
-
-
-
-
-/* different Break points
-  @media (max-width:576px) {
-    .product-card{
-        width: 280px;
-    }
-}
-
-@media (max-width:768px) {
-    .product-card{
-        width: 280px;
-    }
-}
-@media (max-width:992px) {
-    .product-card{
-        width: 300px;
-    }
-}
-
-@media (max-width:1200px) {
-    .product-card{
-        width: 300px;
-    }
-}
-@media (max-width:1400px) {
-    .product-card{
-        width: 300px;
-    }
-} */
+  .notice-header h2 {
+    color: orange;
+    margin: 0;
+    font-size: 22px;
+  }
+  
+  .notice-body {
+    margin: 0;
+    line-height: 1.5;
+  }
+  
+  .close-btn {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 20px;
+    cursor: pointer;
+    padding: 0;
+  }
+  

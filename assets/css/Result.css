@@ -147,13 +147,14 @@ td {
 }
 
 .result_table td {
-    border-bottom: 1px solid var(--bg-dark-cream);
-    border-right: 1px solid var(--bg-dark-cream);
+    border-right: 2px solid var(--bg-dark-cream);
+    border-bottom: 2px solid var(--bg-dark-cream);
 }
 
 .result_table td:first-child {
-    border-left: 1px solid var(--bg-dark-cream);
+    border-left: 2px solid var(--bg-dark-cream);
 }
+
 
 .schoollogo {  
     width: 120px;

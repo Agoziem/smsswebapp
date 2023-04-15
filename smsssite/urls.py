@@ -31,7 +31,8 @@ urlpatterns = [
     # path('Blog/', include('Blog.urls')),
     path('Payment_portal/', include('Payment_portal.urls')),
     path('Result_portal/', include('Result_portal.urls')),
-    # path('CBT/', include('CBT.urls')),
+    path('CBT/', include('CBT.urls')),
+    path('Attendance/', include('Attendance.urls')),
     path('Admission_form/', include('Admission_form.urls')),
 ]
 

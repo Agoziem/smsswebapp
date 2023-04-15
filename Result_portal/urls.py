@@ -3,15 +3,15 @@ from django.conf.urls import url
 from .views import *
 app_name = 'Result_portal'
 urlpatterns = [
-
 # Result Portal main Url
-    path('', classes_view, name='classes'),
-    path('students/',students_view, name='students'),
-    path('<str:Classname>/result/',result_view, name='result'),
-    path('<str:Classname>/<str:Name>/pdf',result_pdf_view, name='pdf'),
+    path('', Result_Portal_view, name='classes'),
+
+# Upload Excel File
+    path('upload/', upload, name='upload'),
+    path('<str:Classname>/', get_Students, name='get_students'),
     
 # Admin Result Activation Url
-    path('activation/', activation_view, name='activation'),
+    path('activation_side/', activation_view, name='activation_side'),
     path('students_pin_activation/', createPin, name='Pin'),
 
 # Termly Result Activation Urls ///////////////////////////////////////////////////

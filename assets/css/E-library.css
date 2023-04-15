@@ -13,7 +13,7 @@
     content: '';
     position: absolute;
     background-color: #000;
-    opacity: 0.5;
+    opacity: 0.4;
     top: 0;
     right: 0;
     bottom: 0;
@@ -34,11 +34,17 @@
   
 .Elibrary_about{
     background-color: var(--cream-color);
-    border-left: var(--Wine-red) solid 4px;
+    border-left: #d8a407 solid 5px;
 }
 
 .category_container li{
  background-color: var(--cream-color);
+}
+
+.cate_button.btn-secondary{
+    background-color: var(--bg-light);
+    outline: None ;
+    border: none;
 }
 
 .category_container li a{

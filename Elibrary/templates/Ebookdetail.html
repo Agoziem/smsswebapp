@@ -10,8 +10,10 @@
       </div>
       <img class="img-fluid my-3 shadow-sm" width="200" src="{{object.Ebookimage}}" />
       <p>
-        <a href="{{object.Ebooklink}}" download class="btn btn-primary my-2">Download</a>
-        <a href="{{object.Ebooklink}}" class="btn btn-warning my-2">View Ebook</a>
+        <a  href="{{object.Ebooklink}}" download class="btn btn-primary my-2 me-2" id="download-button"
+          data-id="{{object.id}}">Download Book</a>
+        <a class="btn btn-outline-warning my-2" ><span id="download-count" class="me-2">{{ object.download_set.count }}</span>downloads</a>
+      
       </p>
     </div>
   </div>
@@ -46,4 +48,29 @@
     </a>
   </div>
 </div>
+
+
+<script>
+  const downloadButton = document.querySelector('#download-button');
+  const dataId = downloadButton.getAttribute('data-id');
+  const downloadCountElement = document.querySelector('#download-count');
+
+  downloadButton.addEventListener('click', () => {
+    // Send AJAX request to Django view
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', "{% url 'Elibrary:download_book' %}");
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.setRequestHeader('X-CSRFToken', csrftoken);
+    xhr.onload = function () {
+      if (xhr.status === 200) {
+        const response = JSON.parse(xhr.responseText);
+        downloadCountElement.innerHTML = response.download_count;
+      }
+    };
+    xhr.send(JSON.stringify({ book_id: dataId }));
+  });
+
+
+</script>
+
 {% endblock %}

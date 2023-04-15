@@ -14,28 +14,18 @@ import json
 # def home_view(request):
 # 	context= {
 # 	}
-# 	return render(request,'404.html',context)
+# 	return render(request,'404.html',context)``
 
 def home_view(request):
 	queryset1=School.objects.all()
 	queryset2=Management.objects.all()
 	queryset3=Header.objects.all()
 	queryset4=FAQ.objects.all()
-	queryset5=UpcomingEvents.objects.all()
-	queryset6=PhotoGallery.objects.all()
+	queryset5=UpcomingEvents.objects.order_by('-id')[:2]
+	queryset6=PhotoGallery.objects.order_by('-id')[:6]
 	queryset7=Teacher.objects.all()
 	queryset8=ParentsReview.objects.all()
-	queryset9=Article.objects.all()
-	
-	Articles=[]
-	photos=[]
-	homePhotos=[]
-	for photoobject in queryset6:
-		photos.append(photoobject)
-		homePhotos=photos[:6]
-	for article in queryset9:
-		Articles.append(article)
-		HomeArticles=Articles[:4]
+	queryset9=Article.objects.order_by('-id')[:4]
 	context= {
 	'mapbox_private_key':settings.MAPBOXGL_ACCESSTOKEN,
 	'schools':queryset1,
@@ -43,10 +33,10 @@ def home_view(request):
 	'headers':queryset3,
 	'FAQ':queryset4,
 	'events':queryset5,
-	'photos':homePhotos,
+	'photos':queryset6,
 	"Teachers":queryset7,
 	"parentsreviews":queryset8,
-	"articles":HomeArticles
+	"articles":queryset9
 	}
 	return render(request,'home.html',context)
 	

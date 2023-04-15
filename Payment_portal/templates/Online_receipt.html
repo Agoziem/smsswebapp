@@ -3,89 +3,127 @@
 {% block content%}
 
 <div id="container_result2">
-<section class="p-2 mt-3">
-	<div class="d-flex flex-column align-items-center ">
-		<img src="{% static 'images/St Marks Logo.png' %}" alt="..." class="brand_image schoollogo img-fluid">
-		<h1 class="text-center" style="font-size:30px;">
-			Online payment Receipt
-		</h1>
-		<div class="multiplerule mb-3 d-flex justify-content-center">
-			<div class="rule"></div>
-			<div class="rule2"></div>
-		  </div>
-	</div>
-</section>
-<!-- Students Data -->
-<section class="Receipt p-2">
-	<div class="container px-3 table-responsive d-flex justify-content-center">
-		<table class="table table-bordered" style="max-width: 500px;">
-			<tbody>
-				<tr>
-					<td>
-						<span class="fw-bold"> Name : </span>
-					</td>
-					<td>
-						{{receipt.Name_of_student}}
-					</td>
-				</tr>
-				<tr>
-					<td>
-						<span class="fw-bold"> Class : </span>
-					</td>
-					<td>
-						{{receipt.student_class }}
-					</td>
-				</tr>
-				<tr>
-					<td>
-						<span class="fw-bold"> Email : </span>
-					</td>
-					<td>
-						{{receipt.Email}}
-					</td>
-				</tr>
-				<tr>
-					<td>
-						<span class="fw-bold"> Payment type : </span>
-					</td>
-					<td>
-						{{receipt.Payment_type}}
-					</td>
-				</tr>
-				{% if receipt.verified %}
-				<tr>
-					<td>
-						<span class="fw-bold"> Payment Status: </span>
-					</td>
-					<td>
-						Successful
-					</td>
-				</tr>
-				{% endif %}
-				<tr>
-					<td>
-						<span class="fw-bold"> Payment ref : </span>
-					</td>
-					<td>
-						{{ receipt.ref }}
-					</td>
-				</tr>
-				<tr>
-					<td>
-						<span class="fw-bold"> Date/Time of Payment : </span>
-					</td>
-					<td>
-						{{ receipt.date_created}}
-					</td>
-				</tr>
-			</tbody>
-		</table>
-	</div>
-</section>
+	<section class="p-2 mt-3">
+		<div class="d-flex flex-column align-items-center ">
+			<img src="{% static 'images/St Marks Logo.png' %}" alt="..." class="brand_image schoollogo img-fluid">
+			<h3 class="text-center" style="font-size:20px;">
+				St marks Standard Secondary School Omagba
+			</h3>
+			<h1 class="text-center" style="font-size:30px;">
+				Online payment Receipt
+			</h1>
+			<div class="multiplerule mb-3 d-flex justify-content-center">
+				<div class="rule"></div>
+				<div class="rule2"></div>
+			</div>
+		</div>
+	</section>
+	<!-- Students Data -->
+	<section class="Receipt p-2">
+		<div class="container px-3 d-block d-md-flex align-items-md-center justify-content-md-center">
+
+			<!-- Payment Details -->
+			<div class="me-4 mb-2 mb-md-0 d-flex  justify-content-center table-responsive">
+				<table class="table table-bordered" style="max-width: 500px;">
+					<thead>
+						<tr>
+							<th colspan="2" class="text-center">Payment Details</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>
+								<span class="fw-bold"> Name : </span>
+							</td>
+							<td>
+								{{receipt.Name_of_student}}
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<span class="fw-bold"> Class : </span>
+							</td>
+							<td>
+								{{receipt.student_class }}
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<span class="fw-bold"> Email : </span>
+							</td>
+							<td>
+								{{receipt.Email}}
+							</td>
+						</tr>
+						{% if receipt.verified %}
+						<tr>
+							<td>
+								<span class="fw-bold"> Payment Status:</span>
+							</td>
+							<td>
+								Successful <i class="bi bi-check-circle-fill ms-2 text-success"></i>
+							</td>
+						</tr>
+						{% endif %}
+						<tr>
+							<td>
+								<span class="fw-bold"> Payment ref : </span>
+							</td>
+							<td>
+								{{ receipt.ref }}
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<span class="fw-bold"> Date/Time of Payment : </span>
+							</td>
+							<td>
+								{{ receipt.date_created}}
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<!-- Payments Items  -->
+			<div class="d-flex mb-2 mb-md-0 justify-content-center">
+				<table class="table table-bordered" style="max-width: 500px;">
+					<thead>
+						<tr>
+							<th scope="col">#</th>
+							<th scope="col">Payment Type</th>
+							<th scope="col">Amount</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for type in receipt.Payment_type.all %}
+						<tr>
+							<th scope="row">{{ forloop.counter }}</th>
+							<td>{{ type.description}}</td>
+							<td>{{ type.amount}}</td>
+						</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+			</div>
+		</div>
+		<div class="container-md mt-2 mb-2 mb-md-2 px-0 px-md-5">
+			<i class="fa-solid fa-triangle-exclamation me-3 text-warning h3"></i> <strong>Note:</strong> download the Online
+			payment slip and print it out , take it to the School Bursar for final Validation and issuance of the School
+			main Receipts
+		</div>
+		<div class="container-md d-flex justify-content-center">
+			<img src="{% static 'images/Payment_Portal_Code.png' %}" style="max-width:140px;">
+		</div>
+	</section>
+	
 </div>
+
 <div class="hr mb-2"></div>
 <section class="p-2 mb-4 text-center">
-	<a id="reciept_btn" class="btn btn-primary" style="font-family: 'League Spartan', sans-serif;"> download receipt<i class="fa fa-download ms-1"></i></a>
+	<a id="reciept_btn" class="btn btn-primary" style="font-family: 'League Spartan', sans-serif;">
+		<span class="spinner-border spinner-border-sm d-none ms-1" role="status" aria-hidden="true"></span>
+		download receipt
+	</a>
 	<a class="btn btn-warning ms-2 " style="font-family: 'League Spartan', sans-serif;" href="{% url 'home' %}"> back to
 		home <i class="fa-solid fa-house"></i></a>
 

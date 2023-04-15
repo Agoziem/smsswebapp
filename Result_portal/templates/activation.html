@@ -1,70 +1,81 @@
 {% extends 'base.html' %}
 
 {% block content %}
+
+<style >
+  .modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content/Box */
+.modal-content {
+  background-color: #fffef6;
+  margin: 250px auto; /* 15% from the top and centered */
+  padding: 30px 20px 20px 20px;
+  width: 300px; /* Could be more or less, depending on screen size */
+  text-align: center;
+}
+
+/* Close Button */
+/* Close Button */
+.close {
+  color: #3b0505;
+  font-size: 35px;
+  font-weight: bold;
+  position: absolute;
+  top: 0;
+  right: 10px;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+</style>
+
+
+<!-- Upload Successful modal -->
+<div id="modal" class="modal">
+  <div class="modal-content d-flex">
+    <p class="me-3"><i class="fas fa-check-circle text-success me-2"></i> File submitted successfully!</p>
+    <div><span class="close">&times;</span></div>   
+  </div>
+</div>
+<!-- Main page starts here -->
 <section class="pt-5">
   <h1 class="px-3 mt-3 text-center" style="font-size: 30px;">STUDENT RESULT MANAGEMENT SYSTEM</h1>
   <div class="container">
     <div class=" row justify-content-center align-items-center p-3">
       <div class="col-md">
+
+        <!-- Excel file Upload table  -->
         <table class="table table-bordered">
           <thead>
             <tr>
-              <th scope="col">Classes</th>
-              <th scope="col">Excel Files</th>
+              <th scope="col">Upload Result Excel files</th>
           </thead>
           <tbody>
             <tr>
-              <td>Jss1</td>
-              <td class="d-flex flex-column align-items-center">
-                <div class="input-group mb-3">
-                  <input type="file" class="form-control" id="inputGroupFile01">
-                </div>
-                <button type="submit" class="btn  btn-primary w-75" value="Submit">Upload</button>
-              </td>
-            </tr>
-            <tr>
-              <td>Jss2</td>
-              <td class="d-flex flex-column align-items-center">
-                <div class="input-group mb-3">
-                  <input type="file" class="form-control" id="inputGroupFile01">
-                </div>
-                <button type="submit" class="btn  btn-primary w-75" value="Submit">Upload</button>
-              </td>
-            </tr>
-            <tr>
-              <td>Jss3</td>
-              <td class="d-flex flex-column align-items-center">
-                <div class="input-group mb-3">
-                  <input type="file" class="form-control" id="inputGroupFile01">
-                </div>
-                <button type="submit" class="btn  btn-primary w-75" value="Submit">Upload</button>
-              </td>
-            </tr>
-            <tr>
-              <td>SS1</td>
-              <td class="d-flex flex-column align-items-center">
-                <div class="input-group mb-3">
-                  <input type="file" class="form-control" id="inputGroupFile01">
-                </div>
-                <button type="submit" class="btn  btn-primary w-75" value="Submit">Upload</button>
-              </td>
-            </tr>
-            <tr>
-              <td>SS2</td>
-              <td class="d-flex flex-column align-items-center">
-                <div class="input-group mb-3">
-                  <input type="file" class="form-control" id="inputGroupFile01">
-                </div>
-                <button type="submit" class="btn  btn-primary w-75" value="Submit">Upload</button>
-              </td>
-            </tr>
-            <tr>
-              <td>SS3</td>
-              <td class="d-flex flex-column align-items-center">
-                <div class="input-group mb-3">
-                  <input type="file" class="form-control" id="inputGroupFile01">
-                </div>
-                <button type="submit" class="btn  btn-primary w-75" value="Submit">Upload</button>
+              <td>
+                <form id="myForm" method="post" enctype="multipart/form-data">
+                  <div class="form-group mb-3 mt-2">
+                    <input type="file" class="form-control" id="myFile" name="myFile" required>
+                  </div>
+                  <div class="d-flex justify-content-center">
+                    <button type="submit" class="btn btn-primary w-75" id="uploadButton">Upload</button>
+                  </div>                 
+                </form>
               </td>
             </tr>
           </tbody>
@@ -72,18 +83,12 @@
       </div>
       <div class="col-md">
         <table class="table table-bordered">
+          <!-- Table to Create Pin -->
           <thead>
             <tr>
               <th scope="col">create Students pin </th>
           </thead>
           <tbody>
-            <tr>
-              <td>
-                <div class="input-group mb-3">
-                  <input type="file" class="form-control" id="inputGroupFile01">
-                </div>
-              </td>
-            </tr>
             <tr>
               <td class="d-flex flex-column align-items-center">
                 <a href="{% url 'Result_portal:Pin' %}" class="btn btn-primary">create Students pin</a>
@@ -158,4 +163,53 @@
 
   </div>
 </section>
+
+<script>
+  // Ajax Excel Excel Upload Script 
+  const form = document.getElementById('myForm');
+  const uploadButton = document.getElementById('uploadButton');
+  const modal = document.getElementById('modal');
+  const span = document.getElementsByClassName('close')[0];
+  
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const formData = new FormData(form);
+    uploadFile(formData);
+  });
+  
+  function uploadFile(formData) {
+    uploadButton.innerHTML = 'Upload in progress...';
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', "{% url 'Result_portal:upload' %}");
+    xhr.setRequestHeader('X-CSRFToken', csrftoken);
+    xhr.upload.addEventListener('progress', (e) => {
+      if (e.lengthComputable) {
+        // const percent = Math.round((e.loaded / e.total) * 100);
+        // progressBar.style.width = percent + '%';
+        // progressBar.setAttribute('aria-valuenow', percent);
+      }
+    });
+    xhr.addEventListener('load', () => {
+      uploadButton.innerHTML = 'Upload another file';
+      modal.style.display = "block";
+      form.reset()
+    });
+    xhr.addEventListener('error', () => {
+      alert('Upload failed!');
+    });
+    xhr.send(formData);
+  }
+  
+  span.onclick = function() {
+    modal.style.display = "none";
+  };
+  
+  window.onclick = function(event) {
+    if (event.target == modal) {
+      modal.style.display = "none";
+    }
+  };
+  
+  // ///////////////////////////////////////////////////////////
+  </script>
 {% endblock %}

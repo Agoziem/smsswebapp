@@ -1,2 +1,5 @@
 __pycache__/
 .env
+media/
+staticfiles/
+Result_portal/templates/activation.html

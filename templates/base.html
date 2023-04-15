@@ -8,6 +8,7 @@
   <link rel="icon" type="image/png" sizes="32x32" href="{% static 'images/St Marks Logo.png' %}">
   <link rel="icon" type="image/png" sizes="16x16" href="{% static 'images/St Marks Logo.png' %}">
   <link rel="icon" type="image/png" sizes="48x48" href="{% static 'images/St Marks Logo.png' %}">
+  
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
@@ -64,15 +65,39 @@
 
   <nav class="navbar navbar-expand-lg navbar-light mt-0 fixed-top shadow-sm">
     <div class=" container px-2 d-flex justify-content-between">
+      <!-- First Part of the Nav bar -->
+
       <div class="d-flex justify-content-between">
         <a href="{% url 'home' %}"><img src="{% static 'images/St Marks Logo.png' %}" alt="..."
             class="brand_image img-fluid"></a>
       </div>
-      <div class="hambuger d-block d-lg-none">
-        <span class="bar"></span>
-        <span class="bar"></span>
-        <span class="bar"></span>
+      <div class="d-flex d-lg-none align-items-center justify-content-center">
+        <div class="nav-item-envelope me-3 position-relative">
+          <a class="nav-link pt-3">
+            <i class="fas fa-envelope h2 " style="color:#3b0505;"></i>
+            <!-- <span class="position-absolute top-1 start-95 translate-middle badge rounded-pill bg-danger">
+              3
+            </span> -->
+          </a>
+          <!-- <ul class="dropdown-menu shadow-sm" style="width: 89vw; max-width:369px;">
+            <li class="ps-4 py-2">Notification Center</li>
+            <li>Message 1 Message Message Message Message Message Message Message Message Message</li>
+            <li>Message 2</li>
+            <li>Message 3</li>
+            <li>Message 3</li>
+            <li>Message 3</li>
+            <li>Message 3</li>
+          </ul>
+        </div> -->
+        <div class="hamburger-menu ">
+          <div class="bar"></div>
+          <div class="bar"></div>
+          <div class="bar"></div>
+        </div>
       </div>
+      
+
+      <!-- Second Part of the Nav bar -->
       <div class="d-none d-lg-flex collapse navbar-collapse" id="navmenu">
         <ol class="navbar-nav mx-auto text-start ps-1">
           <li class="nav-item me-2">
@@ -91,15 +116,6 @@
             <a href="#" class="nav-link">Articles</a>
           </li>
           <li class="nav-item me-2">
-            <a class="nav-link">Admissions <i class="fa-solid fa-caret-down ms-1"></i></a>
-            <ul class="py-2 ps-0">
-              <li class="px-4"><a href="#">Ent Exam Result</a></li>
-              <li class="px-4"><a href="#">CBT</a></li>
-              <li class="px-4"><a href="{% url 'Admission_form:initiate_payment' %}">Purchase Form</a></li>
-            </ul>
-          </li>
-
-          <li class="nav-item me-2">
             <a class="nav-link">Students Section <i class="fa-solid fa-caret-down ms-1"></i></a>
             <ul class="py-2 ps-0">
               <li class="px-4"><a href="{% url 'Result_portal:classes' %}">Result Portal</a></li>
@@ -107,141 +123,141 @@
               <li class="px-4"><a href="{% url 'Payment_portal:initiate_payment' %}">Payment Portal</a></li>
             </ul>
           </li>
+
+          <li class="nav-item me-2">
+            <a class="nav-link">Admissions <i class="fa-solid fa-caret-down ms-1"></i></a>
+            <ul class="py-2 ps-0">
+              <li class="px-4"><a href="{% url 'Admission_form:initiate_payment' %}">Purchase Form</a></li>
+              <li class="px-4"><a href="#">CBT</a></li>
+              <li class="px-4"><a href="#">Ent Exam Result</a></li>
+            </ul>
+          </li>
           <li class="nav-item me-2">
             <a href="#" class="nav-link">Contact us</a>
           </li>
-          {% if request.user.is_superuser %}
-          <li class="nav-item me-2">
-            <a href="{% url 'Result_portal:activation' %}" class="nav-link">Activation</a>
+        </ol>
+      </div>
+      <!-- Third Part of the Nav bar -->
+      <!-- Third Part of the Nav bar -->
+      <div class="d-none d-lg-flex">
+        <ol class="navbar-nav text-start ps-1">
+          <li class="nav-item-envelope me-3 position-relative">
+            <a class="nav-link">
+              <i class="fas fa-envelope h3"></i>
+              <!-- <span class="position-absolute top-1 start-100 translate-middle badge rounded-pill bg-danger">
+                3
+              </span> -->
+            </a>
+            <!-- <ul class="dropdown-menu shadow-sm" style="width: 450px;">
+              <li class="ps-4 py-2">Notification Center</li>
+              <li>Message 1 Message Message Message Message Message Message Message Message Message</li>
+              <li>Message 2</li>
+              <li>Message 3</li>
+              <li>Message 3</li>
+            </ul> -->
           </li>
-          {% endif %}
-          {% if request.user.is_staff %}
-          <li class="nav-item me-5">
-            <a href="/admin" class="nav-link">Admin</a>
+          <li class="nav-item mx-3 ">
+            <a class="nav-link" href="#">
+              <i class="fa-solid fa-user h4"></i>
+              <i class="fa-solid fa-caret-down ms-1"></i>
+            </a>
+            <ul class="ps-0 py-3" style="right: 46px;">
+              {% if request.user.is_superuser %}
+              <li class="px-5"><a href="#"><a href="{% url 'Result_portal:activation_side' %}">Activation</a></a></li>
+              {% endif %}
+              {% if request.user.is_staff %}
+              <li class="px-5"><a href="#"><a href="{% url 'CBT:authentication' %}">Add CBT Questions</a></a></li>
+              {% endif %}
+              <li class="px-5"><a href="#"><a href="{% url 'Attendance:class_attendance' %}">Class Attendance</a></a></li>
+              <li class="px-5"><a href="#"><a href="/admin">Admin</a></a></li>
+            </ul>
           </li>
-          {% endif %}
         </ol>
       </div>
 
-      <div class="d-none d-lg-flex">
-        <ol class="navbar-nav text-start ps-1">
-          {% if not request.user.is_authenticated %}
-          <li class="nav-item me-2">
-            <a href="#" class="nav-link">Sign up</a>
-          </li>
-          <li class="nav-item me-2">
-            <a href="#" class="btn btn-primary ">Log in</a>
-          </li>
-          {% else %}
-          <li class="nav-item me-2">
-            <i class="fa-solid fa-user h4"></i>
-            <i class="fa-solid fa-caret-down ms-1"></i>
-            <ul class="py-2 ps-0">
-              <li class="px-4"><a href="#">Change Password</a></li>
-              <li class="px-4"><a href="#">Logout</a></li>
-            </ul>
-          </li>
-          {% endif %}
-        </ol>
-      </div>
 
     </div>
   </nav>
 
   <!-- Navbar for Small Screen -->
-
-  <div class="nav-bar-sm d-block d-lg-none pe-4">
-    <ul class="nav-menu-sm">
-      <li class="nav-item-sm">
-        <a class="trigger nav-link-sm" data-count="1">Home <i id="dropdownbtn1" class="dropdownbtn fa-solid fa-caret-down ms-1"></i>
-        </a>
-        <ul id="drop-down-menu1" class="drop-down-menu list-group list-group-flush py-2 ps-0">
-          <li id="nav-item-m-sm" class="px-4 list-group-item"><a href="{% url 'home' %}">Home</a></li>
-          <li id="nav-item-m-sm" class="px-4 list-group-item"><a href="/#About">About Us</a></li>
-          <li id="nav-item-m-sm" class="px-4 list-group-item"><a href="/#Management">Teachers</a></li>
-          <li id="nav-item-m-sm" class="px-4 list-group-item"><a href="/#Management">Management</a></li>
-          <li id="nav-item-m-sm" class="px-4 list-group-item"><a href="/#review">Reviews</a></li>
-          <li id="nav-item-m-sm" class="px-4 list-group-item"><a href="/#contact">Contact us</a></li>
-          <li id="nav-item-m-sm" class="px-4 list-group-item"><a href="/#FAQ">FAQ</a></li>
+  <nav class="menu">
+    <ul>
+      <li class="sub-menu-toggle">
+        <div class="d-flex justify-content-between align-items-center">
+          <a class="me-2">Quick links</a>
+          <i class="sub-menu-toggle-icon fas fa-plus"></i>
+        </div>     
+        <ul class="sub-menu">
+          <li><a href="{% url 'home' %}" class="menulink">Home</a></li>
+          <li><a href="/#About" class="menulink">About us</a></li>
+          <li><a href="/#Management" class="menulink">Teachers</a></li>
+          <li><a href="/#Management" class="menulink">Management</a></li>
+          <li><a href="/#review" class="menulink">Reviews</a></li>
+          <li><a href="/#contact" class="menulink">Contact us</a></li>
+          <li><a href="/#FAQ" class="menulink">FAQ</a></li>
         </ul>
       </li>
-      <li id="nav-item-m-sm" class="nav-item-sm">
-        <a href="#" class="nav-link-sm">Articles</a>
-      </li>
-      <li class="nav-item-sm">
-        <a href="#" class="trigger nav-link-sm" data-count="2">Admissions <i id="dropdownbtn2"
-            class="dropdownbtn fa-solid fa-caret-down ms-1"></i></a>
-        <ul id="drop-down-menu2" class="drop-down-menu list-group list-group-flush py-2 ps-0">
-          <li id="nav-item-m-sm" class="px-4 list-group-item"><a href="#">Ent Exam Result</a></li>
-          <li id="nav-item-m-sm" class="px-4 list-group-item"><a href="#">CBT</a></li>
-          <li id="nav-item-m-sm" class="px-4 list-group-item"><a
-              href="{% url 'Admission_form:initiate_payment' %}">Purchase Form</a></li>
-        </ul>
-      </li>
-
-      <li class="nav-item-sm">
-        <a href="#" class="trigger nav-link-sm" data-count="3">Students Section<i id="dropdownbtn3"
-            class="dropdownbtn fa-solid fa-caret-down ms-1"></i>
-          </a>
-        <ul id="drop-down-menu3" class="drop-down-menu list-group list-group-flush py-2 ps-0">
-          <li id="nav-item-m-sm" class="px-4 list-group-item"><a href="{% url 'Result_portal:classes' %}">Result
-              Portal</a></li>
-          <li id="nav-item-m-sm" class="px-4 list-group-item"><a href="{% url 'Elibrary:subjects' %}">E-library</a></li>
-          <li id="nav-item-m-sm" class="px-4 list-group-item"><a
-              href="{% url 'Payment_portal:initiate_payment' %}">Payment Portal</a></li>
-        </ul>
-      </li>
-
-      <li id="nav-item-m-sm" class="nav-item-sm">
-        <a href="#" class="nav-link-sm">Contact us</a>
-      </li>
-      {% if request.user.is_superuser %}
-      <li id="nav-item-m-sm" class="nav-item-sm">
-        <a href="{% url 'Result_portal:activation' %}" class="nav-link-sm">Activation</a>
-      </li>
-      {% endif %}
-      {% if request.user.is_staff %}
-      <li id="nav-item-m-sm" class="nav-item-sm">
-        <a href="/admin" class="nav-link-sm">Admin</a>
-      </li>
-      {% endif %}
-      {% if user.is_authenticated %}
-      <hr>
-      <li class="nav-item-sm">
-        <div class="dropdowntrigger nav-link-sm  d-flex align-items-center"> Accounts
-          <i class="dropdownbtn bi bi-caret-down-fill ms-2 mb-0"></i>
+      <li><a href="#" class="menulink">Articles</a></li>
+      <li class="sub-menu-toggle">
+        <div class="d-flex justify-content-between align-items-center">
+          <a>Admissions</a>
+          <i class="sub-menu-toggle-icon fas fa-plus "></i>
         </div>
-        <div class="dropdownlist mt-2">
-          <ul class="list-group list-group-flush">
-            <li class="list-group-item"><a href="#" class="nav-link-sm">Change Password</a>
-            </li>
-            <li class="list-group-item"><a href="#" class="nav-link-sm">Log out</a>
-            </li>
-          </ul>
+        <ul class="sub-menu">
+          <li><a href="{% url 'Admission_form:initiate_payment' %}" class="menulink">Purchase Form</a></li>
+          <li><a href="#" class="menulink">CBT</a></li>
+          <li><a href="#" class="menulink">Ent Exam Result</a></li>
+        </ul>
+      </li>
+      <li class="sub-menu-toggle">
+        <div class="d-flex justify-content-between align-items-center">
+          <a class="me-2" class="menulink">Students Section</a>
+          <i class="sub-menu-toggle-icon fas fa-plus"></i>
         </div>
+        <ul class="sub-menu">
+          <li><a href="{% url 'Result_portal:classes' %}" class="menulink">Result Portal</a></li>
+          <li><a href="{% url 'Elibrary:subjects' %}" class="menulink">Elibrary</a></li>
+          <li><a href="{% url 'Payment_portal:initiate_payment' %}" class="menulink">Payment Portal</a></li>
+        </ul>
       </li>
-      {% else %}
-      <hr>
-      <li class="nav-item-sm">
-      <li id="nav-item-m-sm" class="nav-item-sm">
-        <a href="#" class="nav-link-sm">Sign-up</a>
+      <li class="sub-menu-toggle">
+        <div class="d-flex justify-content-between align-items-center">
+          <a class="me-2" class="menulink">Admin</a>
+          <i  class="sub-menu-toggle-icon fas fa-plus"></i>
+        </div>
+        <ul class="sub-menu">
+          {% if request.user.is_superuser %}
+          <li><a href="{% url 'Result_portal:activation_side' %}" class="menulink">Activation</a></li>
+          {% endif %}
+          <li><a href="/admin" class="menulink">Admin</a></li>
+        </ul>
       </li>
-      <li id="nav-item-m-sm" class="nav-item-sm">
-        <a href="#" class="nav-link-sm" style="font-size: 15px ;">Log in</a>
-      </li>
-      </li>
-      {% endif %}
     </ul>
-  </div>
-
+  </nav>
+ 
   <!-- end of Navigation -->
-
-  {% block content%}
-  {% endblock %}
+  <main>
+    {% block content%}
+    {% endblock %}
+  </main>
   <!-- Footer -->
-  <footer class="footer  ">
+
+  <footer class="footer">
     <div class="footer_link row justify-content-between pb-4 px-5">
       <div class="col-10 col-sm-8 col-md-4 pe-1 pe-sm-4 pe-md-5">
+        <div id="sub_form_alert_success" class="alert alert-success" style="display: none;">
+          <i class="bi bi-check-circle-fill mx-2 text-success h5"></i>
+          <div>
+            Your email has been sent successfully!
+          </div>
+        </div>
+
+        <div id="sub_form_alert_danger" class="alert alert-danger" style="display:none;">
+          <i class="fa-solid fa-triangle-exclamation mx-2 text-danger h5"></i>
+          <div>
+            An error occurred while sending your message.
+          </div>
+        </div>
         <form id="sub_form">
           <h5>Subscribe to our newsletter</h5>
           <p>Monthly digest of whats new and exciting from us.</p>

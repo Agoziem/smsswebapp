@@ -18,30 +18,30 @@ class Students_Pin_and_IDAdmin(admin.ModelAdmin):
 
 @admin.register(Student)
 class StudentAdmin(admin.ModelAdmin):
-    list_display=('Name','Class','Position')
-    ordering=('Name',)
-    search_fields=('Name','Class','Position')
+    list_display=('Student_id','Class','Position')
+    ordering=('Student_id',)
+    search_fields=('Student_id','Class','Position')
     list_filter=('Class','Position')
 
 @admin.register(Result)
 class ResultAdmin(admin.ModelAdmin):
-    list_display=('Name','Class','Subject')
-    ordering=('Name',)
-    search_fields=('Name','Class','Subject')
+    list_display=('Student_id','Class','Subject')
+    ordering=('Student_id',)
+    search_fields=('Student_id','Class','Subject')
     list_filter=('Class','Subject')
 
 @admin.register(AnnualStudent)
 class AnnualStudentAdmin(admin.ModelAdmin):
-    list_display=('Name','Class','Position')
-    ordering=('Name',)
-    search_fields=('Name','Class','Position')
+    list_display=('Student_id','Class','Position')
+    ordering=('Student_id',)
+    search_fields=('Student_id','Class','Position')
     list_filter=('Class','Position')
 
 @admin.register(AnnualResult)
 class AnnualResult(admin.ModelAdmin):
-    list_display=('Name','Class','Subject')
-    ordering=('Name',)
-    search_fields=('Name','Class','Subject')
+    list_display=('Student_id','Class','Subject')
+    ordering=('Student_id',)
+    search_fields=('Student_id','Class','Subject')
     list_filter=('Class','Subject')
 
 @admin.register(Class)

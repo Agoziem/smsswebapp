@@ -10,5 +10,6 @@ admin.site.register(UpcomingEvents)
 admin.site.register(FAQ)
 admin.site.register(Contact)
 admin.site.register(Teacher)
+admin.site.register(FormTeachers)
 admin.site.register(ParentsReview)
 

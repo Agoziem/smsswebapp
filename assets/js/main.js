@@ -1,110 +1,46 @@
 
-// Hambuger trigger Code 
-const hambuger = document.querySelector('.hambuger');
-const navMenu = document.querySelector('.nav-bar-sm');
+const hamburgerMenu = document.querySelector('.hamburger-menu');
+const menu = document.querySelector('.menu');
+const menuLinks = document.querySelectorAll('.menulink');
+const subMenuToggles = document.querySelectorAll('.sub-menu-toggle');
 
-hambuger.addEventListener('click', () => {
-  hambuger.classList.toggle("active");
-  navMenu.classList.toggle("active");
-})
+// Toggle Hamburger Menu
+hamburgerMenu.addEventListener('click', () => {
+  hamburgerMenu.classList.toggle('active');
+  menu.classList.toggle('active');
+});
 
-document.querySelectorAll("#nav-item-m-sm").forEach(n =>
-  n.addEventListener("click", () => {
-    hambuger.classList.remove("active");
-    navMenu.classList.remove("active");
-  }));
+// Close Hamburger Menu on Link Click
+menuLinks.forEach(link => {
+  link.addEventListener('click', () => {
+    hamburgerMenu.classList.remove('active');
+    menu.classList.remove('active');
+  });
+});
 
+// Toggle Submenus
+subMenuToggles.forEach(toggle => {
+  toggle.addEventListener('click', (e) => {
+    const subMenu = toggle.querySelector('.sub-menu');
+    subMenu.classList.toggle('active');
+    console.log(subMenu)
+    // Close Other Submenus
+    const siblings = Array.from(toggle.parentNode.children).filter(child => child !== toggle && child.classList.contains('sub-menu-toggle'));
+    siblings.forEach(sibling => {
+      ul=sibling.querySelector('.sub-menu')
+      ul.classList.remove('active');
+      const relicon = sibling.querySelector('.fas');
+      relicon.classList.add('fa-plus')
+      relicon.classList.remove('fa-minus')
+     // Remove active class from sub-menus
+    });
 
-  // Navbar dropdown Code for large Screen //////////////////////////
-
-
-const dropdowntrigger = document.querySelector('.dropdowntrigger');
-const dropdownlist = document.querySelector('.dropdownlist');
-
-if (user !== 'AnonymousUser') {
-  dropdowntrigger.addEventListener('click', () => {
-    dropdownlist.classList.toggle("active");
-    dropdownbtn.classList.toggle("active");
-  })
-}
-
-  // Navbar dropdown Code for Small Screen //////////////////////////
-
-var trigger = document.getElementsByClassName('trigger');
-for (i = 0; i < trigger.length; i++) {
-  var countn = trigger[i].getAttribute("data-count")
-  const dropdownmenu = document.querySelector(`#drop-down-menu${countn}`);
-  const dropdownbtn = document.querySelector(`#dropdownbtn${countn}`);
-  trigger[i].addEventListener('click', () => {
-    dropdownmenu.classList.toggle("active");
-    dropdownbtn.classList.toggle("active");
-
-})
-}
-//function myFunction() {
-//     // Declare variables
-//     var input, filter, ul, li, a, i, txtValue;
-//     input = document.getElementById('myInput');
-//     filter = input.value.toUpperCase();
-//     ul = document.getElementById("myUL");
-//     li = ul.getElementsByTagName('li');
-  
-  
-//     // Loop through all list items, and hide those who don't match the search query
-//     for (i = 0; i < li.length; i++) {
-//       a = li[i].getElementsByTagName("a")[0];
-//       txtValue = a.textContent || a.innerText;
-//       if (txtValue.toUpperCase().indexOf(filter) > -1) {
-//         li[i].style.display = '';
-  
-//       } else {
-//         li[i].style.display = 'none';
-//       }
-//     }
-//   }
-  
-//   function myFunctionb() {
-//     // Declare variables
-//     var input, filter, ul, li, a, i, txtValue;
-//     input = document.getElementById('myInput');
-//     filter = input.value.toUpperCase();
-//     ul = document.getElementById("myUL");
-//     li = ul.getElementsByTagName('li');
-  
-  
-//     // Loop through all list items, and hide those who don't match the search query
-//     for (i = 0; i < li.length; i++) {
-//       a = li[i].getElementsByTagName("a")[0];
-//       txtValue = a.textContent || a.innerText;
-//       if (txtValue.toUpperCase().indexOf(filter) > -1) {
-//         li[i].style.display = '';
-  
-//       } else {
-//         li[i].style.display = 'none';
-//       }
-//     }
-//   }
-
-
-
-// const contactformTrigger = document.querySelector('#contactform_trigger');
-
-// contactformTrigger.addEventListener('click', () => {
-//     contactForm.classList.remove("d-none");
-//     contactformTrigger.style.display='none';
-// })
-
-
-// Get all elements with class="closebtn"
-// var close = document.getElementsByClassName("closebtn");
-//       var i;
-//       for (i = 0; i < close.length; i++) {
-//         close[i].onclick = function () {
-//           var div = this.parentElement;
-//           div.style.opacity = "0";
-//           setTimeout(function () { div.style.display = "none"; }, 600);
-//         }
-//       }
+    // Toggle Plus/Minus Icon
+    const icon = toggle.querySelector('.fas');
+    icon.classList.toggle('fa-plus');
+    icon.classList.toggle('fa-minus');
+  });
+});
 
 
 var subform = document.getElementById('sub_form');
@@ -132,13 +68,19 @@ function submitsubformdata() {
       return response.json();
     })
     .then((data) => {
-      subform.email.value = ''
-    //   document.getElementById('sub_form_alert1').style.display = "block"
-    //   document.getElementById('sub_form_alert1').style.opacity = "1"
+      
+      var successAlert = document.querySelector('#sub_form_alert_success');
+      successAlert.style.display = 'flex';
+      subform.reset();
+      setTimeout(function() {
+        successAlert.style.display = 'none';
+      }, 3000);
       console.log('Data :', data)
     })
 }
 
+
+// The Splide JS 
 
 var swiper = new Swiper(".slider_content", {
 
@@ -170,3 +112,43 @@ var swiper = new Swiper(".slider_content", {
     },
   });
   
+
+  // get the elements we need
+// Get the envelope icon and dropdown menu
+const envelopeIcons = document.querySelectorAll('.fa-envelope');
+
+// Show the dropdown menu when any envelope icon is clicked
+envelopeIcons.forEach(envelopeIcon => {
+  envelopeIcon.addEventListener('click', (event) => {
+    event.stopPropagation();
+    const dropdownMenu = event.target.closest('a').nextElementSibling;
+    if (dropdownMenu.classList.contains('dropdown-menu')) {
+      console.log(envelopeIcons)
+      dropdownMenu.classList.toggle('show');
+    }
+  });
+});
+
+// Hide the dropdown menu when the user clicks outside of it
+document.addEventListener('click', (event) => {
+  if (!Array.from(document.querySelectorAll('.dropdown-menu.show')).some(dropdownMenu => dropdownMenu.contains(event.target)) &&
+      !Array.from(envelopeIcons).some(envelopeIcon => envelopeIcon.contains(event.target))) {
+    document.querySelectorAll('.dropdown-menu.show').forEach(dropdownMenu => {
+      dropdownMenu.classList.remove('show');
+    });
+  }
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+

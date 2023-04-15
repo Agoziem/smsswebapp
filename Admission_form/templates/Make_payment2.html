@@ -4,15 +4,16 @@
 <section class="my-4">
 	<div class="container p-3 mt-5 text-center ">
 		<h6 style="font-family: 'League Spartan', sans-serif;">Hi {{ payment.Name_of_student }} , you are about to make
-			payment for <span class="fw-bold" style="font-family: 'Lato', sans-serif;">{{ payment.Payment_type }}</span>
+			payment for <span class="fw-bold" style="font-family: 'Lato', sans-serif;">{% for type in payment.Payment_type.all %}{{ type.description }}{% endfor %}</span>
+			<br> to St Marks Standard Secondary School
 		</h6>
-		<h4 class="mt-2 fw-bold" style="font-family: 'Lato', sans-serif;" class="fw-bold"> Amount - NGN{{ paymentamount.amount }}
+		<h4 class="mt-2 fw-bold" style="font-family: 'Lato', sans-serif;" class="fw-bold"> Amount - ₦{{ payment.total_amount }}
 		</h4>
 		<button class="btn btn-primary" onclick="payWithPaystack()"> proceed with payment </button>
 	</div>
 	</div>
 	<div class="container text-center">
-		<p class='mb-0'>powered by paystack</p>
+		<p class='mb-0'>powered and Secured by paystack <i class="fa-solid fa-lock ms-2"></i></p>
 		<img src="{% static 'images/paystack-logo-vector.png'  %}" alt="" class="img-fluid" width="110">
 		<img src="{% static 'images/Visa_Card-removebg-preview.png'  %}" alt="" class="img-fluid ms-2" width="100">
 	</div>
@@ -23,7 +24,7 @@
 		var handler = PaystackPop.setup({
 			key: '{{ paystack_public_key }}', // Replace with your public key
 			email: '{{ payment.Email }}',
-			amount: '{{ paymentamount.amount_value }}',
+			amount: '{{ payment.amount_value }}',
 			ref: '{{ payment.ref }}',
 			callback: function (response) {
 				window.location.href = "{% url 'Admission_form:verify_payment' payment.ref %}";

@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+{% block content %}
+<section class="p-3 my-5">
+    <div class="container py-3">
+        <div class="row justify-content-center">
+            <div class="col-md">
+                <div class="payment_instruction_card p-3 shadow-sm my-2" style="max-width: 400px;">
+                    <h6 class="text-center fw-bold">
+                        follow the instructions Properly :
+                    </h6>
+                    <hr>
+                    <div class="ps-3">
+                        <div class="d-flex">
+                            <i class="bi bi-check-circle-fill me-2 text-warning"></i>
+                            <p>Check the Box against the Student name to mark Present</p>
+                        </div>
+                        <div class="d-flex">
+                            <i class="bi bi-check-circle-fill me-2 text-warning"></i>
+                            <p>ensure to mark against the Correct Student </p>
+                        </div>
+                        <div class="d-flex">
+                            <i class="bi bi-check-circle-fill me-2 text-warning"></i>
+                            <p>When you are done Checking the Present Student then Click the Record Attendance</p>
+                        </div>
+                        <div class="d-flex">
+                            <i class="bi bi-check-circle-fill me-2 text-warning"></i>
+                            <p><strong>Note :</strong> Record will be deleted after One Week, so ensure to download the Attendance Excel File</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md">
+                <form class="form" method="post" action="{% url 'Attendance:post_attendance' attendance_class.Class %}">
+                    {% csrf_token %}
+                    <label>Attendance date:</label>
+                    <input type="date" name="date" required class="form-control" style="max-width:300px;">
+                    <input type="hidden" name="teacher_id" value="{{ form_teacher.id }}" class="form-control">
+
+                    <!-- Attendance Check Box -->
+                    
+                    <div class="my-4">
+                        <table class="table table-striped" style="max-width: 450px;">
+                                <thead>
+                                 <tr>
+                                    <th>S/N</th>
+                                    <th>Names of Students in {{ attendance_class.Class }}</th>
+                                    <th>Check if Present</th>
+                                 </tr>
+                                </thead>
+                                <tbody>
+                                    {% for student in students %}
+                                 <tr>
+                                    <td>{{ forloop.counter }}</td>                              
+                                     <td><label for="id_{{ student.id }}">{{ student.student_name }}</label></td>
+                                     <td> <input class="form-check-input" type="checkbox" name="present_students" value="{{ student.id }}"
+                                        id="id_{{ student.id }}"> </td>
+                                 </tr>
+                                 {% endfor %}
+                                </tbody>
+                          </table>                
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary">Record attendance</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+{% endblock %}

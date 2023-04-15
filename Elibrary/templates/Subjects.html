@@ -12,50 +12,72 @@
      </div>
 </div>
 <section class="welcome_container">
-     <div class=" container p-4 mb-3">
-          <div class="row justify-content-between">
+     <div class=" container p-4 ">
+          <div class="row justify-content-between align-items-center pb-4">
 
                <div class="col-md">
                     <div class="container ">
                          <h1 class=" text-center">Welcome </h1>
                          <div class="Elibrary_about  p-3">
-                              at SMSS Omagba, one of our Goal at is to help our Student spend less time searching for
-                              books
-                              Online, so you can spend more time reading! .That’s why we’ve uploaded and hosted a lot of
-                              Textbooks & Workbooks in Pdf formats .go ahead and Explore our wide range of resources
-                              covering
-                              Subjects like English Mathematies, Chemistry, Physics, Biology , Geography , Futher
-                              Mathematies,Government,Economics, Basic Sciences etc
-                              and lots more
+                              <p>
+                                   at SMSS Omagba, one of our Goal at is to help our Student spend less time searching for
+                                   books
+                                   Online, so you can spend more time reading! .That’s why we’ve uploaded and hosted a lot of
+                                   Textbooks & Workbooks in Pdf formats .go ahead and Explore our wide range of resources
+                                   covering
+                                   Subjects like English Mathematies, Chemistry, Physics, Biology , Geography , Futher
+                                   Mathematies,Government,Economics, Basic Sciences etc
+                                   and lots more
+                              </p>
                          </div>
+                         
+                         <div class="mt-3"><i class="fa-solid fa-circle-info text-success me-2 h5"></i> You will be required to enter your Student Credentials in order to gain Access to the Library</div>
                     </div>
                </div>
                <div class="col-md mt-5 mt-md-0">
                     <div class="category_container container ">
-                         <ul id="myUL" class="list-group-flush p-0">
-                              <div class="d-md-flex">
-                                   <h5>Select a Category to Explore</h5>
-                                   <form>
-                                        <div class="input-group news-input mx-0 mx-md-3 mb-4">
-                                             <input type="text" id="myInput" onkeyup="myFunction()" class="form-control"
-                                                  placeholder="type in the Subject" />
-                                             <button class="btn btn-info" type="submit" value="Save"><i
-                                                       class="fa fa-search" aria-hidden="true"></i></button>
+                         <div class="class_board col-md mt-3 mt-md-2  p-4" style="max-width: 410px;">
+                              <div>
+                                   <h4 class="text-center">Student Details</h4>
+                                   {% if messages %}
+                                        {% for message in messages %}
+                                        <div class="alert {{ message.tags }} alert-dismissible alert-success" role="alert">
+                                               {{ message }}
+                                             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                                         </div>
-                                   </form>
+                                        {% endfor %}
+                                        {% endif %}
                               </div>
 
-                              {% for subject in subjects %}
-
-                              <li id="list" style="display:block;" class="list-group-item">
-                                   <div class="my-2">
-                                        <a href="{% url 'Elibrary:ebooklist' subject.id %}"
-                                             class="text-decoration-none">{{ subject.Sub }}</a>
+                              <!-- Reader Authentication Form  -->
+                              <form action="{% url 'Elibrary:ebooklist' %}" method="POST">
+                                   {% csrf_token %}
+                                   <!-- Input Student ID -->
+                                   <div class="mb-3">
+                                        <input type="text" class="form-control" placeholder="enter your Student id" required
+                                             name="student_id">
                                    </div>
-                              </li>
-                              
-                              {% endfor %}
-                         </ul>
+
+                                   <!-- Input your Student Password -->
+                                   <div class="my-2 mb-3 form-floating">
+                                        <input type="text" name="student_password" class="form-control" id="password" placeholder="enter Card Pin">
+                                        <label for="password">Students Password</label>
+                                   </div>
+
+                                   <!-- Select Category interested in  -->
+                                   <div class="mb-3">
+                                        <select class="form-select" aria-label="Default select example" required name="Subject_Category">
+                                             <option value="">Select the Subject Category</option>
+                                             {% for subject in subjects %}
+                                             <option value="{{ subject.id }}">{{ subject.Sub }}</option>
+                                             {% endfor %}
+                                        </select>
+                                   </div>
+
+                                   <!-- Submit Button  -->
+                                   <button class=" my-2 w-100 btn btn-md btn-primary" type="submit" value="submit">View Books</button>                      
+                              </form>
+                         </div>
                     </div>
                </div>
           </div>

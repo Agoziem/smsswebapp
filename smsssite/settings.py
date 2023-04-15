@@ -47,6 +47,8 @@ INSTALLED_APPS = [
     'Blog',
     'Elibrary',
     'Home',
+    "Attendance",
+    "django_cleanup",
 ]
 
 DJANGO_ADMIN_LOGS_DELETABLE = True
@@ -181,8 +183,8 @@ STATIC_URL='https://%s/%s/' % (AWS_S3_CUSTOM_DOMAIN,AWS_LOCATION)
 # PAYSTACK_PUBLIC_KEY = config('PAYSTACK_PUBLIC_KEY', default='')
 # PAYSTACK_SECRET_KEY = config('PAYSTACK_SECRET_KEY', default='')
 
-PAYSTACK_PUBLIC_KEY = 'pk_test_e39e9604401f9753b248fff1135b2dbce5a9dfd3'
-PAYSTACK_SECRET_KEY = 'sk_test_eee99a387e1d38ed511815aef40f9a508d1030b6'
+PAYSTACK_PUBLIC_KEY = config('PAYSTACK_PUBLIC_KEY')
+PAYSTACK_SECRET_KEY = config('PAYSTACK_SECRET_KEY')
 
 
 MAPBOXGL_ACCESSTOKEN=config('MAPBOXGL_ACCESSTOKEN', default='')

@@ -27,3 +27,12 @@ class Ebook(models.Model):
 	def __str__(self):
 		return str(self.EbookTitle)
 
+
+
+    # other fields go here
+
+class Download(models.Model):
+    book = models.ForeignKey(Ebook, on_delete=models.CASCADE)
+    downloaded_at = models.DateTimeField(auto_now_add=True)
+    viewed_at = models.DateTimeField(auto_now_add=True)
+

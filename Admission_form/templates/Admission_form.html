@@ -14,7 +14,7 @@
         School </p>
     </div>
 
-    <form action="{% url 'Admission_form:details' %}" method=POST style="color:#00072B;">
+    <form action="{% url 'Admission_form:details' receipt.ref %}" method=POST style="color:#00072B;">
       <div class="row justify-content-center align-items-start">
         <div class="col-md-4">
           <div class="card p-4 shadow-sm " style="max-width: 312px;  margin: 0 auto;">
@@ -164,6 +164,10 @@
               <label for="Church" class="form-label mb-0">Home Church</label>
               <input type="text" name="Church" class="form-control" id="Church" placeholder="" required>
             </div>
+            <div class="mt-2">
+              <label for="Occupation" class="form-label mb-0">Parents/Guardian Occupation</label>
+              <input type="Occupation" name="Occupation" class="form-control" id="Occupation" placeholder="" required>
+            </div>
 
             <!-- Comment on the Child -->
 
@@ -172,26 +176,23 @@
               <input type="text" name="Comment" class="form-control" id="Comment" placeholder="" required>
             </div>
 
-            <div class="mt-2">
-              <label for="Occupation" class="form-label mb-0">Parents/Guardian Occupation</label>
-              <input type="Occupation" name="Occupation" class="form-control" id="Occupation" placeholder="" required>
-            </div>
+            
 
             <p class="pt-2 m-0">does your Child have any disability?
               <p>
               <div class="form-check">
-                <input id="No" name="Disability" value="No" type="radio" class="form-check-input" checked required>
+                <input id="No" onclick="hideInputField()" name="Disability"  value="No" type="radio" class="form-check-input" checked required>
                 <label class="form-check-label" for="No">No</label>
               </div>
               <div class="form-check">
-                <input id="Yes" name="Disability" value="No" type="radio" class="form-check-input" required>
+                <input id="Yes" onclick="showInputField()" name="Disability" value="Yes" type="radio" class="form-check-input" required>
                 <label class="form-check-label" for="Yes">Yes</label>
               </div>
               <br>
               <!-- Specify -->
-              <div class="">
-                <label for="zip" class="form-label">if yes specify:</label>
-                <input type="text" name="Specify" class="form-control" id="zip" placeholder="">
+              <div class="" id="input-container" style="display: none;">
+                <label for="input-field" class="form-label">if yes specify:</label>
+                <input type="text" name="Specify" class="form-control" id="input-field" placeholder="">
               </div>
 
             <hr class="my-4">
@@ -203,6 +204,16 @@
     </form>
   </div>
 </section>
+<script>
+  // JavaScript code
+function showInputField() {
+  document.getElementById("input-container").style.display = "block";
+}
 
+function hideInputField() {
+  document.getElementById("input-container").style.display = "none";
+}
+
+</script>
 
 {% endblock %}

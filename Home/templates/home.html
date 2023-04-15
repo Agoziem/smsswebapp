@@ -4,10 +4,22 @@
 
 <!-- Hero Section -->
 <section id="Hero">
+    <!-- <div class="notice">
+        <div class="notice-header">
+            <div class="d-flex align-items-start">
+                <i class="fa-solid fa-circle-info me-3"></i>
+                <h2>Important Notice</h2>
+            </div>
+            <a class="close-btn"><i class="fa fa-close"></i></a>
+        </div>
+        <div class="notice-body">
+            <p>School Resumption takes place on the 21st of this month, endeavor to send your Ward back to School.</p>
+        </div>
+    </div> -->
     <div class="hero_sec_bg"></div>
     <img class="hero_bubbles" src="{% static 'images/bubbles.svg' %}" alt="">
     <div class="container">
-        <div class="row justify-content-center align-items-center mt-5">
+        <div class="row justify-content-center align-items-center hero-container">
             <div class="col-lg">
                 <div class="display1">
                     For Accurate Teaching and Maximum learning
@@ -486,7 +498,8 @@
                 {% for event in events %}
                 <div class="Events_Card mb-3">
                     {% if event.EventimageURL == '' %}
-                    <img class="Events_Card_image d-none d-sm-block d-md-block" src="{% static 'images/No image.svg' %}" alt="">
+                    <img class="Events_Card_image d-none d-sm-block d-md-block" src="{% static 'images/No image.svg' %}"
+                        alt="">
                     {% else %}
                     <img class="Events_Card_image d-none d-sm-block d-md-block" src="{{ event.EventimageURL }}" alt="">
                     {% endif %}
@@ -664,16 +677,21 @@
 
                     <!-- Alert after Submission  -->
 
-                    <!-- <div class="alert" id="contact_form_alert">
-                        <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
-                        your feedback have been taken, we will respond to you shortly
-                    </div> -->
+                    <div class="alert alert-success alert-dismissible" style="display: none;">
+                        <i class="bi bi-check-circle-fill mx-2 text-success h5"></i>
+                        <div>
+                            Your message has been sent successfully!
+                        </div>
+                    </div>
 
-                    <!-- ////////////////  -->
+                    <div class="alert alert-danger alert-dismissible" style="display:none;">
+                        <i class="fa-solid fa-triangle-exclamation mx-2 text-danger h5"></i>
+                        <div>
+                            An error occurred while sending your message.
+                        </div>
+                    </div>
 
-
-                    <form action="#" id="contact_form" class="form"
-                        style="width: 280px;font-weight: 600; color: #052640;">
+                    <form id="contact-form" class="form" style="width: 280px;font-weight: 600; color: #052640;">
                         <div class="mb-3">
                             <label for="exampleFormControlInput1" class="form-label">Name</label>
                             <input type="text" name="Name" class="form-control" id="exampleFormControlInput1"
@@ -689,9 +707,9 @@
                             <textarea class="form-control" name="message" id="exampleFormControlTextarea1" rows="6"
                                 required></textarea>
                         </div>
-                        <button value="submit" type="submit" class="btn btn-primary w-100 mb-2 shadow-sm"
-                            style="display:block;"> Send
-                            Message</button>
+                        <button id="submit-btn" type="submit" class="btn btn-primary w-100 mb-2 shadow-sm"
+                            style="display:block;"> Send Message
+                        </button>
                     </form>
                 </div>
             </div>

@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<style type="text/css">
+    .form {
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        padding: 20px;
+        margin: 0 auto;
+        max-width: 500px;
+    }
+
+    .error {
+        max-width: 500px;
+        margin: 0 auto;
+    }
+</style>
+
+<section class="my-5">
+    <div class="container py-5">
+        <h2 class="text-center">CBT Questions Formulation Center</h2>
+
+        {% if error_message %}
+        <div class="alert alert-danger alert-dismissible fade show error mb-3" role="alert">
+            <strong><i class="fa-solid fa-triangle-exclamation me-2"></i> Error </strong> {{ error_message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% endif %}
+
+        <!-- Forms Starts here -->
+        <form class="form shadow-sm" method="post">
+            {% csrf_token %}
+            <div class="form-group mb-4">
+                <label for="teachers_id">Teachers ID:</label>
+                <input type="text" id="teachers_id" name="teachers_id" class="form-control">
+            </div>
+            <div class="form-group mb-4">
+                <label for="teachers_password">Teachers Password:</label>
+                <input type="password" id="teachers_password" name="teachers_password" class="form-control">
+            </div>
+            <button type="submit" class="btn btn-primary my-3 w-100">Submit</button>
+        </form>
+    </div>
+</section>
+
+{% endblock %}

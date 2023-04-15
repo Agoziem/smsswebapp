@@ -1,0 +1,257 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<section class="p-2 py-5 mt-2">
+    <div class="container py-3">
+        <h4>Welcome {{ teacher.Name }} !!</h4>
+        <form method="POST" action="{% url 'CBT:add_questionset' %}" style="max-width: 400px;" id="question-set-form">
+            {% csrf_token %}
+            <div class="form-group mb-3">
+                <label for="exam_class">Exam Class:</label>
+                <select name="exam_class" class="form-select" required>
+                    {% for exam_class in exam_classes %}
+                    <option value="{{ exam_class.id }}">{{ exam_class.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group mb-3">
+                <label for="subject">Subject:</label>
+                <select name="subject" class="form-select" required>
+                    {% for subject in subjects %}
+                    <option value="{{ subject.id }}">{{ subject.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <input type="hidden" name="teacher" id="teacher" class="form-control" value="{{ teacher.id }}">
+
+            <div class="form-group mb-3">
+                <label for="question_set_name">Question Set Name:</label>
+                <input type="text" name="question_set_name" class="form-control" required>
+            </div>
+
+            <div class="form-group mb-3 ms-2" id="questions">
+                <label class="mb-2 fw-bold h5">Questions:</label>
+                <div id="questions">
+                    <!-- Questions will be added dynamically -->
+                    <div class="question">
+                    </div>
+                </div>
+            </div>
+            <button type="button" class="btn btn-primary" onclick="addQuestion()">Add Question</button>
+            <div>
+                <button type="submit" class="btn btn-success w-100 mt-3">Submit Question </button>
+            </div>
+
+        </form>
+    </div>
+
+
+</section>
+
+<script>
+
+    function addQuestion() {
+        // get the questions div
+        var questionsDiv = document.getElementById('questions');
+
+        // create a new question div
+        var newQuestionDiv = document.createElement('div');
+        newQuestionDiv.className = 'question';
+        
+
+        // create a new question input label
+        var questionlabel = document.createElement("label");
+        questionlabel.textContent = `Question ${questionsDiv.children.length - 1}:`;
+        questionlabel.setAttribute("for", "question");
+
+
+        // create the question text input
+        var questionTextInput = document.createElement('input');
+        questionTextInput.type = 'text';
+        questionTextInput.name = 'question_text[]';
+        questionTextInput.className = 'form-control mb-2';
+        questionTextInput.setAttribute('data-id', `${questionsDiv.children.length-1}`);
+
+        // create the answers div
+        var answersDiv = document.createElement('div');
+        answersDiv.className = 'answers ms-3 mb-2';
+
+        var newAnswerandcheckDiv = document.createElement('div');
+        newAnswerandcheckDiv.className = 'd-flex align-items-center mb-3';
+
+        // Label for the Answer
+        var label = document.createElement("label");
+        label.textContent = "Option:";
+        label.setAttribute("for", "answer");
+
+        // create the correct answer checkbox
+        var correctAnswerCheckbox = document.createElement('input');
+        correctAnswerCheckbox.type = 'checkbox';
+        correctAnswerCheckbox.className = 'form-check-input me-3';
+        correctAnswerCheckbox.name = 'correct_answer[]';
+        correctAnswerCheckbox.setAttribute('data-id', `${questionsDiv.children.length-1}`);
+        correctAnswerCheckbox.value = answersDiv.children.length;
+
+        // create the first answer text input
+        var answerTextInput = document.createElement('input');
+        answerTextInput.type = 'text';
+        answerTextInput.name = 'answer_text[]';
+        answerTextInput.className = 'form-control';
+        answerTextInput.setAttribute('data-id', `${questionsDiv.children.length-1}`);
+
+
+
+
+        // add the answer inputs to the answers div
+
+        newAnswerandcheckDiv.appendChild(correctAnswerCheckbox);
+        newAnswerandcheckDiv.appendChild(answerTextInput);
+        var deleteAnswerButton = document.createElement('button');
+        deleteAnswerButton.type = 'button';
+        deleteAnswerButton.className = 'btn btn-danger ms-2';
+        deleteAnswerButton.innerHTML = '<i class="fa-solid fa-times"></i>';
+        newAnswerandcheckDiv.appendChild(deleteAnswerButton);
+        deleteAnswerButton.onclick = function () {
+            // remove the answer div from the answers div
+            newAnswerandcheckDiv.remove();
+        };
+        answersDiv.appendChild(label);
+        answersDiv.appendChild(newAnswerandcheckDiv);
+
+        // add the delete button to the answer div
+
+
+
+
+
+        // create the add answer button
+        var addAnswerButton = document.createElement('button');
+        addAnswerButton.type = 'button';
+        addAnswerButton.className = 'btn btn-warning mb-2';
+        addAnswerButton.innerHTML = 'Add Answer <i class="fa-solid fa-plus "></i>';
+        addAnswerButton.onclick = function addanswers() {
+
+            // Create the Container
+            var answerinputcontainer = document.createElement('div');
+            answerinputcontainer.className = 'd-flex align-items-center mb-3';
+
+            // create the new correct answer checkbox
+            var newCorrectAnswerCheckbox = document.createElement('input');
+            newCorrectAnswerCheckbox.type = 'checkbox';
+            newCorrectAnswerCheckbox.className = 'form-check-input me-3';
+            newCorrectAnswerCheckbox.name = 'correct_answer[]';
+            newCorrectAnswerCheckbox.setAttribute('data-id', `${questionsDiv.children.length-2}`);
+            newCorrectAnswerCheckbox.value = answersDiv.children.length;
+
+            // create a new answer text input
+            var newAnswerTextInput = document.createElement('input');
+            newAnswerTextInput.type = 'text';
+            newAnswerTextInput.name = 'answer_text[]';
+            newAnswerTextInput.className = 'form-control';
+            newAnswerTextInput.setAttribute('data-id', `${questionsDiv.children.length-2}`);
+
+            answerinputcontainer.appendChild(newCorrectAnswerCheckbox);
+            answerinputcontainer.appendChild(newAnswerTextInput);
+
+            var deleteAnswerButton = document.createElement('button');
+            deleteAnswerButton.type = 'button';
+            deleteAnswerButton.className = 'btn btn-danger ms-2';
+            deleteAnswerButton.innerHTML = '<i class="fa-solid fa-times"></i>';
+            answerinputcontainer.appendChild(deleteAnswerButton);
+            deleteAnswerButton.onclick = function () {
+                // remove the answer div from the answers div
+                answerinputcontainer.remove();
+            };
+            answersDiv.appendChild(answerinputcontainer);
+            // add the new answer inputs to the answers div
+
+
+
+
+
+
+        };
+
+        // add the inputs and button to the question div
+        newQuestionDiv.appendChild(questionlabel);
+        newQuestionDiv.appendChild(questionTextInput);
+        newQuestionDiv.appendChild(answersDiv);
+        newQuestionDiv.appendChild(addAnswerButton);
+        // create the delete question button
+        var deleteQuestionButton = document.createElement('button');
+        deleteQuestionButton.type = 'button';
+        deleteQuestionButton.className = 'btn btn-danger mb-2 ms-2';
+        deleteQuestionButton.innerHTML = 'Delete Question <i class="fa-solid fa-trash"></i>';
+        newQuestionDiv.appendChild(deleteQuestionButton);
+        deleteQuestionButton.onclick = function () {
+            // remove the question div from the questions div
+            newQuestionDiv.remove();
+        };
+
+        // add the delete button to the question div
+
+
+        // add the question div to the questions div
+        questionsDiv.appendChild(newQuestionDiv);
+    }
+
+
+    function submitForm() {
+    const form = document.querySelector('#question-set-form');
+    const formData = new FormData(form);
+    const data = {};
+    for (const [name, value] of formData.entries()) {
+        data[name] = value;
+    }
+
+    // Store questions by data-id
+    const questions = {};
+    const questionInputs = document.querySelectorAll('input[data-id]');
+    for (const input of questionInputs) {
+        const id = input.getAttribute('data-id');
+        if (!questions[id]) {
+            questions[id] = [];
+        }
+        questions[id].push(input.value);
+    }
+    for (const [id, values] of Object.entries(questions)) {
+        data[`question_text[${id}]`] = values.join(',');
+    }
+    console.log(data)
+}
+
+document.querySelector('#question-set-form').addEventListener('submit', event => {
+  event.preventDefault();
+  submitForm();
+});
+
+//     fetch(form.action, {
+//         method: 'POST',
+//         body: JSON.stringify(data),
+//         headers: {
+//             'Content-Type': 'application/json',
+//             'X-CSRFToken': getCookie('csrftoken')
+//         }
+//     }).then(response => {
+//         if (response.ok) {
+//             // Handle success
+//         } else {
+//             // Handle error
+//         }
+//     }).catch(error => {
+//         // Handle error
+//     });
+// }
+
+// function getCookie(name) {
+//     const cookieValue = document.cookie.match('(^|;)\\s*' + name + '\\s*=\\s*([^;]+)');
+//     return cookieValue ? cookieValue.pop() : null;
+// }
+
+
+
+</script>
+
+
+{% endblock %}
