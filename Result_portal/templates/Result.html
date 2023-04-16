@@ -69,7 +69,7 @@
               3
             </span>
           </a>
-          <ul class="dropdown-menu shadow-sm" style="width: 89vw; max-width:369px;">
+          <!-- <ul class="dropdown-menu shadow-sm" style="width: 89vw; max-width:369px;">
             <li class="ps-4 py-2">Notification Center</li>
             <li>Message 1 MessageMessage Message Message Message v MessageMessage Message Message</li>
             <li>Message 2</li>
@@ -77,7 +77,7 @@
             <li>Message 3</li>
             <li>Message 3</li>
             <li>Message 3</li>
-          </ul>
+          </ul> -->
         </div>
         <div class="hamburger-menu ">
           <div class="bar"></div>
@@ -134,17 +134,17 @@
           <li class="nav-item-envelope me-3 position-relative">
             <a class="nav-link">
               <i class="fas fa-envelope h3"></i>
-              <span class="position-absolute top-1 start-100 translate-middle badge rounded-pill bg-danger">
+              <!-- <span class="position-absolute top-1 start-100 translate-middle badge rounded-pill bg-danger">
                 3
-              </span>
+              </span> -->
             </a>
-            <ul class="dropdown-menu shadow-sm" style="width: 450px;">
+            <!-- <ul class="dropdown-menu shadow-sm" style="width: 450px;">
               <li class="ps-4 py-2">Notification Center</li>
               <li>Message 1 MessageMessage Message Message Message v MessageMessage Message Message</li>
               <li>Message 2</li>
               <li>Message 3</li>
               <li>Message 3</li>
-            </ul>
+            </ul> -->
           </li>
           <li class="nav-item mx-3 ">
             <a class="nav-link" href="#">
@@ -153,7 +153,7 @@
             </a>
             <ul class="ps-0 " style="right: 46px;">
               {% if request.user.is_superuser %}
-              <li class="px-5"><a href="#"><a href="{% url 'Result_portal:activation' %}">Activation</a></a></li>
+              <li class="px-5"><a href="#"><a href="{% url 'Result_portal:activation_side' %}">Activation</a></a></li>
               {% endif %}
               <li class="px-5"><a href="#"><a href="/admin">Admin</a></a></li>
             </ul>
@@ -214,7 +214,7 @@
         </div>
         <ul class="sub-menu">
           {% if request.user.is_superuser %}
-          <li><a href="{% url 'Result_portal:activation' %}" class="menulink">Activation</a></li>
+          <li><a href="{% url 'Result_portal:activation_side' %}" class="menulink">Activation</a></li>
           {% endif %}
           <li><a href="/admin" class="menulink">Admin</a></li>
         </ul>
@@ -487,8 +487,8 @@
       datasets: [{
         label: 'Total Scores',
         data: {{ data| safe }},
-      backgroundColor: ['orange', '#3b0505', '#020D23'],
-      borderWidth: 1
+        backgroundColor: ['orange', '#3b0505', '#020D23'],
+        borderWidth: 1
           }]
         },
       options: {

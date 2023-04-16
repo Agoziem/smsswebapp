@@ -12,29 +12,29 @@ admin.site.register(Newsletter)
 
 @admin.register(Students_Pin_and_ID)
 class Students_Pin_and_IDAdmin(admin.ModelAdmin):
-    list_display=('student_pin','student_name','student_id')
-    search_fields=('student_pin','student_name','student_class')
+    list_display=('student_pin','student_name','student_id','student_class')
+    search_fields=('student_pin','student_name','student_class','student_id')
     list_filter=('student_class',)
 
 @admin.register(Student)
 class StudentAdmin(admin.ModelAdmin):
-    list_display=('Student_id','Class','Position')
-    ordering=('Student_id',)
-    search_fields=('Student_id','Class','Position')
+    list_display=('Student_id','student_name','Class','Position')
+    ordering=('Student_id','student_name')
+    search_fields=('Student_id','Class','Position','student_name',)
     list_filter=('Class','Position')
 
 @admin.register(Result)
 class ResultAdmin(admin.ModelAdmin):
-    list_display=('Student_id','Class','Subject')
-    ordering=('Student_id',)
-    search_fields=('Student_id','Class','Subject')
+    list_display=('Student_id','student_name','Class','Subject')
+    ordering=('Student_id','student_name',)
+    search_fields=('Student_id','student_name','Class','Subject')
     list_filter=('Class','Subject')
 
 @admin.register(AnnualStudent)
 class AnnualStudentAdmin(admin.ModelAdmin):
-    list_display=('Student_id','Class','Position')
-    ordering=('Student_id',)
-    search_fields=('Student_id','Class','Position')
+    list_display=('Student_id','student_name','Class','Position')
+    ordering=('Student_id','student_name',)
+    search_fields=('Student_id','student_name','Class','Position')
     list_filter=('Class','Position')
 
 @admin.register(AnnualResult)
