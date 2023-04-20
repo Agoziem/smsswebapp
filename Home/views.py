@@ -1,5 +1,6 @@
 from django.shortcuts import render,redirect
 from .models import *
+from Result_portal.models import *
 from Blog.models import Article
 # from .forms import Contactform
 from django.core.mail import send_mail
@@ -11,10 +12,29 @@ import json
 
 
 
-# def home_view(request):
-# 	context= {
-# 	}
-# 	return render(request,'404.html',context)``
+def activation_view(request):
+	print(request.path)
+	context={
+	}
+	return render(request, "activation.html" ,context)
+
+# //////////////////////////////////////////////////////////
+# Upload Excel files
+def upload(request):
+    if request.method == 'POST' and request.FILES.get('myFile'):
+        myfile = request.FILES['myFile']
+        instance = Excelfiles(Excel=myfile)
+        instance.save()
+        return JsonResponse({'status': 'ok'})
+    else:
+        return JsonResponse({'status': 'error'})
+    
+def createPin(request):
+	student=Excelfiles()
+	student.readPin()
+	context = {
+		}
+	return render(request, "pins.html", context)
 
 def home_view(request):
 	queryset1=School.objects.all()

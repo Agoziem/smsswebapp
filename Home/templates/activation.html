@@ -91,7 +91,7 @@
           <tbody>
             <tr>
               <td class="d-flex flex-column align-items-center">
-                <a href="{% url 'Result_portal:Pin' %}" class="btn btn-primary">create Students pin</a>
+                <a href="{% url 'Pin' %}" class="btn btn-primary">create Students pin</a>
               </td>
             </tr>
           </tbody>
@@ -180,7 +180,7 @@
   function uploadFile(formData) {
     uploadButton.innerHTML = 'Upload in progress...';
     const xhr = new XMLHttpRequest();
-    xhr.open('POST', "{% url 'Result_portal:upload' %}");
+    xhr.open('POST', "{% url 'upload' %}");
     xhr.setRequestHeader('X-CSRFToken', csrftoken);
     xhr.upload.addEventListener('progress', (e) => {
       if (e.lengthComputable) {
@@ -205,10 +205,9 @@
   };
   
   window.onclick = function(event) {
-    if (event.target == modal) {
       modal.style.display = "none";
     }
-  };
+  
   
   // ///////////////////////////////////////////////////////////
   </script>

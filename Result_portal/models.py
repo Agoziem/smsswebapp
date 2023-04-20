@@ -35,7 +35,7 @@ class Assignments(models.Model):
 	
 class AnnualResult(models.Model):
 	SN= models.CharField(max_length=100, blank=True ,null=True , default="-")
-	Student_id=models.CharField(max_length=200, blank=True,null=True,default="No name")
+	Student_id=models.CharField(max_length=200, blank=True,null=True,default="No id")
 	student_name=models.CharField(max_length=200, blank=True,null=True , default="No name")
 	Class=models.CharField(max_length=100, blank=True,null=True ,default="No class")
 	Subject= models.CharField(max_length=100, blank=True,null=True,default="-")
@@ -6105,6 +6105,7 @@ class Excelfiles(models.Model):
 
 class Students_Pin_and_ID(models.Model):
 	SN=models.CharField(max_length=100, blank=True,null=True)
+	student_Photo=models.ImageField(upload_to="assets/Students",blank=True,null=True)
 	student_name=models.CharField(max_length=100, blank=True, default="No name",null=True)
 	student_id=models.CharField(max_length=100, blank=True,null=True)
 	student_pin=models.CharField(max_length=100, blank=True,null=True)

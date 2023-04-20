@@ -163,7 +163,7 @@
             </a>
             <ul class="ps-0 py-3" style="right: 46px;">
               {% if request.user.is_superuser %}
-              <li class="px-5"><a href="#"><a href="{% url 'Result_portal:activation_side' %}">Activation</a></a></li>
+              <li class="px-5"><a href="#"><a href="{% url 'activation_side' %}">Activation</a></a></li>
               {% endif %}
               {% if request.user.is_staff %}
               <li class="px-5"><a href="#"><a href="{% url 'CBT:authentication' %}">Add CBT Questions</a></a></li>
@@ -227,7 +227,7 @@
         </div>
         <ul class="sub-menu">
           {% if request.user.is_superuser %}
-          <li><a href="{% url 'Result_portal:activation_side' %}" class="menulink">Activation</a></li>
+          <li><a href="{% url 'activation_side' %}" class="menulink">Activation</a></li>
           {% endif %}
           <li><a href="/admin" class="menulink">Admin</a></li>
         </ul>

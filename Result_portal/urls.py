@@ -5,14 +5,8 @@ app_name = 'Result_portal'
 urlpatterns = [
 # Result Portal main Url
     path('', Result_Portal_view, name='classes'),
-
-# Upload Excel File
-    path('upload/', upload, name='upload'),
     path('<str:Classname>/', get_Students, name='get_students'),
     
-# Admin Result Activation Url
-    path('activation_side/', activation_view, name='activation_side'),
-    path('students_pin_activation/', createPin, name='Pin'),
 
 # Termly Result Activation Urls ///////////////////////////////////////////////////
 # Details ///////////////////////////////////////////

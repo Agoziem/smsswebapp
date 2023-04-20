@@ -23,7 +23,13 @@ from django.conf import settings
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('',home_view, name='home'),
-    # path('home/',home2_view, name='home'),
+
+    # ///////////////////////////////// Result Activation
+    path('activation/', activation_view, name='activation_side'),
+    path('students_pin_activation/', createPin, name='Pin'),
+    # Upload Excel File
+    path('upload/', upload, name='upload'),
+    # ///////////////////////////////// Result Activation
     path('submit_contact_form/', submit_contact_form, name='submit_contact_form' ),
     path('submit_sub_form/', submit_sub_form, name='submit_sub_form' ),
     path('Elibrary/', include('Elibrary.urls')),

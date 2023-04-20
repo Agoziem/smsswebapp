@@ -85,7 +85,7 @@
           <div class="bar"></div>
         </div>
       </div>
-      
+
 
       <!-- Second Part of the Nav bar -->
       <div class="d-none d-lg-flex collapse navbar-collapse" id="navmenu">
@@ -153,7 +153,7 @@
             </a>
             <ul class="ps-0 " style="right: 46px;">
               {% if request.user.is_superuser %}
-              <li class="px-5"><a href="#"><a href="{% url 'Result_portal:activation_side' %}">Activation</a></a></li>
+              <li class="px-5"><a href="#"><a href="{% url 'activation_side' %}">Activation</a></a></li>
               {% endif %}
               <li class="px-5"><a href="#"><a href="/admin">Admin</a></a></li>
             </ul>
@@ -173,7 +173,7 @@
         <div class="d-flex justify-content-between align-items-center">
           <a class="me-2">Quick links</a>
           <i class="sub-menu-toggle-icon fas fa-plus"></i>
-        </div>     
+        </div>
         <ul class="sub-menu">
           <li><a href="{% url 'home' %}" class="menulink">Home</a></li>
           <li><a href="/#About" class="menulink">About us</a></li>
@@ -210,18 +210,18 @@
       <li class="sub-menu-toggle">
         <div class="d-flex justify-content-between align-items-center">
           <a class="me-2" class="menulink">Admin</a>
-          <i  class="sub-menu-toggle-icon fas fa-plus"></i>
+          <i class="sub-menu-toggle-icon fas fa-plus"></i>
         </div>
         <ul class="sub-menu">
           {% if request.user.is_superuser %}
-          <li><a href="{% url 'Result_portal:activation_side' %}" class="menulink">Activation</a></li>
+          <li><a href="{% url 'activation_side' %}" class="menulink">Activation</a></li>
           {% endif %}
           <li><a href="/admin" class="menulink">Admin</a></li>
         </ul>
       </li>
     </ul>
   </nav>
- 
+
 
 
   <!-- print  ///////////////////////////////////////////////////////////////////// -->
@@ -234,6 +234,7 @@
 
     <section class="px-2 pt-2">
       <div class="text-center  mb-0">
+        <h4>St Marks Standard Secondary School Omagba (Termly Result)</h4>
         <h1>{{student_details.student_name}}</h1>
         <div class="multiplerule my-3 d-flex justify-content-center">
           <div class="rule"></div>
@@ -266,15 +267,15 @@
           <thead>
             <tr>
               <th scope="col">S/N</th>
-              <th scope="col">Subjects</th>
-              <th scope="col">1st Test</th>
-              <th scope="col">2nd Test</th>
-              <th scope="col">Mid Term Test</th>
-              <th scope="col">1st Ass</th>
-              <th scope="col">2nd Ass</th>
-              <th scope="col">CA</th>
-              <th scope="col">Exam</th>
-              <th scope="col">Total</th>
+              <th scope="col">Subjects </th>
+              <th scope="col">Test (5)</th>
+              <th scope="col">Project (5)</th>
+              <th scope="col">Mid Term Test (20)</th>
+              <th scope="col">Ass (5)</th>
+              <th scope="col">Note (5)</th>
+              <th scope="col">CA (40)</th>
+              <th scope="col">Exam (60)</th>
+              <th scope="col">Total (100)</th>
               <th scope="col">Grade</th>
               <th scope="col">Position</th>
               <th scope="col">Remark</th>
@@ -335,62 +336,59 @@
           <div class="rule2"></div>
         </div>
       </div>
-  </div>
-  </section>
+    </section>
 
-  <section class="details_container">
-    <div class="details container p-4 rounded d-flex">
-      <div>
-        <span class="fw-bold">Class :</span> {{ student_details.student_class }}<br>
-        <span class="fw-bold">Term :</span> {{ AnnualStudent.Term }}<br>
-        <span class="fw-bold">Session :</span> {{ AnnualStudent.Academicsession }}<br>
-        <span class="fw-bold">Total score :</span> {{ AnnualStudent.TotalScore }}<br>
-        <span class="fw-bold">Average :</span> {{ AnnualStudent.Average|floatformat:2 }}<br>
-        <span class="fw-bold">Position :</span> {{ AnnualStudent.Position }}<br>
-        <span class="fw-bold">Number in Class :</span> {{ AnnualStudent.Totalnumber }}
+    <section class="details_container">
+      <div class="details container p-4 rounded d-flex">
+        <div>
+          <span class="fw-bold">Class :</span> {{ student_details.student_class }}<br>
+          <span class="fw-bold">Term :</span> {{ AnnualStudent.Term }}<br>
+          <span class="fw-bold">Session :</span> {{ AnnualStudent.Academicsession }}<br>
+          <span class="fw-bold">Total score :</span> {{ AnnualStudent.TotalScore }}<br>
+          <span class="fw-bold">Average :</span> {{ AnnualStudent.Average|floatformat:2 }}<br>
+          <span class="fw-bold">Position :</span> {{ AnnualStudent.Position }}<br>
+          <span class="fw-bold">Number in Class :</span> {{ AnnualStudent.Totalnumber }}
+        </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <section class="px-3 pt-2">
-    <div class="result_table">
-      <table>
-        <thead>
-          <tr>
-            <th scope="col">S/N</th>
-            <th scope="col">Subjects</th>
-            <th scope="col">1st Term</th>
-            <th scope="col">2nd Term</th>
-            <th scope="col">3rd Term</th>
-            <th scope="col">Total</th>
-            <th scope="col">Average</th>
-            <th scope="col">Grade</th>
-            <th scope="col">Position</th>
-            <th scope="col">Remark</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for data in AnnualResult %}
-          <tr>
-            <td>{{forloop.counter}}</td>
-            <td>{{data.Subject}}</td>
-            <td>{{data.FirstTerm}}</td>
-            <td>{{data.SecondTerm}}</td>
-            <td>{{data.ThirdTerm}}</td>
-            <td>{{data.Total}} </td>
-            <td>{{data.Average|floatformat:2}}</td>
-            <td>{{data.Grade}}</td>
-            <td>{{data.SubjectPosition}}</td>
-            <td>{{data.Remark}}</td>
-          </tr>
-          {% endfor %}
-        </tbody>
-      </table>
-    </div>
-  </section>
-  {% endif %}
-
-
+    <section class="px-3 pt-2">
+      <div class="result_table">
+        <table>
+          <thead>
+            <tr>
+              <th scope="col">S/N</th>
+              <th scope="col">Subjects</th>
+              <th scope="col">1st Term</th>
+              <th scope="col">2nd Term</th>
+              <th scope="col">3rd Term</th>
+              <th scope="col">Total</th>
+              <th scope="col">Average</th>
+              <th scope="col">Grade</th>
+              <th scope="col">Position</th>
+              <th scope="col">Remark</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for data in AnnualResult %}
+            <tr>
+              <td>{{forloop.counter}}</td>
+              <td>{{data.Subject}}</td>
+              <td>{{data.FirstTerm}}</td>
+              <td>{{data.SecondTerm}}</td>
+              <td>{{data.ThirdTerm}}</td>
+              <td>{{data.Total}} </td>
+              <td>{{data.Average|floatformat:2}}</td>
+              <td>{{data.Grade}}</td>
+              <td>{{data.SubjectPosition}}</td>
+              <td>{{data.Remark}}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </section>
+    {% endif %}
 
 
   </div>
@@ -399,7 +397,8 @@
   <section class=" ms-5 my-3 ">
     <div class="container px-2 px-md-5  mb-5">
       <a id="result_btn" class="btn btn-primary">
-        <span class="spinner-border spinner-border-sm d-none ms-1" role="status" aria-hidden="true"></span> Save as Pdf
+        Save as Pdf
+      <span class="spinner-border spinner-border-sm d-none ms-1" role="status" aria-hidden="true"></span> 
       </a>
 
       <a id="redgrad2" href="{% url 'home' %}" class="btn btn-info"> Back to Home
@@ -487,8 +486,8 @@
       datasets: [{
         label: 'Total Scores',
         data: {{ data| safe }},
-        backgroundColor: ['orange', '#3b0505', '#020D23'],
-        borderWidth: 1
+      backgroundColor: ['orange', '#3b0505', '#020D23'],
+      borderWidth: 1
           }]
         },
       options: {

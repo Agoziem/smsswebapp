@@ -1,36 +1,13 @@
-from django.shortcuts import render, get_object_or_404
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.shortcuts import render
 from .models import *
-from Home.models import School
-from django.contrib.auth.decorators import login_required
 import base64
 base64.encodestring = base64.encodebytes
 base64.decodestring = base64.decodebytes
-from django.template.loader import get_template
-from xhtml2pdf import pisa
-from django.http import HttpResponse
 from django.contrib import messages
 from django.shortcuts import render
 from django.http import JsonResponse
 
-
-# Result Admin Side Views
-
-def activation_view(request):
-	return render(request, "activation.html")
-
-# //////////////////////////////////////////////////////////
-# Upload Excel files
-def upload(request):
-    if request.method == 'POST' and request.FILES.get('myFile'):
-        myfile = request.FILES['myFile']
-        instance = Excelfiles(Excel=myfile)
-        instance.save()
-        return JsonResponse({'status': 'ok'})
-    else:
-        return JsonResponse({'status': 'error'})
-    
-# ///////////////////////////////////////////////////////////
+# get students for each Class
 
 def get_Students(request, Classname):
     Students = Students_Pin_and_ID.objects.filter(student_class=Classname)
@@ -107,12 +84,12 @@ def Result_Portal_view(request):
 		
 # //////////////////////////////////////////////////////////
 	
-def createPin(request):
-	student=Excelfiles()
-	student.readPin()
-	context = {
-		}
-	return render(request, "pins.html", context)
+# def createPin(request):
+# 	student=Excelfiles()
+# 	student.readPin()
+# 	context = {
+# 		}
+# 	return render(request, "pins.html", context)
 
 # //////////////////////////////////////////////////////////
 
