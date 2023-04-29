@@ -408,9 +408,7 @@ a {
     margin-top: 16px;
 }
 
-/* .feature_item p {
-    
-} */
+
 
 @media (max-width:992px) {
 
@@ -950,6 +948,13 @@ a {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-gap: .5vw;
+}
+
+
+.Photogallery img {
+    height: 200px; /* set the height of the images */
+    width: auto; /* let the width adjust proportionally */
+    object-fit: cover; /* maintain aspect ratio and crop to fill container */
 }
 
 @media (max-width:765px) {
