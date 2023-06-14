@@ -1,6 +1,8 @@
 from django.shortcuts import render
-from .models import ExamClass, Subject, Teacher, QuestionSet, Question, Answer
-from Result_portal.models import Students_Pin_and_ID
+from .models import ExamClass, Subject, Teacher, QuestionSet, Question, Answer, CBTQuestions
+from Result_portal.models import Students_Pin_and_ID,Class
+from django.http import JsonResponse
+from django.contrib import messages
 
 def Teachers_cbt_authentication(request):
     if request.method == 'POST':
@@ -65,3 +67,38 @@ def add_questionset(request):
     #     subjects = Subject.objects.all()
     #     teachers = Teacher.objects.all()
     #     return render(request, 'Add_Questions.html', {'exam_classes': exam_classes, 'subjects': subjects, 'teachers': teachers})
+
+def get_Students(request, Classname):
+    Students = Students_Pin_and_ID.objects.filter(student_class=Classname)
+    Students_list = list(Students.values('id', 'student_name'))
+    return JsonResponse(Students_list, safe=False)
+
+def CBT_view(request):
+    classes=Class.objects.all()
+    if request.method == 'POST':
+        student_name=str(request.POST['student_name'])
+        student_id=str(request.POST['student_id'])
+        try:
+            student = Students_Pin_and_ID.objects.get(student_name=student_name,student_id=student_id)
+            studentClass=Class.objects.get(Class=student.student_class)
+            Exam_link = CBTQuestions.objects.get(StudentClass=studentClass.id)
+            context={
+                'exam_link':Exam_link,
+                'student': student,
+                'studentClass':studentClass,
+            }
+			# If form teacher exists, redirect to success page
+            return render(request, 'Start_Exam.html', context)
+        except Students_Pin_and_ID.DoesNotExist:
+            classes=Class.objects.all()
+			# If form teacher does not exist, display error message
+            context={
+                "classes":classes,
+            }
+            messages.error(request, 'Check your Student id or the Pin and try again , make sure you are entering it Correctly')
+            return render(request, 'CBT_center.html',context)
+
+    context={
+			"classes":classes
+		}
+    return render(request,"CBT_center.html",context)

@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<section class="mb-5">
+	<div class="container p-5 mt-2 ">
+		<h6 class="text-center mb-3" style="font-family: 'League Spartan', sans-serif;">Hi  <span class="fw-bold fs-3 mb-2 ms-2">{{ student.student_name }}</span> <br>  , you are about to start
+			your <span class="fw-bold">MID Term Test (Computer Based)</span> , and you will be required to complete the following Subjects below for Today : 
+		</h6>
+        <div class="d-flex flex-column align-items-center">
+            <span class="fw-bold text-warning"><i class="fa-solid fa-circle-exclamation me-3"></i>  Kindly take note of the following Instructions :</span>
+            <ul>
+                <li>The Test is Regulated and your Score will be recorded immediately your Time elapse, endeavour to Finish before Time</li>
+                <li>use of Extraneous materials , is higly Prohibited and unaccepted</li>
+                <li>in the Other Page , simple input your name Correctly and start your Exam</li>
+                <li> Remember not to Edit <span class="fw-bold">the Last Field of the Test</span>  , which is your Fingerprint for the Test </li>
+            </ul>
+        </div>
+        <div class="mt-2 d-flex flex-column align-items-center">
+            <a href="{{ exam_link.Class_Question_Link }}" class="btn btn-primary w-75" > proceed with Test </a>
+        </div>
+		
+	</div>
+	<div class="text-center ">
+		<p class='mb-0'>powered and secured by GDD-Impact <i class="fa-solid fa-lock ms-2"></i></p>
+	</div>
+</section>
+{% endblock %}

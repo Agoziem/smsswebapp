@@ -86,3 +86,10 @@ class StudentExam(models.Model):
     def __str__(self):
         return str(self.exam)
     # Add other fields as needed
+    
+class CBTQuestions(models.Model):
+    StudentClass=models.ForeignKey(Class, on_delete=models.CASCADE)
+    Class_Question_Link=models.CharField(max_length=300, blank=False)
+
+    def __str__(self):
+        return str(self.StudentClass)

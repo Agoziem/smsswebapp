@@ -119,6 +119,7 @@
             <a class="nav-link">Students Section <i class="fa-solid fa-caret-down ms-1"></i></a>
             <ul class="py-2 ps-0">
               <li class="px-4"><a href="{% url 'Result_portal:classes' %}">Result Portal</a></li>
+              <li class="px-4"><a href="{% url 'CBT:CBT_center' %}">CBT</a></li>
               <li class="px-4"><a href="{% url 'Elibrary:subjects' %}">E-library</a></li>
               <li class="px-4"><a href="{% url 'Payment_portal:initiate_payment' %}">Payment Portal</a></li>
             </ul>
@@ -128,7 +129,7 @@
             <a class="nav-link">Admissions <i class="fa-solid fa-caret-down ms-1"></i></a>
             <ul class="py-2 ps-0">
               <li class="px-4"><a href="{% url 'Admission_form:initiate_payment' %}">Purchase Form</a></li>
-              <li class="px-4"><a href="#">CBT</a></li>
+              <li class="px-4"><a href="{% url 'CBT:CBT_center' %}">CBT</a></li>
               <li class="px-4"><a href="#">Ent Exam Result</a></li>
             </ul>
           </li>
@@ -163,13 +164,13 @@
             </a>
             <ul class="ps-0 py-3" style="right: 46px;">
               {% if request.user.is_superuser %}
-              <li class="px-5"><a href="#"><a href="{% url 'activation_side' %}">Activation</a></a></li>
+              <li class="px-5"><a href="{% url 'activation_side' %}">Activation</a></li>
               {% endif %}
               {% if request.user.is_staff %}
-              <li class="px-5"><a href="#"><a href="{% url 'CBT:authentication' %}">Add CBT Questions</a></a></li>
+              <li class="px-5"><a href="{% url 'CBT:authentication' %}">Add CBT Questions</a></li>
               {% endif %}
-              <li class="px-5"><a href="#"><a href="{% url 'Attendance:class_attendance' %}">Class Attendance</a></a></li>
-              <li class="px-5"><a href="#"><a href="/admin">Admin</a></a></li>
+              <li class="px-5"><a href="{% url 'Attendance:class_attendance' %}">Class Attendance</a></li>
+              <li class="px-5"><a href="/admin" target="_blank">Admin</a></li>
             </ul>
           </li>
         </ol>
@@ -205,8 +206,8 @@
         </div>
         <ul class="sub-menu">
           <li><a href="{% url 'Admission_form:initiate_payment' %}" class="menulink">Purchase Form</a></li>
-          <li><a href="#" class="menulink">CBT</a></li>
-          <li><a href="#" class="menulink">Ent Exam Result</a></li>
+          <li><a href="{% url 'CBT:CBT_center' %}" class="menulink">CBT</a></li>
+          <li><a href="" class="menulink">Ent Exam Result</a></li>
         </ul>
       </li>
       <li class="sub-menu-toggle">
@@ -216,6 +217,7 @@
         </div>
         <ul class="sub-menu">
           <li><a href="{% url 'Result_portal:classes' %}" class="menulink">Result Portal</a></li>
+          <li><a href="{% url 'CBT:CBT_center' %}" class="menulink">CBT</a></li>
           <li><a href="{% url 'Elibrary:subjects' %}" class="menulink">Elibrary</a></li>
           <li><a href="{% url 'Payment_portal:initiate_payment' %}" class="menulink">Payment Portal</a></li>
         </ul>
@@ -229,7 +231,7 @@
           {% if request.user.is_superuser %}
           <li><a href="{% url 'activation_side' %}" class="menulink">Activation</a></li>
           {% endif %}
-          <li><a href="/admin" class="menulink">Admin</a></li>
+          <li><a href="/admin" target="_blank"  class="menulink">Admin</a></li>
         </ul>
       </li>
     </ul>

@@ -10,5 +10,5 @@ admin.site.register(ExamQuestion)
 admin.site.register(ExamAnswer)
 admin.site.register(StudentExam)
 admin.site.register(Exam)
-
+admin.site.register(CBTQuestions)
 
