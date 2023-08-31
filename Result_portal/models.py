@@ -5290,12 +5290,12 @@ class Excelfiles(models.Model):
 				Student_id=str(ws['B4'].value)
 				student_name=str(ws['B5'].value)
 				Class=ws['B6'].value
-				Position=ws['K25'].value
-				Average=ws['H25'].value
-				TotalScore=ws['E25'].value
-				Totalnumber=ws['F6'].value
-				Term=ws['H6'].value
-				Academicsession=ws['K6'].value
+				Position=ws['P25'].value
+				Average=ws['M25'].value
+				TotalScore=ws['J25'].value
+				Totalnumber=ws['k6'].value
+				Term=ws['M6'].value
+				Academicsession=ws['P6'].value
 				AnnualStudent.objects.create(Student_id=Student_id,student_name=student_name,Class=Class,Position=Position,Average=Average,TotalScore=TotalScore,Totalnumber=Totalnumber,Term=Term,Academicsession=Academicsession)
 # Jss3 //
 	def createJuniorStudentAnnual3(self,*args,**kwargs) -> None:
@@ -5313,12 +5313,12 @@ class Excelfiles(models.Model):
 				Student_id=str(ws['B4'].value)
 				student_name=str(ws['B5'].value)
 				Class=ws['B6'].value
-				Position=ws['K25'].value
-				Average=ws['H25'].value
-				TotalScore=ws['E25'].value
-				Totalnumber=ws['F6'].value
-				Term=ws['H6'].value
-				Academicsession=ws['K6'].value
+				Position=ws['P25'].value
+				Average=ws['M25'].value
+				TotalScore=ws['J25'].value
+				Totalnumber=ws['k6'].value
+				Term=ws['M6'].value
+				Academicsession=ws['P6'].value
 				AnnualStudent.objects.create(Student_id=Student_id,student_name=student_name,Class=Class,Position=Position,Average=Average,TotalScore=TotalScore,Totalnumber=Totalnumber,Term=Term,Academicsession=Academicsession)
 # Ss1 //
 	def createSeniorStudentsAnnual1(self,*args,**kwargs) -> None:
