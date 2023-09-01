@@ -347,7 +347,7 @@
           <span class="fw-bold">Class :</span> {{ student_details.student_class }}<br>
           <span class="fw-bold">Term :</span> {{ AnnualStudent.Term }}<br>
           <span class="fw-bold">Session :</span> {{ AnnualStudent.Academicsession }}<br>
-          <span class="fw-bold">Total score :</span> {{ AnnualStudent.TotalScore }}<br>
+          <span class="fw-bold">Total score :</span> {{ AnnualStudent.TotalScore|floatformat:2 }}<br>
           <span class="fw-bold">Average :</span> {{ AnnualStudent.Average|floatformat:2 }}<br>
           <span class="fw-bold">Position :</span> {{ AnnualStudent.Position }}<br>
           <span class="fw-bold">Number in Class :</span> {{ AnnualStudent.Totalnumber }}
@@ -380,7 +380,7 @@
               <td>{{data.FirstTerm}}</td>
               <td>{{data.SecondTerm}}</td>
               <td>{{data.ThirdTerm}}</td>
-              <td>{{data.Total|floatformat:2}} </td>
+              <td>{{data.Total|floatformat}} </td>
               <td>{{data.Average|floatformat:2}}</td>
               <td>{{data.Grade}}</td>
               <td>{{data.SubjectPosition}}</td>
