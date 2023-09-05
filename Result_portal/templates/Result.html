@@ -352,11 +352,21 @@
           <span class="fw-bold">Position :</span> {{ AnnualStudent.Position }}<br>
           <span class="fw-bold">Number in Class :</span> {{ AnnualStudent.Totalnumber }}<br>
           <span class="fw-bold">Principal's Verdict :</span>
-          {% if PromotionVerdict >= 45 %}
-          Promoted
+          {% if student_details.Class == "SS1A" or student_details.Class == "SS1B" or student_details.Class == "SS1C" or student_details.Class == "SS2A"or student_details.Class == "SS2B" %}
+            {% if PromotionVerdict >= 50 %}
+            Promoted
+            {% else %}
+            Not Promoted
+            {% endif %}
           {% else %}
-          Not Promoted
+            {% if PromotionVerdict >= 45 %}
+            Promoted
+            {% else %}
+            Not Promoted
+            {% endif %}
           {% endif %}
+
+          
         </div>
       </div>
     </section>
