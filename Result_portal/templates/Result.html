@@ -352,7 +352,7 @@
           <span class="fw-bold">Position :</span> {{ AnnualStudent.Position }}<br>
           <span class="fw-bold">Number in Class :</span> {{ AnnualStudent.Totalnumber }}<br>
           <span class="fw-bold">Principal's Verdict :</span>
-          {% if AnnualStudent.Average >= 45 %}
+          {% if PromotionVerdict >= 45 %}
           Promoted
           {% else %}
           Not Promoted
