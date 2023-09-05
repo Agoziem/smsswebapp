@@ -351,6 +351,12 @@
           <span class="fw-bold">Average :</span> {{ AnnualStudent.Average|floatformat:2 }}<br>
           <span class="fw-bold">Position :</span> {{ AnnualStudent.Position }}<br>
           <span class="fw-bold">Number in Class :</span> {{ AnnualStudent.Totalnumber }}
+          <span class="fw-bold">Principal's Verdict :</span>
+          {% if AnnualStudent.Average|floatformat:2 >= 45 %}
+          Promoted
+          {% else %}
+          Not Promoted
+          {% endif %}
         </div>
       </div>
     </section>
@@ -401,7 +407,7 @@
     <div class="container px-2 px-md-5  mb-5">
       <a id="result_btn" class="btn btn-primary">
         Save as Pdf
-      <span class="spinner-border spinner-border-sm d-none ms-1" role="status" aria-hidden="true"></span> 
+        <span class="spinner-border spinner-border-sm d-none ms-1" role="status" aria-hidden="true"></span>
       </a>
 
       <a id="redgrad2" href="{% url 'home' %}" class="btn btn-info"> Back to Home
