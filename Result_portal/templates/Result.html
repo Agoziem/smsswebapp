@@ -350,9 +350,9 @@
           <span class="fw-bold">Total score :</span> {{ AnnualStudent.TotalScore|floatformat:2 }}<br>
           <span class="fw-bold">Average :</span> {{ AnnualStudent.Average|floatformat:2 }}<br>
           <span class="fw-bold">Position :</span> {{ AnnualStudent.Position }}<br>
-          <span class="fw-bold">Number in Class :</span> {{ AnnualStudent.Totalnumber }}
+          <span class="fw-bold">Number in Class :</span> {{ AnnualStudent.Totalnumber }}<br>
           <span class="fw-bold">Principal's Verdict :</span>
-          {% if AnnualStudent.Average|floatformat:2 >= 45 %}
+          {% if AnnualStudent.Average >= 45 %}
           Promoted
           {% else %}
           Not Promoted
