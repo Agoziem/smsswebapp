@@ -1561,7 +1561,6 @@ class AnnualStudent(models.Model):
 								SubjectPosition=ws[char+str(row)].value
 							elif count == 10:
 								Remark=ws[char+str(row)].value
-
 					elif count == 19:
 						for count, col in enumerate(range(1,15),start=1):
 							char=get_column_letter(col)
@@ -1586,7 +1585,33 @@ class AnnualStudent(models.Model):
 								SubjectPosition=ws[char+str(row)].value
 							elif count == 10:
 								Remark=ws[char+str(row)].value
-					AnnualResult.objects.create(SN=SN,Student_id=Student_id,student_name=student_name,Class=Class,Subject=Subject,FirstTerm=FirstTerm,SecondTerm=SecondTerm,ThirdTerm=ThirdTerm,Total=Total,Average=Average,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)	
+					AnnualResult.objects.create(SN=SN,Student_id=Student_id,student_name=student_name,Class=Class,Subject=Subject,FirstTerm=FirstTerm,SecondTerm=SecondTerm,ThirdTerm=ThirdTerm,Total=Total,Average=Average,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)
+					
+					elif count == 20:
+						for count, col in enumerate(range(1,15),start=1):
+							char=get_column_letter(col)
+
+							if count == 1:
+								SN=ws[char+str(row)].value
+							elif count == 2:
+								Subject=ws[char+str(row)].value
+							elif count == 3:
+								FirstTerm=ws[char+str(row)].value
+							elif count == 4:
+								SecondTerm=ws[char+str(row)].value
+							elif count == 5:
+								ThirdTerm=ws[char+str(row)].value
+							elif count == 6:
+								Total=ws[char+str(row)].value
+							elif count == 7:
+								Average=ws[char+str(row)].value
+							elif count == 8:
+								Grade=ws[char+str(row)].value
+							elif count == 9:
+								SubjectPosition=ws[char+str(row)].value
+							elif count == 10:
+								Remark=ws[char+str(row)].value
+					AnnualResult.objects.create(SN=SN,Student_id=Student_id,student_name=student_name,Class=Class,Subject=Subject,FirstTerm=FirstTerm,SecondTerm=SecondTerm,ThirdTerm=ThirdTerm,Total=Total,Average=Average,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)
 # SS2
 	def createSeniorAnnual2(self,*args,**kwargs) -> None:
 		s3 = boto3.client('s3')
