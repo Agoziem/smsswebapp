@@ -1585,8 +1585,6 @@ class AnnualStudent(models.Model):
 								SubjectPosition=ws[char+str(row)].value
 							elif count == 10:
 								Remark=ws[char+str(row)].value
-					AnnualResult.objects.create(SN=SN,Student_id=Student_id,student_name=student_name,Class=Class,Subject=Subject,FirstTerm=FirstTerm,SecondTerm=SecondTerm,ThirdTerm=ThirdTerm,Total=Total,Average=Average,Grade=Grade,SubjectPosition=SubjectPosition,Remark=Remark)
-					
 					elif count == 20:
 						for count, col in enumerate(range(1,15),start=1):
 							char=get_column_letter(col)
