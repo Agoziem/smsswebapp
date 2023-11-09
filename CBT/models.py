@@ -2,6 +2,7 @@ from django.db import models
 from Result_portal.models import Students_Pin_and_ID,Class,Subject
 from Teachers_Portal.models import Teacher
 from ckeditor.fields import RichTextField
+from django.utils import timezone
 # Teachers CBT Models (Models for Setting)
 
 class Test(models.Model):
@@ -31,20 +32,16 @@ class Question(models.Model):
         return str(self.questiontext)
 
 class QuestionSet(models.Model):
-    ExamClass = models.ManyToManyField(Class)
+    ExamClass = models.ManyToManyField(Class,blank=True)
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
     teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE)
     examTime = models.IntegerField(default=0,blank=True)
-    questions= models.ManyToManyField(Question)
+    questions= models.ManyToManyField(Question,blank=True)
 
     def __str__(self):
         return  f'{self.subject.subject_name}'
     
-class QuestionSetGroup(models.Model):
-    questionsets=models.ManyToManyField(QuestionSet, related_name='questionsets')
-    name = models.CharField(max_length=255,default="No Subject",blank=False)
-    test = models.ForeignKey(Test, on_delete=models.CASCADE)
-    # date= models.DateField()
+
     # time= models.TimeField()
     
 
