@@ -4,6 +4,7 @@ from.models import *
 admin.site.register(Students_Pin_and_ID)
 admin.site.register(Student_Result_Data)
 admin.site.register(Result)
+admin.site.register(Subject)
 admin.site.register(AnnualStudent)
 admin.site.register(AnnualResult)
 admin.site.register(Class)
