@@ -26,9 +26,10 @@
                 <span class="small" style="color:#6e6e6e">{{ teacher.teachers_id }}</span>
                 
             </div>
-            <div class="px-3">
-                <form action="{% url 'Teachers_portal:profile' id=teacher.id %}" method ="post" class="row g-3 needs-validation" novalidate>
-                {% csrf_token %}
+            
+            <form action="{% url 'Teachers_portal:profile' id=teacher.id %}" method ="post" class=" needs-validation" novalidate>
+                <div class="row g-3 px-3">
+                    {% csrf_token %}
                 <!-- <div class="col-md-4">
                     <label for="validationCustomUsername" class="form-label">Username</label>
                     <div class="input-group has-validation">
@@ -138,10 +139,10 @@
                 <div class="col-12">
                     <button class="btn btn-primary" type="submit">Submit form</button>
                 </div>
+                </div>
+                
             </form>
-            </div>
-            
-
+   
         </div>
    
 </section>
