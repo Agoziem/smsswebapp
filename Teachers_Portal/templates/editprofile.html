@@ -2,13 +2,12 @@
 {% load static %}
 {% block content%}
 
-<section class="px-5">
-    <div class="container d-flex flex-column align-items-center justify-content-center my-2">
-        <div class="d-flex flex-column align-items-center justify-content-center mb-2">
+<section class="px-2 px-md-5 d-flex align-items-center flex-column">
+        <div class="text-center mb-2">
                 <h1 class="mt-4">edit Profile</h1>
         </div>
-        <div class="form-container px-5">
-        <!-- Profile Picture and Username and Id -->
+        <div class="form-container  d-flex flex-column align-items-center ">
+        <!--Profile Picture and Username and Id -->
             <div class="Accountdetails mb-3 d-flex flex-column align-items-center">
                 {% if teacher.profileimageURL == '' %}
                 <div class="profile-image-wapper">
@@ -27,8 +26,8 @@
                 <span class="small" style="color:#6e6e6e">{{ teacher.teachers_id }}</span>
                 
             </div>
-
-            <form action="{% url 'Teachers_portal:profile' id=teacher.id %}" method ="post" class="row g-3 needs-validation" novalidate>
+            <div class="px-3">
+                <form action="{% url 'Teachers_portal:profile' id=teacher.id %}" method ="post" class="row g-3 needs-validation" novalidate>
                 {% csrf_token %}
                 <!-- <div class="col-md-4">
                     <label for="validationCustomUsername" class="form-label">Username</label>
@@ -140,9 +139,11 @@
                     <button class="btn btn-primary" type="submit">Submit form</button>
                 </div>
             </form>
+            </div>
+            
 
         </div>
-    </div>
+   
 </section>
 
 

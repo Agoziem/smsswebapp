@@ -14,10 +14,10 @@ def CBT_view(request):
     if request.method == 'POST':
         classname=request.POST['student_class']
         studentname=request.POST['student_name']
-        time=request.POST['time']
+        # time=request.POST['time']
         date=request.POST['date']
         date_obj = datetime.strptime(date, "%Y-%m-%d").date()
-        time_obj = datetime.strptime(time, "%H:%M:%S").time()
+        # time_obj = datetime.strptime(time, "%H:%M:%S").time()
         classobject=Class.objects.get(Class=classname)
         student=Students_Pin_and_ID.objects.get(student_name=studentname,student_class=classobject)
         try:

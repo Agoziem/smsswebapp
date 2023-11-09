@@ -11,7 +11,7 @@ import random
 from ckeditor.fields import RichTextField
 
 
-# Model for the Classes
+
 class AcademicSession(models.Model):
 	session = models.CharField(max_length=100, blank=True)
 
@@ -30,8 +30,6 @@ class Class(models.Model):
 	
 	def __str__(self):
 		return str(self.Class)
-
-# Model for the Subjects
 
 class Subject(models.Model):
 	subject_name = models.CharField(max_length=100)
@@ -97,7 +95,6 @@ class Students_Pin_and_ID(models.Model):
 					self.student_pin = random_14_digit
 			super().save(*args, **kwargs)
 
-	# Model for Termly Result
 
 
 
@@ -111,6 +108,8 @@ class Student_Result_Data(models.Model):
 	Totalnumber=models.CharField(max_length=100, blank=True,null=True , default="-")
 	Average=models.CharField(max_length=100, blank=True,null=True , default="-")
 	Position=models.CharField(max_length=100, blank=True,null=True , default="-")
+	AcademicSession=models.ForeignKey(AcademicSession,on_delete=models.CASCADE,blank=True,null=True)
+
 
 	def __str__(self):
 		return str(self.Student_name.student_name+"-"+self.Student_name.student_class.Class)

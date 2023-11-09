@@ -79,7 +79,7 @@
                             <div class="bg-light p-3 py-1 test_mark" style="border-radius: 10px;">{% if question.questionMark == 1 %}{{ question.questionMark }} mark {% else %}{{ question.questionMark }} marks{% endif %}</div>
                         </div>
                         <!-- The Question -->
-                        <h5 class="test_question"> {{ question.questiontext }}
+                        <h5 class="test_question"> {{ question.questiontext|safe }}
                         </h5>
                         <!-- <h6 class="card-subtitle mb-2 text-body-secondary">Card subtitle</h6> -->
                         <div class="answers_container my-3">
