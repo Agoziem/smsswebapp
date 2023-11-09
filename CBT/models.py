@@ -42,8 +42,14 @@ class QuestionSet(models.Model):
         return  f'{self.subject.subject_name}'
     
 
-    # time= models.TimeField()
     
+    
+class QuestionSetGroup(models.Model):
+    questionsets=models.ManyToManyField(QuestionSet, related_name='questionsets')
+    name = models.CharField(max_length=255,default="No Subject",blank=False)
+    test = models.ForeignKey(Test, on_delete=models.CASCADE)
+    date = models.DateField()
+    # time= models.TimeField()
 
     def __str__(self):
         return str(self.name)
