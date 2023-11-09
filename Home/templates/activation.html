@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
-
-{% block content %}
-
+{% load static %}
+{% block content%}
+{% include 'main_navbar.html' %}
 <style >
   .modal {
   display: none; /* Hidden by default */
@@ -211,4 +211,5 @@
   
   // ///////////////////////////////////////////////////////////
   </script>
+{% include 'main_footer.html' %}
 {% endblock %}

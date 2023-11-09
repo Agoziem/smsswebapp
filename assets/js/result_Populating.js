@@ -1,8 +1,10 @@
 const classSelect = document.getElementById('class');
 const StudentsSelect = document.getElementById('Students');
 
-classSelect.addEventListener('change', () => {
-     const classname = classSelect.value;
+classSelect.addEventListener('input',populateClass);
+
+function populateClass() {
+   const classname = classSelect.value;
      if (classname) {
           fetch(`/Result_portal/${classname}`)
                .then(response => response.json())
@@ -19,5 +21,5 @@ classSelect.addEventListener('change', () => {
                .catch(error => console.error(error));
      } else {
           StudentsSelect.innerHTML = '';
-     }
-});
+     }  
+}

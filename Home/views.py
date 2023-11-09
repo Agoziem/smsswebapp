@@ -1,5 +1,6 @@
 from django.shortcuts import render,redirect
 from .models import *
+from Teachers_Portal.models import Teacher
 from Result_portal.models import *
 from Blog.models import Article
 # from .forms import Contactform

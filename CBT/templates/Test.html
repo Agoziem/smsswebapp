@@ -1,0 +1,151 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content%}
+{% include 'main_navbar.html' %}
+<!-- styles for the page , move it to a file later -->
+<style>
+.test_container{
+    background-color: white;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.question_set_name{
+    font-size: 18px;
+}
+.question_number{
+    color: #8f8d8d;
+    font-size: 15px;
+    text-decoration: wavy;
+}
+
+.test_card {
+    border-radius: 10px;
+    border: 0;
+    margin-bottom: 20px;
+}
+.required_indicator{
+    background-color: #3c2100;
+    color: white;
+    padding: 5px 7px;
+    border-radius: 4px;
+    margin-right: 10px;
+    font-weight: 500;
+}
+
+.Time_container{
+    background-color: #3bc0e52b;
+    padding: 7px 18px;
+    border-radius: 25px;
+    font-weight: 600;
+}
+.Time_container i{
+   color: #086681;
+}
+
+</style>
+
+<!-- Test Container -->
+<input type="text" id="groupname" value="{{questionGroup.name}}" hidden>
+<input type="text" id="grouptestname" value="{{questionGroup.test.name}}" hidden>
+<input type="text" id="studentname" value="{{student.student_name}}" hidden>
+<input type="text" id="studentclass" value="{{student.student_class}}" hidden>
+<input type="text" id="testduration" value="{{total_time}}" hidden>
+<section class="px-2 py-3 bg-light d-flex justify-content-center align-items-center">
+    <div class="container">
+
+        <div class="test_container p-3 bg-light">
+            <div class="Time_container d-flex align-items-center shadow-sm">
+                <i class="fa-solid fa-stopwatch me-2 h5"></i>
+                <div class="me-2">Time left:</div>
+                <div>
+                    <span id="timer"></span>
+                </div>
+                
+            </div>
+
+            <form  id="testform" class="d-flex flex-column align-items-center needs-validation" novalidate>
+                 {% for questionset in questionsetsgroup %}
+                <div class="question_set" >
+                    <div class="question_set_name mb-3">{{ questionset.subject }}</div>
+                {% for question in questionset.questions.all %}
+                <div class="card test_card shadow-sm" style="width: 80vw; max-width: 500px;">
+                    <div class="card-body p-4 px-5">
+                        <div class="d-flex justify-content-between align-items-end mb-2">
+                            <div class="question_number mb-2">{% if question.required %} <span class="required_indicator">required</span>{% endif %} Question {{ forloop.counter }}</div>
+                            <div class="bg-light p-3 py-1 test_mark" style="border-radius: 10px;">{% if question.questionMark == 1 %}{{ question.questionMark }} mark {% else %}{{ question.questionMark }} marks{% endif %}</div>
+                        </div>
+                        <!-- The Question -->
+                        <h5 class="test_question"> {{ question.questiontext }}
+                        </h5>
+                        <!-- <h6 class="card-subtitle mb-2 text-body-secondary">Card subtitle</h6> -->
+                        <div class="answers_container my-3">
+
+                            <!--  The answers -->
+                            {% for answer in question.answers.all %}
+                            <div class="form-check mb-1">
+                                <input class="form-check-input" type="radio" name="answer{{ question.id }}" id="validationFormCheck{{ answer.id }}" {% if question.required %}{% if forloop.last %} required {% endif %}{% endif %} >
+                                <label class="form-check-label" for="validationFormCheck{{ answer.id }}" data-iscorrect="{{ answer.isCorrect }}">
+                                    {{ answer.answertext }}
+                                </label>
+                                {% if forloop.last %}
+                                    <div class="invalid-feedback">you must select one of the options</div>
+                                {% endif %}
+
+                            </div>
+                            {% endfor %}
+                            
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+                </div>
+                {% endfor %}
+                <div class="d-flex flex-column align-items-center" style="width: 80vw; max-width: 400px;">
+                    <div class="alert alert-danger d-flex align-items-center d-none" role="alert">
+                        <i class="fa-solid fa-triangle-exclamation me-4 h4"></i>
+                        <div class="alert-text">
+                            <!-- inputted with Javascript -->
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-75">submit</button>
+
+                    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+                    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="staticBackdropLabel">Confirmation</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                            are you sure you have gone over your work and you are ready to Submit , if yes , then Click the Submit button
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">cancel</button>
+                                <button id="testsubmit"  class="btn btn-primary">Submit</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                </div>
+
+                <!-- Bootstrap Modal -->
+                
+            </form>
+            <!-- the Question Card --> 
+           
+        </div>
+    </div>    
+</section>
+
+
+<!-- scripts for the page , move it to a file later -->
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="{% static 'js/Student_Portal/Test.js' %}"></script>
+{% include 'main_footer.html' %}
+{% endblock %}

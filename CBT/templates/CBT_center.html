@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
-{% block content %}
+{% block content%}
+{% include 'main_navbar.html' %}
 <style>
     .leading_text {
         max-width: 400px;
@@ -34,13 +35,13 @@
                     {% endfor %}
                     {% endif %}
 
-                    <form method="POST" class="form" style="width: 280px;font-weight: 600; color: #052640;">
+                    <form id="student_info" method="POST" class="form" style="width: 280px;font-weight: 600; color: #052640;">
                         {% csrf_token %}
                         <div class="mb-3">
                             <label for="class">Classes:</label>
                             <select id="class" name="student_class" class="form-select" required>
-                                <option value="">--Select your class--</option>
-                                {% for class in classes %}
+                                <option value="" selected>--Select your class--</option>
+                                {% for class in classobjects %}
                                 <option value="{{ class.Class }}">{{ class.Class }}</option>
                                 {% endfor %}
                             </select>
@@ -49,11 +50,16 @@
                             <label for="Students">Students List:</label>
                             <select id="Students" name="student_name" class="form-select" required></select>
                         </div>
-                        <div class="mb-3">
+                        <!-- fields containing now time and date -->
+                        <input type="text" id="time" name="time" hidden>
+                        <input type="text" id='date' name="date"  hidden>
+
+
+                        <!-- <div class="mb-3">
                             <label for="exampleFormControlInput1" class="form-label"> Enter your Student Id </label>
                             <input type="text" class="form-control" placeholder="for example smss/3547" required
                                 name="student_id">
-                        </div>
+                        </div> -->
 
                         <button id="submit" type="submit" class="btn btn-primary w-100 my-3 shadow-sm"
                             style="display:block;">
@@ -65,5 +71,9 @@
         </div>
     </div>
 </section>
+
+
 <script src="{% static 'js/result_Populating.js' %}"></script>
+<script src="{% static 'js/Student_Portal/CBT.js' %}"></script>
+{% include 'main_footer.html' %}
 {% endblock %}

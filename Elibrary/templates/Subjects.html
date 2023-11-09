@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
-{% block content %}
+{% block content%}
+{% include 'main_navbar.html' %}
 <div id="Elibrarycover">
      <div id="Elibrarywrapper">
           <div id="aboutcover-text"> Digital library </div>
@@ -85,4 +86,5 @@
 </section>
 
 <script src="{% static 'js/list.js' %}"></script>
+{% include 'main_footer.html' %}
 {% endblock %}

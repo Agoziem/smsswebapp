@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content%}
+{% include 'main_navbar.html' %}
 <section class="p-2">
 	{% if messages %}
 	{% for message in messages %}
@@ -136,4 +137,5 @@
 	</div>
 </section>
 <script src="{% static 'js/admission.js' %}"></script>
+{% include 'main_footer.html' %}
 {% endblock %}

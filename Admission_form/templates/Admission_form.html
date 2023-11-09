@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content%}
+{% include 'main_navbar.html' %}
 <section class="Entrance_Form_container p-2 py-5">
   <div class="container">
     <div class="p-2">
@@ -215,5 +216,5 @@ function hideInputField() {
 }
 
 </script>
-
+{% include 'main_footer.html' %}
 {% endblock %}

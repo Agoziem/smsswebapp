@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content%}
+{% include 'main_navbar.html' %}
 
 <div id="container_result2">
 	<section class="p-2 mt-3">
@@ -130,4 +131,5 @@
 </section>
 
 <script src="{% static 'js/Receipt.js' %}"></script>
+{% include 'main_footer.html' %}
 {% endblock %}

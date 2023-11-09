@@ -44,11 +44,12 @@ INSTALLED_APPS = [
     'CBT',
     'Payment_portal',
     'Result_portal',
+    'Teachers_Portal',
     'Blog',
     'Elibrary',
     'Home',
-    "Attendance",
     "django_cleanup",
+    "ckeditor"
 ]
 
 DJANGO_ADMIN_LOGS_DELETABLE = True
@@ -151,29 +152,30 @@ USE_L10N = True
 
 USE_TZ = True
 
+LOGIN_URL = 'Accounts:login'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
-# STATIC_URL = '/static/'
-# STATIC_ROOT=os.path.join(BASE_DIR,'static')
-# STATICFILES_DIRS= [os.path.join(BASE_DIR, "assets"),]
+STATIC_URL = '/static/'
+STATIC_ROOT=os.path.join(BASE_DIR,'static')
+STATICFILES_DIRS= [os.path.join(BASE_DIR, "assets"),]
 
-# MEDIA_URL= '/media/'
-# MEDIA_ROOT= os.path.join(BASE_DIR,'media')
+MEDIA_URL= '/media/'
+MEDIA_ROOT= os.path.join(BASE_DIR,'media')
 
-AWS_ACCESS_KEY_ID = config('AWS_ACCESS_KEY_ID', default='')
-AWS_SECRET_ACCESS_KEY = config('AWS_SECRET_ACCESS_KEY', default='')
-AWS_STORAGE_BUCKET_NAME = config('AWS_STORAGE_BUCKET_NAME', default='')
-AWS_S3_CUSTOM_DOMAIN='%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
-AWS_S3_OBJECT_PARAMETERS={'CacheControl':'max-age=86400'}
-AWS_S3_REGION_NAME = 'us-east-1'
-STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-DEFAULT_FILE_STORAGE='smsssite.storages.MediaStore'
+# AWS_ACCESS_KEY_ID = config('AWS_ACCESS_KEY_ID', default='')
+# AWS_SECRET_ACCESS_KEY = config('AWS_SECRET_ACCESS_KEY', default='')
+# AWS_STORAGE_BUCKET_NAME = config('AWS_STORAGE_BUCKET_NAME', default='')
+# AWS_S3_CUSTOM_DOMAIN='%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
+# AWS_S3_OBJECT_PARAMETERS={'CacheControl':'max-age=86400'}
+# AWS_S3_REGION_NAME = 'us-east-1'
+# STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+# DEFAULT_FILE_STORAGE='smsssite.storages.MediaStore'
 
-AWS_LOCATION = 'static'
-STATICFILES_DIRS = [os.path.join(BASE_DIR, "assets"),]
-STATIC_URL='https://%s/%s/' % (AWS_S3_CUSTOM_DOMAIN,AWS_LOCATION)
+# AWS_LOCATION = 'static'
+# STATICFILES_DIRS = [os.path.join(BASE_DIR, "assets"),]
+# STATIC_URL='https://%s/%s/' % (AWS_S3_CUSTOM_DOMAIN,AWS_LOCATION)
 
 
 # EMAIL_BACKEND='sendgrid_backend.SendgridBackend'
@@ -201,4 +203,21 @@ JAZZMIN_SETTINGS = {
     "copyright": "St Marks Standard Secondary School Omagba",
     "show_ui_builder":True,
     "custom_css": "css/admin.css",
+}
+
+CKEDITOR_CONFIGS = {
+    'default': {
+        'height': '300px',
+        'width': '100%',
+        # 'toolbar': [
+        #     ['Format', 'Font', 'FontSize', 'TextColor', 'BGColor'],
+        #     ['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
+        #     ['Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript'],
+        #     ['Image', 'Table', 'HorizontalRule', 'SpecialChar'],
+        #     ['Maximize'],
+        #     ['Source', 'Undo', 'Redo']
+        # ],
+        # 'font_size': '12px',
+        # 'colorButton_colors': '000000,ffffff'
+    }
 }

@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content%}
+{% include 'main_navbar.html' %}
+
+<section class="mb-5">
+    {% if testday %}
+    {% if questionsetsgroup %}
+	<div class="container p-5 mt-2 ">
+		<h6 class="text-center mb-3" style="font-family: 'League Spartan', sans-serif;">Hi  <span class="fw-bold fs-3 mb-2 ms-2">{{ student.student_name }}</span> <br>you are about to start
+			your <span class="fw-bold">MID Term Test (Computer Based)</span> , and you will be writing the following Subjects below for Today : 
+            <br><br>{% for questionset in questionsetsgroup %} <span class="fs-5">{{ questionset }}</span><br> {% endfor %}
+            <br><br><i class="fa-regular fa-hourglass-half me-2 h4"></i>Total Time given : <span class="fw-bold fs-5 text-success">{{total_time}}mins</span>
+		</h6>
+        <div class="d-flex justify-content-center">
+            <div class=" flex-column align-items-center bg-light p-4" style="max-width: 554px;">
+                <span class="fw-bold text-warning"><i class="fa-solid fa-circle-exclamation me-3"></i> Kindly take note of the
+                    following Instructions :</span>
+                <ul>
+                    <li class="mb-1">The Test is Regulated and your Score will be recorded immediately your Time elapse, endeavour
+                        to Finish before Time</li>
+                    <li class="mb-1">use of Extraneous materials , is higly Prohibited and unaccepted</li>
+                    <li class="mb-1">immediately you click on <span class="fw-bold">"proceed with Test"</span> , the Time starts counting down</li>
+                    <li class="mb-1">be sure to cross-check your answers before submiting , because once you have submitted, you can't submit again </li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="mt-4 d-flex flex-column align-items-center">
+            <a href="{% url 'CBT:Test' student_id=student.id class_id=classobject.id questionGroup_id=questionGroup.id %}" class="btn btn-primary w-50" > proceed with Test </a>
+        </div>
+	</div>
+    {% else %}
+    <div class="container p-5 mt-2 ">
+        <h6 class="text-center mb-3 fs-4" style="font-family: 'League Spartan', sans-serif;">Hi <span
+                class="fw-bold fs-3 mb-2 ms-2">{{ student.student_name }}</span> <br><br>
+                There is no Tests available for your Class <span class="fw-bold">{{ student.student_class }}</span> 
+        </h6>
+        <p class="text-center "> Please check your Test Schedule and ensure that your class is writing Today</p>
+    </div>
+    {% endif %}
+    {% else %}
+    <div class="container p-5 mt-2 ">
+        <h6 class="text-center mb-3 fs-4" style="font-family: 'League Spartan', sans-serif;">Hi <span
+                class="fw-bold fs-3 mb-2 ms-2">{{ student.student_name }}</span> <br><br>
+                There is no Test available Today , check back later
+        </h6>
+    </div>
+    {% endif %}
+	<div class="text-center ">
+		<p class='mb-0'>powered and secured by GDD-Impact <i class="fa-solid fa-lock ms-2"></i></p>
+	</div>
+</section>
+
+<!-- get the Students details -->
+
+{% include 'main_footer.html' %}
+{% endblock %}

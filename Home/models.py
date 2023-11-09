@@ -1,8 +1,7 @@
 from django.db import models
 from ckeditor.fields import RichTextField
 from Result_portal.models import Class
-import random
-import secrets
+
 
 class School(models.Model):
 	Schoolid=models.IntegerField()
@@ -47,75 +46,6 @@ class Management(models.Model):
 			url=""
 		return url
 
-class Teacher(models.Model):
-	Name= models.CharField(max_length= 200, blank=True)
-	Phone_number= models.CharField(max_length= 200, blank=True)
-	Email= models.EmailField(max_length= 200, blank=True)
-	Role= models.CharField(max_length= 200, blank=True , default="Teacher")
-	Subject=models.CharField(max_length= 200, blank=False, help_text="if more than one , add it comma-separated")
-	Classes_assigned=models.ManyToManyField(Class)
-	teachers_id=models.CharField(max_length= 200, blank=True)
-	teachers_password=models.CharField(max_length= 200, blank=True)
-	Headshot=models.ImageField(upload_to='assets/TeachersProfileimages', blank=True)
-	
-	
-	def __str__(self):
-		return str(self.Name)
-
-	@property
-	def profileimageURL(self):
-		try:
-			url= self.Headshot.url
-		except:
-			url=""
-		return url
-	
-	def save(self, *args, **kwargs):
-		if self.id:  # if object exists in database
-			super().save(*args, **kwargs)  # simply update the fields
-		else:  # if object is new
-			while not self.teachers_id:
-				random_pin = str(random.randint(1000, 9999))
-				random_password = secrets.token_urlsafe(8)
-				Application_id = f"teacher/smss/{random_pin}"
-				object_with_similar_Application_id = Teacher.objects.filter(teachers_id=random_pin, teachers_password=random_password)
-				if not object_with_similar_Application_id:
-					self.teachers_id = Application_id
-					self.teachers_password = random_password
-			super().save(*args, **kwargs)
-	
-class FormTeachers(models.Model):
-	Form_teachers_Name= models.CharField(max_length= 200, blank=True)
-	Class=models.OneToOneField(Class, on_delete=models.CASCADE, blank=True, null=True )
-	Form_teachers_Headshot=models.ImageField(upload_to='assets/TeachersProfileimages', blank=True)
-	Form_teachers_id=models.CharField(max_length= 200, blank=True)
-	Form_teachers_password=models.CharField(max_length= 200, blank=True)
-	
-
-	def __str__(self):
-		return str(self.Form_teachers_Name)
-	
-	@property
-	def Formteachersimage(self):
-		try:
-			url= self.Form_teachers_Headshot.url
-		except:
-			url=""
-		return url
-	
-	def save(self, *args, **kwargs):
-		if self.id:  # if object exists in database
-			super().save(*args, **kwargs)  # simply update the fields
-		else:  # if object is new
-			while not self.Form_teachers_id:
-				random_pin = str(random.randint(1000, 9999))
-				random_password = secrets.token_urlsafe(8)
-				Application_id = f"formteacher/smss/{random_pin}"
-				object_with_similar_Application_id = FormTeachers.objects.filter(Form_teachers_id=random_pin, Form_teachers_password=random_password)
-				if not object_with_similar_Application_id:
-					self.Form_teachers_id = Application_id
-					self.Form_teachers_password = random_password
-			super().save(*args, **kwargs)
 
 
 				

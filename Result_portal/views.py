@@ -10,9 +10,10 @@ from django.http import JsonResponse
 # get students for each Class
 
 def get_Students(request, Classname):
-    Students = Students_Pin_and_ID.objects.filter(student_class=Classname)
-    Students_list = list(Students.values('id', 'student_name'))
-    return JsonResponse(Students_list, safe=False)
+	classobject=Class.objects.get(Class=Classname)
+	Students = Students_Pin_and_ID.objects.filter(student_class=classobject)
+	Students_list = list(Students.values('id', 'student_name'))
+	return JsonResponse(Students_list, safe=False)
 
 # Result Portal View 
 def Result_Portal_view(request):

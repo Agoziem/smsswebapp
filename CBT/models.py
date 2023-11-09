@@ -1,95 +1,79 @@
 from django.db import models
-from Result_portal.models import Students_Pin_and_ID,Class
-from Home.models import Teacher
+from Result_portal.models import Students_Pin_and_ID,Class,Subject
+from Teachers_Portal.models import Teacher
+from ckeditor.fields import RichTextField
+# Teachers CBT Models (Models for Setting)
 
-
-class Subject(models.Model):
-    name = models.CharField(max_length=255,default="",blank=False)
-    code = models.CharField(max_length=10,default="",blank=False)
-
-    def __str__(self):
-        return str(self.name)
-
-class Exam(models.Model):
-    name = models.CharField(max_length=255,default="",blank=False)
-    start_time = models.DateTimeField()
-    end_time = models.DateTimeField()
+class Test(models.Model):
+    name = models.CharField(max_length=255, default="None",blank=False)
 
     def __str__(self):
         return str(self.name)
 
-class ExamClass(models.Model):
-    name = models.OneToOneField(Class,on_delete=models.CASCADE)
-    exam = models.ForeignKey(Exam, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return str(self.name)
-    # Add other fields as needed
-
-# Question Set can be only one Class and Subject
-class QuestionSet(models.Model):
-    name = models.CharField(max_length=255,default="No Subject",blank=False)
-    subject = models.OneToOneField(Subject, on_delete=models.CASCADE)
-    exam_class = models.ForeignKey(ExamClass, on_delete=models.CASCADE)
-    teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return str(self.name)
-
-
-# A Question Section Set can have different Questions
-class Question(models.Model):
-    text = models.CharField(max_length=1000,default="",blank=False)
-    question_set = models.ForeignKey(QuestionSet, on_delete=models.CASCADE)
-    
-    def __str__(self):
-        return str(self.question_set)
 
 class Answer(models.Model):
-    text = models.CharField(max_length=255,default="",blank=False)
-    question = models.ForeignKey(Question, on_delete=models.CASCADE)
-    is_correct = models.BooleanField(default=False)
+    answerId=models.CharField(max_length=100,default="None",blank=False)
+    answertext = models.CharField(max_length=255,default="None",blank=False)
+    isCorrect = models.BooleanField(default=False)
 
     def __str__(self):
-        return f"{self.question} Answer: {self.text}"
-    # Add other fields as needed
-
-
-
-
-
-# The Particular Exam in Question
-class ExamQuestion(models.Model):
-    exam = models.ForeignKey(Exam, on_delete=models.CASCADE)
-    question = models.ForeignKey(Question, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return str(self.exam)
-    # Add other fields as needed
-
-
-class ExamAnswer(models.Model):
-    exam = models.ForeignKey(Exam, on_delete=models.CASCADE)
-    question = models.ForeignKey(ExamQuestion, on_delete=models.CASCADE)
-    answer = models.ForeignKey(Answer, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return str(self.exam)
-    # Add other fields as needed
-
-
-class StudentExam(models.Model):
-    student = models.ForeignKey(Students_Pin_and_ID, on_delete=models.CASCADE)
-    exam = models.ForeignKey(Exam, on_delete=models.CASCADE)
-    score = models.FloatField()
-
-    def __str__(self):
-        return str(self.exam)
-    # Add other fields as needed
+        return f"{self.answertext}"
     
-class CBTQuestions(models.Model):
-    StudentClass=models.ForeignKey(Class, on_delete=models.CASCADE)
-    Class_Question_Link=models.CharField(max_length=300, blank=False)
+class Question(models.Model):
+    questionId=models.CharField(max_length=100,default="None",blank=False)
+    questiontext = RichTextField(default="None",blank=False,null=True)
+    questionMark = models.IntegerField(default=0,blank=True)
+    required=models.BooleanField(default=True)
+    answers = models.ManyToManyField(Answer)
+
+    
+    def __str__(self):
+        return str(self.questiontext)
+
+class QuestionSet(models.Model):
+    ExamClass = models.ManyToManyField(Class)
+    subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
+    teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE)
+    examTime = models.IntegerField(default=0,blank=True)
+    questions= models.ManyToManyField(Question)
 
     def __str__(self):
-        return str(self.StudentClass)
+        return  f'{self.subject.subject_name}'
+    
+class QuestionSetGroup(models.Model):
+    questionsets=models.ManyToManyField(QuestionSet, related_name='questionsets')
+    name = models.CharField(max_length=255,default="No Subject",blank=False)
+    test = models.ForeignKey(Test, on_delete=models.CASCADE)
+    # date= models.DateField()
+    # time= models.TimeField()
+    
+
+    def __str__(self):
+        return str(self.name)
+
+
+# Students CBT Models (Models for Grading the Students)
+
+class TestSetGroup(models.Model):
+    name = models.CharField(max_length=255, default="None",blank=False)
+    student = models.ForeignKey(Students_Pin_and_ID, on_delete=models.CASCADE,blank=True)
+    testClass = models.ForeignKey(Class, on_delete=models.CASCADE,blank=True)
+    test = models.ForeignKey(Test, on_delete=models.CASCADE,blank=True)
+    timeUsedForTest = models.IntegerField(default=0,blank=True)
+
+    def __str__(self):
+        return str(self.name)
+
+
+class TestQuestionSet(models.Model):
+    testSubject = models.ForeignKey(Subject, on_delete=models.CASCADE)
+    testSetGroup = models.ForeignKey(TestSetGroup, on_delete=models.CASCADE)
+    testTotalScore = models.IntegerField(default=0,blank=True)
+
+    def __str__(self):
+        return str(self.testSubject.subject_name)
+
+
+
+
+

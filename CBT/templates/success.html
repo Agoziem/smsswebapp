@@ -1,7 +1,33 @@
 {% extends 'base.html' %}
-{% block content %}
+{% load static %}
+{% block content%}
+{% include 'main_navbar.html' %}
+<section class="px-5">
+    <div class="container" style="max-width: 500px;">
+        <div class="d-flex flex-column justify-content-center align-items-center ">
+            <h5 class="my-5 mb-3"> {{studentobject.student_name}} your answers have been submitted Successfully</h5>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">Subjects</th>
+                        <th scope="col">Test Score</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for test in studenttestobject.testquestionset_set.all %}
+                    <tr>
+                        <td>{{ test.testSubject }}</td>
+                        <td>{{ test.testTotalScore }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <div class="mb-4">
+                <a href="{% url 'home' %}" class="btn btn-warning"><i class="fa-solid fa-share fa-flip-horizontal me-3"></i>back to home page</a>
+            </div>
+        </div>
+    </div>
+</section>
 
-<div class="d-flex justify-content-center mt-5">
-    <h2 class="mt-5"> Questions and Respective Answers have been Recorded Successfully</h2>
-</div>
+{% include 'main_footer.html' %}
 {% endblock %}

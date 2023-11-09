@@ -1,7 +1,9 @@
 from django.urls import path
-from .views import teacher_login
+from .views import *
 
-# urlpatterns = [
-#     path('teacher/login/', teacher_login, name='teacher_login'),
-#     # Your other URL patterns go here
-# ]
+app_name = 'Accounts'
+urlpatterns = [
+    path('login/', login_view, name='login'),
+    path('signup/', signup_view, name='signup'),
+    path('logout/', logout_view, name='logout'),
+]

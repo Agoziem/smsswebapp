@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
-{% block content %}
+{% block content%}
+{% include 'main_navbar.html' %}
 <section class="Ebooks_container pt-4">
   <!-- Remember to add number of downloads and views later -->
   <div class="container p-3">
@@ -94,4 +95,5 @@
 </section>
 
 <script src="{% static 'js/list.js' %}"></script>
+{% include 'main_footer.html' %}
 {% endblock %}

@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
-{% block content %}
-
+{% block content%}
+{% include 'main_navbar.html' %}
 <section class="mb-5">
 	<div class="container p-5 mt-5 text-center ">
 		<h6 style="font-family: 'League Spartan', sans-serif;">Hi {{ payment.Name_of_student }} , you are about to make
@@ -53,4 +53,6 @@
 		handler.openIframe();
 	}
 </script>
+
+{% include 'main_footer.html' %}
 {% endblock %}

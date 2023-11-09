@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
-{% block content %}
+{% block content%}
+{% include 'main_navbar.html' %}
 <link rel="stylesheet" href="{% static 'css/Multiple_select.css' %}">
 <div id="Resultcover">
      <div id="Elibrarywrapper">
@@ -103,5 +104,5 @@
 
 <script src="{% static 'js/result_Populating.js' %}"></script>
 
-
+{% include 'main_footer.html' %}
 {% endblock %}

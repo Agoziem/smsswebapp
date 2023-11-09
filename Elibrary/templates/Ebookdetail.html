@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
-{% block content %}
+{% load static %}
+{% block content%}
+{% include 'main_navbar.html' %}
 <section class="Book_details py-5 text-center container">
   <div class="row py-lg-5">
     <div class="col-lg-6 col-md-8 mx-auto">
@@ -72,5 +74,5 @@
 
 
 </script>
-
+{% include 'main_footer.html' %}
 {% endblock %}

@@ -3,6 +3,8 @@ const hamburgerMenu = document.querySelector('.hamburger-menu');
 const menu = document.querySelector('.menu');
 const menuLinks = document.querySelectorAll('.menulink');
 const subMenuToggles = document.querySelectorAll('.sub-menu-toggle');
+    
+
 
 // Toggle Hamburger Menu
 hamburgerMenu.addEventListener('click', () => {
@@ -81,11 +83,11 @@ function submitsubformdata() {
 
 
 // The Splide JS 
-
-var swiper = new Swiper(".slider_content", {
+function initSwiper() { 
+var swiper = new Swiper(".slider-content", {
 
     spaceBetween: 25,
-    slidesPerGroup: 3,
+    slidesPerGroup: 1,
     loop: true,
     loopFillGroupWithBlank: true,
     centerSlide: 'true',
@@ -111,6 +113,43 @@ var swiper = new Swiper(".slider_content", {
       },
     },
   });
+}
+
+initSwiper();
+
+function initSwiper2() { 
+var swiper = new Swiper(".slider-content2", {
+
+    spaceBetween: 25,
+    slidesPerGroup: 1,
+    loop: true,
+    loopFillGroupWithBlank: true,
+    centerSlide: 'true',
+    fade: "true",
+    grabCursor: 'true',
+    pagination: {
+      el: ".swiper-pagination",
+      clickable: true,
+    },
+    navigation: {
+      nextEl: ".swiper-button-next",
+      prevEl: ".swiper-button-prev",
+    },
+    breakpoints: {
+      0: {
+        slidesPerView: 1,
+      },
+      520: {
+        slidesPerView: 2,
+      },
+      950: {
+        slidesPerView: 3,
+      },
+    },
+  });
+}
+
+initSwiper2();
   
 
   // get the elements we need
