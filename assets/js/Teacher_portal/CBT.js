@@ -96,7 +96,7 @@ class QuestionSet {
         QuestionCard.innerHTML = `
                             <div class="d-flex justify-content-between mb-2">
                                 <div class='question-text'> ${question.questionText}</div>
-     CBT_questionsetgroup                           <div>
+                            <div>
                                 <div class='question-mark ms-4 fs-6'> ${question.questionMark == 1 ? question.questionMark + 'Mk' : question.questionMark + 'Mks'}</div>
                                 </div>
                             </div>
