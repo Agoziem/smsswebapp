@@ -53,8 +53,10 @@ confirmPasswordInput1.addEventListener('input', checkPasswordMatch);
 // Code to display the Class Select Box
 function revealSelectClass(e){
     if (e.target.value === 'Formteacher') {
+        classselect.querySelector('select').setAttribute('required','')
         classselect.style.display='block'
     } else {
+        classselect.querySelector('select').removeAttribute('required')
         classselect.style.display='none'
     }
 };

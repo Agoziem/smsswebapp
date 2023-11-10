@@ -45,7 +45,7 @@
                         <div class="mb-3">
                             <label for="email" class="form-label">email address</label>
                             <input type="email" name="email" class="form-control" id="email"
-                                placeholder="name@example.com" required>
+                                placeholder="name@example.com">
                         </div>
 
 
@@ -75,7 +75,7 @@
                         <div class="mb-3">
                             <label for="Groupname" class="form-label">Select a Group</label>
                             <select name="Groupname"  id="Groupname" class="form-select" aria-label="Default select example" required>
-                                <option value="" disabled selected hidden>select your group</option>
+                                <option value="" disabled selected>select your group</option>
                                 <option value="Teacher">Teacher</option>
                                 <option value="Formteacher">Formteacher</option>
                                 <option value="Admin">Admin</option>
@@ -84,8 +84,8 @@
 
                         <div class="mb-3" id='Classname' style="display: none;">
                             <label class="form-label">select your Class</label>
-                            <select name="Classname" class="form-select" aria-label="Default select example" required>
-                                <option value="" disabled selected hidden>Select your Form class</option>
+                            <select name="Classname" class="form-select" aria-label="Default select example">
+                                <option value="" disabled selected>Select your Form class</option>
                                 {% for class in classes %}
                                 <option value="{{ class.Class }}">{{ class.Class }}</option>
                                 {% endfor %}

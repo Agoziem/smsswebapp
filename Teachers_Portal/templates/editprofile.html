@@ -30,13 +30,6 @@
             <form action="{% url 'Teachers_portal:profile' id=teacher.id %}" method ="post" class=" needs-validation" novalidate>
                 <div class="row g-3 px-3">
                     {% csrf_token %}
-                <!-- <div class="col-md-4">
-                    <label for="validationCustomUsername" class="form-label">Username</label>
-                    <div class="input-group has-validation">
-                        <input type="text" class="form-control" id="validationCustomUsername" aria-describedby="inputGroupPrepend"
-                           value="{{ request.user }}" required disabled>
-                    </div>
-                </div> -->
 
             <!-- First Name -->
                 <div class="col-md-6">

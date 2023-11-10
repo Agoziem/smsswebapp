@@ -28,9 +28,11 @@ def signup_view(request):
         print(request.POST)
         username = request.POST['username']
         password = request.POST['password2']
-        email = request.POST['email']
         Role = request.POST['Groupname']
-        
+        if 'email' in request.POST:
+            email = request.POST['email']
+        else:
+            email = ''
         if Role == 'Formteacher':
             classname = request.POST['Classname']
         try:
