@@ -67,6 +67,7 @@ class Students_Pin_and_ID(models.Model):
 	student_Photo=models.ImageField(upload_to="assets/Students",blank=True,null=True)
 	student_name=models.CharField(max_length=100, blank=True, default="No name",null=True)
 	student_id=models.CharField(max_length=100, blank=True,null=True)
+	Sex=models.CharField(max_length=100, blank=True,null=True)
 	student_pin=models.CharField(max_length=100, blank=True,null=True)
 	student_class=models.ForeignKey(Class, on_delete=models.CASCADE )
 	student_password=models.CharField(max_length=100, blank=True,null=True,default="No password")

@@ -13,6 +13,9 @@ urlpatterns = [
 	path('CBT_results/',CBT_result_view , name='CBT_Results'),
     
 	path('<str:Classname>/Students/',Students_view , name='Students'),   
+	path('newStudent/', createstudent_view , name='createstudent'),   
+	path('updateStudent/', updatestudent_view , name='updatestudent'),   
+	path('DeleteStudents/', DeleteStudents_view , name='DeleteStudents'),   
 	path('<str:Classname>/attendance',attendance_view, name='mark_attendance'),
     path('<str:classname>/post_attendance',post_attendance , name='post_attendance'),
     ]

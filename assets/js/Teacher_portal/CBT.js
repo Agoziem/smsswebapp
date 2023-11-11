@@ -337,6 +337,7 @@ class App {
                 // If the form is not valid, show Bootstrap's custom validation styles
                 form.classList.add('was-validated');
             } else {
+                form.classList.remove('was-validated');
                 ckEditoraddTextarea.setAttribute('data-validation', 'false');
                 this.addquestions(form)
 
@@ -355,8 +356,8 @@ class App {
                 updateform.classList.add('was-validated');
             } else {
                 // Temporarily disable validation on CKEditor textarea
+                updateform.classList.remove('was-validated');
                 ckEditorTextarea.setAttribute('data-validation', 'false');
-
                 const questionCard = document.querySelector('.QuestionCard.is-edit');
                 const questionid = questionCard.getAttribute('data-question');
                 this.updatequestion(updateform, questionCard, questionid);

@@ -43,6 +43,7 @@ def result_computation_view(request,Classname):
         } 
     return render(request,'Result_computation.html',context)
 
+# CBT Teachers Side Views
 @login_required
 def CBT_Questions_view(request,teachers_id):
     subjects=Subject.objects.all()
@@ -154,7 +155,6 @@ def submitquestion_view(request):
 
     return JsonResponse({'error': 'Invalid request method'})
 
-
 @login_required
 def CBT_result_view(request):
     context={
@@ -162,13 +162,77 @@ def CBT_result_view(request):
     }
     return render(request,'CBT_results.html',context)
 
+# ////////////////////////////
+
+# Form teachers View
 @login_required
 def Students_view(request,Classname):
     classobject = Class.objects.get(Class=Classname)
+    students = Students_Pin_and_ID.objects.filter(student_class=classobject)
     context={
-        'class':classobject
+        'class':classobject,
+        "students":students
         } 
     return render(request,'students.html',context)
+
+def createstudent_view(request):
+    data=json.loads(request.body)
+    student_name=data['studentname']
+    student_sex=data['Student_sex']
+    student_class=data['studentclass']
+    classobject = Class.objects.get(Class=student_class)
+    try:
+        newStudent = Students_Pin_and_ID.objects.create(student_name=student_name,Sex=student_sex,student_class=classobject)
+        newStudent.save()
+        context={
+            'student_ID': newStudent.id, 
+            'student_id': newStudent.student_id, 
+            'student_name':newStudent.student_name,
+            'student_sex':newStudent.Sex,
+            'message': f'{newStudent.student_name} record have been created Successfully'
+        }
+        return JsonResponse(context, safe=False)
+    except:
+        return JsonResponse({'error': 'something went wrong' }, safe=False)
+    
+def updatestudent_view(request):
+    data=json.loads(request.body)
+    student_id=data['studentID']
+    student_name=data['studentname']
+    student_sex=data['Student_sex']
+    student_class=data['studentclass']
+    classobject = Class.objects.get(Class=student_class)
+    try:
+        updateStudent = Students_Pin_and_ID.objects.get(id=student_id)
+        updateStudent.student_name=student_name
+        updateStudent.Sex= student_sex
+        updateStudent.student_class=classobject
+        updateStudent.save()
+        context={
+            'student_ID': updateStudent.id, 
+            'student_id': updateStudent.student_id, 
+            'student_name':updateStudent.student_name,
+            'student_sex':updateStudent.Sex,
+            'message': f'{updateStudent.student_name} record have been updated Successfully'
+        }
+        return JsonResponse(context, safe=False)
+    except:
+        return JsonResponse({'error': 'something went wrong' }, safe=False)
+
+def DeleteStudents_view(request):
+    studentidstodelete=json.loads(request.body)
+    studentnamesdeleted=[]   
+    try:
+        for id in studentidstodelete:
+            student = Students_Pin_and_ID.objects.get(id=id)
+            studentnamesdeleted.append(student.student_name)
+            student.delete()
+        context={
+            'message': f'{studentnamesdeleted} records have been deleted Successfully'
+        }
+        return JsonResponse(context, safe=False)
+    except:
+        return JsonResponse({'error': 'something went wrong' }, safe=False)
 
 
 # for Class Attendance
