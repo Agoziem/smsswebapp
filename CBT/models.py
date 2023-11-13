@@ -30,6 +30,9 @@ class Question(models.Model):
     
     def __str__(self):
         return str(self.questiontext)
+    
+    class Meta:
+        ordering = ['id']
 
 class QuestionSet(models.Model):
     ExamClass = models.ManyToManyField(Class,blank=True)
