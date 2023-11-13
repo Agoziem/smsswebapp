@@ -83,26 +83,32 @@ label{
                         <a href="{% url 'Teachers_portal:CBT_update_details' questionSet.id %}" class="btn btn-primary text-light w-75 shadow-sm mt-3">
                             <i class="fa-solid fa-pen-to-square me-3"></i> edit classes
                         </a>
-                        <button id="deleteQuestionbtnModal" class="btn btn-danger text-light w-75 shadow-sm mt-3" data-bs-toggle="modal" data-bs-target="#deletequestionsmodal">
+                        <button id="deleteQuestionbtnModal" style="display: none;" class="btn btn-danger text-light w-75 shadow-sm mt-3" data-bs-toggle="modal" data-bs-target="#deletequestionsmodal">
                             <i class="fa-solid fa-trash me-3"></i> delete all Questions
                         </button>
                     </div>
                 </div>
             
                 <div class="col-12 col-md-6">
-                    <h6 class="ps-3 mb-0"> Select your Correct Answers</h6>
+                    <div class="d-flex align-items-center">
+                        <h6 class="ps-3 mb-0"> Select your Correct Answers</h6>
+                        <img class="ms-3" src="{% static 'images/Question clipboard.png' %}" style="width: 20px;" alt="">
+                    </div>
 
                     <div class="alertcontainer">
                     </div>
 
-                    <div class="filter">
+                    <div class="noquestion mt-3 bg-light p-3" style="width: 75%; display: none;">
+                        <div class="text-center ">No Question Found</div>
+                    </div>
+                    <div class="filter" style="display: none;">
                         <input type="text" class="form-input-filter" id="filter" placeholder="Filter questions" />
                     </div>
                     
                     <form id="questionSubmitform" class="needs-validation d-flex flex-column align-items-center justify-content-center" novalidate>
                         <div id="QuestionContainer" class="questionContainer mt-3 my-5 d-flex flex-column align-items-center justify-content-center">
                         </div>
-                        <button type="submit" id="submitQuestionbtn" class="btn btn-primary text-light w-75 shadow-sm mt-2">
+                        <button type="submit" id="submitQuestionbtn" class="btn btn-primary text-light w-75 shadow-sm mt-2" style="display: none;">
                                 <i class="fa-solid fa-circle-check me-3"></i> Submit your Questions
                         </button>
 

@@ -117,11 +117,13 @@
                     </div>
                     </div>
                 </div>
-                <div class="col-md-4 ActionButtons mb-3 mb-md-0 p-2">
-                    <div class=" my-2 mb-3 row  g-2 justify-content-center">
-                        <button id="addstudentbtn" type="button" class="col-md-6 btn btn-success me-2 text-light mb-2" data-bs-toggle="modal" data-bs-target="#AddandeditStudentModal"><i class="fa-solid fa-plus me-2"></i>Add Student</button>
-                        <button type="button" class="col-md-6 btn btn-secondary me-2 text-light mb-2" data-bs-toggle="modal" data-bs-target="#deletestudentModal"><i class="fa-solid fa-trash-can me-2"></i></i> delete selected</button>
-                        <button type="button" class="col-md-6 btn btn-danger me-2 text-light mb-2" data-bs-toggle="modal" data-bs-target="#deleteallstudentModal"><i class="fa-solid fa-trash-can me-2"></i></i> delete All </button>
+                <div class="col-md-3 ActionButtons mb-3 mb-md-0 p-2">
+                    <div class=" my-2 mb-3 d-flex flex-column justify-content-center align-items-center">
+                        <button id="addstudentbtn" type="button" class="w-100 btn btn-success text-light mb-3" data-bs-toggle="modal" data-bs-target="#AddandeditStudentModal"><i class="fa-solid fa-plus me-2"></i>Add Student</button>
+                        <button id="removestudentsactionbtn" type="button" class="w-100 btn btn-secondary text-light mb-5" data-bs-toggle="modal" data-bs-target="#deletestudentModal"><i class="fa-solid fa-trash-can me-2"></i></i> delete selected</button>
+                        <div id="removeallstudentactionbtn" class="w-100 p-2 pt-3 px-3 bg-light d-flex justify-content-center">
+                            <button type="button" class="w-100 btn btn-danger text-light mb-2" data-bs-toggle="modal" data-bs-target="#deleteallstudentModal"><i class="fa-solid fa-trash-can me-2"></i></i> delete All </button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -160,6 +162,7 @@
                         <div class="mb-3 d-flex justify-content-end">
                             <button id="mainsubmitbtn" type="submit" class="btn btn-success me-3">
                                 Add Student 
+                                <span class="spinner-border spinner-border-sm d-none ms-1" role="status" aria-hidden="true"></span>
                             </button>
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                         </div>

@@ -6,6 +6,7 @@ from .forms import TeacherForm
 from django.contrib.auth.decorators import login_required
 from CBT.models import *
 import json
+from django.db.models import Q
 
 
 @login_required
@@ -49,24 +50,32 @@ def CBT_Questions_view(request,teachers_id):
     subjects=Subject.objects.all()
     classes=Class.objects.all()
     teacher=Teacher.objects.get(id=teachers_id)
+
     if request.method == 'POST':
-        classname=request.POST['test_classes']
-        subject=Subject.objects.get(id=request.POST['subject'])
-        time=request.POST['testTime']
-        questionset,created=QuestionSet.objects.get_or_create(
-            subject=subject,
-            examTime=time,
-            teacher=teacher
-        )
-        for class_id in classname:
-            class_object = Class.objects.get(id=class_id)
-            class_object.save()
-            questionset.ExamClass.add(class_object) 
-        questionset.save()
-        context={
-        'questionSet':questionset
-        }
-        return render(request,'CBT_Questions.html',context)
+        classname = request.POST.getlist('test_classes')  # Assuming classname is a list
+        subject = Subject.objects.get(id=request.POST['subject'])
+        time = request.POST['testTime']
+
+        query = Q(subject=subject)
+        for class_name in classname:
+            query &= Q(ExamClass__id__icontains=class_name)
+
+        if QuestionSet.objects.filter(query).exists():
+            questionset = QuestionSet.objects.get(query)
+        else:
+            questionset = QuestionSet.objects.create(
+                subject=subject,
+                examTime=time,
+                teacher=teacher
+            )
+            for class_id in classname:
+                class_object = Class.objects.get(id=class_id)
+                questionset.ExamClass.add(class_object)
+            questionset.save()
+
+        context = {'questionSet': questionset}
+        return render(request, 'CBT_Questions.html', context)
+
     context={
         "subjects":subjects,
         "classes":classes,
@@ -77,17 +86,16 @@ def CBT_Questions_view(request,teachers_id):
 def CBT_update_details(request,id):
     questionset = QuestionSet.objects.get(id=id)
     if request.method == 'POST':
-        classname=request.POST['test_classes']
+        classname=request.POST.getlist('test_classes')
         time=request.POST['testTime']
         questionset.examTime = time
         questionset.ExamClass.clear()
-        for class_id in classname:
-            class_object = Class.objects.get(id=class_id)
-            class_object.save()
-            questionset.ExamClass.add(class_object) 
+        class_objects = Class.objects.filter(id__in=classname)
+        questionset.ExamClass.add(*class_objects)
         questionset.save()
+        print(questionset.ExamClass.all())
         context={
-        'questionSet':questionset
+            'questionSet':questionset
         }
         return render(request,'CBT_Questions.html',context)
     context={

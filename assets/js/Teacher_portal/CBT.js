@@ -186,6 +186,7 @@ const addquestionform = document.querySelector('#addtestquestionform')
 const addquestionModal = document.querySelector('#addquestionmodal')
 const deletequestionModal = document.querySelector('#deletequestionModal')
 const alertcontainer = document.querySelector('.alertcontainer')
+const noquestion = document.querySelector('.noquestion')
 
 function displayalert(type, message) {
     const alertdiv = document.createElement('div');
@@ -237,10 +238,13 @@ function checkUi() {
         deleteQuestionbtnModal.style.display = 'none';
         filtercontainer.style.display = 'none';
         submitQuestionModalbtn.style.display = 'none';
+        noquestion.style.display = 'block';
     } else {
+        noquestion.style.display = 'none';
         deleteQuestionbtnModal.style.display = 'block';
         filtercontainer.style.display = 'block';
         submitQuestionModalbtn.style.display = 'block';
+        
     }
 }
 

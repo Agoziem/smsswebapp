@@ -14,7 +14,7 @@
                 <span class="text-secondary">{{ questionset.teacher.teachers_id }}</span>
             </div >
             <div class="bg-light p-3 shadow-sm">
-                <form id="details-form" action="{% url 'Teachers_portal:CBT_update_details' questionset.id %}" method="post">
+                <form id="details-form" action="{% url 'Teachers_portal:CBT_update_details' questionset.id %}" method="POST">
                 {% csrf_token %}
                     <div class="row justify-content-center g-3">
                         <div class="col-12 col-md-5">
@@ -27,10 +27,10 @@
                             <label for="validationCustom06" class="form-label mb-0">Test Classes</label>
                             <div class="helptext mb-1">you can select more than one class</div>
                             <select name="test_classes" class="form-select" multiple aria-label="Multiple select example" size="4" id="validationCustom06" required>
-                                {% for class in questionset.ExamClass.all %}
+                                {% for class in questionset.teacher.classes_taught.all %}
                                 <option value="{{ class.id }}"  class="p-2" {% if class in questionset.ExamClass.all %} selected {% endif %}>{{ class.Class }}
                                 </option>
-                                {% endfor %}
+                                   {% endfor %}
                             </select>
         
                         </div>

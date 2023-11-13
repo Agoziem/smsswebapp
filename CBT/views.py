@@ -26,7 +26,7 @@ def CBT_view(request):
             questionSets=[]
             total_time=0
             for questionset in questionGroup.questionsets.all():
-                if classobject == questionset.ExamClass:
+                if classobject in questionset.ExamClass.all():
                     total_time += questionset.examTime
                     questionSets.append(questionset)
 
@@ -61,7 +61,7 @@ def test_view(request,student_id,class_id,questionGroup_id):
     total_questions = 0
     questionSets=[]
     for questionset in questionGroup.questionsets.all():
-        if classobject == questionset.ExamClass:
+        if classobject in questionset.ExamClass.all():
             total_time += questionset.examTime
             question_count = questionset.questions.count()
             total_questions += question_count
@@ -149,7 +149,7 @@ def success_view(request,student_id,student_test_id):
     return render(request,'success.html',context)
 
 
-
+# Question Formulation CRUD
 def get_questions_and_answers(request, questionset_id):
     try:
         question_set = QuestionSet.objects.get(id=questionset_id)
@@ -223,7 +223,6 @@ def update_question_to_questionset(request, questionset_id):
     return JsonResponse({"message": "Question update successfully"}, status=200)  
 
 
-# taking out only Question
 def remove_question_from_questionset(request, questionset_id):
     data = json.loads(request.body)
     question_id = data['question_id']

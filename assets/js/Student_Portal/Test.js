@@ -114,13 +114,11 @@ class App {
 
         if (--timer < 0) {
             clearInterval(interval);
-            this.submitTestGroup(); // 'this' will now refer to the App class instance
+            this.submitTestGroup();
         }
-    }, 1000); // Update the timer every second (1000 milliseconds)
+    }, 1000);
 }
 
-
-// Start the timer with a duration of 5 minutes
 
     submitTestGroup(){
         const formattedSet = new TestQuestionSetGroup(options);
