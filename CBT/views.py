@@ -230,7 +230,7 @@ def remove_question_from_questionset(request, questionset_id):
     questions = Question.objects.filter(questionId=question_id)
     for question in questions:
         Answer.objects.filter(question=question).delete()
-        if question in question_set.questions:
+        if question in question_set.questions.all():
             question_set.questions.remove(question)
         question.delete()
     return JsonResponse({"message": "Question removed successfully"}, status=200)
