@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from Result_portal.models import Students_Pin_and_ID,Class,Subject
+from Result_portal.models import *
 from .models import *
 from django.http import JsonResponse
 from .forms import TeacherForm
@@ -7,6 +7,7 @@ from django.contrib.auth.decorators import login_required
 from CBT.models import *
 import json
 from django.db.models import Q
+
 
 
 @login_required
@@ -36,13 +37,88 @@ def profile_view(request,id):
     }
     return render(request,'editprofile.html',context)
 
+
+# Result Formulation Part
 @login_required
 def result_computation_view(request,Classname):
     classobject = Class.objects.get(Class=Classname)
     context={
-        'class':classobject
+        'class':classobject,
         } 
     return render(request,'Result_computation.html',context)
+
+@login_required
+def get_students_result_view(request, Classname, subject):
+    classobject = Class.objects.get(Class=Classname)
+    subjectobject = Subject.objects.get(subject_name=subject)
+    students = Students_Pin_and_ID.objects.filter(student_class=classobject)
+    studentResults = []
+    
+    for studentresult in students:
+        # Assuming student_result_data is a related name in your Students_Pin_and_ID model
+        student_result_object, created = Result.objects.get_or_create(student=studentresult,Subject=subjectobject,student_class=classobject)
+        studentResults.append({
+            'student_name': f'<a class="editstudentinfo text-decoration-none" style="cursor:pointer">{student_result_object.student.student_name}</a>',
+            'FT': student_result_object.FirstTest,
+            'FA': student_result_object.FirstAss,
+            'MTT': student_result_object.MidTermTest,
+            'SA': student_result_object.SecondAss,
+            'ST': student_result_object.SecondTest,
+            'CA': student_result_object.CA,
+            'Exam': student_result_object.Exam,
+            'Total': student_result_object.Total,
+            'Grade': student_result_object.Grade,
+            # 'Position': student_result_object.SubjectPosition,
+            'Remark': student_result_object.Remark,
+        })
+
+    return JsonResponse(studentResults, safe=False)
+
+@login_required
+def update_student_result_view(request):
+    data=json.loads(request.body)
+    subject=data['subject']
+    Classdata=data['student_class']
+    student=data['studentname']
+    classobject= Class.objects.get(Class=Classdata)
+    studentobject= Students_Pin_and_ID.objects.get(student_name=student)
+    subjectobject = Subject.objects.get(subject_name=subject)
+    studentResult = Result.objects.get(student=studentobject,Subject=subjectobject,student_class=classobject)
+    studentResult.FirstTest  = int(data['FirstTest'])  
+    studentResult.FirstAss  = int(data['FirstAss'])
+    studentResult.MidTermTest = int(data['MidTermTest'])
+    studentResult.SecondAss = int(data['SecondAss'])
+    studentResult.SecondTest = int(data['SecondTest'])
+    studentResult.Exam = int(data['Exam'])
+    studentResult.save()
+
+    studentResults = []
+    student_result_object = Result.objects.filter(Subject=subjectobject,student_class=classobject)
+    for student_result_object in student_result_object:
+        student_result_object.refresh_from_db()
+        studentResults.append({
+            'student_name': f'<a class="editstudentinfo text-decoration-none" style="cursor:pointer">{student_result_object.student.student_name}</a>',
+            'FT': student_result_object.FirstTest,
+            'FA': student_result_object.FirstAss,
+            'MTT': student_result_object.MidTermTest,
+            'SA': student_result_object.SecondAss,
+            'ST': student_result_object.SecondTest,
+            'CA': student_result_object.CA,
+            'Exam': student_result_object.Exam,
+            'Total': student_result_object.Total,
+            'Grade': student_result_object.Grade,
+            # 'Position': student_result_object.SubjectPosition,
+            'Remark': student_result_object.Remark,
+        })
+
+    return JsonResponse(studentResults, safe=False)
+    
+
+
+
+
+
+
 
 # CBT Teachers Side Views
 @login_required

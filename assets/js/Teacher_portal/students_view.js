@@ -33,7 +33,6 @@ datatablesSimple.addEventListener('click', function (e) {
             if (rowstoremove.indexOf(rowIndex) === -1 && studentidtoremove.indexOf(studentid) === -1) {
                 rowstoremove.push(rowIndex);
                 studentidtoremove.push(studentid)
-        
             }
 
         } else {
@@ -245,7 +244,7 @@ function adddetailstoDOM(student_ID, studentname, student_id, Student_sex) {
         `${student_id}`,
         `${Student_sex}`
     ];
-    dataTable.rows.add(newRow);
+    dataTable.insert(newRow);
     dataTable.refresh()
 }
 

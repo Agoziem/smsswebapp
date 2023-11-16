@@ -18,4 +18,7 @@ urlpatterns = [
 	path('DeleteStudents/', DeleteStudents_view , name='DeleteStudents'),   
 	path('<str:Classname>/attendance',attendance_view, name='mark_attendance'),
     path('<str:classname>/post_attendance',post_attendance , name='post_attendance'),
+    
+	path('<str:subject>/<str:Classname>/getstudentresults',get_students_result_view , name='getstudentresults'),   
+	path('updatestudentresults',update_student_result_view , name='updatestudentresults'),   
     ]

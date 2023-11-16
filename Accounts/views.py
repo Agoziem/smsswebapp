@@ -10,9 +10,11 @@ from Teachers_Portal.models import Teacher
 
 def login_view(request):
     if request.method == 'POST':
-        username = request.POST['username']
-        password = request.POST['password']
-        user = authenticate(request, username=username, password=password)
+        userUsername = request.POST['username']
+        userPassword = request.POST['password']
+        user = authenticate(request, username=userUsername, password=userPassword)
+        print(user)
+        print(request.POST)
         if user is not None:
             login(request, user)
             return redirect('Teachers_portal:Teachers_dashboard')  # Replace 'home' with the name of your desired homepage URL
@@ -25,9 +27,9 @@ def login_view(request):
 def signup_view(request):
     classes = Class.objects.all()
     if request.method == 'POST':
-        print(request.POST)
         username = request.POST['username']
         password = request.POST['password2']
+        print(request.POST)
         Role = request.POST['Groupname']
         if 'email' in request.POST:
             email = request.POST['email']
