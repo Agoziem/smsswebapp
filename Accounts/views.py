@@ -13,8 +13,6 @@ def login_view(request):
         userUsername = request.POST['username']
         userPassword = request.POST['password']
         user = authenticate(request, username=userUsername, password=userPassword)
-        print(user)
-        print(request.POST)
         if user is not None:
             login(request, user)
             return redirect('Teachers_portal:Teachers_dashboard')  # Replace 'home' with the name of your desired homepage URL
@@ -43,6 +41,8 @@ def signup_view(request):
         except User.DoesNotExist:
             user = create_user_with_group(username, password, email, Role)
             login(request, user)
+            user.is_staff = True
+            user.save()
             if Role == 'Formteacher':
                 class_formed=Class.objects.get(Class=classname)
                 teacher = Teacher.objects.create(

@@ -28,8 +28,8 @@ class Question {
 
 // The Answer Class
 class Answer {
-    constructor(answerText, isCorrect) {
-        this.id = Math.random().toString(16).slice(2);
+    constructor(answerText, isCorrect, answerid) {
+        this.id = answerid || Math.random().toString(16).slice(2);
         this.answerText = answerText || "None";
         this.isCorrect = isCorrect;
     }
@@ -110,7 +110,7 @@ class QuestionSet {
 
                                         return `<div class="form-check">
                                                 <input class="form-check-input" type="radio" name="flexRadioDefault${question.id}" id="flexRadioDefault${answer.id}" ${requiredAttribute}>
-                                                <label class="form-check-label answerlabel" for="flexRadioDefault${answer.id}">
+                                                <label class="form-check-label" data-answer="${answer.id}" for="flexRadioDefault${answer.id}">
                                                     ${answer.answerText}
                                                 </label>
                                                 ${invalidFeedback}
@@ -141,24 +141,6 @@ class QuestionSet {
     }
 }
 
-const questionsetid = document.getElementById('questionsetid').value
-const subject = document.getElementById('subject').value
-const teacher = document.getElementById('teacher').value
-const examTime = document.getElementById('time').value
-const selectElement = document.getElementById('test_classes');
-const Class = [...selectElement.selectedOptions].map(option => option.value);
-let isEditMode = false;
-
-const option = {
-    questionsetid: +questionsetid,
-    subject,
-    teacher,
-    Class,
-    examTime: +examTime
-}
-
-
-
 class MainQuestions {
     constructor(option) {
         this.questionsetid = option.questionsetid;
@@ -174,7 +156,21 @@ class MainQuestions {
     }
 }
 
+const questionsetid = document.getElementById('questionsetid').value
+const subject = document.getElementById('subject').value
+const teacher = document.getElementById('teacher').value
+const examTime = document.getElementById('time').value
+const selectElement = document.getElementById('test_classes');
+const Class = [...selectElement.selectedOptions].map(option => option.value);
+let isEditMode = false;
 
+const option = {
+    questionsetid: +questionsetid,
+    subject,
+    teacher,
+    Class,
+    examTime: +examTime
+}
 
 
 const questionsform = document.querySelector('#questionSubmitform')
@@ -412,49 +408,30 @@ class App {
         questioncards.forEach((question) => {
             const questionMark = question.querySelector('.question-mark').innerText[0];
             const questionText = question.querySelector('.question-text').innerText;
+            const questionid = question.getAttribute('data-question')
             const switchElement = question.querySelector('input[role="switch"]');
             const required = switchElement.checked;
             const requiredBoolean = required ? true : false;
-            const testquestion = new Question(questionText, +questionMark, requiredBoolean)
+            const testquestion = new Question(questionText, +questionMark, requiredBoolean, questionid)
             questionset.addQuestion(testquestion)
 
             // get the Answers and append to the questions
             const checkedRadioButtons = question.querySelectorAll('input[type="radio"]');
             checkedRadioButtons.forEach((radio) => {
                 const answertext = radio.nextElementSibling.innerText;
+                const answerid = radio.nextElementSibling.getAttribute('data-answer');
                 const isRadioChecked = radio.checked;
                 const answervalueBoolean = isRadioChecked ? true : false;
-                const testanswer = new Answer(answertext, answervalueBoolean);
+                const testanswer = new Answer(answertext, answervalueBoolean, answerid);
                 testquestion.addAnswer(testanswer);
             });
 
         })
 
-        this.submitQuestionstoServer(questionset);
+        storage.submitQuestionstoServer(questionset);
     }
 
-    submitQuestionstoServer(formattedSet) {
-        fetch('/Teachers_Portal/submit_questions/', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRFToken': csrftoken
-            },
-            body: JSON.stringify(formattedSet)
-        })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok.');
-                }
-                return response.json();
-            })
-            .then(data => {
-                const type = 'alert-success'
-                const message = data['message']
-                displayalert(type, message)
-            })
-            .catch(error => console.error('Error:', error));
-    }
+
 
     addquestions(form) {
         const addquestionform = form
@@ -667,6 +644,30 @@ class storage {
             .then(response => response.json())
             .then(data => {
                 // Handle response message or do additional operations
+                const type = 'alert-success'
+                const message = data['message']
+                displayalert(type, message)
+            })
+            .catch(error => console.error('Error:', error));
+    }
+
+    // Function to Submit Questions
+    static submitQuestionstoServer(formattedSet) {
+        fetch('/Teachers_Portal/submit_questions/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': csrftoken
+            },
+            body: JSON.stringify(formattedSet)
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok.');
+                }
+                return response.json();
+            })
+            .then(data => {
                 const type = 'alert-success'
                 const message = data['message']
                 displayalert(type, message)

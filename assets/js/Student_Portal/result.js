@@ -1,6 +1,7 @@
 const result_btn = document.getElementById('result_btn');
 const spinner = result_btn.querySelector('.spinner-border');
-
+const labels = document.querySelector('#labels')
+const data = document.querySelector('#data')
 result_btn.addEventListener('click', () => {
     // Show spinner
     spinner.classList.remove('d-none');
@@ -46,4 +47,25 @@ result_btn.addEventListener('click', () => {
       });
 }
 
+
+    const ctx = document.getElementById('mybarChart');
+    new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: JSON.parse(labels),
+        datasets: [{
+          label: 'Total Scores',
+          data: JSON.parse(data),
+          backgroundColor: ['orange', '#3b0505', '#020D23'],
+          borderWidth: 1
+          }]
+        },
+      options: {
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
+    }
+      });
 

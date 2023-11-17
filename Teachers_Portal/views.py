@@ -9,7 +9,7 @@ import json
 from django.db.models import Q
 
 
-
+# Teachers Dashbord View
 @login_required
 def Teachers_dashboard_view(request):
     context={
@@ -17,6 +17,7 @@ def Teachers_dashboard_view(request):
     }
     return render(request,'Teachers_dashboard.html',context)
 
+# Teachers profile View
 @login_required
 def profile_view(request,id):
     teacher = Teacher.objects.get(id=id)
@@ -38,7 +39,7 @@ def profile_view(request,id):
     return render(request,'editprofile.html',context)
 
 
-# Result Formulation Part
+# Teachers Result Formulation Part
 @login_required
 def result_computation_view(request,Classname):
     classobject = Class.objects.get(Class=Classname)
@@ -120,7 +121,7 @@ def update_student_result_view(request):
 
 
 
-# CBT Teachers Side Views
+# CBT Teachers Views for CRUD and Submitting Questions
 @login_required
 def CBT_Questions_view(request,teachers_id):
     subjects=Subject.objects.all()
@@ -137,7 +138,7 @@ def CBT_Questions_view(request,teachers_id):
             query &= Q(ExamClass__id__icontains=class_name)
 
         if QuestionSet.objects.filter(query).exists():
-            questionset = QuestionSet.objects.get(query)
+            questionset = QuestionSet.objects.filter(query).order_by('-id').first()
         else:
             questionset = QuestionSet.objects.create(
                 subject=subject,
@@ -169,7 +170,6 @@ def CBT_update_details(request,id):
         class_objects = Class.objects.filter(id__in=classname)
         questionset.ExamClass.add(*class_objects)
         questionset.save()
-        print(questionset.ExamClass.all())
         context={
             'questionSet':questionset
         }
@@ -185,49 +185,52 @@ def submitquestion_view(request):
         subject_name = data.get('subject')
         teacher_name = data.get('teacher')
         exam_time = data.get('examTime')
-        classes = data['Class']
+        classes = data.get('Class')
 
         # Get or create Subject and Teacher instances
         subject = Subject.objects.get(subject_name=subject_name)
         teacher = Teacher.objects.get(FirstName=teacher_name)
+            
+        query = Q(subject=subject)
+        for class_name in classes:
+            query &= Q(ExamClass__Class__icontains=class_name)
 
-        # Create the QuestionSet
-        question_set,created = QuestionSet.objects.get_or_create(
-            examTime=exam_time,
-            teacher=teacher,
-            subject=subject
-        )
+        if QuestionSet.objects.filter(query).exists():
+            question_set = QuestionSet.objects.get(query)
+
+        else:
+            question_set = QuestionSet.objects.create(
+                examTime=exam_time,
+                teacher=teacher,
+                subject=subject
+            )
 
         # Process the list of questions
         questions_data = data['questions']
         for question_data in questions_data:
-            question_text = question_data.get('questionText')
-            question_mark = question_data.get('questionMark')
+            question_id = question_data.get('id') # this is the questionid
             required = question_data.get('questionrequired')
-
-            # Create the Question
-            question,created = Question.objects.get_or_create(
-                questiontext=question_text,
-                questionMark=question_mark,
+            
+            # get the Question and set its required property
+            question = Question.objects.get(
+                questionId =question_id,
             )
             question.required=required
             question.save()
-            # Process answers for the current question
+
+            # get the nswers and set its is_correct property
             answers_data = question_data['answers']
             for answer_data in answers_data:
-                answer_text = answer_data.get('answerText')
+                answer_id = answer_data.get('id')
                 is_correct = answer_data.get('isCorrect')
 
-                # Create the Answer
-                answer,created = Answer.objects.get_or_create(
-                    answertext=answer_text,
+                answer = Answer.objects.get(
+                    answerId=answer_id,
                 )
                 answer.isCorrect=is_correct
                 answer.save()
-                # Add the answer to the question's ManyToManyField
                 question.answers.add(answer)
 
-            # Add the question to the QuestionSet's ManyToManyField
             question_set.questions.add(question)
 
         # Add the selected classes to the QuestionSet
@@ -235,7 +238,7 @@ def submitquestion_view(request):
             class_obj, created = Class.objects.get_or_create(Class=class_name)
             question_set.ExamClass.add(class_obj)
 
-        return JsonResponse({'success': 'Data saved successfully'})  # Return a success response
+        return JsonResponse({'message': 'Questions and answers submitted successfully'})  # Return a success response
 
     return JsonResponse({'error': 'Invalid request method'})
 
@@ -248,7 +251,7 @@ def CBT_result_view(request):
 
 # ////////////////////////////
 
-# Form teachers View
+# Form teachers View for CRUD Students Details
 @login_required
 def Students_view(request,Classname):
     classobject = Class.objects.get(Class=Classname)
@@ -267,7 +270,7 @@ def createstudent_view(request):
     classobject = Class.objects.get(Class=student_class)
     try:
         newStudent = Students_Pin_and_ID.objects.create(student_name=student_name,Sex=student_sex,student_class=classobject)
-        newStudent.save()
+        newStudentResult = Student_Result_Data.objects.create(Student_name=newStudent)
         context={
             'student_ID': newStudent.id, 
             'student_id': newStudent.student_id, 

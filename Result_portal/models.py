@@ -205,7 +205,6 @@ class Result(models.Model):
 #Models for Annual Students Results
 class AnnualStudent(models.Model):
 	Student_name=models.ForeignKey(Students_Pin_and_ID,on_delete=models.CASCADE)
-	Term=models.ForeignKey(Term,on_delete=models.CASCADE,blank=True,null=True)
 	TotalScore=models.CharField(max_length=100, blank=True,null=True , default="-")
 	Totalnumber=models.CharField(max_length=100, blank=True,null=True , default="-")
 	Average=models.CharField(max_length=100, blank=True,null=True , default="-")
@@ -216,7 +215,7 @@ class AnnualStudent(models.Model):
 
 
 class AnnualResult(models.Model):
-	students_result_data = models.ForeignKey(Student_Result_Data,on_delete=models.CASCADE)
+	students_result_data = models.ForeignKey(AnnualStudent,on_delete=models.CASCADE)
 	Subject= models.ForeignKey(Subject,on_delete=models.CASCADE)
 	FirstTermTotal= models.CharField(max_length=100, blank=True,null=True,default="-")
 	SecondTermTotal= models.CharField(max_length=100, blank=True,null=True,default="-")
@@ -229,4 +228,4 @@ class AnnualResult(models.Model):
 
 	
 	def __str__(self):
-		return str(self.students_result_data.Student_name.student_name +"-"+ self.Subject.subject_name)
+		return str(self.students_result_data.Student_name +"-"+ self.Subject.subject_name)

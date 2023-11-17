@@ -102,12 +102,12 @@ def submit_test_view(request):
             test_total_score = int(test_questionset_score)
             subjectobject=Subject.objects.get(subject_name=test_subject_name)
             student_data,created=Student_Result_Data.objects.get_or_create(Student_name=studentobject)
-            if Result.objects.filter(students_result_data=student_data,Subject=subjectobject).exists():
-                student_result=Result.objects.get(students_result_data=student_data,Subject=subjectobject)
+            if Result.objects.filter(student=studentobject,students_result_summary=student_data,Subject=subjectobject).exists():
+                student_result=Result.objects.get(student=studentobject,students_result_summary=student_data,Subject=subjectobject)
                 student_result.MidTermTest=test_questionset_score
                 student_result.save()
             else:
-                student_result=Result.objects.create(students_result_data=student_data,Subject=subjectobject,MidTermTest=test_questionset_score)
+                student_result=Result.objects.create(student=studentobject,students_result_summary=student_data,Subject=subjectobject,MidTermTest=test_questionset_score)
             if TestQuestionSet.objects.filter(testSetGroup=test_set_group,testSubject=subjectobject).exists():
                 test_question_set = TestQuestionSet.objects.get(
                     testSetGroup=test_set_group,

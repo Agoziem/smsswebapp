@@ -69,9 +69,18 @@
                     <form action="." method="POST">
                          {% csrf_token %}
                          <div class="mb-3">
+                              <label for="class">Term:</label>
+                              <select id="class" name="Term" class="form-select" required>
+                                   <option value="" disabled selected >--Select the Term--</option>
+                                   {% for Term in Terms %}
+                                   <option value="{{ Term.term }}">{{ Term.term }}</option>
+                                   {% endfor %}
+                              </select>
+                         </div>
+                         <div class="mb-3">
                               <label for="class">Classes:</label>
                               <select id="class" name="student_class" class="form-select" required>
-                                   <option value="">--Select your class--</option>
+                                   <option value="" disabled selected>--Select your class--</option>
                                    {% for class in classes %}
                                    <option value="{{ class.Class }}">{{ class.Class }}</option>
                                    {% endfor %}
@@ -102,7 +111,7 @@
      </div>
 </section>
 
-<script src="{% static 'js/result_Populating.js' %}"></script>
+<script src="{% static 'js/Student_Portal/result_Populating.js' %}"></script>
 
 {% include 'main_footer.html' %}
 {% endblock %}
