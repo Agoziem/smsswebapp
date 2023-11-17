@@ -69,8 +69,8 @@
                     <form action="." method="POST">
                          {% csrf_token %}
                          <div class="mb-3">
-                              <label for="class">Term:</label>
-                              <select id="class" name="Term" class="form-select" required>
+                              <label for="term">Term:</label>
+                              <select id="term" name="Term" class="form-select" required>
                                    <option value="" disabled selected >--Select the Term--</option>
                                    {% for Term in Terms %}
                                    <option value="{{ Term.term }}">{{ Term.term }}</option>
