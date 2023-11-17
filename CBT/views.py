@@ -87,7 +87,7 @@ def submit_test_view(request):
 
     classobject=Class.objects.get(Class=student_class)
     testobject=Test.objects.get(name=test_name)
-    studentobject=Students_Pin_and_ID.objects.get(student_name=student_name)
+    studentobject=Students_Pin_and_ID.objects.get(student_name=student_name,student_class=classobject)
     if not TestSetGroup.objects.filter(name=group_name,testClass=classobject,test=testobject,student=studentobject).exists():
         test_set_group,created = TestSetGroup.objects.get_or_create(
             name=group_name,
@@ -101,13 +101,13 @@ def submit_test_view(request):
             test_questionset_score=question_set_data['testTotalScore']
             test_total_score = int(test_questionset_score)
             subjectobject=Subject.objects.get(subject_name=test_subject_name)
-            student_data,created=Student_Result_Data.objects.get_or_create(Student_name=studentobject)
-            if Result.objects.filter(student=studentobject,students_result_summary=student_data,Subject=subjectobject).exists():
-                student_result=Result.objects.get(student=studentobject,students_result_summary=student_data,Subject=subjectobject)
+
+            if Result.objects.filter(student=studentobject,Subject=subjectobject,student_class=classobject).exists():
+                student_result=Result.objects.get(student=studentobject,student_class=classobject,Subject=subjectobject)
                 student_result.MidTermTest=test_questionset_score
                 student_result.save()
             else:
-                student_result=Result.objects.create(student=studentobject,students_result_summary=student_data,Subject=subjectobject,MidTermTest=test_questionset_score)
+                student_result=Result.objects.create(student=studentobject,student_class=classobject,Subject=subjectobject,MidTermTest=test_questionset_score)
             if TestQuestionSet.objects.filter(testSetGroup=test_set_group,testSubject=subjectobject).exists():
                 test_question_set = TestQuestionSet.objects.get(
                     testSetGroup=test_set_group,

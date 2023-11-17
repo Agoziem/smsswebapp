@@ -242,12 +242,6 @@ def submitquestion_view(request):
 
     return JsonResponse({'error': 'Invalid request method'})
 
-@login_required
-def CBT_result_view(request):
-    context={
-
-    }
-    return render(request,'CBT_results.html',context)
 
 # ////////////////////////////
 

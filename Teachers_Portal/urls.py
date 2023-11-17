@@ -10,7 +10,7 @@ urlpatterns = [
 	path('<int:teachers_id>/CBT_questions/',CBT_Questions_view , name='CBT_Questions'),
 	path('<int:id>/CBT_update_details/',CBT_update_details , name='CBT_update_details'),
 	path('submit_questions/',submitquestion_view , name='Submit_questions'),
-	path('CBT_results/',CBT_result_view , name='CBT_Results'),
+
     
 	path('<str:Classname>/Students/',Students_view , name='Students'),   
 	path('newStudent/', createstudent_view , name='createstudent'),   
