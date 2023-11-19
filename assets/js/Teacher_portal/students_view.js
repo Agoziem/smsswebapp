@@ -244,7 +244,7 @@ function adddetailstoDOM(student_ID, studentname, student_id, Student_sex) {
         `${student_id}`,
         `${Student_sex}`
     ];
-    dataTable.insert(newRow);
+    dataTable.rows.add(newRow);
     dataTable.refresh()
 }
 
