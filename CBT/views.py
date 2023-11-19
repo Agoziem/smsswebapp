@@ -6,6 +6,8 @@ from django.http import JsonResponse
 from datetime import datetime
 from CBT.models import *
 from django.db.models import F,Sum
+from django.contrib import messages
+
 
 
 def CBT_view(request):
@@ -14,39 +16,48 @@ def CBT_view(request):
     if request.method == 'POST':
         classname=request.POST['student_class']
         studentname=request.POST['student_name']
+        studentid=request.POST['student_id']
         # time=request.POST['time']
         date=request.POST['date']
         date_obj = datetime.strptime(date, "%Y-%m-%d").date()
         # time_obj = datetime.strptime(time, "%H:%M:%S").time()
         classobject=Class.objects.get(Class=classname)
-        student=Students_Pin_and_ID.objects.get(student_name=studentname,student_class=classobject)
         try:
-            questionGroup = QuestionSetGroup.objects.get(date=date_obj)
-            testday = True
-            questionSets=[]
-            total_time=0
-            for questionset in questionGroup.questionsets.all():
-                if classobject in questionset.ExamClass.all():
-                    total_time += questionset.examTime
-                    questionSets.append(questionset)
+            student=Students_Pin_and_ID.objects.get(student_name=studentname,student_class=classobject,student_id=studentid)
+            try:
+                questionGroup = QuestionSetGroup.objects.get(date=date_obj)
+                testday = True
+                questionSets=[]
+                total_time=0
+                for questionset in questionGroup.questionsets.all():
+                    if classobject in questionset.ExamClass.all():
+                        total_time += questionset.examTime
+                        questionSets.append(questionset)
 
-            context={
-            'total_time':total_time,
-            'classobject':classobject,
-            'student':student,
-            'questionsetsgroup':questionSets,
-            'testday': testday,
-            'questionGroup':questionGroup,
-        }
+                context={
+                'total_time':total_time,
+                'classobject':classobject,
+                'student':student,
+                'questionsetsgroup':questionSets,
+                'testday': testday,
+                'questionGroup':questionGroup,
+            }
+            except:
+                testday = False
+                context={
+                'classobject':classobject,
+                'student':student,
+                'testday': testday,
+            }
+            
+            return render(request,'Test_instructions.html',context)
         except:
-            testday = False
             context={
-            'classobject':classobject,
-            'student':student,
-            'testday': testday,
-        }
-        
-        return render(request,'Test_instructions.html',context)
+                'classobjects':classobjects
+            }
+            messages.error(request, 'Check your Student id and try again ,ensure you are entering it Correctly')
+            return render(request,'CBT_center.html',context)
+
     context={
         'classobjects':classobjects
     }
