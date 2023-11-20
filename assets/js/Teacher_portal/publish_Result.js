@@ -1,10 +1,13 @@
-const inputStudentResultModal = document.querySelector('#inputStudentResultModal')
-const inputform = inputStudentResultModal.querySelector('#inputStudentResultform')
-const subjectselect = getstudentresultform.querySelector('select');
-const classinput = getstudentresultform.querySelector('input');
-const alertcontainer = document.querySelector('.alertcontainer')
-let studentsubject = subjectselect.options[subjectselect.selectedIndex].value;
+
+// Handling Student Info
+const classinput = document.querySelector('.classinput');
 let studentclass = classinput.value
+const subjectlistinput = document.querySelector('.subjectlist');
+let subjectlist = subjectlistinput.value;
+const modifiedList = subjectlist.replace(/'/g, '"');
+let jsonstring = `${modifiedList}`
+let mainsubjectlist = JSON.parse(jsonstring);
+const alertcontainer = document.querySelector('.alertcontainer')
 
 function displayalert(type, message) {
     const alertdiv = document.createElement('div');
@@ -27,14 +30,14 @@ function displayalert(type, message) {
 
 class StudentDataHandler {
   constructor(data) {
-      this.students = data;
-      this.calculateFields();
+    this.students = data;
+    this.calculateFields();
   }
 
-    calculateFields() {   
+  calculateFields() {
     this.students.forEach(student => {
-      student.CA = this.calculateCA(student);
       student.Total = this.calculateTotal(student);
+      student.Ave = this.calculateAverage(student);
       student.Grade = this.calculateGrade(student);
       student.Position = "-";
       student.Remarks = "-";
@@ -48,31 +51,39 @@ class StudentDataHandler {
     }
     
     // this has to be Calulated dynamically
-    calculateCA(student) {
-        const keys = Object.keys(student);
-        const startIndex = keys.indexOf("Name") + 1;
-        const endIndex = keys.indexOf("Exam");
-        const relevantKeys = keys.slice(startIndex,endIndex);
-        return relevantKeys.reduce((sum, key) => sum + (isNaN(student[key]) ? 0 : parseInt(student[key])), 0);;
-    }
-
     calculateTotal(student) {
-        return Object.keys(student)
-        .filter(key => key.startsWith("CA") || key.startsWith("Exam"))
-        .reduce((sum, key) => sum + (isNaN(student[key]) ? 0 : parseInt(student[key])), 0);
-    }
+      const keys = Object.keys(student);
+        const startIndex = keys.indexOf("Name") + 1;
+        const relevantKeys = keys.slice(startIndex);
+        return relevantKeys.reduce((sum, key) => sum + (isNaN(student[key]) ? 0 : parseInt(student[key])), 0);
+  }
+
+    // this has to be Calulated dynamically
+    calculateAverage(student) {
+    const keys = Object.keys(student);
+    const startIndex = keys.indexOf("Name") + 2;
+    const relevantKeys = keys.slice(startIndex);
+    const greaterThanOrEqualToOneCount = relevantKeys.filter(key => parseInt(student[key]) >= 0 && student[key] !== '-').length; 
+    // Check if greaterThanOrEqualToOneCount is not zero before performing the division
+    const average = greaterThanOrEqualToOneCount !== 0
+    ? parseFloat((student.Total / greaterThanOrEqualToOneCount).toFixed(2))
+    : 0;
     
+    return average;
+        
+  }
+
   calculateGrade(student) {
-    const Total = this.calculateTotal(student);
-    if (Total >= 70) return "A";
-    else if (Total >= 55) return "C";
-    else if (Total >= 40) return "P";
+   
+    if (student.Ave >= 70) return "A";
+    else if (student.Ave >= 55) return "C";
+    else if (student.Ave >= 40) return "P";
     else return "F";
 }
 
   calculatePosition() {
     
-    this.students.sort((a, b) => b.Total - a.Total);
+    this.students.sort((a, b) => b.Ave - a.Ave);
 
     // Function to calculate ordinal suffix
     const getOrdinalSuffix = (number) => {
@@ -93,14 +104,14 @@ class StudentDataHandler {
         }
     };
 
-    let previousTotal = null;
+    let previousAve = null;
       let previousPosition = null;
       
     this.students.forEach((student, index) => {
-        const currentTotal = student.Total;
+        const currentTotal = student.Ave;
         const suffix = getOrdinalSuffix(index + 1);
 
-        if (currentTotal === previousTotal) {
+        if (currentTotal === previousAve) {
             // Assign the same position as the previous student
             student.Position = previousPosition;
         } else {
@@ -109,7 +120,7 @@ class StudentDataHandler {
         }
 
         // Update previous total and position
-        previousTotal = currentTotal;
+        previousAve = currentTotal;
         previousPosition = student.Position;
     });
 }
@@ -130,10 +141,10 @@ class StudentDataHandler {
   }
 }
 
-
+// function to get Student Result
 async function readJsonFromFile() {
   try {
-    const jsonData = await getstudentdata(studentsubject, studentclass);
+    const jsonData = await getstudentresult(studentclass);
     const studentHandler = new StudentDataHandler(jsonData);
     const studentsWithCalculatedFields = studentHandler.getStudents();
       populatetable(studentsWithCalculatedFields)
@@ -143,81 +154,28 @@ async function readJsonFromFile() {
   }
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-    document.getElementById('getstudentresultform').addEventListener('submit', (e) => {
-        e.preventDefault()
-        studentsubject = subjectselect.options[subjectselect.selectedIndex].value;
-        studentclass = classinput.value
-        readJsonFromFile();
-    });
-});
-
-document.addEventListener('DOMContentLoaded', () => {
-    document.getElementById('inputStudentResultform').addEventListener('submit', (e) => {
-        e.preventDefault()
-        const formData = new FormData(inputform);
-        const formDataObject = {};
-        formData.forEach((value, key) => {
-        formDataObject[key] = value;
-        });
-        studentsubject = subjectselect.options[subjectselect.selectedIndex].value;
-        studentclass = classinput.value
-        updatestudentresult(formDataObject,studentsubject,studentclass)
-        $(inputStudentResultModal).modal('hide');
-    });
-});
-
-
-
-
-
-
 function populatetable(tabledata) {
     const tbody = document.querySelector('#dataTable').lastElementChild;
-    tbody.innerHTML = tabledata.map((data,index) => `
+    tbody.innerHTML = tabledata.map((data, index) =>
+        `
         <tr>
             <td>${index + 1}</td>
-            <td class="text-primary text-uppercase"><a class="inputdetailsformmodelbtn text-decoration-none" style="cursor:pointer">${data.Name}</a></td>
-            <td>${data['1sttest']}</td>
-            <td>${data['1stAss']}</td>
-            <td>${data['MidTermTest']}</td>
-            <td>${data['2ndTest']}</td>
-            <td>${data['2ndAss']}</td>
-            <td>${data['CA'] || '-'}</td>
-            <td>${data['Exam']}</td> 
-            <td>${data['Total'] || '-'}</td>
-            <td>${data['Grade'] || '-'}</td>
-            <td>${data['Position'] || '-'}</td>
-            <td>${data['Remarks'] || '-'}</td>
+            <td class="text-primary">${data.Name}</td>
+            ${mainsubjectlist.map(subject => `<td>${data[subject]}</td>`).join('')}
+            <td>${data.Total}</td>
+            <td>${data.Ave}</td>
+            <td>${data.Grade}</td>
+            <td>${data.Position}</td>
+            <td>${data.Remarks}</td>
         </tr>`
     ).join('');
 }
 
 
-// getting and updating from the server
-async function getstudentdata(subject,Class) {
-    const response = await fetch(`/Teachers_Portal/${subject}/${Class}/getstudentresults`)
+async function getstudentresult(Class) {
+    const response = await fetch(`/Teachers_Portal/${Class}/getstudentsubjecttotals`)
     const data = await response.json();
     return data;
-}
-
-function updatestudentresult(formDataObject,subject,Class) {
-    fetch(`/Teachers_Portal/${subject}/${Class}/updatestudentresults`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'X-CSRFToken': csrftoken
-        },
-        body: JSON.stringify(formDataObject)
-    })
-        .then(response => response.json())
-        .then(data => {
-            readJsonFromFile()
-            const type = 'alert-success'
-            const message = data
-            displayalert(type, message)
-        })
-        .catch(error => console.error('Error:', error));
 }
 
 
@@ -285,7 +243,6 @@ class DataTable {
         document.querySelector('#tableHeader').addEventListener('click',this.getsortingdata.bind(this));
         document.querySelector("#filterInput").addEventListener('input', this.filterItems.bind(this));
         document.querySelector("#publishbtn").addEventListener('click', this.exportTableToJSON.bind(this));
-        this.table.addEventListener('click', this.setupeditmode.bind(this));
         this.rows = Array.from(document.querySelectorAll('.table tbody tr'));
         this.pageSize=10
         this.currentPage = 1;
@@ -444,11 +401,11 @@ class DataTable {
         data.push(rowData);
       });
     
-        this.submitallstudentresult(data,studentsubject,studentclass)
+        this.publishstudentresult(data,studentclass)
     }
 
-    submitallstudentresult(data,studentsubject,studentclass) {
-    fetch(`/Teachers_Portal/${studentsubject}/${studentclass}/submitallstudentresult`, {
+    publishstudentresult(data,studentclass) {
+    fetch(`/Teachers_Portal/${studentclass}/publishstudentresult/`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -464,49 +421,10 @@ class DataTable {
         })
         .catch(error => console.error('Error:', error));
 }
-    
-    setupeditmode(e){
-        const target = e.target;
-    // Check if the click is on an <a> element inside a <td>
-        if (target.tagName === 'A' && target.closest('td')) {
-        e.preventDefault();
-        this.changemode(target)
-    }
-    }
-
-    changemode(target) {
-    const tablerow = target.closest('tr')
-    const tabledata = Array.from(tablerow.children)
-
-    const studentnameinput = inputform.querySelector('#student_name')
-    studentnameinput.value = tabledata[1].innerText
-
-    const FirstTest = inputform.querySelector('#FirstTest')
-    FirstTest.value = tabledata[2].innerText
-
-    const FirstAss = inputform.querySelector('#FirstAss')
-    FirstAss.value = tabledata[3].innerText
-
-    const MidTermTest = inputform.querySelector('#MidTermTest')
-    MidTermTest.value = tabledata[4].innerText
-
-    const SecondAss = inputform.querySelector('#SecondAss')
-    SecondAss.value = tabledata[5].innerText
-
-    const SecondTest = inputform.querySelector('#SecondTest')
-    SecondTest.value = tabledata[6].innerText
-
-    const Exam = inputform.querySelector('#Exam')
-    Exam.value = tabledata[8].innerText
-    
-    $(inputStudentResultModal).modal('show');
-}
-
    
 }
 
 readJsonFromFile();
-
 
 
 

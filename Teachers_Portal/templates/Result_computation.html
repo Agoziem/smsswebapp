@@ -81,293 +81,190 @@
                     </form>
                 </div>
             </div>         
-            <div class="row justify-content-center mt-3">
-                <div class="col-md-8 mb-4 p-0">
-                    <div class="alertcontainer mb-2">
-                    </div>
-                    <div class="card">
-                        <div class="card-header">
-                        <i class="fas fa-table me-1"></i>
-                        Select the Subject 
-                        </div>
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table table-bordered table-striped" id="datatablesSimple" width="100%" cellspacing="0">
-                                    <thead>
-                                        <tr>
-                                            <th>student_name</th>
-                                            <th>FT</th>
-                                            <th>FA</th>
-                                            <th>MTT</th>
-                                            <th>SA</th>
-                                            <th>ST</th>
-                                            <th>CA</th>
-                                            <th>Exam</th>
-                                            <th>Total</th>
-                                            <th>Grade</th>
-                                            <!-- <th>Position</th> -->
-                                            <th>Remark</th>   
-                                        </tr>
-                                    </thead>
-                                    <tfoot>
-                                        <tr>
-                                            <th>Student name</th>
-                                            <th>FT</th>
-                                            <th>FA</th>
-                                            <th>MTT</th>
-                                            <th>SA</th>
-                                            <th>ST</th>
-                                            <th>CA</th>
-                                            <th>Exam</th>
-                                            <th>Total</th>
-                                            <th>Grade</th>
-                                            <!-- <th>Position</th> -->
-                                            <th>Remark</th>
-                                        </tr>
-                                    </tfoot>
-                                    <tbody>
-                                        
-                                    </tbody>
-                            </table>
-                        </div>
-                    </div>
-                    </div>
+            <div class="row justify-content-center">
+            <div class="col-md-8 ">
+                <div class="alertcontainer mb-2">
                 </div>
-                <div class="col-md-3 mb-4 p-0 ps-md-5">
-                    <div class="py-3 px-2">
-                        <div class="d-none d-md-block">
-                            <div class="bg-light mb-3 w-100 p-2">
-                                Hide/Show table Columns
+                <div class="card px-4 py-4 pb-2 me-0 me-md-4">
+                    <!-- Table Header -->
+                    <div class="table-header row align-item-center justify-content-between mb-4">
+                        <div class="col-md-3 mb-3 mb-md-0">
+                            <select id="lengthSelect" class="form-select" aria-label="Default select example">
+                                <option value="10" selected>10</option>
+                                <option value="20">20</option>
+                                <option value="30">30</option>
+                                <option value="40">40</option>
+                                <option value="50">50</option>
+        
+                            </select>
+                            <p class="fw-bold mt-2">students per page</p>
+                        </div>
+                        <div class="col-md-4">
+                            <input type="text" class="form-control" id="filterInput" placeholder="Search....">
+                        </div>
+                    </div>
+                    <!-- The Main Table -->
+                    <div class="table-responsive table-main">
+                        <table id="dataTable" class="table table-striped table-bordered">
+                            <thead>
+                                <tr>
+                                    <th scope="col">S/N</th>
+                                    <th id="tableHeader" scope="col">Name<i class="fa-solid fa-arrow-up-z-a ms-2"></i>
+                                    </th>
+                                    <th data-index="1" scope="col">FT</th>
+                                    <th data-index="2" scope="col">FA</th>
+                                    <th data-index="3" scope="col">MTT</th>
+                                    <th data-index="4" scope="col">ST</th>
+                                    <th data-index="5" scope="col">SA</th>
+                                    <th data-index="6" scope="col">CA</th>
+                                    <th data-index="7" scope="col">Exam</th>
+                                    <th scope="col">Total</th>
+                                    <th scope="col">Grade</th>
+                                    <th scope="col">Position</th>
+                                    <th scope="col">Remark</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+        
+                            </tbody>
+                        </table>
+                    </div>
+                    <hr>
+                    <!-- Table Footer -->
+                    <div class=" table-footer row align-items-center justify-content-between pb-2">
+                        <div class="col-md-4 mb-4 m-md-0">
+                            <div class="pagination-literal">
+        
                             </div>
-                            <div>
-                                <ul class="columntoggle list-group">
-                                    <li class="list-group-item">
-                                        <input class="form-check-input me-2" type="checkbox" value="1" id="FirstTest">
-                                        <label class="form-check-label" for="FirstTest">FirstTest</label>
-                                    </li>
-                                    <li class="list-group-item">
-                                        <input class="form-check-input me-2" type="checkbox" value="2" id="FirstAss">
-                                        <label class="form-check-label" for="FirstAss">FirstAss</label>
-                                    </li>
-                                    <li class="list-group-item">
-                                        <input class="form-check-input me-2" type="checkbox" value="3" id="MidTermTest">
-                                        <label class="form-check-label" for="MidTermTest">MidTermTest</label>
-                                    </li>
-                                    <li class="list-group-item">
-                                        <input class="form-check-input me-2" type="checkbox" value="4" id="SecondAss">
-                                        <label class="form-check-label" for="SecondAss">SecondAss</label>
-                                    </li>
-                                    <li class="list-group-item">
-                                        <input class="form-check-input me-2" type="checkbox" value="5" id="SecondTest">
-                                        <label class="form-check-label" for="SecondTest">SecondTest</label>
-                                    </li>
-                                    <li class="list-group-item">
-                                        <input class="form-check-input me-2" type="checkbox" value="6" id="CA">
-                                        <label class="form-check-label" for="CA">CA</label>
-                                    </li>
-                                    <li class="list-group-item">
-                                        <input class="form-check-input me-2" type="checkbox" value="7" id="Exam">
-                                        <label class="form-check-label" for="Exam">Exam</label>
-                                    </li>
-                                    <li class="list-group-item">
-                                        <input class="form-check-input me-2" type="checkbox" value="8" id="Total">
-                                        <label class="form-check-label" for="Total">Total</label>
-                                    </li>
-                                    <li class="list-group-item">
-                                        <input class="form-check-input me-2" type="checkbox" value="9" id="Grade">
-                                        <label class="form-check-label" for="Grade">Grade</label>
-                                    </li>
-                                    <!-- <li class="list-group-item">
-                                        <input class="form-check-input me-2" type="checkbox" value="10" id="SubjectPosition">
-                                        <label class="form-check-label" for="SubjectPosition">Subject Position</label>
-                                    </li> -->
-                                    <li class="list-group-item">
-                                        <input class="form-check-input me-2" type="checkbox" value="10" id="Remark">
-                                        <label class="form-check-label" for="Remark">Remark</label>
-                                    </li>
+                        </div>
+                        <div class="col-md-4">
+                            <nav aria-label="Page navigation example">
+                                <ul class="pagination">
+        
                                 </ul>
-                            </div>
+                            </nav>
                         </div>
-
-                        <div class="btn-group d-block d-md-none my-2">
-                            <button class="w-100 btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                 Hide/Show table Columns
-                            </button>
-                            <ul class="columntoggle dropdown-menu">
-                                <li class="dropdown-item">
-                                        <input class="form-check-input me-2" type="checkbox" value="1" id="FirstTest">
-                                        <label class="form-check-label" for="FirstTest">FirstTest</label>
-                                    </li>
-                                    <li class="dropdown-item">
-                                        <input class="form-check-input me-2" type="checkbox" value="2" id="FirstAss">
-                                        <label class="form-check-label" for="FirstAss">FirstAss</label>
-                                    </li>
-                                    <li class="dropdown-item">
-                                        <input class="form-check-input me-2" type="checkbox" value="3" id="MidTermTest">
-                                        <label class="form-check-label" for="MidTermTest">MidTermTest</label>
-                                    </li>
-                                    <li class="dropdown-item">
-                                        <input class="form-check-input me-2" type="checkbox" value="4" id="SecondAss">
-                                        <label class="form-check-label" for="SecondAss">SecondAss</label>
-                                    </li>
-                                    <li class="dropdown-item">
-                                        <input class="form-check-input me-2" type="checkbox" value="5" id="SecondTest">
-                                        <label class="form-check-label" for="SecondTest">SecondTest</label>
-                                    </li>
-                                    <li class="dropdown-item">
-                                        <input class="form-check-input me-2" type="checkbox" value="6" id="CA">
-                                        <label class="form-check-label" for="CA">CA</label>
-                                    </li>
-                                    <li class="dropdown-item">
-                                        <input class="form-check-input me-2" type="checkbox" value="7" id="Exam">
-                                        <label class="form-check-label" for="Exam">Exam</label>
-                                    </li>
-                                    <li class="dropdown-item">
-                                        <input class="form-check-input me-2" type="checkbox" value="8" id="Total">
-                                        <label class="form-check-label" for="Total">Total</label>
-                                    </li>
-                                    <li class="dropdown-item">
-                                        <input class="form-check-input me-2" type="checkbox" value="9" id="Grade">
-                                        <label class="form-check-label" for="Grade">Grade</label>
-                                    </li>
-                                    <!-- <li class="dropdown-item">
-                                        <input class="form-check-input me-2" type="checkbox" value="10" id="SubjectPosition">
-                                        <label class="form-check-label" for="SubjectPosition">Subject Position</label>
-                                    </li> -->
-                                    <li class="dropdown-item">
-                                        <input class="form-check-input me-2" type="checkbox" value="10" id="Remark">
-                                        <label class="form-check-label" for="Remark">Remark</label>
-                                    </li>
-                            </ul>
-                        </div>
-                        
-                        <button type="button" class="btn btn-success my-3 w-100" id="submitresultbtn">
-                            Submit Student Result
-                        </button>
                     </div>
                 </div>
             </div>
+            <div class="col-md-2 pt-3 pt-md-0">
+                <button id="publishbtn" class="btn btn-primary w-100 mb-3 shadow-sm">Publish Result <i
+                        class="fa-solid fa-right-from-bracket ms-2"></i></button>
+                <button class="btn btn-success w-100 mb-3 shadow-sm">Print to Excel <i
+                        class="fa-solid fa-file-excel ms-2"></i></button>
+                <button class="btn btn-secondary w-100 shadow-sm" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                    Hide/Show Columns
+                </button>
+                <div class="my-3 collapse" id="collapseExample">
+                    <!-- this has to be dyamic as well -->
+                    <ul class="list-group">
+                        <li class="list-group-item list-group-item-secondary">
+                            <input class="form-check-input me-2" type="checkbox" value="" id="UnhideAllCheckbox">
+                            <label class="form-check-label" for="UnhideAllCheckbox"> hide All Subjects</label>
+                        </li>
+                        <li class="list-group-item">
+                            <input class="form-check-input me-2 column-checkbox" type="checkbox" value="1" id="firstCheckbox">
+                            <label class="form-check-label" for="firstCheckbox">First Test</label>
+                        </li>
+                        <li class="list-group-item">
+                            <input class="form-check-input me-2 column-checkbox" type="checkbox" value="2" id="secondCheckbox">
+                            <label class="form-check-label" for="secondCheckbox">First Ass</label>
+                        </li>
+                        <li class="list-group-item">
+                            <input class="form-check-input me-2 column-checkbox" type="checkbox" value="3" id="thirdCheckbox">
+                            <label class="form-check-label" for="thirdCheckbox">Mid Term Test</label>
+                        </li>
+                        <li class="list-group-item">
+                            <input class="form-check-input me-2 column-checkbox" type="checkbox" value="4" id="fouthcheckbox">
+                            <label class="form-check-label" for="fouthcheckbox">Second Test</label>
+                        </li>
+                        <li class="list-group-item">
+                            <input class="form-check-input me-2 column-checkbox" type="checkbox" value="5" id="fifthcheckbox">
+                            <label class="form-check-label" for="fifthcheckbox">Second Ass</label>
+                        </li>
+                        <li class="list-group-item">
+                            <input class="form-check-input me-2 column-checkbox" type="checkbox" value="6" id="sixthcheckbox">
+                            <label class="form-check-label" for="sixthcheckbox">CA</label>
+                        </li>
+                        <li class="list-group-item">
+                            <input class="form-check-input me-2 column-checkbox" type="checkbox" value="7" id="seventhcheckbox">
+                            <label class="form-check-label" for="seventhcheckbox">Exam</label>
+                        </li>
+                    </ul>
+                </div>
+        
+            </div>
+        </div>
         </div>
 </section>
 
-    <div class="modal fade" id="inputStudentResultModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-                <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title fs-5" id="AddandeditStudentModalLabel">input Student Results</h4>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <!-- The Result Input Form -->
-                    <form id="inputStudentResultform" class="p-4 pb-5">
-                        <div class="mb-3">
-                            <label for="student_name" class="form-label">Full name</label>
-                            <input type="text" class="form-control" id="student_name" value="Ndukwe Chiagoziem" readonly>
-                        </div>
-                        <!-- Scores and Grades -->
-                        <div class="mb-3 row g-2 justify-content-between">
-                            <div class="col-6">
-                                <label for="FirstTest" class="form-label">First Test</label>
-                                <input type="number" class="form-control" id="FirstTest" min="0" max="5" >
-                                <div class="valid-feedback">
-                                Looks good!
-                                </div>
-                                <div class="invalid-feedback">
-                                    input score
-                                </div>
-                            </div>
-                            <div class="col-6">
-                                <label for="FirstAss" class="form-label">First Ass</label>
-                                <input type="number" class="form-control" id="FirstAss" min="0" max="5" >
-                                <div class="valid-feedback">
-                                Looks good!
-                                </div>
-                                <div class="invalid-feedback">
-                                    input score
-                                </div>
-                            </div>
-
-                            <!-- Automatic Score -->
-                            <div class="col-6">
-                                <label for="MidTermTest" class="form-label">MidTermTest</label>
-                                <input type="number" class="form-control" id="MidTermTest" min="0" max="20" readonly>
-                            </div>
-
-                            <div class="col-6">
-                                <label for="SecondAss" class="form-label">Second Ass</label>
-                                <input type="number" class="form-control" id="SecondAss" min="0" max="5" >
-                                <div class="valid-feedback">
-                                Looks good!
-                                </div>
-                                <div class="invalid-feedback">
-                                    input score
-                                </div>
-                            </div>
-                            <div class="col-6">
-                                <label for="SecondTest" class="form-label">Second Test</label>
-                                <input type="number" class="form-control" id="SecondTest" min="0" max="5" >
-                                <div class="valid-feedback">
-                                Looks good!
-                                </div>
-                                <div class="invalid-feedback">
-                                    input score
-                                </div>
-                            </div>
-
-                            <!-- Calculated Score -->
-                            <div class="col-6">
-                                <label for="CA" class="form-label">CA</label>
-                                <input type="number" class="form-control" id="CA" min="0" max="40" readonly>
-                            </div>
-
-                            <div class="col-6">
-                                <label for="Exam" class="form-label">Exam Score</label>
-                                <input type="number" class="form-control" id="Exam" min="0" max="60" >
-                                <div class="valid-feedback">
-                                Looks good!
-                                </div>
-                                <div class="invalid-feedback">
-                                    input Exam Score 
-                                </div>
-                            </div>
-
-                            <!-- Calculated Score -->
-                            <div class="col-6">
-                                <label for="Total" class="form-label">Total</label>
-                                <input type="number" class="form-control" id="Total" min="0" max="100" readonly>
-                            </div>
-
-                            <!-- Automated Field -->
-                            <div class="col-6">
-                                <label for="Grade" class="form-label">Grade</label>
-                                <input type="text" class="form-control" id="Grade"  readonly>
-                            </div>
-                            <!-- <div class="col-6">
-                                <label for="SubjectPosition" class="form-label">Position</label>
-                                <input type="text" class="form-control" id="SubjectPosition" readonly>
-                            </div> -->
-                            <div class="col-6">
-                                <label for="Remark" class="form-label">Remark</label>
-                                <input type="text" class="form-control" id="Remark"  readonly>
-                            </div>
-                            <!-- end of Automated Field -->
+<div class="modal fade" id="inputStudentResultModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title fs-5" id="AddandeditStudentModalLabel">input Student Results</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!-- The Result Input Form -->
+                <form id="inputStudentResultform" class="p-4 pb-5">
+                    <div class="mb-3">
+                        <label for="student_name" class="form-label">Full name</label>
+                        <input type="text" class="form-control" id="student_name" name="Name" readonly>
+                    </div>
+                    <!-- Scores and Grades -->
+                    <div class="mb-3 row g-2 justify-content-between">
+                        <div class="col-6">
+                            <label for="FirstTest" class="form-label">First Test</label>
+                            <input type="number" class="form-control" id="FirstTest" name="1sttest" min="0" max="5">
 
                         </div>
-                        <div class="mb-3 d-flex justify-content-end">
-                            <button id="mainsubmitbtn" type="submit" class="btn btn-success me-3">
-                                 submit details  
-                                <span class="spinner-border spinner-border-sm d-none ms-1" role="status" aria-hidden="true"></span>
-                            </button>
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <div class="col-6">
+                            <label for="FirstAss" class="form-label">First Ass</label>
+                            <input type="number" class="form-control" id="FirstAss" name="1stAss" min="0" max="5">
                         </div>
-                        
-                    </form>
-                </div>
-                </div>
+
+                        <!-- Automatic Score -->
+                        <div class="col-6">
+                            <label for="MidTermTest" class="form-label">MidTermTest</label>
+                            <input type="number" class="form-control" id="MidTermTest" readonly>
+                        </div>
+
+                        <div class="col-6">
+                            <label for="SecondAss" class="form-label">Second Ass</label>
+                            <input type="number" class="form-control" id="SecondAss" name="2ndTest" min="0" max="5">
+
+                        </div>
+                        <div class="col-6">
+                            <label for="SecondTest" class="form-label">Second Test</label>
+                            <input type="number" class="form-control" id="SecondTest" name="2ndAss" min="0" max="5">
+
+                        </div>
+
+                        <div class="col-6">
+                            <label for="Exam" class="form-label">Exam Score</label>
+                            <input type="number" class="form-control" id="Exam" name="Exam" min="0" max="60">
+
+                        </div>
+
+                    </div>
+                    <div class="mb-3 d-flex justify-content-end">
+                        <button id="computebtn" type="submit" class="btn btn-success me-3">
+                            submit details
+                            <span class="spinner-border spinner-border-sm d-none ms-1" role="status"
+                                aria-hidden="true"></span>
+                        </button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+
+                </form>
             </div>
         </div>
+    </div>
+</div>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
 <script src="{% static 'js/Teacher_portal/Results.js' %}"></script>
 
 {% endblock %}

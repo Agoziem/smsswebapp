@@ -139,6 +139,10 @@
                             <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
                             View Students
                         </a>
+                        <a class="nav-link" href="{% url 'Teachers_portal:PublishResults' Classname=request.user.teacher.classFormed %}">
+                            <div class="sb-nav-link-icon"><i class="fa-solid fa-chart-column"></i></div>
+                            Publish Result
+                        </a>
                         <a class="nav-link" href="{% url 'Teachers_portal:mark_attendance' Classname=request.user.teacher.classFormed %}">
                             <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
                             Class Attendance
