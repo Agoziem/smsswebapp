@@ -19,10 +19,10 @@ class Students_Pin_and_IDAdmin(admin.ModelAdmin):
 
 @admin.register(Subject)
 class SubjectAdmin(admin.ModelAdmin):
-    list_display=('subject_name',)
-    ordering=('subject_name',)
-    search_fields=('subject_name',)
-    list_filter=('subject_name',)
+    list_display=('subject_name','subject_code')
+    ordering=('subject_name','subject_code')
+    search_fields=('subject_name','subject_code')
+    list_filter=('subject_name','subject_code')
 
 @admin.register(Class)
 class ClassAdmin(admin.ModelAdmin):
