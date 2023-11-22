@@ -183,7 +183,7 @@ def submitquestion_view(request):
 
         # Get or create Subject and Teacher instances
         subject = Subject.objects.get(subject_name=subject_name)
-        teacher = Teacher.objects.get(FirstName=teacher_name)
+        teacher = Teacher.objects.filter(FirstName=teacher_name).first()
         query = Q(subject=subject)
         query &= Q(ExamClass__id__in=classes)
 
