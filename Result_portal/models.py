@@ -5,12 +5,12 @@ import io
 import base64
 base64.encodestring = base64.encodebytes
 base64.decodestring = base64.decodebytes
-from openpyxl.utils import get_column_letter
+# from openpyxl.utils import get_column_letter
 import os
 import random
 from ckeditor.fields import RichTextField
-from django.db.models import F, Window
-from django.db.models.functions import DenseRank
+# from django.db.models import F, Window
+# from django.db.models.functions import DenseRank
 
 
 

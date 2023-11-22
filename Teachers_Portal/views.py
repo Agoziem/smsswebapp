@@ -129,8 +129,7 @@ def CBT_Questions_view(request,teachers_id):
         time = request.POST['testTime']
 
         query = Q(subject=subject)
-        for class_name in classname:
-            query &= Q(ExamClass__id__icontains=class_name)
+        query &= Q(ExamClass__id__in=classname)
 
         if QuestionSet.objects.filter(query).exists():
             questionset = QuestionSet.objects.filter(query).order_by('-id').first()
@@ -140,11 +139,11 @@ def CBT_Questions_view(request,teachers_id):
                 examTime=time,
                 teacher=teacher
             )
+            
             for class_id in classname:
                 class_object = Class.objects.get(id=class_id)
                 questionset.ExamClass.add(class_object)
             questionset.save()
-
         context = {'questionSet': questionset}
         return render(request, 'CBT_Questions.html', context)
 
@@ -185,34 +184,33 @@ def submitquestion_view(request):
         # Get or create Subject and Teacher instances
         subject = Subject.objects.get(subject_name=subject_name)
         teacher = Teacher.objects.get(FirstName=teacher_name)
-            
         query = Q(subject=subject)
-        for class_name in classes:
-            query &= Q(ExamClass__Class__icontains=class_name)
+        query &= Q(ExamClass__id__in=classes)
+        print(query)  
 
         if QuestionSet.objects.filter(query).exists():
-            question_set = QuestionSet.objects.get(query)
-
+            question_set = QuestionSet.objects.filter(query).order_by('-id').first()
+            print('is working')  
         else:
             question_set = QuestionSet.objects.create(
                 examTime=exam_time,
                 teacher=teacher,
                 subject=subject
             )
-
-        # Process the list of questions
+            for class_name in classes:
+                class_obj, created = Class.objects.get_or_create(Class=class_name)
+                question_set.ExamClass.add(class_obj)
+            question_set.save()
         questions_data = data['questions']
         for question_data in questions_data:
-            question_id = question_data.get('id') # this is the questionid
+            question_id = question_data.get('id')
             required = question_data.get('questionrequired')
-            
             # get the Question and set its required property
             question = Question.objects.get(
                 questionId =question_id,
             )
             question.required=required
             question.save()
-
             # get the nswers and set its is_correct property
             answers_data = question_data['answers']
             for answer_data in answers_data:
@@ -227,11 +225,6 @@ def submitquestion_view(request):
                 question.answers.add(answer)
 
             question_set.questions.add(question)
-
-        # Add the selected classes to the QuestionSet
-        for class_name in classes:
-            class_obj, created = Class.objects.get_or_create(Class=class_name)
-            question_set.ExamClass.add(class_obj)
 
         return JsonResponse({'message': 'Questions and answers submitted successfully'})  # Return a success response
 

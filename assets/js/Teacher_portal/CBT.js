@@ -4,7 +4,7 @@ class Question {
         this.id = questionid || Math.random().toString(16).slice(2);
         this.questionText = questionText || "None";
         this.questionMark = questionMark || 0;
-        this.questionrequired = required || true;
+        this.questionrequired = required;
         this.answers = [];
     }
 
@@ -110,7 +110,7 @@ class QuestionSet {
 
                                         return `<div class="form-check">
                                                 <input class="form-check-input" type="radio" name="flexRadioDefault${question.id}" id="flexRadioDefault${answer.id}" ${requiredAttribute}>
-                                                <label class="form-check-label" data-answer="${answer.id}" for="flexRadioDefault${answer.id}">
+                                                <label class="form-check-label answerlabel" data-answer="${answer.id}" for="flexRadioDefault${answer.id}">
                                                     ${answer.answerText}
                                                 </label>
                                                 ${invalidFeedback}
@@ -279,6 +279,7 @@ function setupeditform(e) {
     const formanswercontainer = addquestionform.querySelector('.answersinput');
     formanswercontainer.innerHTML = ''
     const answers = questionCard.querySelectorAll('.answerlabel')
+    console.log(answers);
     answers.forEach((answer) => {
         const answergroupdiv = document.createElement('div');
         answergroupdiv.classList.add('answergroup', 'd-flex', 'align-items-center', 'mb-3', 'pe-3')
@@ -409,7 +410,7 @@ class App {
             const questionMark = question.querySelector('.question-mark').innerText[0];
             const questionText = question.querySelector('.question-text').innerText;
             const questionid = question.getAttribute('data-question')
-            const switchElement = question.querySelector('input[role="switch"]');
+            const switchElement = question.querySelector('.form-check-input[role="switch"]');
             const required = switchElement.checked;
             const requiredBoolean = required ? true : false;
             const testquestion = new Question(questionText, +questionMark, requiredBoolean, questionid)

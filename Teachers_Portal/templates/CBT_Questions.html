@@ -67,9 +67,9 @@ label{
                         <input type="text" id="subject" value="{{questionSet.subject}}" hidden>
                         <input type="text" id="teacher" value="{{questionSet.teacher}}" hidden>
                         <input type="text" id="time" value="{{questionSet.examTime}}" hidden>
-                        <select id="test_classes" name="test_classes" class="form-select" multiple aria-label="Multiple select example" size="4" id="validationCustom06" required hidden>
+                        <select id="test_classes" name="test_classes" class="form-select" multiple aria-label="Multiple select example" size="4" id="validationCustom06" hidden>
                             {% for class in questionSet.ExamClass.all %}
-                            <option value="{{ class.Class }}" {% if class in questionSet.ExamClass.all %} selected {% endif %} class="p-2">{{ class.Class }}
+                            <option value="{{ class.id }}" {% if class in questionSet.ExamClass.all %} selected {% endif %} class="p-2">{{ class.id }}
                             </option>
                             {% endfor %}
                         </select>
