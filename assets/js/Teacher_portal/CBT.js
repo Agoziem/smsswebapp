@@ -670,6 +670,7 @@ class storage {
             .then(data => {
                 const type = 'alert-success'
                 const message = data['message']
+                console.log("is working");
                 displayalert(type, message)
             })
             .catch(error => console.error('Error:', error));
