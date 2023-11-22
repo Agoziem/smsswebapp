@@ -279,7 +279,6 @@ function setupeditform(e) {
     const formanswercontainer = addquestionform.querySelector('.answersinput');
     formanswercontainer.innerHTML = ''
     const answers = questionCard.querySelectorAll('.answerlabel')
-    console.log(answers);
     answers.forEach((answer) => {
         const answergroupdiv = document.createElement('div');
         answergroupdiv.classList.add('answergroup', 'd-flex', 'align-items-center', 'mb-3', 'pe-3')
@@ -442,7 +441,7 @@ class App {
         let questioninputtext = questioninput.value
         const questionmkinput = addquestionform.querySelector('#questionmark');
         const questionmk = questionmkinput.value
-        const question = new Question(questioninputtext, questionmk);
+        const question = new Question(questioninputtext, questionmk,true);
         questionmkinput.value = '2';
         const questionanswers = addquestionform.querySelectorAll('#questionanswer')
         questionanswers.forEach((answer) => {

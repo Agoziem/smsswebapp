@@ -186,11 +186,9 @@ def submitquestion_view(request):
         teacher = Teacher.objects.get(FirstName=teacher_name)
         query = Q(subject=subject)
         query &= Q(ExamClass__id__in=classes)
-        print(query)  
 
         if QuestionSet.objects.filter(query).exists():
             question_set = QuestionSet.objects.filter(query).order_by('-id').first()
-            print('is working')  
         else:
             question_set = QuestionSet.objects.create(
                 examTime=exam_time,
