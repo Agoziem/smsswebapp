@@ -182,6 +182,7 @@ const addquestionform = document.querySelector('#addtestquestionform')
 const addquestionModal = document.querySelector('#addquestionmodal')
 const deletequestionModal = document.querySelector('#deletequestionModal')
 const alertcontainer = document.querySelector('.alertcontainer')
+const submitalertcontainer = document.querySelector('.submitalertcontainer')
 const noquestion = document.querySelector('.noquestion')
 
 function displayalert(type, message) {
@@ -202,6 +203,23 @@ function displayalert(type, message) {
 
 }
 
+function displaysubmitalert(type, message) {
+    const alertdiv = document.createElement('div');
+    alertdiv.classList.add('alert', `${type}`, 'd-flex', 'align-items-center', 'mt-3');
+    alertdiv.setAttribute('role', 'alert');
+    alertdiv.innerHTML = `
+                        <i class="fa-solid fa-circle-check h6 me-2"></i>
+                        <div>
+                           ${message}
+                        </div>
+                        `
+    submitalertcontainer.appendChild(alertdiv)
+
+    setTimeout(() => {
+        alertdiv.remove();
+    }, 3000);
+
+}
 
 addquestionModal.addEventListener('hidden.bs.modal', function () {
     window.ckeditorEditor.setData('');
@@ -670,8 +688,7 @@ class storage {
             .then(data => {
                 const type = 'alert-success'
                 const message = data['message']
-                console.log("is working");
-                displayalert(type, message)
+                displaysubmitalert(type, message)
             })
             .catch(error => console.error('Error:', error));
     }
