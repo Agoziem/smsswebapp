@@ -8,7 +8,7 @@
     {% if questionsetsgroup %}
 	<div class="container p-5 mt-2 ">
 		<h6 class="text-center mb-3" style="font-family: 'League Spartan', sans-serif;">Hi  <span class="fw-bold fs-3 mb-2 ms-2">{{ student.student_name }}</span> <br>you are about to start
-			your <span class="fw-bold">MID Term Test (Computer Based)</span> , and you will be writing the following Subjects below for Today : 
+			your <span class="fw-bold"> Pre-Examination Test(Computer Based)</span> , and you will be writing the following Subjects below for Today : 
             <br><br>{% for questionset in questionsetsgroup %} <span class="fs-5">{{ questionset }}</span><br> {% endfor %}
             <br><br><i class="fa-regular fa-hourglass-half me-2 h4"></i>Total Time given : <span class="fw-bold fs-5 text-success">{{total_time}}mins</span>
 		</h6>
