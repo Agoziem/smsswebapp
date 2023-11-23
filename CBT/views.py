@@ -62,7 +62,7 @@ def CBT_view(request):
         'classobjects':classobjects
     }
     return render(request,'CBT_center.html',context)
-
+# 
 
 def test_view(request,student_id,class_id,questionGroup_id):
     student=Students_Pin_and_ID.objects.get(id=student_id)
@@ -86,7 +86,7 @@ def test_view(request,student_id,class_id,questionGroup_id):
         'questionGroup':questionGroup,
     }
     return render(request,'Test.html',context)
-
+# 
 
 def submit_test_view(request):
     test_data=json.loads(request.body)

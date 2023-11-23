@@ -35,7 +35,7 @@ class ClassAdmin(admin.ModelAdmin):
 class Student_Result_DataAdmin(admin.ModelAdmin):
     list_display=('Student_name','Position','display_Class','Average')
     ordering=('Student_name','Position','Average')
-    search_fields=('Student_name','Position','Average')
+    search_fields=('Position','Average')
     list_filter=('Student_name','Position','Average')
 
     def display_Class(self, obj):
@@ -47,7 +47,7 @@ class Student_Result_DataAdmin(admin.ModelAdmin):
 class ResultAdmin(admin.ModelAdmin):
     list_display = ('student','student_class','Subject')
     ordering = ('student','student_class','Subject')
-    search_fields = ('student','student_class','Subject') 
+    search_fields = ('student_class','Subject') 
     list_filter = ('student','student_class','Subject')
 
     # def display_Term(self, obj):
@@ -59,7 +59,7 @@ class ResultAdmin(admin.ModelAdmin):
 class AnnualStudentAdmin(admin.ModelAdmin):
     list_display=('Student_name','TotalScore','Average','Position')
     ordering=('Student_name','TotalScore','Average','Position')
-    search_fields=('Student_name','TotalScore','Average','Position')
+    search_fields=('TotalScore','Average','Position')
     list_filter=('Student_name','TotalScore','Average','Position')
 
 

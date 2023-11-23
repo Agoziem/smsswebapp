@@ -1,5 +1,13 @@
 const classSelect = document.getElementById('class');
 const StudentsSelect = document.getElementById('Students');
+const userInput = document.querySelector('#studentId');
+
+userInput.addEventListener('input', processinput)
+function processinput() {
+     // Get the input element
+     const processedValue = userInput.value.toLowerCase().replace(/\s/g, '');
+     userInput.value = processedValue;
+}
 
 classSelect.addEventListener('input',populateClass);
 

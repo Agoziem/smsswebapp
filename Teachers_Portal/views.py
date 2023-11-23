@@ -301,6 +301,7 @@ def DeleteStudents_view(request):
     except:
         return JsonResponse({'error': 'something went wrong' }, safe=False)
 
+
 # Form teachers View for submitting Results
 def PublishResults_view(request, Classname):
     class_object = Class.objects.get(Class=Classname)
@@ -326,21 +327,22 @@ def getstudentsubjecttotals_view(request,Classname):
 
         for sub in subjects:
             subobject = Subject.objects.get(subject_name=sub)
-            subresult = Result.objects.get(student=student,Subject=subobject)
-            student_dict[subobject.subject_code] = subresult.Total
+            try:
+                subresult = Result.objects.get(student=student,Subject=subobject)
+                student_dict[subobject.subject_code] = subresult.Total
+            except:
+                student_dict[subobject.subject_code] = "-"
         final_list.append(student_dict)
     return JsonResponse(final_list, safe=False)
 
 def publishstudentresult_view(request,Classname):
     data=json.loads(request.body)
-    print(data)
     Classdata=Classname
     for studentdata in data:
         classobject=Class.objects.get(Class=Classdata)
         student = Students_Pin_and_ID.objects.get(student_name=studentdata['Name'])
         studentnumber=Students_Pin_and_ID.objects.filter(student_class=classobject).count()
         studentresult,created=Student_Result_Data.objects.get_or_create(Student_name=student)
-        print(studentdata['TOTAL'])
         studentresult.TotalScore=studentdata['TOTAL']
         studentresult.Totalnumber= studentnumber
         studentresult.Average=studentdata['AVE']

@@ -80,7 +80,6 @@ class Students_Pin_and_ID(models.Model):
 
 	def save(self, *args, **kwargs):
 		if self.id:  # if object exists in database
-			print('is working')
 			super().save(*args, **kwargs)
 		else:
 			while not self.student_id:
@@ -107,12 +106,12 @@ class Students_Pin_and_ID(models.Model):
 
 class Student_Result_Data(models.Model):
 	Student_name=models.ForeignKey(Students_Pin_and_ID,on_delete=models.CASCADE)
-	Term=models.ForeignKey(Term,on_delete=models.CASCADE,blank=True,null=True)
 	TotalScore=models.CharField(max_length=100, blank=True,null=True , default="-")
 	Totalnumber=models.CharField(max_length=100, blank=True,null=True , default="-")
 	Average=models.CharField(max_length=100, blank=True,null=True , default="-")
 	Position=models.CharField(max_length=100, blank=True,null=True , default="-")
 	Remark=models.CharField(max_length=100, blank=True,null=True , default="-")
+	Term=models.ForeignKey(Term,on_delete=models.CASCADE,blank=True,null=True)
 	AcademicSession=models.ForeignKey(AcademicSession,on_delete=models.CASCADE,blank=True,null=True)
 
 
