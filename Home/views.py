@@ -1,6 +1,5 @@
 from django.shortcuts import render,redirect
 from .models import *
-from Teachers_Portal.models import Teacher
 from Result_portal.models import *
 from Blog.models import Article
 # from .forms import Contactform
@@ -44,7 +43,7 @@ def home_view(request):
 	queryset4=FAQ.objects.all()
 	queryset5=UpcomingEvents.objects.order_by('-id')[:2]
 	queryset6=PhotoGallery.objects.order_by('-id')[:6]
-	queryset7=Teacher.objects.all()
+	queryset7=TopTeacher.objects.all()
 	queryset8=ParentsReview.objects.all()
 	queryset9=Article.objects.order_by('-id')[:4]
 	context= {
