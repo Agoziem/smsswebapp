@@ -15,7 +15,7 @@ import json
 
 def activation_view(request):
     tests = Test.objects.all()
-    questions = QuestionSet.objects.all()
+    questions = QuestionSet.objects.all().order_by('subject__subject_name')
     testgroup=QuestionSetGroup.objects.all()
     context={
         "tests":tests,
