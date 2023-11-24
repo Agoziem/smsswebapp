@@ -3,213 +3,144 @@
 {% block content%}
 {% include 'main_navbar.html' %}
 <style >
-  .modal {
-  display: none; /* Hidden by default */
-  position: fixed; /* Stay in place */
-  z-index: 1; /* Sit on top */
-  left: 0;
-  top: 0;
-  width: 100%; /* Full width */
-  height: 100%; /* Full height */
-  overflow: auto; /* Enable scroll if needed */
-  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+
+select option {
+  padding: 8px;
 }
 
-/* Modal Content/Box */
-.modal-content {
-  background-color: #fffef6;
-  margin: 250px auto; /* 15% from the top and centered */
-  padding: 30px 20px 20px 20px;
-  width: 300px; /* Could be more or less, depending on screen size */
-  text-align: center;
-}
-
-/* Close Button */
-/* Close Button */
-.close {
-  color: #3b0505;
-  font-size: 35px;
-  font-weight: bold;
-  position: absolute;
-  top: 0;
-  right: 10px;
-}
-
-.close:hover,
-.close:focus {
-  color: black;
-  text-decoration: none;
-  cursor: pointer;
+select option:checked {
+  background-color: #a7a7a7;
+  color: #fff;
 }
 
 </style>
 
-
-<!-- Upload Successful modal -->
-<div id="modal" class="modal">
-  <div class="modal-content d-flex">
-    <p class="me-3"><i class="fas fa-check-circle text-success me-2"></i> File submitted successfully!</p>
-    <div><span class="close">&times;</span></div>   
-  </div>
-</div>
 <!-- Main page starts here -->
 <section class="pt-5">
-  <h1 class="px-3 mt-3 text-center" style="font-size: 30px;">STUDENT RESULT MANAGEMENT SYSTEM</h1>
+  <h1 class="px-3 mt-3 text-center" style="font-size: 30px;">CBT SUBJECTS ALLOCATION </h1>
   <div class="container">
-    <div class=" row justify-content-center align-items-center p-3">
+    <div class=" row justify-content-center align-items-center p-3 mb-4">
       <div class="col-md">
-
-        <!-- Excel file Upload table  -->
-        <table class="table table-bordered">
-          <thead>
-            <tr>
-              <th scope="col">Upload Result Excel files</th>
-          </thead>
-          <tbody>
-            <tr>
-              <td>
-                <form id="myForm" method="post" enctype="multipart/form-data">
-                  <div class="form-group mb-3 mt-2">
-                    <input type="file" class="form-control" id="myFile" name="myFile" required>
-                  </div>
-                  <div class="d-flex justify-content-center">
-                    <button type="submit" class="btn btn-primary w-75" id="uploadButton">Upload</button>
-                  </div>                 
-                </form>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+        <div class="bg-light p-5">
+            <form class="subjectallocationform">
+              <div class="mb-2">
+                <label for="testselect">Select the Test :</label>
+                <select id="testselect" name="Test" class="form-select" aria-label="Default select example" required>
+                  <option value="" selected >Select a Test</option>
+                  {% for test in tests %}
+                  <option value="{{ test.name }}">{{ test.name }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+              <div class="mb-2">
+                <label for="allocationname">Enter a name:</label>
+                <input type="text" name="Name" id="allocationname" class="form-control" required>
+              </div>
+              <div class="mb-4">
+                <label for="dateselect">Select the Test day</label>
+                <input id="dateselect" type="date" name="Day" id="allocationname" class="form-control" required>
+              </div>
+              <div class="mb-3">
+                <label for="subjectselect">Select the Subjects :</label>
+                  <select id="subjectselect" name="questions" class="form-select" multiple size="4" aria-label="Size 4 select example" required>
+                  {% for question in questions %}
+                  <option value="{{ question.id }}">{{ question.subject }} [{% for questionclass in question.ExamClass.all %} {{questionclass.Class}} {% endfor %}] </option>
+                  {% endfor %}
+                </select>
+              </div>
+              <div class="my-4">
+                <button type="submit" class="btn btn-primary w-100">Submit allocations</button>
+              </div>
+            </form>
+        </div>
       </div>
       <div class="col-md">
-        <table class="table table-bordered">
-          <!-- Table to Create Pin -->
-          <thead>
-            <tr>
-              <th scope="col">create Students pin </th>
-          </thead>
-          <tbody>
-            <tr>
-              <td class="d-flex flex-column align-items-center">
-                <a href="{% url 'Pin' %}" class="btn btn-primary">create Students pin</a>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+        <div class="p-5">
+          <h2 class="mb-3">Test allocated</h2>
+          <ul class="list-group">
+            {% for testallocated in testgroup %}
+            <li class="list-group-item">{{ testallocated.name }}</li>
+            {% endfor %}
+          </ul>
+        </div>
       </div>
     </div>
   </div>
-  <div class="container p-3">
-    <table class="table table-bordered">
-      <thead>
-        <tr>
-          <th scope="col">#</th>
-          <th scope="col">Termly Students </th>
-          <th scope="col">Termly Results</th>
-          <th scope="col">Annual Students</th>
-          <th scope="col">Annual Results</th>
-
-      </thead>
-      <tbody>
-        <tr>
-          <th scope="row">Jss1</th>
-          <td><a href="{% url 'Result_portal:juniorstudents1' %}" class="btn btn-sm">create</a></td>
-          <td><a href="{% url 'Result_portal:juniorresult1' %}" class="btn btn-warning btn-sm">create</a></td>
-          <td><a href="{% url 'Result_portal:juniorstudentsannual1' %}" class="btn btn-sm">create</a></td>
-          <td><a href="{% url 'Result_portal:juniorresultannual1' %}" class="btn btn-primary btn-sm">create</a></td>
-        </tr>
-
-        <tr>
-          <th scope="row">Jss2</th>
-          <td><a href="{% url 'Result_portal:juniorstudents2' %}" class="btn btn-sm">create</a></td>
-          <td><a href="{% url 'Result_portal:juniorresult2' %}" class="btn btn-warning btn-sm">create</a></td>
-          <td><a href="{% url 'Result_portal:juniorstudentsannual2' %}" class="btn btn-sm">create</a></td>
-          <td><a href="{% url 'Result_portal:juniorresultannual2' %}" class="btn btn-primary btn-sm">create</a></td>
-        </tr>
-        <tr>
-          <th scope="row">Jss3</th>
-          <td><a href="{% url 'Result_portal:juniorstudents3' %}" class="btn btn-sm">create</a></td>
-          <td><a href="{% url 'Result_portal:juniorresult3' %}" class="btn btn-warning btn-sm">create</a></td>
-          <td><a href="{% url 'Result_portal:juniorstudentsannual3' %}" class="btn btn-sm">create</a></td>
-          <td><a href="{% url 'Result_portal:juniorresultannual3' %}" class="btn btn-primary btn-sm">create</a></td>
-
-        </tr>
-        <tr>
-          <th scope="row">Ss1</th>
-          <td><a href="{% url 'Result_portal:seniorstudents1' %}" class="btn btn-sm">create</a></td>
-          <td><a href="{% url 'Result_portal:seniorresult1' %}" class="btn btn-warning btn-sm">create</a></td>
-          <td><a href="{% url 'Result_portal:seniorstudentsannual1' %}" class="btn btn-sm">create</a></td>
-          <td><a href="{% url 'Result_portal:seniorresultannual1' %}" class="btn btn-primary btn-sm">create</a></td>
-        </tr>
-
-        <tr>
-          <th scope="row">Ss2</th>
-          <td><a href="{% url 'Result_portal:seniorstudents2' %}" class="btn btn-sm">create</a></td>
-          <td><a href="{% url 'Result_portal:seniorresult2' %}" class="btn btn-warning btn-sm">create</a></td>
-          <td><a href="{% url 'Result_portal:seniorstudentsannual2' %}" class="btn btn-sm">create</a></td>
-          <td><a href="{% url 'Result_portal:seniorresultannual2' %}" class="btn btn-primary btn-sm">create</a></td>
-        </tr>
-
-        <tr>
-          <th scope="row">Ss3</th>
-          <td><a href="{% url 'Result_portal:seniorstudents3' %}" class="btn btn-sm">create</a></td>
-          <td><a href="{% url 'Result_portal:seniorresult3' %}" class="btn btn-warning btn-sm">create</a></td>
-          <td><a href="{% url 'Result_portal:seniorstudentsannual3' %}" class="btn btn-sm">create</a></td>
-          <td><a href="{% url 'Result_portal:seniorresultannual3' %}" class="btn btn-primary btn-sm">create</a></td>
-        </tr>
-
-      </tbody>
-    </table>
-
-  </div>
 </section>
 
+          <div class="modal fade" id="submitallocationModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+                aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title fs-6" id="staticBackdropLabel">Confirmation</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            Test allocation submitted successfully
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Cancel</button>
+                        </div>
+                    </div>
+            </div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-  // Ajax Excel Excel Upload Script 
-  const form = document.getElementById('myForm');
-  const uploadButton = document.getElementById('uploadButton');
-  const modal = document.getElementById('modal');
-  const span = document.getElementsByClassName('close')[0];
-  
-  form.addEventListener('submit', (e) => {
+const subjectallocationform = document.querySelector(".subjectallocationform");
+const subjectSelect = document.getElementById('subjectselect');
+const testselect = document.getElementById('testselect');
+const dateselect = document.getElementById('dateselect');
+const allocationname = document.getElementById('allocationname');
+const submitmodal = document.querySelector('#submitallocationModal');
+
+subjectallocationform.addEventListener('submit', processform);
+
+function processform(e) {
     e.preventDefault();
-    const formData = new FormData(form);
-    uploadFile(formData);
-  });
-  
-  function uploadFile(formData) {
-    uploadButton.innerHTML = 'Upload in progress...';
-    const xhr = new XMLHttpRequest();
-    xhr.open('POST', "{% url 'upload' %}");
-    xhr.setRequestHeader('X-CSRFToken', csrftoken);
-    xhr.upload.addEventListener('progress', (e) => {
-      if (e.lengthComputable) {
-        // const percent = Math.round((e.loaded / e.total) * 100);
-        // progressBar.style.width = percent + '%';
-        // progressBar.setAttribute('aria-valuenow', percent);
-      }
-    });
-    xhr.addEventListener('load', () => {
-      uploadButton.innerHTML = 'Upload another file';
-      modal.style.display = "block";
-      form.reset()
-    });
-    xhr.addEventListener('error', () => {
-      alert('Upload failed!');
-    });
-    xhr.send(formData);
-  }
-  
-  span.onclick = function() {
-    modal.style.display = "none";
-  };
-  
-  window.onclick = function(event) {
-      modal.style.display = "none";
+
+    // Initialize an array to store selected questions
+    const selectedQuestions = [];
+
+    // Iterate through selected options and add values to the array
+    for (const option of subjectSelect.selectedOptions) {
+        selectedQuestions.push(option.value);
     }
+
+    const formDataObject = {
+        Testname: allocationname.value,
+        date: dateselect.value,
+        testselected: testselect.value,
+        questions: selectedQuestions
+    };
+
+    // console.log(formDataObject);
+    submitgrouptoserver(formDataObject)
+    subjectallocationform.reset()
+}
+
+function submitgrouptoserver(formDataObject){
+  fetch('/testallocation/',{
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': csrftoken
+        },
+        body: JSON.stringify(formDataObject)
+  }).then(response => response.json())
+    .then(data => {
   
-  
-  // ///////////////////////////////////////////////////////////
-  </script>
+       $(submitmodal).modal('show');
+
+       setTimeout(() => {
+        $(submitmodal).modal('hide');
+    }, 3000);
+    })
+    .catch(error => console.error('Error:', error));
+}
+
+
+
+</script>
 {% include 'main_footer.html' %}
 {% endblock %}

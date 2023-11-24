@@ -1,6 +1,7 @@
 from django.shortcuts import render,redirect
 from .models import *
 from Result_portal.models import *
+from CBT.models import *
 from Blog.models import Article
 # from .forms import Contactform
 from django.core.mail import send_mail
@@ -13,29 +14,29 @@ import json
 
 
 def activation_view(request):
-	print(request.path)
-	context={
+    tests = Test.objects.all()
+    questions = QuestionSet.objects.all()
+    testgroup=QuestionSetGroup.objects.all()
+    context={
+        "tests":tests,
+        "questions":questions,
+        "testgroup":testgroup
 	}
-	return render(request, "activation.html" ,context)
+    return render(request, "activation.html" ,context)
 
-# //////////////////////////////////////////////////////////
-# Upload Excel files
-def upload(request):
-    if request.method == 'POST' and request.FILES.get('myFile'):
-        myfile = request.FILES['myFile']
-        instance = Excelfiles(Excel=myfile)
-        instance.save()
-        return JsonResponse({'status': 'ok'})
-    else:
-        return JsonResponse({'status': 'error'})
+
+def testallocation_view(request):
+	data=json.loads(request.body)
+	testobject=Test.objects.get(name=data['testselected'])
+	testgroup,created = QuestionSetGroup.objects.get_or_create(test=testobject,date=data['date'],name=data['Testname'])
+	for questionsetid in data['questions']:
+		questionsetobject=QuestionSet.objects.get(id=int(questionsetid))
+		testgroup.questionsets.add(questionsetobject)
+	testgroup.save()
+	return JsonResponse('Test allocation submitted successfully', safe=False)
+
+
     
-def createPin(request):
-	student=Excelfiles()
-	student.readPin()
-	context = {
-		}
-	return render(request, "pins.html", context)
-
 def home_view(request):
 	queryset1=School.objects.all()
 	queryset2=Management.objects.all()

@@ -48,7 +48,7 @@ class QuestionSet(models.Model):
     
     
 class QuestionSetGroup(models.Model):
-    questionsets=models.ManyToManyField(QuestionSet, related_name='questionsets')
+    questionsets=models.ManyToManyField(QuestionSet, related_name='questionsets',blank=True)
     name = models.CharField(max_length=255,default="No Subject",blank=False)
     test = models.ForeignKey(Test, on_delete=models.CASCADE)
     date = models.DateField()

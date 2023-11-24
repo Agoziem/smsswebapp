@@ -26,9 +26,9 @@ urlpatterns = [
 
     # ///////////////////////////////// Result Activation
     path('activation/', activation_view, name='activation_side'),
-    path('students_pin_activation/', createPin, name='Pin'),
-    # Upload Excel File
-    path('upload/', upload, name='upload'),
+    path('testallocation/', testallocation_view, name='testallocation'),
+
+    
     # ///////////////////////////////// Result Activation
     path('submit_contact_form/', submit_contact_form, name='submit_contact_form' ),
     path('submit_sub_form/', submit_sub_form, name='submit_sub_form' ),
