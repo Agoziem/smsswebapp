@@ -68,14 +68,25 @@
                     </div>
                     <form action="." method="POST">
                          {% csrf_token %}
-                         <div class="mb-3">
-                              <label for="term">Term:</label>
-                              <select id="term" name="Term" class="form-select" required>
-                                   <option value="" disabled selected >--Select the Term--</option>
-                                   {% for Term in Terms %}
-                                   <option value="{{ Term.term }}">{{ Term.term }}</option>
-                                   {% endfor %}
-                              </select>
+                         <div class="row">
+                              <div class="col-md mb-3">
+                                   <label for="term">Academic Session:</label>
+                                   <select id="term" name="AcademicSession" class="form-select" required>
+                                        <option value="" disabled selected >Select the Academic Session</option>
+                                        {% for Session in academic_session %}
+                                        <option value="{{ Session.session }}">{{ Session.session }}</option>
+                                        {% endfor %}
+                                   </select>
+                              </div>
+                              <div class=" col-md mb-3">
+                                   <label for="term">Term:</label>
+                                   <select id="term" name="Term" class="form-select" required>
+                                        <option value="" disabled selected >Select the Term</option>
+                                        {% for Term in Terms %}
+                                        <option value="{{ Term.term }}">{{ Term.term }}</option>
+                                        {% endfor %}
+                                   </select>
+                              </div>
                          </div>
                          <div class="mb-3">
                               <label for="class">Classes:</label>

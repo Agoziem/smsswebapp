@@ -54,7 +54,8 @@
 <body class="sb-nav-fixed">
     <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
         <!-- Navbar Brand-->
-        <a class="navbar-brand ps-3" href="index.html">Smss Omagba</a>
+        <a class="navbar-brand ps-3" href="{% url 'Teachers_portal:Teachers_dashboard' %}"><img src="{% static 'images/St Marks Logo.png' %}" alt="..."
+                    class="brand_image img-fluid me-2">SMSS Omagba</a>
         <!-- Sidebar Toggle-->
         <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i
                 class="fas fa-bars"></i></button>
@@ -112,7 +113,7 @@
                             data-bs-parent="#sidenavAccordion">
                             <nav class="sb-sidenav-menu-nested nav">
                                 {% for class in request.user.teacher.classes_taught.all %}
-                                <a class="nav-link" href="{% url 'Teachers_portal:result_computation' Classname=class.Class %}">{{ class.Class }}</a>
+                                <a class="nav-link" href="{% url 'Teachers_portal:result_computation' Classname=class.Class id=request.user.teacher.id %}">{{ class.Class }}</a>
                                 {% endfor %}
                             </nav>
                         </div>
@@ -136,16 +137,16 @@
                         {% if request.user.teacher.Role == 'Formteacher' %}
                         <div class="sb-sidenav-menu-heading">FORM TEACHER {{ request.user.teacher.classFormed }}</div>
                         <a class="nav-link" href="{% url 'Teachers_portal:Students' Classname=request.user.teacher.classFormed %}">
-                            <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
+                            <div class="sb-nav-link-icon"><i class="fa-solid fa-users"></i></div>
                             View Students
                         </a>
                         <a class="nav-link" href="{% url 'Teachers_portal:PublishResults' Classname=request.user.teacher.classFormed %}">
-                            <div class="sb-nav-link-icon"><i class="fa-solid fa-chart-column"></i></div>
+                            <div class="sb-nav-link-icon"><i class="fas fa-table"></i></i></div>
                             Publish Result
                         </a>
                         <a class="nav-link" href="{% url 'Teachers_portal:mark_attendance' Classname=request.user.teacher.classFormed %}">
-                            <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
-                            Class Attendance
+                            <div class="sb-nav-link-icon"><i class="fa-solid fa-chart-column"></i></div>
+                            Class Analytics
                         </a>
                         {% endif %}
                         <a class="nav-link" href="{% url 'Teachers_portal:profile' id=request.user.teacher.id %}">
@@ -172,7 +173,7 @@
             <footer class="py-4 bg-light mt-auto">
                 <div class="container-fluid px-4">
                     <div class="d-flex align-items-center justify-content-between small">
-                        <div class="text-muted">Copyright &copy; Smss Omagba 2022</div>
+                        <div class="text-muted">Copyright &copy; SMSS Omagba 2022</div>
                         <div>
                             <a href="#">Privacy Policy</a>
                             &middot;

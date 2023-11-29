@@ -2,7 +2,13 @@
 {% load static %}
 {% block content%}
     <main>
-        <section class="py-5">
+        <section class="py-4 pb-5">
+        <nav class="ms-4" style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+            <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'Teachers_portal:Teachers_dashboard' %}">Dashboard</a></li>
+            </ol>
+        </nav>
+        <hr>
         <div class="container-fluid px-4">
             <div class="d-flex flex-column align-items-center justify-content-center">
             <h1 class="mt-4">Dashboard</h1>

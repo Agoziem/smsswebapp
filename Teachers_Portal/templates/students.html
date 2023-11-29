@@ -60,7 +60,14 @@
 
 
 </style>
-<section class="py-2">
+<section class="py-2 ">
+    <nav class="ms-4 mt-4" style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+        <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url 'Teachers_portal:Teachers_dashboard' %}">Dashboard</a></li>
+        <li class="breadcrumb-item active" aria-current="page">{{ class.Class }} Students</li>
+        </ol>
+    </nav>
+    <hr>
     <input type="text" id="studentclass" value="{{ class.Class }}" hidden>
     <div class="container-fluid px-4">
             <div class="d-flex flex-column align-items-center justify-content-center">

@@ -1,10 +1,60 @@
 const inputStudentResultModal = document.querySelector('#inputStudentResultModal')
 const inputform = inputStudentResultModal.querySelector('#inputStudentResultform')
+const getstudentresultform = document.querySelector('#getstudentresultform')
 const subjectselect = getstudentresultform.querySelector('select');
 const classinput = getstudentresultform.querySelector('input');
+const termSelect = document.getElementById('termSelect');
+const academicSessionSelect = document.getElementById('academicSessionSelect');
+const rowcheckboxes = document.querySelector('.rowgroup');
+document.querySelector("#publishbtn").addEventListener('click', exportTableToJSON );
+let classdata = {
+    studentclass: classinput.value, 
+}
+
 const alertcontainer = document.querySelector('.alertcontainer')
-let studentsubject = subjectselect.options[subjectselect.selectedIndex].value;
-let studentclass = classinput.value
+
+
+// Function to save selected values to localStorage
+function saveformSelections() {
+    localStorage.setItem('selectedresultTerm', termSelect.value);
+    localStorage.setItem('selectedresultAcademicSession', academicSessionSelect.value);
+    localStorage.setItem('selectedresultsubject', subjectselect.value);
+    classdata.selectedTerm = termSelect.value;
+    classdata.selectedAcademicSession = academicSessionSelect.value;
+    classdata.studentsubject = subjectselect.options[subjectselect.selectedIndex].value;
+    readJsonFromFile()
+}
+
+// Function to load saved values from localStorage
+function loadsavedSelection() {
+    const savedTerm = localStorage.getItem('selectedresultTerm');
+    const savedAcademicSession = localStorage.getItem('selectedresultAcademicSession');
+    const savedsubject = localStorage.getItem('selectedresultsubject');
+
+    if (savedTerm !== null) {
+        termSelect.value = savedTerm;
+        classdata.selectedTerm = termSelect.value
+    } else {
+        classdata.selectedTerm = termSelect.value
+    }
+
+    if (savedAcademicSession !== null) {
+        academicSessionSelect.value = savedAcademicSession;
+        classdata.selectedAcademicSession = academicSessionSelect.value;
+    } else {
+        classdata.selectedAcademicSession = academicSessionSelect.value;
+    }
+
+    if (savedsubject !== null) {
+        subjectselect.value = savedsubject;
+        classdata.studentsubject = subjectselect.value;
+    } else {
+        classdata.studentsubject = subjectselect.value;
+    }
+
+    readJsonFromFile();
+}
+
 
 function displayalert(type, message) {
     const alertdiv = document.createElement('div');
@@ -57,17 +107,25 @@ class StudentDataHandler {
     }
 
     calculateTotal(student) {
-        return Object.keys(student)
-        .filter(key => key.startsWith("CA") || key.startsWith("Exam"))
-        .reduce((sum, key) => sum + (isNaN(student[key]) ? 0 : parseInt(student[key])), 0);
+        if (student['Exam'] === '-' || student['Exam'] === '') {
+            return '-'
+        } else {
+            return Object.keys(student)
+                .filter(key => key.startsWith("CA") || key.startsWith("Exam"))
+                .reduce((sum, key) => sum + (isNaN(student[key]) ? 0 : parseInt(student[key])), 0);
+        }
     }
     
   calculateGrade(student) {
-    const Total = this.calculateTotal(student);
-    if (Total >= 70) return "A";
-    else if (Total >= 55) return "C";
-    else if (Total >= 40) return "P";
-    else return "F";
+      const Total = this.calculateTotal(student);
+      if (Total === '-') {
+          return '-' 
+      } else {
+          if (Total >= 70) return "A";
+          else if (Total >= 55) return "C";
+          else if (Total >= 40) return "P";
+          else return "F";
+      }
 }
 
   calculatePosition() {
@@ -94,13 +152,15 @@ class StudentDataHandler {
     };
 
     let previousTotal = null;
-      let previousPosition = null;
+    let previousPosition = null;
       
     this.students.forEach((student, index) => {
         const currentTotal = student.Total;
         const suffix = getOrdinalSuffix(index + 1);
 
-        if (currentTotal === previousTotal) {
+        if (currentTotal === '-') {
+            student.Position = '-'
+        }else if (currentTotal === previousTotal) {
             // Assign the same position as the previous student
             student.Position = previousPosition;
         } else {
@@ -133,22 +193,36 @@ class StudentDataHandler {
 
 async function readJsonFromFile() {
   try {
-    const jsonData = await getstudentdata(studentsubject, studentclass);
+    const jsonData = await getstudentdata(classdata);
     const studentHandler = new StudentDataHandler(jsonData);
     const studentsWithCalculatedFields = studentHandler.getStudents();
+    //   populaterowcheckbox(studentsWithCalculatedFields)
       populatetable(studentsWithCalculatedFields)
+
+      // Check if the data exists in local storage
+      const existingData = localStorage.getItem('studentsData');
+      if (existingData) {
+          const parsedData = JSON.parse(existingData);
+          parsedData.studentsWithCalculatedFields = studentsWithCalculatedFields;
+
+          localStorage.setItem('studentsData', JSON.stringify(parsedData));
+      } else {
+          const newData = {
+            studentsWithCalculatedFields: studentsWithCalculatedFields,
+          };
+          localStorage.setItem('studentsData', JSON.stringify(newData));
+      }
       const dataTable = new DataTable();
+      
   } catch (error) {
     console.error('Error reading JSON file:', error);
   }
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    document.getElementById('getstudentresultform').addEventListener('submit', (e) => {
+    getstudentresultform.addEventListener('submit', (e) => {
         e.preventDefault()
-        studentsubject = subjectselect.options[subjectselect.selectedIndex].value;
-        studentclass = classinput.value
-        readJsonFromFile();
+        saveformSelections();
     });
 });
 
@@ -160,22 +234,32 @@ document.addEventListener('DOMContentLoaded', () => {
         formData.forEach((value, key) => {
         formDataObject[key] = value;
         });
-        studentsubject = subjectselect.options[subjectselect.selectedIndex].value;
-        studentclass = classinput.value
-        updatestudentresult(formDataObject,studentsubject,studentclass)
+        classdata.studentsubject = subjectselect.options[subjectselect.selectedIndex].value;
+        classdata.selectedTerm = termSelect.value,
+        classdata.selectedAcademicSession = academicSessionSelect.value,
+        updatestudentresult(formDataObject,classdata)
         $(inputStudentResultModal).modal('hide');
     });
 });
 
 
-
-
+// initial populating of the Table rows and the row Checkboxes
+// function populaterowcheckbox(tabledata) {
+//     const rowcheckcontainer = rowcheckboxes
+//     rowcheckcontainer.innerHTML = tabledata.map((data, index) => `
+//         <li class="list-group-item row-checkbox-group">
+//             <label class="form-check-label text-primary">
+//                 <input class="form-check-input me-2 row-checkbox" type="checkbox" data-row="${index + 1}" > ${data.Name}
+//             </label>
+//         </li>`
+//     ).join(''); 
+// }
 
 
 function populatetable(tabledata) {
     const tbody = document.querySelector('#dataTable').lastElementChild;
     tbody.innerHTML = tabledata.map((data,index) => `
-        <tr>
+        <tr data-rowindex='${index + 1}'>
             <td>${index + 1}</td>
             <td class="text-primary text-uppercase"><a class="inputdetailsformmodelbtn text-decoration-none" style="cursor:pointer">${data.Name}</a></td>
             <td>${data['1sttest']}</td>
@@ -195,20 +279,31 @@ function populatetable(tabledata) {
 
 
 // getting and updating from the server
-async function getstudentdata(subject,Class) {
-    const response = await fetch(`/Teachers_Portal/${subject}/${Class}/getstudentresults`)
-    const data = await response.json();
-    return data;
-}
-
-function updatestudentresult(formDataObject,subject,Class) {
-    fetch(`/Teachers_Portal/${subject}/${Class}/updatestudentresults`, {
+async function getstudentdata(classdata) {
+    const response = await fetch(`/Teachers_Portal/getstudentresults/`,{
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
             'X-CSRFToken': csrftoken
         },
-        body: JSON.stringify(formDataObject)
+        body: JSON.stringify(classdata)
+    })
+    const data = await response.json();
+    return data;
+}
+
+function updatestudentresult(formDataObject, classdata) {
+    const fullresultdata = {
+        formDataObject,
+        classdata
+    }
+    fetch(`/Teachers_Portal/updatestudentresults/`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': csrftoken
+        },
+        body: JSON.stringify(fullresultdata)
     })
         .then(response => response.json())
         .then(data => {
@@ -220,14 +315,46 @@ function updatestudentresult(formDataObject,subject,Class) {
         .catch(error => console.error('Error:', error));
 }
 
+function exportTableToJSON() {
+    const existingData = localStorage.getItem('studentsData');
+    const parsedData = JSON.parse(existingData);
+    const datatosubmit = parsedData.studentsWithCalculatedFields
+    classdata.studentsubject = subjectselect.options[subjectselect.selectedIndex].value;
+    classdata.studentclass = classinput.value
+    classdata.selectedTerm = termSelect.value,
+    classdata.selectedAcademicSession = academicSessionSelect.value,
+    submitallstudentresult(datatosubmit, classdata)
+}
 
-document.addEventListener("DOMContentLoaded", function () {
+function submitallstudentresult(data, classdata) {
+    const resulttosubmit = {
+        data,
+        classdata
+    }
+    fetch(`/Teachers_Portal/submitallstudentresult/`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': csrftoken
+        },
+        body: JSON.stringify(resulttosubmit)
+    })
+        .then(response => response.json())
+        .then(data => {
+            const type = 'alert-success'
+            const message = data
+            displayalert(type, message)
+        })
+        .catch(error => console.error('Error:', error));
+}
+
+
+    document.addEventListener("DOMContentLoaded", function () {
         // Checkbox change event
-        var columnCheckboxes = document.querySelectorAll('.column-checkbox');
+        const columnCheckboxes = document.querySelectorAll('.column-checkbox');
         columnCheckboxes.forEach(function (checkbox) {
             checkbox.addEventListener('change', function () {
                 const columnIndex = checkbox.value;
-
                 if (this.checked) {
                     // Hide the corresponding column
                     hideColumn(columnIndex);
@@ -239,9 +366,9 @@ document.addEventListener("DOMContentLoaded", function () {
         });
 
         // Unhide All checkbox change event
-        var unhideAllCheckbox = document.getElementById('UnhideAllCheckbox');
+        const unhideAllCheckbox = document.getElementById('UnhideAllCheckbox');
         unhideAllCheckbox.addEventListener('change', function () {
-            var isChecked = this.checked;
+            const isChecked = this.checked;
 
             // Show/hide all columns based on the Unhide All checkbox
             columnCheckboxes.forEach(function (checkbox) {
@@ -249,6 +376,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 checkbox.dispatchEvent(new Event('change'));
             });
         });
+
     });
 
     function hideColumn(columnIndex) {
@@ -282,11 +410,11 @@ document.addEventListener("DOMContentLoaded", function () {
 class DataTable {
     constructor() {
         this.table = document.getElementById('dataTable');
+        this.rows = Array.from(document.querySelectorAll('.table tbody tr'));
+        this.rowcheckboxes = Array.from(document.querySelectorAll('.row-checkbox-group'));
         document.querySelector('#tableHeader').addEventListener('click',this.getsortingdata.bind(this));
         document.querySelector("#filterInput").addEventListener('input', this.filterItems.bind(this));
-        document.querySelector("#publishbtn").addEventListener('click', this.exportTableToJSON.bind(this));
         this.table.addEventListener('click', this.setupeditmode.bind(this));
-        this.rows = Array.from(document.querySelectorAll('.table tbody tr'));
         this.pageSize=10
         this.currentPage = 1;
 
@@ -317,6 +445,7 @@ class DataTable {
         });
     }
 
+
     updateTable() {
         const startIndex = (this.currentPage - 1) * this.pageSize;
         const endIndex = startIndex + this.pageSize;
@@ -324,8 +453,10 @@ class DataTable {
         // Filter and paginate rows
         const filteredrows = this.rows
         const paginatedRows = filteredrows.slice(startIndex, endIndex);
-
-        // Update table body
+        // const rowcheckboxes = this.rowcheckboxes
+        // const paginatedcheckbox = rowcheckboxes.slice(startIndex, endIndex);
+        
+        // Update table body and the respective chedkboxes
         this.renderRows(paginatedRows);
 
         // Update pagination
@@ -342,7 +473,7 @@ class DataTable {
             row.style.display = 'table-row';
 
         } else {
-                row.style.display = 'none';
+            row.style.display = 'none';
         }
         });
     
@@ -356,6 +487,29 @@ class DataTable {
         rows.forEach(row => {
             tbody.appendChild(row);
         });
+
+        // rowcheckboxes.innerHTML = '';
+        // paginatedcheckbox.forEach(checkbox => {
+        //     rowcheckboxes.appendChild(checkbox);
+        // })
+
+       
+        // const checkboxes = rowcheckboxes.querySelectorAll('.row-checkbox')
+        // checkboxes.forEach(checkbox => {
+        //     const rowNumber = checkbox.getAttribute('data-row');
+        //     const storedState = localStorage.getItem(`row-${rowNumber}`);
+
+        //     if (storedState === 'hidden') {
+        //         checkbox.checked = true;
+        //         this.handleCheckboxChange({ target: checkbox }); 
+        //     }
+        // });
+
+        // rowcheckboxes.addEventListener('click', (e) => {
+        //     if (e.target.classList.contains('row-checkbox')) {
+        //         this.handleCheckboxChange(e)
+        //     }
+        // })
 
         let columnCheckboxes = document.querySelectorAll('.column-checkbox');
         columnCheckboxes.forEach(function (checkbox) {  
@@ -389,6 +543,26 @@ class DataTable {
         paginationliteral.innerHTML = `showing ${startIndex + 1} to ${endIndex} of ${totalRows} Students`
     }
 
+    
+
+//  handleCheckboxChange(event) {
+//     const checkbox = event.target;
+//     const rowNumber = checkbox.getAttribute('data-row');
+//      const row = document.querySelector(`tbody tr[data-rowindex="${rowNumber}"]`);
+//     if (row === null) {
+//         return;
+//     } else {
+//         // Update visibility and store state in local storage
+//         if (checkbox.checked) {
+//             row.style.display = 'none';
+//             localStorage.setItem(`row-${rowNumber}`, 'hidden');
+//         } else {
+//             row.style.display = '';
+//             localStorage.removeItem(`row-${rowNumber}`);
+//         }
+//     }
+// }
+
     getsortingdata(e){
         const columnIndex = 1;
         this.sortTable(columnIndex);
@@ -405,6 +579,8 @@ class DataTable {
         // Filter and paginate rows
         const pagerows = this.rows
         const Rowstosort = pagerows.slice(startIndex, endIndex);
+        // const rowcheckboxes = this.rowcheckboxes
+        // const sortedrowcheckboxes = rowcheckboxes.slice(startIndex, endIndex);
         
         const order = this.sortOrder || 'asc';
         
@@ -428,42 +604,6 @@ class DataTable {
         
     }
 
-    exportTableToJSON() {
-      
-      const data = [];
-
-      this.rows.forEach((row) => {
-        const rowData = {};
-        const cells = row.querySelectorAll('td');
-        
-        cells.forEach((cell, index) => {
-          const headerText = this.table.querySelector(`thead th:nth-child(${index + 1})`).innerText;
-          rowData[headerText] = cell.innerText;
-        });
-
-        data.push(rowData);
-      });
-    
-        this.submitallstudentresult(data,studentsubject,studentclass)
-    }
-
-    submitallstudentresult(data,studentsubject,studentclass) {
-    fetch(`/Teachers_Portal/${studentsubject}/${studentclass}/submitallstudentresult`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'X-CSRFToken': csrftoken
-        },
-        body: JSON.stringify(data)
-    })
-        .then(response => response.json())
-        .then(data => {
-            const type = 'alert-success'
-            const message = data
-            displayalert(type, message)
-        })
-        .catch(error => console.error('Error:', error));
-}
     
     setupeditmode(e){
         const target = e.target;
@@ -505,7 +645,7 @@ class DataTable {
    
 }
 
-readJsonFromFile();
+loadsavedSelection();
 
 
 

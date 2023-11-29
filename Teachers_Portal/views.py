@@ -41,23 +41,42 @@ def profile_view(request,id):
 
 # Teachers Result Formulation Part
 @login_required
-def result_computation_view(request,Classname):
+def result_computation_view(request,Classname,id):
+    teacher = Teacher.objects.get(id=id)
+    Terms=Term.objects.all()
+    academic_session= AcademicSession.objects.all()
     classobject = Class.objects.get(Class=Classname)
+    subjectsforclass=Subjectallocation.objects.get(classname=classobject)
+    subjects_taught_for_class = teacher.subjects_taught.filter(id__in=subjectsforclass.subjects.values_list('id', flat=True))
+
     context={
         'class':classobject,
+        "Terms":Terms,
+        "academic_session":academic_session,
+        "subjects_taught_for_class":subjects_taught_for_class
         } 
     return render(request,'Result_computation.html',context)
 
 @login_required
-def get_students_result_view(request, Classname, subject):
-    classobject = Class.objects.get(Class=Classname)
-    subjectobject = Subject.objects.get(subject_name=subject)
+def get_students_result_view(request):
+    data=json.loads(request.body)
+    classobject = Class.objects.get(Class=data['studentclass'])
+    subjectobject = Subject.objects.get(subject_name=data['studentsubject'])
+    term=Term.objects.get(term=data['selectedTerm'])
+    session=AcademicSession.objects.get(session=data['selectedAcademicSession'])
     students = Students_Pin_and_ID.objects.filter(student_class=classobject)
     studentResults = []
     
     for studentresult in students:
-        # Assuming student_result_data is a related name in your Students_Pin_and_ID model
-        student_result_object, created = Result.objects.get_or_create(student=studentresult,Subject=subjectobject,student_class=classobject)
+        student_result_details,created = Student_Result_Data.objects.get_or_create(Student_name=studentresult,Term=term,AcademicSession=session)
+        student_result_object, created = Result.objects.get_or_create(student=studentresult, Subject=subjectobject, students_result_summary=student_result_details,student_class=classobject)
+        try:
+            total_test_score = TestQuestionSet.objects.get(
+                testSubject=subjectobject, testSetGroup__student=studentresult
+            )
+            student_result_object.MidTermTest = total_test_score.testTotalScore
+        except:
+            student_result_object.MidTermTest = student_result_object.MidTermTest
         studentResults.append({
             'Name': student_result_object.student.student_name,
             '1sttest': student_result_object.FirstTest,
@@ -71,44 +90,52 @@ def get_students_result_view(request, Classname, subject):
     return JsonResponse(studentResults, safe=False)
 
 @login_required
-def update_student_result_view(request, Classname, studentsubject):
+def update_student_result_view(request):
     data=json.loads(request.body)
-    subject=studentsubject
-    Classdata=Classname
-    student=data['Name']
+    subject=data['classdata']['studentsubject']
+    Classdata=data['classdata']['studentclass']
+    student=data['formDataObject']['Name']
     classobject= Class.objects.get(Class=Classdata)
+    term=Term.objects.get(term=data['classdata']['selectedTerm'])
+    session=AcademicSession.objects.get(session=data['classdata']['selectedAcademicSession'])
     studentobject= Students_Pin_and_ID.objects.get(student_name=student)
     subjectobject = Subject.objects.get(subject_name=subject)
-    studentResult = Result.objects.get(student=studentobject,Subject=subjectobject,student_class=classobject)
-    studentResult.FirstTest  = data['1sttest']
-    studentResult.FirstAss  = data['1stAss']
-    studentResult.SecondAss = data['2ndAss']
-    studentResult.SecondTest = data['2ndTest']
-    studentResult.Exam = data['Exam']
+    student_result_details = Student_Result_Data.objects.get(Student_name=studentobject,Term=term,AcademicSession=session)
+    studentResult = Result.objects.get(student=studentobject,students_result_summary=student_result_details, Subject=subjectobject,student_class=classobject)
+    studentResult.FirstTest  = data['formDataObject']['1sttest']
+    studentResult.FirstAss  = data['formDataObject']['1stAss']
+    studentResult.MidTermTest  = data['formDataObject']['MidTermTest']
+    studentResult.SecondAss = data['formDataObject']['2ndAss']
+    studentResult.SecondTest = data['formDataObject']['2ndTest']
+    studentResult.Exam = data['formDataObject']['Exam']
     studentResult.save()
 
     return JsonResponse('Result Updated Successfully', safe=False)
     
 
-def submitallstudentresult_view(request, Classname, studentsubject):
+def submitallstudentresult_view(request):
     data=json.loads(request.body)
-    subject=studentsubject
-    Classdata=Classname
-    for result in data:
+    subject=data['classdata']['studentsubject']
+    Classdata=data['classdata']['studentclass']
+    term=Term.objects.get(term=data['classdata']['selectedTerm'])
+    session=AcademicSession.objects.get(session=data['classdata']['selectedAcademicSession'])
+    for result in data['data']:
         classobject= Class.objects.get(Class=Classdata)
         subjectobject = Subject.objects.get(subject_name=subject)
         studentobject= Students_Pin_and_ID.objects.get(student_name=result['Name'])
-        studentResult = Result.objects.get(student=studentobject,Subject=subjectobject,student_class=classobject)
-        studentResult.FirstTest=result['FT']
-        studentResult.FirstAss=result['FA']
-        studentResult.SecondAss=result['SA']
-        studentResult.SecondTest=result['ST']
+        student_result_details = Student_Result_Data.objects.get(Student_name=studentobject,Term=term,AcademicSession=session)
+        studentResult = Result.objects.get(student=studentobject,students_result_summary=student_result_details, Subject=subjectobject,student_class=classobject)
+        studentResult.FirstTest=result['1sttest']
+        studentResult.FirstAss=result['1stAss']
+        studentResult.MidTermTest=result['MidTermTest']
+        studentResult.SecondAss=result['2ndTest']
+        studentResult.SecondTest=result['2ndAss']
         studentResult.CA=result['CA']
         studentResult.Exam=result['Exam']
         studentResult.Total=result['Total']
         studentResult.Grade=result['Grade']
         studentResult.SubjectPosition=result['Position']
-        studentResult.Remark=result['Remark']
+        studentResult.Remark=result['Remarks']
         studentResult.save()
     return JsonResponse('Results submitted Successfully', safe=False)
 
@@ -302,53 +329,80 @@ def DeleteStudents_view(request):
         return JsonResponse({'error': 'something went wrong' }, safe=False)
 
 
-# Form teachers View for submitting Results
-def PublishResults_view(request, Classname):
-    class_object = Class.objects.get(Class=Classname)
-    results = Result.objects.filter(student_class=class_object)
-    subjects = results.values_list('Subject__subject_name', flat=True).distinct()
-    subjectlist = results.values_list('Subject__subject_code', flat=True).distinct()
-    sub_list = list(subjectlist)
-    context = {'subjects': subjects,"class": class_object,'sub_list':sub_list}
 
+
+# Form teachers View for submitting Results
+@login_required
+def PublishResults_view(request,Classname):
+    Terms=Term.objects.all()
+    academic_session= AcademicSession.objects.all()
+    class_object = Class.objects.get(Class=Classname)
+    subjects_allocation = Subjectallocation.objects.filter(classname=class_object).first()
+    subject_code = []
+    for subobject in subjects_allocation.subjects.all():
+        subject_code.append(subobject.subject_code)
+    context = {
+        'subjects_allocation': subjects_allocation,
+        "class": class_object,
+        'sub_list':subject_code,
+        "Terms":Terms,
+        "academic_session":academic_session
+        }
     return render(request, 'Publish_Result.html', context)
 
-def getstudentsubjecttotals_view(request,Classname):
-    class_object = Class.objects.get(Class=Classname)
-    results = Result.objects.filter(student_class=class_object)
+def getstudentsubjecttotals_view(request):
+    data=json.loads(request.body)
+    class_object = Class.objects.get(Class=data['studentclass'])
+    term_object = Term.objects.get(term=data['selectedTerm'])
+    session_object = AcademicSession.objects.get(session=data['selectedAcademicSession'])
+    subjects_allocated = Subjectallocation.objects.filter(classname=class_object).first()
     students = Students_Pin_and_ID.objects.filter(student_class=class_object)
-    subjects = results.values_list('Subject__subject_name', flat=True).distinct()
     final_list = []
     # get all the Students related to the Class
     for student in students:
+        Resultdetails=Student_Result_Data.objects.filter(Student_name=student,Term=term_object,AcademicSession=session_object).first()
         student_dict = {
             'Name': student.student_name,
         }
-
-        for sub in subjects:
-            subobject = Subject.objects.get(subject_name=sub)
+        for subobject in subjects_allocated.subjects.all():
             try:
-                subresult = Result.objects.get(student=student,Subject=subobject)
+                subresult = Result.objects.get(student=student,students_result_summary=Resultdetails, Subject=subobject)
                 student_dict[subobject.subject_code] = subresult.Total
             except:
                 student_dict[subobject.subject_code] = "-"
         final_list.append(student_dict)
     return JsonResponse(final_list, safe=False)
 
-def publishstudentresult_view(request,Classname):
+def publishstudentresult_view(request):
     data=json.loads(request.body)
-    Classdata=Classname
-    for studentdata in data:
+    termobject=data['classdata']['selectedTerm']
+    Acadsessionobject=data['classdata']['selectedAcademicSession']
+    Classdata=data['classdata']['studentclass']
+    for studentdata in data['data']:
         classobject=Class.objects.get(Class=Classdata)
+        resultterm = Term.objects.get(term=termobject)
+        resultsession = AcademicSession.objects.get(session=Acadsessionobject)
         student = Students_Pin_and_ID.objects.get(student_name=studentdata['Name'])
         studentnumber=Students_Pin_and_ID.objects.filter(student_class=classobject).count()
-        studentresult,created=Student_Result_Data.objects.get_or_create(Student_name=student)
-        studentresult.TotalScore=studentdata['TOTAL']
-        studentresult.Totalnumber= studentnumber
-        studentresult.Average=studentdata['AVE']
-        studentresult.Position=studentdata['POSITION']
-        studentresult.Remark=studentdata['REMARK']
-        studentresult.save()
+        if Student_Result_Data.objects.filter(Student_name=student,Term=resultterm,AcademicSession=resultsession).exists():
+            studentresult=Student_Result_Data.objects.get(Student_name=student,Term=resultterm,AcademicSession=resultsession)
+            studentresult.TotalScore=studentdata['TOTAL']
+            studentresult.Totalnumber= studentnumber
+            studentresult.Average=studentdata['AVE']
+            studentresult.Position=studentdata['POSITION']
+            studentresult.Remark=studentdata['REMARK']
+            studentresult.save()
+        else:
+            Student_Result_Data.objects.create(
+            TotalScore=studentdata['TOTAL'],
+            Average=studentdata['AVE'],
+            Position=studentdata['POSITION'],
+            Remark=studentdata['REMARK'],
+            Student_name=student,
+            Totalnumber= studentnumber,
+            Term=resultterm,
+            AcademicSession=resultsession
+            )
     return JsonResponse('Results have been Published and its now open to the Students', safe=False)
 
 

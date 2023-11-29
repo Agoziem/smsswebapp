@@ -43,10 +43,7 @@ class QuestionSet(models.Model):
 
     def __str__(self):
         return  f'{self.subject.subject_name}'
-    
-
-    
-    
+      
 class QuestionSetGroup(models.Model):
     questionsets=models.ManyToManyField(QuestionSet, related_name='questionsets',blank=True)
     name = models.CharField(max_length=255,default="No Subject",blank=False)

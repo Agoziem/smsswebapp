@@ -2,6 +2,8 @@ const result_btn = document.getElementById('result_btn');
 const spinner = result_btn.querySelector('.spinner-border');
 const labels = document.querySelector('#labels')
 const data = document.querySelector('#data')
+console.log(labels);
+console.log(data);
 result_btn.addEventListener('click', () => {
     // Show spinner
     spinner.classList.remove('d-none');

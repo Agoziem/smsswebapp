@@ -19,30 +19,33 @@ def get_Students(request, Classname):
 def Result_Portal_view(request):
 	classes=Class.objects.all()
 	Terms=Term.objects.all()
+	academicsession= AcademicSession.objects.all()
 	if request.method == 'POST':
 	# get the Student name from the request
 		student_name=str(request.POST['student_name'])
 		student_id=str(request.POST['student_id'])
 		Pin=str(request.POST['student_pin'])
 		term = request.POST['Term']
+		academic_session = request.POST['AcademicSession']
 		labels=[]
 		data=[]
 		Annual_Result=False
-		# Get the Student details, the Students_Result_Details and the Results (Both Annual & Termly )
+		# Get the Student details, the c Students_Result_Details and the Results (Both Annual & Termly )
 		try:
 			resultTerm=Term.objects.get(term=term)
+			resultSession= AcademicSession.objects.get(session=academic_session)
 			student = Students_Pin_and_ID.objects.get(student_name=student_name,student_id=student_id,student_pin=Pin)
-			if Student_Result_Data.objects.filter(student_name=student,Term=resultTerm).exists():
-				Student_Result_details=Student_Result_Data.objects.get(student_name=student,Term=resultTerm)
-				Student_Results=Result.objects.filter(student=student,students_result_summary=Student_Result_details)
+			if Student_Result_Data.objects.filter(Student_name=student,Term=resultTerm,AcademicSession=resultSession).exists():
+				Student_Result_details=Student_Result_Data.objects.get(Student_name=student,Term=resultTerm,AcademicSession=resultSession)
+				Student_Results=Result.objects.filter(students_result_summary=Student_Result_details)
 				for result in Student_Results:
 					labels.append(result.Subject)
 					data.append(result.Total)
 					
-				if AnnualStudent.objects.filter(student_name=student).exists():
+				if AnnualStudent.objects.filter(Student_name=student).exists():
 					Annual_Result=True
-					Annual_Student_Result_details=AnnualStudent.objects.get(student_name=student)
-					Annual_Student_Results=AnnualResult.objects.filter(student_name=Annual_Student_Result_details)
+					Annual_Student_Result_details=AnnualStudent.objects.get(Student_name=student,AcademicSession=resultSession)
+					Annual_Student_Results=AnnualResult.objects.filter(students_result_data=Annual_Student_Result_details)
 					PromotionVerdict=int(float(Annual_Student_Result_details.Average))
 					context={
 						"student_details":student,
@@ -71,18 +74,19 @@ def Result_Portal_view(request):
 				return render(request,"404.html")
 
 		except Students_Pin_and_ID.DoesNotExist:
-			# Display an error message if the student does not exist
-			classes=Class.objects.all()
 			context={
 				"classes":classes,
+				"Terms":Terms,
+				"academic_session":academicsession
 			}
 			messages.error(request, 'Check your Student id or the Pin and try again , make sure you are entering it Correctly')
 			return render(request, "Result_Portal.html",context)
-	else:
-		context={
-			"classes":classes,
-			"Terms":Terms
-		}
-		return render(request, "Result_Portal.html",context)
+	
+	context={
+		"classes":classes,
+		"Terms":Terms,
+		"academic_session":academicsession
+	}
+	return render(request, "Result_Portal.html",context)
 	
 

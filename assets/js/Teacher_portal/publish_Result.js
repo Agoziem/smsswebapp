@@ -1,13 +1,63 @@
 
 // Handling Student Info
 const classinput = document.querySelector('.classinput');
-let studentclass = classinput.value
 const subjectlistinput = document.querySelector('.subjectlist');
-let subjectlist = subjectlistinput.value;
+const subjectlist = subjectlistinput.value
 const modifiedList = subjectlist.replace(/'/g, '"');
 let jsonstring = `${modifiedList}`
 let mainsubjectlist = JSON.parse(jsonstring);
 const alertcontainer = document.querySelector('.alertcontainer')
+const termSelect = document.getElementById('termSelect');
+const academicSessionSelect = document.getElementById('academicSessionSelect');
+const publishButton = document.getElementById('publishbtn');
+termSelect.addEventListener('change', function () {
+    saveSelection();
+});
+
+academicSessionSelect.addEventListener('change', function () {
+    saveSelection();
+});
+
+let classdata = {
+    studentclass: classinput.value,
+}
+
+// Function to save selected values to localStorage
+function saveSelection() {
+    localStorage.setItem('selectedTerm', termSelect.value);
+    localStorage.setItem('selectedAcademicSession', academicSessionSelect.value);
+    classdata.selectedTerm = termSelect.value;
+    classdata.selectedAcademicSession = academicSessionSelect.value;
+    readJsonFromFile()
+}
+
+// Function to load saved values from localStorage
+function loadSelection() {
+    const savedTerm = localStorage.getItem('selectedTerm');
+    const savedAcademicSession = localStorage.getItem('selectedAcademicSession');
+
+    if (savedTerm !== null) {
+        termSelect.value = savedTerm;
+        classdata.selectedTerm = termSelect.value
+    } else {
+        classdata.selectedTerm = termSelect.value
+    }
+
+    if (savedAcademicSession !== null) {
+        academicSessionSelect.value = savedAcademicSession;
+        classdata.selectedAcademicSession = academicSessionSelect.value;
+    } else {
+        classdata.selectedAcademicSession = academicSessionSelect.value;
+    }
+    readJsonFromFile();
+}
+
+
+
+
+
+
+// functions to disable the button when the Term and Academic Session have not been 
 
 function displayalert(type, message) {
     const alertdiv = document.createElement('div');
@@ -144,7 +194,7 @@ class StudentDataHandler {
 // function to get Student Result
 async function readJsonFromFile() {
   try {
-    const jsonData = await getstudentresult(studentclass);
+    const jsonData = await getstudentresult(classdata);
     const studentHandler = new StudentDataHandler(jsonData);
     const studentsWithCalculatedFields = studentHandler.getStudents();
       populatetable(studentsWithCalculatedFields)
@@ -154,6 +204,8 @@ async function readJsonFromFile() {
   }
 }
 
+
+// function to Populate the Table
 function populatetable(tabledata) {
     const tbody = document.querySelector('#dataTable').lastElementChild;
     tbody.innerHTML = tabledata.map((data, index) =>
@@ -172,11 +224,19 @@ function populatetable(tabledata) {
 }
 
 
-async function getstudentresult(Class) {
-    const response = await fetch(`/Teachers_Portal/${Class}/getstudentsubjecttotals`)
+async function getstudentresult(classdata) {
+    const response = await fetch(`/Teachers_Portal/getstudentsubjecttotals/`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': csrftoken
+        },
+        body: JSON.stringify(classdata)
+    })
     const data = await response.json();
     return data;
 }
+
 
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -242,7 +302,7 @@ class DataTable {
         this.table = document.getElementById('dataTable');
         document.querySelector('#tableHeader').addEventListener('click',this.getsortingdata.bind(this));
         document.querySelector("#filterInput").addEventListener('input', this.filterItems.bind(this));
-        document.querySelector("#publishbtn").addEventListener('click', this.exportTableToJSON.bind(this));
+        publishButton.addEventListener('click', this.exportTableToJSON.bind(this));
         this.rows = Array.from(document.querySelectorAll('.table tbody tr'));
         this.pageSize=10
         this.currentPage = 1;
@@ -400,18 +460,26 @@ class DataTable {
 
         data.push(rowData);
       });
+        
+        classdata.studentclass = classinput.value,
+        classdata.selectedTerm = termSelect.value,
+        classdata.selectedAcademicSession = academicSessionSelect.value,
     
-        this.publishstudentresult(data,studentclass)
+            this.publishstudentresult(data, classdata)
     }
 
-    publishstudentresult(data,studentclass) {
-    fetch(`/Teachers_Portal/${studentclass}/publishstudentresult/`, {
+    publishstudentresult(data,classdata) {
+        const fulldata = {
+            data,
+            classdata
+        }
+        fetch(`/Teachers_Portal/publishstudentresult/`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
             'X-CSRFToken': csrftoken
         },
-        body: JSON.stringify(data)
+        body: JSON.stringify(fulldata)
     })
         .then(response => response.json())
         .then(data => {
@@ -424,7 +492,10 @@ class DataTable {
    
 }
 
-readJsonFromFile();
+window.addEventListener('DOMContentLoaded', () => {
+    loadSelection();
+    
+})
 
 
 

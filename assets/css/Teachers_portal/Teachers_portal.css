@@ -42,6 +42,12 @@ label{
     font-size: 25px;
 }
 
+.brand_image {
+    object-fit: cover;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+}
 
 /* CBT Questions Page */
 

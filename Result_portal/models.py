@@ -21,11 +21,10 @@ class AcademicSession(models.Model):
 		return str(self.session)
 
 class Term(models.Model):
-	academicsession = models.ForeignKey(AcademicSession,on_delete=models.CASCADE , blank = True)
 	term = models.CharField(max_length=100, blank=True)
 
 	def __str__(self):
-		return f'{self.term} ({self.academicsession.session})'
+		return f'{self.term}'
 
 class Class(models.Model):
 	Class=models.CharField(max_length=10, blank=True)
@@ -39,7 +38,15 @@ class Subject(models.Model):
 	
 	def __str__(self):
 		return str(self.subject_name)
+
+class Subjectallocation(models.Model):
+	classname=models.ForeignKey(Class, on_delete=models.CASCADE , blank = True,null=True)
+	subjects=models.ManyToManyField(Subject)
+
+	def __str__(self):
+		return f"subjects allocated for {self.classname}"
 	
+
 # Model for the Newsletter Section & Assignments
 class Newsletter(models.Model):
 	newsletter= RichTextField(blank=True,null=True)
@@ -149,6 +156,7 @@ class AnnualStudent(models.Model):
 	Totalnumber=models.CharField(max_length=100, blank=True,null=True , default="-")
 	Average=models.CharField(max_length=100, blank=True,null=True , default="-")
 	Position=models.CharField(max_length=100, blank=True,null=True , default="-")
+	AcademicSession=models.ForeignKey(AcademicSession,on_delete=models.CASCADE,blank=True,null=True)
 
 	def __str__(self):
 		return str(self.Student_name.student_name +"-"+ self.Student_name.student_class.Class)

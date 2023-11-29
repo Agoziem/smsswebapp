@@ -94,7 +94,7 @@ body {
 hr {
   margin: 1rem 0;
   color: inherit;
-  background-color: currentColor;
+  background-color: #ccc;;
   border: 0;
   opacity: 0.25;
 }
@@ -11423,7 +11423,7 @@ body {
 
 .sb-topnav {
   padding-left: 0;
-  height: 56px;
+  height: 63px;
   z-index: 1039;
 }
 .sb-topnav .navbar-brand {
