@@ -277,7 +277,6 @@ def createstudent_view(request):
     classobject = Class.objects.get(Class=student_class)
     try:
         newStudent = Students_Pin_and_ID.objects.create(student_name=student_name,Sex=student_sex,student_class=classobject)
-        newStudentResult = Student_Result_Data.objects.create(Student_name=newStudent)
         context={
             'student_ID': newStudent.id, 
             'student_id': newStudent.student_id, 
