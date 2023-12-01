@@ -77,163 +77,257 @@
                 </ol>
             </div>         
             <div class="row justify-content-center">
-            <div class="col-md-7 ">
-                <div class="alertcontainer mb-2">
-                </div>
-                <div class="card px-4 py-4 pb-2 me-0 me-md-4">
-                    <!-- Table Header -->
-                    <div class="table-header row align-item-center justify-content-between mb-4 mb-md-0">
-                        <div class="col-md-3 mb-3 mb-md-0">
-                            <select id="lengthSelect" class="form-select" aria-label="Default select example">
-                                <option value="10" selected>10</option>
-                                <option value="20">20</option>
-                                <option value="30">30</option>
-                                <option value="40">40</option>
-                                <option value="50">50</option>
+                <!-- display for only small Screen -->
+                <div class="col-md-3 pt-2 d-block d-md-none">
+                    <form action="" id="getstudentresultform" class="mb-3 p-3" style="background-color: rgba(229, 213, 181, .19);;">
+                        <input type="text" value="{{ class.Class }}" hidden>
+                        <div class="mb-2">
+                            <label>Subjects : </label>
+                            <select class="form-select" name="subject" required>
+                                {% for subject in subjects_taught_for_class %}
+                                <option value="{{ subject.subject_name }}" {% if forloop.first %}selected{% endif %}>{{ subject.subject_name }}</option>
+                                {% endfor %}
                             </select>
-                            <p class="fw-bold mt-2">students per page</p>
                         </div>
-                        <div class="col-md-4">
-                            <input type="text" class="form-control" id="filterInput" placeholder="Search....">
+                        <div class="mb-2">
+                            <label for="academicSessionSelect">Academic Session:</label>
+                            <select id="academicSessionSelect" name="AcademicSession" class="form-select" required>
+                                {% for Session in academic_session %}
+                                <option value="{{ Session.session }}" {% if forloop.first %}selected{% endif %}>{{ Session.session }}</option>
+                                {% endfor %}
+                            </select>
                         </div>
+                        <div class="mb-4">
+                            <label for="termSelect">Term:</label>
+                            <select id="termSelect" name="Term" class="form-select" required>
+                                {% for Term in Terms %}
+                                <option value="{{ Term.term }}" {% if forloop.first %}selected{% endif %}>{{ Term.term }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100 mb-4">Submit Subject</button>
+                    </form>
+                </div>
+                <div class="col-md-7 ">
+                    <div class="alertcontainer mb-2">
                     </div>
-                    <!-- The Main Table -->
-                    <div class="table-responsive table-main">
-                        <table id="dataTable" class="table table-striped table-bordered">
-                            <thead>
-                                <tr>
-                                    <th scope="col">S/N</th>
-                                    <th id="tableHeader" scope="col">Name<i class="fa-solid fa-arrow-up-z-a ms-2"></i>
-                                    </th>
-                                    <th data-index="1" scope="col">FT</th>
-                                    <th data-index="2" scope="col">FA</th>
-                                    <th data-index="3" scope="col">MTT</th>
-                                    <th data-index="4" scope="col">ST</th>
-                                    <th data-index="5" scope="col">SA</th>
-                                    <th data-index="6" scope="col">CA</th>
-                                    <th data-index="7" scope="col">Exam</th>
-                                    <th scope="col">Total</th>
-                                    <th scope="col">Grade</th>
-                                    <th scope="col">Position</th>
-                                    <th scope="col">Remark</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-        
-                            </tbody>
-                        </table>
-                    </div>
-                    <hr>
-                    <!-- Table Footer -->
-                    <div class=" table-footer row align-items-center justify-content-between pb-2">
-                        <div class="col-md-4 mb-4 m-md-0">
-                            <div class="pagination-literal">
-        
+                    <div class="card px-4 py-4 pb-2 me-0 me-md-4">
+                        <!-- Table Header -->
+                        <div class="table-header row align-item-center justify-content-between mb-4 mb-md-0">
+                            <div class="col-md-3 mb-3 mb-md-0">
+                                <select id="lengthSelect" class="form-select" aria-label="Default select example">
+                                    <option value="10" selected>10</option>
+                                    <option value="20">20</option>
+                                    <option value="30">30</option>
+                                    <option value="40">40</option>
+                                    <option value="50">50</option>
+                                </select>
+                                <p class="fw-bold mt-2">students per page</p>
+                            </div>
+                            <div class="col-md-4">
+                                <input type="text" class="form-control" id="filterInput" placeholder="Search....">
                             </div>
                         </div>
-                        <div class="col-md-4">
-                            <nav aria-label="Page navigation example">
-                                <ul class="pagination">
-        
-                                </ul>
-                            </nav>
+                        <!-- The Main Table -->
+                        <div class="table-responsive table-main">
+                            <table id="dataTable" class="table table-striped table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">S/N</th>
+                                        <th id="tableHeader" scope="col">Name<i class="fa-solid fa-arrow-up-z-a ms-2"></i>
+                                        </th>
+                                        <th data-index="1" scope="col">FT</th>
+                                        <th data-index="2" scope="col">FA</th>
+                                        <th data-index="3" scope="col">MTT</th>
+                                        <th data-index="4" scope="col">ST</th>
+                                        <th data-index="5" scope="col">SA</th>
+                                        <th data-index="6" scope="col">CA</th>
+                                        <th data-index="7" scope="col">Exam</th>
+                                        <th scope="col">Total</th>
+                                        <th scope="col">Grade</th>
+                                        <th scope="col">Position</th>
+                                        <th scope="col">Remark</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                </tbody>
+                            </table>
+                        </div>
+                        <hr>
+                        <!-- Table Footer -->
+                        <div class=" table-footer row align-items-center justify-content-between pb-2">
+                            <div class="col-md-4 mb-4 m-md-0">
+                                <div class="pagination-literal">
+
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <nav aria-label="Page navigation example">
+                                    <ul class="pagination">
+
+                                    </ul>
+                                </nav>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-md-3 pt-3 pt-md-0">
-                <form action="" id="getstudentresultform" class="mb-3 p-3" style="background-color: rgba(229, 213, 181, .19);;">
-                    <input type="text" value="{{ class.Class }}" hidden>
-                    <div class="mb-2">
-                        <label>Subjects : </label>
-                        <select class="form-select" name="subject" required>
-                            {% for subject in subjects_taught_for_class %}
-                            <option value="{{ subject.subject_name }}" {% if forloop.first %}selected{% endif %}>{{ subject.subject_name }}</option>
-                            {% endfor %}
-                        </select>
+                <!-- display for only large Screen -->
+                <div class="col-md-3 pt-3 pt-md-0 d-none d-md-block">
+                    <form action="" id="getstudentresultform" class="mb-3 p-3" style="background-color: rgba(229, 213, 181, .19);;">
+                        <input type="text" value="{{ class.Class }}" hidden>
+                        <div class="mb-2">
+                            <label>Subjects : </label>
+                            <select class="form-select" name="subject" required>
+                                {% for subject in subjects_taught_for_class %}
+                                <option value="{{ subject.subject_name }}" {% if forloop.first %}selected{% endif %}>{{ subject.subject_name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="mb-2">
+                            <label for="academicSessionSelect">Academic Session:</label>
+                            <select id="academicSessionSelect" name="AcademicSession" class="form-select" required>
+                                {% for Session in academic_session %}
+                                <option value="{{ Session.session }}" {% if forloop.first %}selected{% endif %}>{{ Session.session }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="mb-4">
+                            <label for="termSelect">Term:</label>
+                            <select id="termSelect" name="Term" class="form-select" required>
+                                {% for Term in Terms %}
+                                <option value="{{ Term.term }}" {% if forloop.first %}selected{% endif %}>{{ Term.term }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100 mb-4">Submit Subject</button>
+                    </form>
+
+
+                    <button id="publishbtn" class="btn btn-warning text-light w-100 mb-3 shadow-sm">Publish Result <i
+                            class="fa-solid fa-right-from-bracket ms-2"></i></button>
+
+                    <button class="btn btn-success w-100 mb-3 shadow-sm">Print to Excel <i
+                            class="fa-solid fa-file-excel ms-2"></i></button>
+
+                    <!-- checkboxes to hide rows -->
+                    <!-- <button class="btn btn-danger w-100 shadow-sm mb-3" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#collapserows" aria-expanded="false" aria-controls="collapserows">
+                        remove students <i class="fa-regular fa-trash-can text-light ms-1"></i>
+                    </button> -->
+                    <!-- <div class="my-3 mt-2 collapse" id="collapserows"> -->
+                        <!-- <ul class="list-group rowgroup">
+
+                        </ul>
+                    </div> -->
+
+                    <!-- checkboxes to hide columns -->
+                    <button class="btn btn-secondary w-100 shadow-sm" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                        Hide/Show Columns
+                    </button>
+                    <div class="my-3 collapse" id="collapseExample">
+                        <!-- this has to be dyamic as well -->
+                        <ul class="list-group">
+                            <li class="list-group-item list-group-item-secondary">
+                                <input class="form-check-input me-2" type="checkbox" value="" id="UnhideAllCheckbox">
+                                <label class="form-check-label" for="UnhideAllCheckbox"> hide All Subjects</label>
+                            </li>
+                            <li class="list-group-item">
+                                <input class="form-check-input me-2 column-checkbox" type="checkbox" value="1" id="firstCheckbox">
+                                <label class="form-check-label" for="firstCheckbox">First Test</label>
+                            </li>
+                            <li class="list-group-item">
+                                <input class="form-check-input me-2 column-checkbox" type="checkbox" value="2" id="secondCheckbox">
+                                <label class="form-check-label" for="secondCheckbox">First Ass</label>
+                            </li>
+                            <li class="list-group-item">
+                                <input class="form-check-input me-2 column-checkbox" type="checkbox" value="3" id="thirdCheckbox">
+                                <label class="form-check-label" for="thirdCheckbox">Mid Term Test</label>
+                            </li>
+                            <li class="list-group-item">
+                                <input class="form-check-input me-2 column-checkbox" type="checkbox" value="4" id="fouthcheckbox">
+                                <label class="form-check-label" for="fouthcheckbox">Second Test</label>
+                            </li>
+                            <li class="list-group-item">
+                                <input class="form-check-input me-2 column-checkbox" type="checkbox" value="5" id="fifthcheckbox">
+                                <label class="form-check-label" for="fifthcheckbox">Second Ass</label>
+                            </li>
+                            <li class="list-group-item">
+                                <input class="form-check-input me-2 column-checkbox" type="checkbox" value="6" id="sixthcheckbox">
+                                <label class="form-check-label" for="sixthcheckbox">CA</label>
+                            </li>
+                            <li class="list-group-item">
+                                <input class="form-check-input me-2 column-checkbox" type="checkbox" value="7" id="seventhcheckbox">
+                                <label class="form-check-label" for="seventhcheckbox">Exam</label>
+                            </li>
+                        </ul>
                     </div>
-                    <div class="mb-2">
-                        <label for="academicSessionSelect">Academic Session:</label>
-                        <select id="academicSessionSelect" name="AcademicSession" class="form-select" required>
-                            {% for Session in academic_session %}
-                            <option value="{{ Session.session }}" {% if forloop.first %}selected{% endif %}>{{ Session.session }}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                    <div class="mb-4">
-                        <label for="termSelect">Term:</label>
-                        <select id="termSelect" name="Term" class="form-select" required>
-                            {% for Term in Terms %}
-                            <option value="{{ Term.term }}" {% if forloop.first %}selected{% endif %}>{{ Term.term }}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                    <button type="submit" class="btn btn-primary w-100 mb-4">Submit Subject</button>
-                </form>
 
-
-                <button id="publishbtn" class="btn btn-warning text-light w-100 mb-3 shadow-sm">Publish Result <i
-                        class="fa-solid fa-right-from-bracket ms-2"></i></button>
-
-                <button class="btn btn-success w-100 mb-3 shadow-sm">Print to Excel <i
-                        class="fa-solid fa-file-excel ms-2"></i></button>
-
-                <!-- checkboxes to hide rows -->
-                <!-- <button class="btn btn-danger w-100 shadow-sm mb-3" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#collapserows" aria-expanded="false" aria-controls="collapserows">
-                    remove students <i class="fa-regular fa-trash-can text-light ms-1"></i>
-                </button> -->
-                <!-- <div class="my-3 mt-2 collapse" id="collapserows"> -->
-                    <!-- <ul class="list-group rowgroup">
-    
-                    </ul>
-                </div> -->
-
-                <!-- checkboxes to hide columns -->
-                <button class="btn btn-secondary w-100 shadow-sm" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-                    Hide/Show Columns
-                </button>
-                <div class="my-3 collapse" id="collapseExample">
-                    <!-- this has to be dyamic as well -->
-                    <ul class="list-group">
-                        <li class="list-group-item list-group-item-secondary">
-                            <input class="form-check-input me-2" type="checkbox" value="" id="UnhideAllCheckbox">
-                            <label class="form-check-label" for="UnhideAllCheckbox"> hide All Subjects</label>
-                        </li>
-                        <li class="list-group-item">
-                            <input class="form-check-input me-2 column-checkbox" type="checkbox" value="1" id="firstCheckbox">
-                            <label class="form-check-label" for="firstCheckbox">First Test</label>
-                        </li>
-                        <li class="list-group-item">
-                            <input class="form-check-input me-2 column-checkbox" type="checkbox" value="2" id="secondCheckbox">
-                            <label class="form-check-label" for="secondCheckbox">First Ass</label>
-                        </li>
-                        <li class="list-group-item">
-                            <input class="form-check-input me-2 column-checkbox" type="checkbox" value="3" id="thirdCheckbox">
-                            <label class="form-check-label" for="thirdCheckbox">Mid Term Test</label>
-                        </li>
-                        <li class="list-group-item">
-                            <input class="form-check-input me-2 column-checkbox" type="checkbox" value="4" id="fouthcheckbox">
-                            <label class="form-check-label" for="fouthcheckbox">Second Test</label>
-                        </li>
-                        <li class="list-group-item">
-                            <input class="form-check-input me-2 column-checkbox" type="checkbox" value="5" id="fifthcheckbox">
-                            <label class="form-check-label" for="fifthcheckbox">Second Ass</label>
-                        </li>
-                        <li class="list-group-item">
-                            <input class="form-check-input me-2 column-checkbox" type="checkbox" value="6" id="sixthcheckbox">
-                            <label class="form-check-label" for="sixthcheckbox">CA</label>
-                        </li>
-                        <li class="list-group-item">
-                            <input class="form-check-input me-2 column-checkbox" type="checkbox" value="7" id="seventhcheckbox">
-                            <label class="form-check-label" for="seventhcheckbox">Exam</label>
-                        </li>
-                    </ul>
                 </div>
+                <!-- display buttons for only small Screen -->
+                <div class="col-md-3 pt-3 d-block d-md-none">
+                    <button id="publishbtn" class="btn btn-warning text-light w-100 mb-3 shadow-sm">Publish Result <i
+                            class="fa-solid fa-right-from-bracket ms-2"></i></button>
+
+                    <button class="btn btn-success w-100 mb-3 shadow-sm">Print to Excel <i
+                            class="fa-solid fa-file-excel ms-2"></i></button>
+
+                    <!-- checkboxes to hide rows -->
+                    <!-- <button class="btn btn-danger w-100 shadow-sm mb-3" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#collapserows" aria-expanded="false" aria-controls="collapserows">
+                        remove students <i class="fa-regular fa-trash-can text-light ms-1"></i>
+                    </button> -->
+                    <!-- <div class="my-3 mt-2 collapse" id="collapserows"> -->
+                        <!-- <ul class="list-group rowgroup">
         
+                        </ul>
+                    </div> -->
+
+                    <!-- checkboxes to hide columns -->
+                    <button class="btn btn-secondary w-100 shadow-sm" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                        Hide/Show Columns
+                    </button>
+                    <div class="my-3 collapse" id="collapseExample">
+                        <!-- this has to be dyamic as well -->
+                        <ul class="list-group">
+                            <li class="list-group-item list-group-item-secondary">
+                                <input class="form-check-input me-2" type="checkbox" value="" id="UnhideAllCheckbox">
+                                <label class="form-check-label" for="UnhideAllCheckbox"> hide All Subjects</label>
+                            </li>
+                            <li class="list-group-item">
+                                <input class="form-check-input me-2 column-checkbox" type="checkbox" value="1" id="firstCheckbox">
+                                <label class="form-check-label" for="firstCheckbox">First Test</label>
+                            </li>
+                            <li class="list-group-item">
+                                <input class="form-check-input me-2 column-checkbox" type="checkbox" value="2" id="secondCheckbox">
+                                <label class="form-check-label" for="secondCheckbox">First Ass</label>
+                            </li>
+                            <li class="list-group-item">
+                                <input class="form-check-input me-2 column-checkbox" type="checkbox" value="3" id="thirdCheckbox">
+                                <label class="form-check-label" for="thirdCheckbox">Mid Term Test</label>
+                            </li>
+                            <li class="list-group-item">
+                                <input class="form-check-input me-2 column-checkbox" type="checkbox" value="4" id="fouthcheckbox">
+                                <label class="form-check-label" for="fouthcheckbox">Second Test</label>
+                            </li>
+                            <li class="list-group-item">
+                                <input class="form-check-input me-2 column-checkbox" type="checkbox" value="5" id="fifthcheckbox">
+                                <label class="form-check-label" for="fifthcheckbox">Second Ass</label>
+                            </li>
+                            <li class="list-group-item">
+                                <input class="form-check-input me-2 column-checkbox" type="checkbox" value="6" id="sixthcheckbox">
+                                <label class="form-check-label" for="sixthcheckbox">CA</label>
+                            </li>
+                            <li class="list-group-item">
+                                <input class="form-check-input me-2 column-checkbox" type="checkbox" value="7" id="seventhcheckbox">
+                                <label class="form-check-label" for="seventhcheckbox">Exam</label>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
             </div>
-        </div>
         </div>
 </section>
 

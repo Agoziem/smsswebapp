@@ -50,11 +50,11 @@ def result_computation_view(request,Classname,id):
     subjects_taught_for_class = teacher.subjects_taught.filter(id__in=subjectsforclass.subjects.values_list('id', flat=True))
 
     context={
-        'class':classobject,
-        "Terms":Terms,
-        "academic_session":academic_session,
-        "subjects_taught_for_class":subjects_taught_for_class
-        } 
+            'class':classobject,
+            "Terms":Terms,
+            "academic_session":academic_session,
+            "subjects_taught_for_class":subjects_taught_for_class
+        }
     return render(request,'Result_computation.html',context)
 
 @login_required
