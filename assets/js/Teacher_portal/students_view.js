@@ -66,7 +66,7 @@ function removestudents() {
 
 deleteallstudentbtn.addEventListener('click', removeallstudents)
 function removeallstudents() {
-    const tablesrows = Array.from(datatablesSimple.lastElementChild.children);
+    const tablesrows = Array.from(datatablesSimple.firstElementChild.nextElementSibling.children);
     tablesrows.forEach((row) => {
         const rowindex = parseInt(row.dataset.index);
         const studentID = row.firstElementChild.firstElementChild.value
