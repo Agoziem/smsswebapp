@@ -4,6 +4,7 @@ const getstudentresultform = document.querySelector('#getstudentresultform')
 const subjectselect = getstudentresultform.querySelector('select');
 const classinput = getstudentresultform.querySelector('input');
 const termSelect = document.getElementById('termSelect');
+const Examforminput = document.querySelector('.Examinput');
 const academicSessionSelect = document.getElementById('academicSessionSelect');
 const rowcheckboxes = document.querySelector('.rowgroup');
 document.querySelectorAll(".publishbtn").forEach((btn) => {
@@ -25,6 +26,19 @@ function saveformSelections() {
     classdata.selectedTerm = termSelect.value;
     classdata.selectedAcademicSession = academicSessionSelect.value;
     classdata.studentsubject = subjectselect.options[subjectselect.selectedIndex].value;
+
+    // check whether the subject is Moral to adjust the Exam input Restrictions
+    if (subjectselect.value === 'Moral instruction') {
+        Examforminput.innerHTML = ''
+        Examforminput.innerHTML = `
+                            <label for="Exam" class="form-label">Exam Score (100)</label>
+                            <input type="number" class="form-control" id="Exam" name="Exam" min="0" max="100">`
+    } else {
+        Examforminput.innerHTML = ''
+        Examforminput.innerHTML = `
+                            <label for="Exam" class="form-label">Exam Score (60)</label>
+                            <input type="number" class="form-control" id="Exam" name="Exam" min="0" max="60">`
+    }
     readJsonFromFile()
 }
 
@@ -54,6 +68,20 @@ function loadsavedSelection() {
     } else {
         classdata.studentsubject = subjectselect.value;
     }
+
+    // check whether the subject is Moral to adjust the Exam input Restrictions
+    if (subjectselect.value === 'Moral instruction') {
+        Examforminput.innerHTML = ''
+        Examforminput.innerHTML =`
+                            <label for="Exam" class="form-label">Exam Score (100)</label>
+                            <input type="number" class="form-control" id="Exam" name="Exam" min="0" max="100">`
+    } else {
+        Examforminput.innerHTML = ''
+        Examforminput.innerHTML = `
+                            <label for="Exam" class="form-label">Exam Score (60)</label>
+                            <input type="number" class="form-control" id="Exam" name="Exam" min="0" max="60">`
+    }
+    
 
     readJsonFromFile();
 }
@@ -106,7 +134,7 @@ class StudentDataHandler {
         const startIndex = keys.indexOf("Name") + 1;
         const endIndex = keys.indexOf("Exam");
         const relevantKeys = keys.slice(startIndex,endIndex);
-        return relevantKeys.reduce((sum, key) => sum + (isNaN(student[key]) ? 0 : parseInt(student[key])), 0);;
+        return relevantKeys.reduce((sum, key) => sum + (isNaN(student[key]) || student[key] === '' ? 0 : parseInt(student[key])), 0);
     }
 
     calculateTotal(student) {
@@ -133,7 +161,15 @@ class StudentDataHandler {
 
   calculatePosition() {
     
-    this.students.sort((a, b) => b.Total - a.Total);
+      this.students.sort((a, b) => {
+          if (a.Total === '-' && b.Total === '-') {
+              return 0; 
+          } else if (b.Total === '-') {
+              return -1; 
+          } else {
+              return b.Total - a.Total; 
+          }
+      });
 
     // Function to calculate ordinal suffix
     const getOrdinalSuffix = (number) => {
