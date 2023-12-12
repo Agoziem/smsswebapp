@@ -209,6 +209,7 @@
                                         <th scope="col">Grade</th>
                                         <th scope="col">Position</th>
                                         <th scope="col">Remark</th>
+                                        <th scope="col">Studentid</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -315,12 +316,15 @@
                         <label for="student_name" class="form-label">Full name</label>
                         <input type="text" class="form-control" id="student_name" name="Name" readonly>
                     </div>
+                    <div class="mb-3">
+                        <label for="studentID" class="form-label">Full name</label>
+                        <input type="text" class="form-control" id="studentID" name="studentID" hidden>
+                    </div>
                     <!-- Scores and Grades -->
                     <div class="mb-3 row g-2 justify-content-between">
                         <div class="col-6">
                             <label for="FirstTest" class="form-label">First Test (5)</label>
                             <input type="number" class="form-control" id="FirstTest" name="1sttest" min="0" max="5">
-
                         </div>
                         <div class="col-6">
                             <label for="FirstAss" class="form-label">First Ass (5)</label>
@@ -347,8 +351,8 @@
                             <label for="Exam" class="form-label">Exam Score (60)</label>
                             <input type="number" class="form-control" id="Exam" name="Exam" min="0" max="60">
                         </div>
-
                     </div>
+
                     <div class="mb-3 d-flex justify-content-end">
                         <button id="computebtn" type="submit" class="btn btn-success me-3">
                             submit details
@@ -357,7 +361,6 @@
                         </button>
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                     </div>
-
                 </form>
             </div>
         </div>
