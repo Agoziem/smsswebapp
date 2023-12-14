@@ -1414,4 +1414,63 @@ a {
     cursor: pointer;
     padding: 0;
   }
+
+/* Student Access Card */
+/* dimensions scaled down to 80% */
+.student_card_container{
+    width: 898.015748px;
+    height: 1239.46px;
+    background-color: rgb(235, 235, 235);
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    justify-content: center; /* Center along the horizontal axis */
+    align-items: center;
+    grid-auto-rows: 153.85px;
+    gap: 16px;
+    padding: 18px;
+    padding-top: 32px;
+  }
+
+  .studentcardimg{
+    width: 276.67px;
+    height: 153.85px;
+  }
+
+
+  .studentcard {
+    position: relative;
+    width: 276.67px;
+    height: 153.85px;
+  }
+  
+  .studentcardimg {
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+  
+  .text-overlay {
+    position: absolute;
+    top: 29.527559px;
+    left: 25.793701px;
+    color: #FF9933; 
+  }
+
+  .text-overlay h1 {
+    margin: 12px;
+    font-size: 29.516px;
+    font-weight: bolder;
+  }
+  
+  .text-overlay h2 {
+    margin: 0;
+    font-size: 11.4px;
+    font-weight: 900;
+  }
+  
+  .text-overlay p {
+    margin: -1px 0;
+    font-size: 11.072px; 
+    font-weight: 700;
+  }
   

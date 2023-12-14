@@ -84,6 +84,7 @@
                     <ul class="ps-0 py-3" style="right: 46px;">
                         {% if request.user.is_superuser %}
                         <li class="px-5"><a href="{% url 'activation_side' %}">Activation</a></li>
+                        <li class="px-5"><a href="{% url 'cardactivate' %}">Students Card</a></li>
                         {% endif %}
                         <li class="px-5"><a href="/admin" target="_blank">Admin</a></li>
                     </ul>

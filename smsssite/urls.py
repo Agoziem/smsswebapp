@@ -12,6 +12,7 @@ urlpatterns = [
     # ///////////////////////////////// Result Activation
     path('activation/', activation_view, name='activation_side'),
     path('testallocation/', testallocation_view, name='testallocation'),
+    path('activate/',student_card_view, name='cardactivate'),
     
     # ///////////////////////////////// Result Activation
     path('submit_contact_form/', submit_contact_form, name='submit_contact_form' ),

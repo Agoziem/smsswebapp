@@ -10,6 +10,8 @@ from django.conf import settings
 from django.contrib import messages
 from django.http import JsonResponse
 import json
+from django.core.paginator import Paginator
+
 
 
 
@@ -24,7 +26,6 @@ def activation_view(request):
 	}
     return render(request, "activation.html" ,context)
 
-
 def testallocation_view(request):
 	data=json.loads(request.body)
 	testobject=Test.objects.get(name=data['testselected'])
@@ -35,7 +36,14 @@ def testallocation_view(request):
 	testgroup.save()
 	return JsonResponse('Test allocation submitted successfully', safe=False)
 
-
+def student_card_view(request):
+	P = Paginator(Students_Pin_and_ID.objects.all(),21)
+	page= request.GET.get('page')
+	students = P.get_page(page)
+	context = {
+        "students":students
+    }
+	return render(request,'card_activation.html',context)
     
 def home_view(request):
 	queryset1=School.objects.all()
