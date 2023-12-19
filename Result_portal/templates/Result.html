@@ -212,12 +212,15 @@
 <input id="data" type="text" value="{{data}}" hidden>
   <!-- print  ///////////////////////////////////////////////////////////////////// -->
   <div id="container_result">
+
+    <!-- The School Logo -->
     <section class="mt-4">
       <div class="d-flex justify-content-center">
         <img src="{% static 'images/St Marks Logo.png' %}" alt="..." class="schoollogo img-fluid">
       </div>
     </section>
 
+     <!-- The School Name and Result details -->
     <section class="px-2 pt-2">
       <div class="text-center  mb-0">
         <h4>St Marks Standard Secondary School Omagba (Termly Result)</h4>
@@ -229,6 +232,7 @@
       </div>
     </section>
 
+    <!-- Result details -->
     <section class="details_container">
       <div class="details container p-4 rounded d-flex">
         <div>
@@ -237,7 +241,6 @@
           <span class="fw-bold">Session :</span> {{ Result_details.AcademicSession }}<br>
           <span class="fw-bold">Total score :</span> {{ Result_details.TotalScore }}<br>
         </div>
-
         <div class="ms-5">
           <span class="fw-bold">Average :</span> {{ Result_details.Average|floatformat:2 }}<br>
           <span class="fw-bold">Position :</span> {{ Result_details.Position }}<br>
@@ -247,6 +250,7 @@
       </div>
     </section>
 
+    <!-- Result tables -->
     <section class="px-3 pt-2">
       <div class="result_table">
         <table>
@@ -292,7 +296,6 @@
 
 
     <!-- Charts & BarCode -->
-
     <section class="p-4">
       <div class="row justify-content-center align-items-center">
         <div class="col-md d-flex justify-content-end ">

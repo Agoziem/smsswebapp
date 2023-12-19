@@ -2,8 +2,10 @@ const result_btn = document.getElementById('result_btn');
 const spinner = result_btn.querySelector('.spinner-border');
 const labels = document.querySelector('#labels')
 const data = document.querySelector('#data')
-console.log(labels);
-console.log(data);
+const modifiedlabelsList = labels.value.replace(/'/g, '"');
+const modifieddataList = data.value.replace(/'/g, '"');
+const Jsonlabellist = `${modifiedlabelsList}`
+const Jsondatalist = `${modifieddataList}`
 result_btn.addEventListener('click', () => {
     // Show spinner
     spinner.classList.remove('d-none');
@@ -32,7 +34,11 @@ result_btn.addEventListener('click', () => {
         margin: 0.2,
         filename: 'Result' + '.pdf',
         image: { type: 'jpeg', quality: 0.98 },
-        html2canvas: { scale: 4 },
+        html2canvas: { 
+          scale: 4 ,
+          useCORS: true,
+          allowTaint: true,
+        },
         jsPDF: { unit: 'in', format: 'A3', orientation: 'Portrait' }
     };
     // New Promise-based usage:
@@ -54,10 +60,10 @@ result_btn.addEventListener('click', () => {
     new Chart(ctx, {
       type: 'bar',
       data: {
-        labels: JSON.parse(labels),
+        labels: JSON.parse(Jsonlabellist),
         datasets: [{
           label: 'Total Scores',
-          data: JSON.parse(data),
+          data: JSON.parse(Jsondatalist),
           backgroundColor: ['orange', '#3b0505', '#020D23'],
           borderWidth: 1
           }]
