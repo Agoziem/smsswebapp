@@ -401,6 +401,16 @@
 
   <section class=" ms-5 my-3 ">
     <div class="container px-2 px-md-5  mb-5">
+
+      {% if isTermNewsletter %}
+        <a href="{{ TermNewsletter.NewsletterURL }}" class="btn btn-outline-primary"
+          download="{{ TermNewsletter.NewsletterURL }}">
+          {{ TermNewsletter.currentTerm.term }} Newsletter
+          <i class="bi bi-download ms-2"></i>
+        </a>
+        {% endif %}
+
+
       <a id="result_btn" class="btn btn-primary">
         Save as Pdf
         <span class="spinner-border spinner-border-sm d-none ms-1" role="status" aria-hidden="true"></span>

@@ -49,8 +49,20 @@ class Subjectallocation(models.Model):
 
 # Model for the Newsletter Section & Assignments
 class Newsletter(models.Model):
+	currentTerm = models.ForeignKey(Term, on_delete=models.CASCADE , blank = True,null=True)
 	newsletter= RichTextField(blank=True,null=True)
-
+	newsletterFile=models.FileField(upload_to = 'media/Newsletter' ,blank = True)
+	
+	def __str__(self):
+		return f"Newsletter for {self.Term}"
+	
+	@property
+	def NewsletterURL(self):
+		try:
+			url= self.newsletterFile.url
+		except:
+			url=""
+		return url
 
 class Assignments(models.Model):
 	Class= models.ForeignKey(Class, related_name='classes' , on_delete=models.CASCADE , blank = True,null=True)

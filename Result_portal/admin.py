@@ -35,10 +35,10 @@ class ClassAdmin(admin.ModelAdmin):
 
 @admin.register(Student_Result_Data)
 class Student_Result_DataAdmin(admin.ModelAdmin):
-    list_display=('Student_name','Position','display_Class','Average','Term')
-    ordering=('Student_name','Position','Average','Term')
-    search_fields=('Position','Average','Term')
-    list_filter=('Student_name','Position','Average','Term')
+    list_display = ('Student_name', 'Position', 'display_Class', 'Average')
+    ordering = ('Student_name', 'Position', 'Average')
+    search_fields = ('Student_name__student_class','Position', 'Average')
+    list_filter = ('Student_name__student_class','Student_name', 'Position', 'Average')
 
     def display_Class(self, obj):
         return obj.Student_name.student_class

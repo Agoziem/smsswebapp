@@ -43,6 +43,14 @@ def Result_Portal_view(request):
 					labels.append(result.Subject)
 					data.append(result.Total)
 					
+				# for Newsletter ///
+				is_term_newsletter = False
+				term_newsletter = None
+				# endeavour to change the Hard Coding "3rd Term" later to str(Student_Result_details.Term)
+				if Newsletter.objects.filter(Term = resultTerm.term ).exists():
+					is_term_newsletter=True
+					term_newsletter=Newsletter.objects.get(Term = resultTerm.term)
+
 				if AnnualStudent.objects.filter(Student_name=student).exists():
 					Annual_Result=True
 					Annual_Student_Result_details=AnnualStudent.objects.get(Student_name=student,AcademicSession=resultSession)
@@ -58,6 +66,8 @@ def Result_Portal_view(request):
 						'AnnualResult': Annual_Student_Results,
 						"Annual_Result":Annual_Result,
 						"PromotionVerdict":PromotionVerdict,
+						"isTermNewsletter":is_term_newsletter,
+						"TermNewsletter":term_newsletter
 						}
 					return render(request,"Result.html", context)
 				else:
@@ -69,6 +79,8 @@ def Result_Portal_view(request):
 						"Results":Student_Results,
 						"labels":labels,
 						"data":data,
+						"isTermNewsletter":is_term_newsletter,
+						"TermNewsletter":term_newsletter
 								}
 					return render(request,"Result.html", context)
 			else:
