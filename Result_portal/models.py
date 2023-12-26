@@ -54,7 +54,7 @@ class Newsletter(models.Model):
 	newsletterFile=models.FileField(upload_to = 'media/Newsletter' ,blank = True)
 	
 	def __str__(self):
-		return f"Newsletter for {self.Term}"
+		return f"Newsletter for {self.currentTerm.term}"
 	
 	@property
 	def NewsletterURL(self):
