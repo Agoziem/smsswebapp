@@ -47,9 +47,9 @@ def Result_Portal_view(request):
 				is_term_newsletter = False
 				term_newsletter = None
 				# endeavour to change the Hard Coding "3rd Term" later to str(Student_Result_details.Term)
-				if Newsletter.objects.filter(Term = resultTerm.term ).exists():
+				if Newsletter.objects.filter(currentTerm = resultTerm ).exists():
 					is_term_newsletter=True
-					term_newsletter=Newsletter.objects.get(Term = resultTerm.term)
+					term_newsletter=Newsletter.objects.get(currentTerm = resultTerm)
 
 				if AnnualStudent.objects.filter(Student_name=student).exists():
 					Annual_Result=True
