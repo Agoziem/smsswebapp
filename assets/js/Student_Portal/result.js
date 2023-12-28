@@ -37,7 +37,6 @@ result_btn.addEventListener('click', () => {
         html2canvas: { 
           scale: 4 ,
           useCORS: true,
-          allowTaint: true,
         },
         jsPDF: { unit: 'in', format: 'A3', orientation: 'Portrait' }
     };
