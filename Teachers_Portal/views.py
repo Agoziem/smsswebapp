@@ -387,7 +387,7 @@ def publish_student_result_view(request):
             class_object = Class.objects.get(Class=class_data)
             result_term = term_object
             result_session = acad_session_object
-            student = Students_Pin_and_ID.objects.get(student_name=student_data['Name'])
+            student = Students_Pin_and_ID.objects.get(student_name=student_data['Name'],student_class=class_object)
             student_number = Students_Pin_and_ID.objects.filter(student_class=class_object).count()
 
             try:
