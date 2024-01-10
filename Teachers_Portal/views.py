@@ -422,9 +422,10 @@ def publish_student_result_view(request):
         , safe=False)
 
     except Exception as e:
+        print(str(e))
         return JsonResponse({
             "type": "error",
-            "message": f"An error occurred while publishing results {str(e)}" 
+            "message": "An error occurred while publishing Student Results" 
         }, safe=False)
 
 # for Class Attendance
