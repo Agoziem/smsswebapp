@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from Result_portal.models import *
 from .models import *
 from django.http import JsonResponse
+from django.core.exceptions import ObjectDoesNotExist
 from .forms import TeacherForm
 from django.contrib.auth.decorators import login_required
 from CBT.models import *
@@ -374,38 +375,57 @@ def getstudentsubjecttotals_view(request):
         final_list.append(student_dict)
     return JsonResponse(final_list, safe=False)
 
-def publishstudentresult_view(request):
-    data=json.loads(request.body)
-    termobject=data['classdata']['selectedTerm']
-    Acadsessionobject=data['classdata']['selectedAcademicSession']
-    Classdata=data['classdata']['studentclass']
-    for studentdata in data['data']:
-        classobject=Class.objects.get(Class=Classdata)
-        resultterm = Term.objects.get(term=termobject)
-        resultsession = AcademicSession.objects.get(session=Acadsessionobject)
-        student = Students_Pin_and_ID.objects.get(student_name=studentdata['Name'])
-        studentnumber=Students_Pin_and_ID.objects.filter(student_class=classobject).count()
-        if Student_Result_Data.objects.filter(Student_name=student,Term=resultterm,AcademicSession=resultsession).exists():
-            studentresult=Student_Result_Data.objects.get(Student_name=student,Term=resultterm,AcademicSession=resultsession)
-            studentresult.TotalScore=studentdata['TOTAL']
-            studentresult.Totalnumber= studentnumber
-            studentresult.Average=studentdata['AVE']
-            studentresult.Position=studentdata['POSITION']
-            studentresult.Remark=studentdata['REMARK']
-            studentresult.save()
-        else:
-            Student_Result_Data.objects.create(
-            TotalScore=studentdata['TOTAL'],
-            Average=studentdata['AVE'],
-            Position=studentdata['POSITION'],
-            Remark=studentdata['REMARK'],
-            Student_name=student,
-            Totalnumber= studentnumber,
-            Term=resultterm,
-            AcademicSession=resultsession
-            )
-    return JsonResponse('Results have been Published and its now open to the Students', safe=False)
 
+def publish_student_result_view(request):
+    try:
+        data = json.loads(request.body)
+        term_object = Term.objects.get(term=data['classdata']['selectedTerm'])
+        acad_session_object = AcademicSession.objects.get(session=data['classdata']['selectedAcademicSession'])
+        class_data = data['classdata']['studentclass']
+        
+        for student_data in data['data']:
+            class_object = Class.objects.get(Class=class_data)
+            result_term = term_object
+            result_session = acad_session_object
+            student = Students_Pin_and_ID.objects.get(student_name=student_data['Name'])
+            student_number = Students_Pin_and_ID.objects.filter(student_class=class_object).count()
+
+            try:
+                student_result = Student_Result_Data.objects.get(
+                    Student_name=student,
+                    Term=result_term,
+                    AcademicSession=result_session
+                )
+                student_result.TotalScore = student_data['TOTAL']
+                student_result.Totalnumber = student_number
+                student_result.Average = student_data['AVE']
+                student_result.Position = student_data['POSITION']
+                student_result.Remark = student_data['REMARK']
+                student_result.save()
+            except ObjectDoesNotExist:
+                Student_Result_Data.objects.create(
+                    TotalScore=student_data['TOTAL'],
+                    Average=student_data['AVE'],
+                    Position=student_data['POSITION'],
+                    Remark=student_data['REMARK'],
+                    Student_name=student,
+                    Totalnumber=student_number,
+                    Term=result_term,
+                    AcademicSession=result_session
+                )
+
+        return JsonResponse(
+            {
+            "type": "success",
+            "message": "Results have been Published and are now open to the Students"
+            }
+        , safe=False)
+
+    except Exception as e:
+        return JsonResponse({
+            "type": "error",
+            "message": f"An error occurred while publishing results {str(e)}" 
+        }, safe=False)
 
 # for Class Attendance
 @login_required

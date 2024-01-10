@@ -483,9 +483,17 @@ class DataTable {
     })
         .then(response => response.json())
         .then(data => {
-            const type = 'alert-success'
-            const message = data
-            displayalert(type, message)
+            if (data.type === 'success') {
+                const type = 'alert-success';
+                const message = data.message;
+                displayalert(type, message);
+            } else if (data.type === 'error') {
+                const type = 'alert-danger';
+                const message = data.message;
+                displayalert(type, message);
+            } else {
+                console.error('Unexpected response type:', data.type);
+            }
         })
         .catch(error => console.error('Error:', error));
 }
