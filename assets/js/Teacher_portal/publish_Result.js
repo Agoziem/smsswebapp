@@ -111,7 +111,8 @@ class StudentDataHandler {
     // this has to be Calulated dynamically
     calculateAverage(student) {
     const keys = Object.keys(student);
-    const startIndex = keys.indexOf("Name") + 2;
+    console.log(keys)
+    const startIndex = keys.indexOf("Name") + 1;
     const relevantKeys = keys.slice(startIndex);
     const greaterThanOrEqualToOneCount = relevantKeys.filter(key => parseInt(student[key]) >= 0 && student[key] !== '-').length; 
     // Check if greaterThanOrEqualToOneCount is not zero before performing the division

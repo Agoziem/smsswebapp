@@ -5,7 +5,6 @@ app_name = 'Teachers_portal'
 urlpatterns = [
 	path('',Teachers_dashboard_view , name='Teachers_dashboard'),
 	path('<int:id>/profile/', profile_view , name='profile'),
-    
 	
 	path('<int:teachers_id>/CBT_questions/',CBT_Questions_view , name='CBT_Questions'),
 	path('<int:id>/CBT_update_details/',CBT_update_details , name='CBT_update_details'),
