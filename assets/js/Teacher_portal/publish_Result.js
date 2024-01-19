@@ -104,16 +104,15 @@ class StudentDataHandler {
     calculateTotal(student) {
       const keys = Object.keys(student);
         const startIndex = keys.indexOf("Name") + 1;
-        const relevantKeys = keys.slice(startIndex, keys.length - 1);
+        const relevantKeys = keys.slice(startIndex);
         return relevantKeys.reduce((sum, key) => sum + (isNaN(student[key]) ? 0 : parseInt(student[key])), 0);
   }
 
     // this has to be Calulated dynamically
     calculateAverage(student) {
     const keys = Object.keys(student);
-    console.log(keys)
     const startIndex = keys.indexOf("Name") + 1;
-    const relevantKeys = keys.slice(startIndex);
+    const relevantKeys = keys.slice(startIndex, keys.length - 1)
     const greaterThanOrEqualToOneCount = relevantKeys.filter(key => parseInt(student[key]) >= 0 && student[key] !== '-').length; 
     // Check if greaterThanOrEqualToOneCount is not zero before performing the division
     const average = greaterThanOrEqualToOneCount !== 0
