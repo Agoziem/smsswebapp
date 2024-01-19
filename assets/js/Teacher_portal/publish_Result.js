@@ -104,7 +104,7 @@ class StudentDataHandler {
     calculateTotal(student) {
       const keys = Object.keys(student);
         const startIndex = keys.indexOf("Name") + 1;
-        const relevantKeys = keys.slice(startIndex);
+        const relevantKeys = keys.slice(startIndex, keys.length - 1);
         return relevantKeys.reduce((sum, key) => sum + (isNaN(student[key]) ? 0 : parseInt(student[key])), 0);
   }
 
