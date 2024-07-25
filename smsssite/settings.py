@@ -12,8 +12,7 @@ SECRET_KEY=config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', default=False, cast=bool)
-# DEBUG_ENV = config('DEBUG_ENV', default=False, cast=bool)
-DEBUG_ENV = False
+DEBUG_ENV = config('DEBUG_ENV', default=False, cast=bool)
 
 ALLOWED_HOSTS = ['127.0.0.1','www.stmarksstandardsecondaryschool.com','stmarksstandardsecondaryschool.com','web-production-90ba.up.railway.app']
 
