@@ -5,33 +5,32 @@ import io
 import base64
 base64.encodestring = base64.encodebytes
 base64.decodestring = base64.decodebytes
-# from openpyxl.utils import get_column_letter
 import os
 import random
 from ckeditor.fields import RichTextField
-# from django.db.models import F, Window
-# from django.db.models.functions import DenseRank
 
-
-
+# Model for the Academic Session 
 class AcademicSession(models.Model):
 	session = models.CharField(max_length=100, blank=True)
 
 	def __str__(self):
 		return str(self.session)
 
+# Model for the Term
 class Term(models.Model):
 	term = models.CharField(max_length=100, blank=True)
 
 	def __str__(self):
 		return f'{self.term}'
 
+# Model for the Class
 class Class(models.Model):
 	Class=models.CharField(max_length=10, blank=True)
 	
 	def __str__(self):
 		return str(self.Class)
 
+# Model for the Subjects
 class Subject(models.Model):
 	subject_code = models.CharField(max_length=100)
 	subject_name = models.CharField(max_length=100)
@@ -39,6 +38,7 @@ class Subject(models.Model):
 	def __str__(self):
 		return str(self.subject_name)
 
+# Model for the Subject Allocation
 class Subjectallocation(models.Model):
 	classname=models.ForeignKey(Class, on_delete=models.CASCADE , blank = True,null=True)
 	subjects=models.ManyToManyField(Subject)
@@ -64,6 +64,7 @@ class Newsletter(models.Model):
 			url=""
 		return url
 
+# Model for the Assignments
 class Assignments(models.Model):
 	Class= models.ForeignKey(Class, related_name='classes' , on_delete=models.CASCADE , blank = True,null=True)
 	subject=models.CharField(max_length=200, blank=True)
@@ -82,8 +83,7 @@ class Excelfiles(models.Model):
 
 
 # /////////////////////////////////////////////////////////////
-
-
+# Model for the Students data
 class Students_Pin_and_ID(models.Model):
 	SN=models.CharField(max_length=100, blank=True,null=True)
 	student_Photo=models.ImageField(upload_to="assets/Students",blank=True,null=True)
@@ -122,7 +122,6 @@ class Students_Pin_and_ID(models.Model):
 
 
 # Model for the Termly Students data
-
 class Student_Result_Data(models.Model):
 	Student_name=models.ForeignKey(Students_Pin_and_ID,on_delete=models.CASCADE)
 	TotalScore=models.CharField(max_length=100, blank=True,null=True , default="-")
@@ -132,11 +131,12 @@ class Student_Result_Data(models.Model):
 	Remark=models.CharField(max_length=100, blank=True,null=True , default="-")
 	Term=models.ForeignKey(Term,on_delete=models.CASCADE,blank=True,null=True)
 	AcademicSession=models.ForeignKey(AcademicSession,on_delete=models.CASCADE,blank=True,null=True)
-
+	published=models.BooleanField(default=False)
 
 	def __str__(self):
 		return str(self.Student_name.student_name+"-"+self.Student_name.student_class.Class)
-	
+
+# Model for the Students Results	
 class Result(models.Model):
 	student = models.ForeignKey(Students_Pin_and_ID,on_delete=models.CASCADE)
 	student_class=models.ForeignKey(Class,on_delete=models.CASCADE, blank=True,null=True,default=1)
@@ -153,6 +153,7 @@ class Result(models.Model):
 	Grade=models.CharField(max_length=100, blank=True,null=True , default="-")
 	SubjectPosition=models.CharField(max_length=100, blank=True,null=True , default="-")
 	Remark=models.CharField(max_length= 100, blank=True,null=True , default="-")
+	published=models.BooleanField(default=False)
 
 
 	def __str__(self):
@@ -169,6 +170,7 @@ class AnnualStudent(models.Model):
 	Average=models.CharField(max_length=100, blank=True,null=True , default="-")
 	Position=models.CharField(max_length=100, blank=True,null=True , default="-")
 	AcademicSession=models.ForeignKey(AcademicSession,on_delete=models.CASCADE,blank=True,null=True)
+	published=models.BooleanField(default=False)
 
 	def __str__(self):
 		return str(self.Student_name.student_name +"-"+ self.Student_name.student_class.Class)
@@ -185,7 +187,7 @@ class AnnualResult(models.Model):
 	Grade=models.CharField(max_length=100, blank=True,null=True,default="-")
 	SubjectPosition=models.CharField(max_length=100, blank=True,null=True,default="-")
 	Remark=models.CharField(max_length= 100, blank=True,null=True, default="-")
-
+	published=models.BooleanField(default=False)
 	
 	def __str__(self):
 		return str(self.students_result_data.Student_name +"-"+ self.Subject.subject_name)

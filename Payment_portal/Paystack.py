@@ -1,7 +1,4 @@
 from django.conf import settings
-import base64
-base64.encodestring = base64.encodebytes
-base64.decodestring = base64.decodebytes
 import requests
 
 class Paystack():

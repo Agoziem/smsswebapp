@@ -72,7 +72,6 @@ async function postData(userformdata,url) {
         
 }
   
-
   
 
 // const notice = document.querySelector('.notice');

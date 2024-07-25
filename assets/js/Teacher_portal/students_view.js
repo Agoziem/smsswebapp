@@ -1,281 +1,325 @@
-const addandeditstudentdetailModal = document.querySelector('#AddandeditStudentModal')
+import { addStudent, updateStudent, deleteStudents } from './utils/studentApi.js';
+
+// Modal Elements
+const addandeditstudentdetailModal = document.querySelector('#AddandeditStudentModal');
 const modallabel = addandeditstudentdetailModal.querySelector('#AddandeditStudentModalLabel');
-const modalformsubmitbtn = addandeditstudentdetailModal.querySelector('#mainsubmitbtn')
-const spinner = document.querySelector('.spinner-border')
+const modalformsubmitbtn = addandeditstudentdetailModal.querySelector('#mainsubmitbtn');
+const spinner = document.querySelector('.spinner-border');
 const deletestudentModal = document.querySelector('#deletestudentModal');
-const deleteallstudentbtn = document.querySelector('#deleteallstudentbtn')
-const addandeditstudentdetailform = document.querySelector('#addandeditstudentdetailform')
+const deleteallstudentbtn = document.querySelector('#deleteallstudentbtn');
+const addandeditstudentdetailform = document.querySelector('#addandeditstudentdetailform');
 const studentclass = document.querySelector('#studentclass').value;
-const alertcontainer = document.querySelector('.alertcontainer')
-const deletestudentbtn = document.querySelector('#deletestudentbtn')
-const removestudentsactionbtn = document.querySelector('#removestudentsactionbtn')
-const removeallstudentactionbtn = document.querySelector('#removeallstudentactionbtn')
+const alertcontainer = document.querySelector('.alertcontainer');
+const deletestudentbtn = document.querySelector('#deletestudentbtn');
+const removestudentsactionbtn = document.querySelector('#removestudentsactionbtn');
+const removeallstudentactionbtn = document.querySelector('#removeallstudentactionbtn');
 const datatablesSimple = document.getElementById('datatablesSimple');
+
+// DataTable Initialization
 let dataTable = new simpleDatatables.DataTable(datatablesSimple);
 let rowToRemove;
 let rowstoremove = [];
 let studentidtoremove = [];
 let isedit = false;
 
+// Event Listeners
 addandeditstudentdetailform.addEventListener('submit', processform);
+datatablesSimple.addEventListener('click', handleTableClick);
+deletestudentbtn.addEventListener('click', removestudents);
+deleteallstudentbtn.addEventListener('click', removeallstudents);
+addandeditstudentdetailModal.addEventListener('hidden.bs.modal', resetModal);
 
-datatablesSimple.addEventListener('click', function (e) {
+// Handle Table Clicks (Checkbox and Edit)
+function handleTableClick(e) {
     const target = e.target;
-    // Check if the click is on a checkbox inside a <td>
-    if (target.tagName === 'INPUT' && target.type === 'checkbox' && target.closest('td')) {
-        const row = target.closest('tr');
-        const studentid = target.value
-        const rowIndex = parseInt(row.dataset.index);
 
-        // Check if the checkbox is checked
-        if (target.checked) {
-            // Add the index to rowstoremove if not already present
-            if (rowstoremove.indexOf(rowIndex) === -1 && studentidtoremove.indexOf(studentid) === -1) {
-                rowstoremove.push(rowIndex);
-                studentidtoremove.push(studentid)
-            }
-
-        } else {
-            // Remove the index from rowstoremove
-            const indexToRemove = rowstoremove.indexOf(rowIndex);
-            const idToRemove = studentidtoremove.indexOf(studentid);
-            if (indexToRemove !== -1) {
-                rowstoremove.splice(indexToRemove, 1);
-                studentidtoremove.splice(idToRemove, 1);
-          
-            }
-        }
-    }
-
-    // Check if the click is on an <a> element inside a <td>
-    if (target.tagName === 'A' && target.closest('td')) {
+    if (isCheckboxInCell(target)) {
+        handleCheckboxClick(target);
+    } else if (isEditLinkInCell(target)) {
         e.preventDefault();
-        rowToRemove = target.closest('tr');
-        changemode(target)
+        handleEditClick(target);
     }
-});
-
-deletestudentbtn.addEventListener('click', removestudents)
-function removestudents() {
-    removefromserver(studentidtoremove)
-    dataTable.rows.remove(rowstoremove)
-    dataTable.refresh()
-    $(deletestudentModal).modal('hide');
-    setUIState()
 }
 
-deleteallstudentbtn.addEventListener('click', removeallstudents)
-function removeallstudents() {
-    const tablesrows = Array.from(datatablesSimple.firstElementChild.nextElementSibling.children);
-    tablesrows.forEach((row) => {
-        const rowindex = parseInt(row.dataset.index);
-        const studentID = row.firstElementChild.firstElementChild.value
-        rowstoremove.push(rowindex)
-        studentidtoremove.push(studentID)
-    })
-
-    removefromserver(studentidtoremove)
-    dataTable.rows.remove(rowstoremove)
-    dataTable.refresh()
-    const deleteallstudentModal = document.querySelector('#deleteallstudentModal')
-    $(deleteallstudentModal).modal('hide');
-    setUIState()
+function isCheckboxInCell(target) {
+    return target.tagName === 'INPUT' && target.type === 'checkbox' && target.closest('td');
 }
 
-function removefromserver(studentidtoremove) {
-    fetch(`/Teachers_Portal/DeleteStudents/`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'X-CSRFToken': csrftoken
-        },
-        body: JSON.stringify(studentidtoremove)
-    })
-        .then(response => response.json())
-        .then(data => {
-            const type = 'alert-success'
-            const message = data['message']
-            displayalert(type, message)
-        })
-        .catch(error => console.error('Error:', error));
+function isEditLinkInCell(target) {
+    return target.tagName === 'A' && target.closest('td');
 }
 
-// updating UI 
-function setUIState() {
-    modallabel.innerText = "Add Student Record"
-    modalformsubmitbtn.innerText = 'Add Student'
-    const tablesrows = Array.from(datatablesSimple.lastElementChild.children);
-    if (tablesrows.length === 1 && tablesrows[0].firstElementChild.innerText === 'No entries found') {
-        removestudentsactionbtn.classList.add('d-none')
-        removeallstudentactionbtn.classList.add('d-none')
+function handleCheckboxClick(target) {
+    const row = target.closest('tr');
+    const studentid = target.value;
+    const rowIndex = parseInt(row.dataset.index);
+
+    if (target.checked) {
+        addRowToRemove(rowIndex, studentid);
     } else {
-        removestudentsactionbtn.classList.remove('d-none')
-        removeallstudentactionbtn.classList.remove('d-none')
-        tablesrows.forEach((row) => {
-            row.classList.remove('is-edit');
-            const checkbox = row.firstElementChild.firstElementChild;
-            checkbox.checked = false;
-        })
+        removeRowFromRemoveList(rowIndex, studentid);
     }
-    rowstoremove = [];
-    studentidtoremove = [];
 }
 
-// set the mode to isedit = true and peforming some actions
-function changemode(target) {
-    isedit = true
-    const tablerow = target.closest('tr')
-    tablerow.classList.add('is-edit')
-    const studentnameinput = addandeditstudentdetailform.querySelector('#student_name')
-    studentnameinput.value = tablerow.firstElementChild.nextElementSibling.innerText
-    const studentsexinput = addandeditstudentdetailform.querySelector('#Student_sex')
-    studentsexinput.value = tablerow.lastElementChild.innerText
-    modallabel.innerText = "Update Student's data"
-    modalformsubmitbtn.innerText = 'update record'
-    $(addandeditstudentdetailModal).modal('show');
+function handleEditClick(target) {
+    rowToRemove = target.closest('tr');
+    changeMode(target);
 }
 
-// Add or Input Form Submission Validation
+/**
+ * ADDING FUNCTIONS
+ */
+
+// Form Submission Validation
 function processform(e) {
     e.preventDefault();
+
     if (addandeditstudentdetailform.checkValidity() === false) {
         addandeditstudentdetailform.classList.add('was-validated');
     } else {
         addandeditstudentdetailform.classList.remove('was-validated');
-        if (isedit) {
-            submitupdateformdetails()
-        } else {
-            submitformdetails()
-        }
-        
+        isedit ? submitUpdateFormDetails() : submitFormDetails();
     }
 }
 
-// updating old student record
-function submitupdateformdetails(){
+// Submit New Student Record
+async function submitFormDetails() {
+    const studentname = addandeditstudentdetailform.querySelector('#student_name').value;
+    const Student_sex = addandeditstudentdetailform.querySelector('#Student_sex').value;
+
+    await submitToServer(studentname, Student_sex);
+    spinner.classList.add('.d-none');
+    resetFormInputs();
+    hideModal();
+}
+
+// Submit to Server
+async function submitToServer(studentname, Student_sex) {
+    spinner.classList.remove('.d-none');
+    const studentdata = { studentclass, studentname, Student_sex };
+
+    try {
+        const data = await addStudent(studentdata);
+        addDetailsToDOM(data.student_ID, data.student_name, data.student_id, data.student_sex);
+        displayAlert('alert-success', data.message);
+    } catch (error) {
+        console.error('Error:', error);
+    }
+}
+
+/**
+ * UPDATING FUNCTIONS
+ */
+
+// Change Mode to Edit
+function changeMode(target) {
+    isedit = true;
+    const tablerow = target.closest('tr');
+    tablerow.classList.add('is-edit');
+
+    populateFormForEdit(tablerow);
+    updateModalForEdit();
+    showModal();
+}
+
+// Populate Form for Edit
+function populateFormForEdit(tablerow) {
+    const studentnameinput = addandeditstudentdetailform.querySelector('#student_name');
+    const studentsexinput = addandeditstudentdetailform.querySelector('#Student_sex');
+
+    studentnameinput.value = tablerow.firstElementChild.nextElementSibling.innerText;
+    studentsexinput.value = tablerow.lastElementChild.innerText;
+}
+
+// Update Modal for Edit
+function updateModalForEdit() {
+    modallabel.innerText = "Update Student's data";
+    modalformsubmitbtn.innerText = 'Update Record';
+}
+
+// Update Existing Student Record
+function submitUpdateFormDetails() {
     const edittablerow = document.querySelector('tr.is-edit');
     const studentID = edittablerow.firstElementChild.firstElementChild.value;
-    const studentname_input = addandeditstudentdetailform.querySelector('#student_name')
-    const studentname = studentname_input.value
-    const Student_sex_input = addandeditstudentdetailform.querySelector('#Student_sex')
-    const Student_sex = Student_sex_input.value
-    dataTable.rows.remove(parseInt(rowToRemove.dataset.index))
-    submitupdatetoServer(+studentID, studentname, Student_sex);
-    studentname_input.value = ''
-    Student_sex_input.value = ''
-    $(addandeditstudentdetailModal).modal('hide');
-    isedit = false
-    setUIState()
+    const studentname = addandeditstudentdetailform.querySelector('#student_name').value;
+    const Student_sex = addandeditstudentdetailform.querySelector('#Student_sex').value;
+
+    submitUpdateToServer(studentID, studentname, Student_sex);
+    dataTable.rows.remove(parseInt(rowToRemove.dataset.index));
+
+    resetFormInputs();
+    hideModal();
+    isedit = false;
+    setUIState();
 }
 
-function submitupdatetoServer(studentID,studentname, Student_sex) {
-    const updatestudentdata = {
-        studentID,
-        studentclass,
-        studentname,
-        Student_sex
+// Submit Update to Server
+async function submitUpdateToServer(studentID, studentname, Student_sex) {
+    const updatestudentdata = { studentID, studentclass, studentname, Student_sex };
+
+    try {
+        const data = await updateStudent(updatestudentdata);
+        addDetailsToDOM(data.student_ID, data.student_name, data.student_id, data.student_sex);
+        displayAlert('alert-success', data.message);
+    } catch (error) {
+        console.error('Error:', error);
     }
-    fetch(`/Teachers_Portal/updateStudent/`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'X-CSRFToken': csrftoken
-        },
-        body: JSON.stringify(updatestudentdata)
-    })
-        .then(response => response.json())
-        .then(data => {
-            const student_ID = data['student_ID']
-            const student_name = data['student_name']
-            const student_id = data['student_id']
-            const student_sex = data['student_sex']
-            adddetailstoDOM(student_ID, student_name, student_id, student_sex)
-            const type = 'alert-success'
-            const message = data['message']
-            displayalert(type, message)
-        })
-        .catch(error => console.error('Error:', error));
 }
 
-// submitting new student record
-async function submitformdetails() {
-    const studentname_input = addandeditstudentdetailform.querySelector('#student_name')
-    const studentname = studentname_input.value
-    const Student_sex_input = addandeditstudentdetailform.querySelector('#Student_sex')
-    const Student_sex = Student_sex_input.value
-    await submittoServer(studentname, Student_sex);
-    spinner.classList.add('.d-none')
-    studentname_input.value = ''
-    Student_sex_input.value = ''
-    $(addandeditstudentdetailModal).modal('hide');
+/**
+ * DELETING FUNCTIONS
+ */
+
+// Remove Students
+function removestudents() {
+    removeFromServer(studentidtoremove);
+    dataTable.rows.remove(rowstoremove);
+    dataTable.refresh();
+    hideDeleteModal();
+    setUIState();
 }
 
-async function submittoServer(studentname, Student_sex) {
-    spinner.classList.remove('.d-none')
-    const studentdata = {
-        studentclass,
-        studentname,
-        Student_sex
+// Remove All Students
+function removeallstudents() {
+    const tablesrows = Array.from(datatablesSimple.firstElementChild.nextElementSibling.children);
+    tablesrows.forEach((row) => {
+        rowstoremove.push(parseInt(row.dataset.index));
+        studentidtoremove.push(row.firstElementChild.firstElementChild.value);
+    });
+
+    removeFromServer(studentidtoremove);
+    dataTable.rows.remove(rowstoremove);
+    dataTable.refresh();
+    hideDeleteAllModal();
+    setUIState();
+}
+
+// Remove from Server
+async function removeFromServer(studentidtoremove) {
+    try {
+        const data = await deleteStudents(studentidtoremove);
+        displayAlert('alert-success', data.message);
+    } catch (error) {
+        console.error('Error:', error);
     }
-    const response = await fetch(`/Teachers_Portal/newStudent/`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'X-CSRFToken': csrftoken
-        },
-        body: JSON.stringify(studentdata)
-    })
-    const data = await response.json()
-        const student_ID = data['student_ID']
-        const student_name = data['student_name']
-        const student_id = data['student_id']
-        const student_sex = data['student_sex']
-        adddetailstoDOM(student_ID, student_name, student_id, student_sex)
-        const type = 'alert-success'
-        const message = data['message']
-        displayalert(type, message)
 }
 
-// add a new row to the datatable
-function adddetailstoDOM(student_ID, studentname, student_id, Student_sex) {
-    let newRow = [
+/**
+ * UTILITY FUNCTIONS
+ */
+
+// Add New Row to DataTable
+function addDetailsToDOM(student_ID, studentname, student_id, Student_sex) {
+    const newRow = [
         `<input class="form-check-input me-3" type="checkbox" value="${student_ID}" id="selectstudentcheckbox">`,
         `<a class="editstudentinfo text-decoration-none" data-bs-toggle="modal" data-bs-target="#AddandeditStudentModal" style="cursor:pointer">${studentname}</a>`,
         `${student_id}`,
         `${Student_sex}`
     ];
     dataTable.rows.add(newRow);
-    dataTable.refresh()
+    dataTable.refresh();
 }
 
-// Closing the Modal by clicking the Modal button
-addandeditstudentdetailModal.addEventListener('hidden.bs.modal', function () {
-    const studentname_input = addandeditstudentdetailform.querySelector('#student_name')
-    const studentname = studentname_input.value
-    const Student_sex_input = addandeditstudentdetailform.querySelector('#Student_sex')
-    const Student_sex = Student_sex_input.value
-    studentname_input.value = ''
-    Student_sex_input.value = ''
+// Modal Reset
+function resetModal() {
+    resetFormInputs();
     addandeditstudentdetailform.classList.remove('was-validated');
-    setUIState()
-});
+    setUIState();
+}
 
-// display Alert System
-function displayalert(type, message) {
+// Reset Form Inputs
+function resetFormInputs() {
+    addandeditstudentdetailform.querySelector('#student_name').value = '';
+    addandeditstudentdetailform.querySelector('#Student_sex').value = '';
+}
+
+// Show Modal
+function showModal() {
+    $(addandeditstudentdetailModal).modal('show');
+}
+
+// Hide Modals
+function hideModal() {
+    $(addandeditstudentdetailModal).modal('hide');
+}
+
+function hideDeleteModal() {
+    $(deletestudentModal).modal('hide');
+}
+
+function hideDeleteAllModal() {
+    $(document.querySelector('#deleteallstudentModal')).modal('hide');
+}
+
+// Display Alert
+function displayAlert(type, message) {
     const alertdiv = document.createElement('div');
-    alertdiv.classList.add('alert', `${type}`, 'd-flex', 'align-items-center', 'mt-3');
+    alertdiv.classList.add('alert', type, 'd-flex', 'align-items-center', 'mt-3');
     alertdiv.setAttribute('role', 'alert');
     alertdiv.innerHTML = `
-                        <i class="fa-solid fa-circle-check h6 me-2"></i>
-                        <div>
-                           ${message}
-                        </div>
-                        `
-    alertcontainer.appendChild(alertdiv)
+        <i class="fa-solid fa-circle-check h6 me-2"></i>
+        <div>${message}</div>
+    `;
+    alertcontainer.appendChild(alertdiv);
 
     setTimeout(() => {
         alertdiv.remove();
     }, 3000);
-
 }
-    
+
+// Update UI State
+function setUIState() {
+    resetModalLabelAndButton();
+    handleNoEntriesFound();
+    resetSelections();
+}
+
+// Reset Modal Label and Button
+function resetModalLabelAndButton() {
+    modallabel.innerText = "Add Student Record";
+    modalformsubmitbtn.innerText = 'Add Student';
+}
+
+// Handle No Entries Found
+function handleNoEntriesFound() {
+    const tablesrows = Array.from(datatablesSimple.lastElementChild.children);
+    const noEntriesFound = tablesrows.length === 1 && tablesrows[0].firstElementChild.innerText === 'No entries found';
+
+    if (noEntriesFound) {
+        removestudentsactionbtn.classList.add('d-none');
+        removeallstudentactionbtn.classList.add('d-none');
+    } else {
+        removestudentsactionbtn.classList.remove('d-none');
+        removeallstudentactionbtn.classList.remove('d-none');
+    }
+}
+
+// Reset Selections
+function resetSelections() {
+    rowstoremove = [];
+    studentidtoremove = [];
+    const tablesrows = Array.from(datatablesSimple.lastElementChild.children);
+    tablesrows.forEach((row) => {
+        row.classList.remove('is-edit');
+        row.firstElementChild.firstElementChild.checked = false;
+    });
+}
+
+// add Row to Remove List
+function addRowToRemove(rowIndex, studentid) {
+    if (rowstoremove.indexOf(rowIndex) === -1 && studentidtoremove.indexOf(studentid) === -1) {
+        rowstoremove.push(rowIndex);
+        studentidtoremove.push(studentid);
+    }
+}
+
+// Remove Row from Remove List
+function removeRowFromRemoveList(rowIndex, studentid) {
+    const indexToRemove = rowstoremove.indexOf(rowIndex);
+    const idToRemove = studentidtoremove.indexOf(studentid);
+
+    if (indexToRemove !== -1) {
+        rowstoremove.splice(indexToRemove, 1);
+        studentidtoremove.splice(idToRemove, 1);
+    }
+}
