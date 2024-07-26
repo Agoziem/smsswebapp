@@ -2,6 +2,13 @@
 // getting from the server
 // -----------------------------------------------------------
 async function getstudentdata(classdata) {
+  if (
+    classdata.selectedTerm === "" &&
+    classdata.selectedAcademicSession === "" &&
+    classdata.studentsubject === ""
+  ) {
+    return;
+  }
   const response = await fetch(`/Teachers_Portal/getstudentresults/`, {
     method: "POST",
     headers: {
@@ -23,6 +30,13 @@ function updatestudentresult(
   readJsonFromFile,
   displayalert
 ) {
+  if (
+    classdata.selectedTerm === "" &&
+    classdata.selectedAcademicSession === "" &&
+    classdata.studentsubject === ""
+  ) {
+    return;
+  }
   const fullresultdata = {
     formDataObject,
     classdata,
@@ -118,7 +132,6 @@ function publishstudentresult(url, data, classdata, displayalert) {
     })
     .catch((error) => console.error("Error:", error));
 }
-
 
 export {
   getstudentdata,

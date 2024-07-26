@@ -6,7 +6,7 @@ from .views.adminviews import *
 from .views.formteachersviews import *
 from .views.classteachersviews import *
 
-
+# 
 app_name = 'Teachers_portal'
 urlpatterns = [
     # Teachers Portal URLS
