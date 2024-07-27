@@ -3,8 +3,8 @@
 // -----------------------------------------------------------
 async function getstudentdata(classdata) {
   if (
-    classdata.selectedTerm === "" &&
-    classdata.selectedAcademicSession === "" &&
+    classdata.selectedTerm === "" ||
+    classdata.selectedAcademicSession === "" ||
     classdata.studentsubject === ""
   ) {
     return;
@@ -31,8 +31,8 @@ function updatestudentresult(
   displayalert
 ) {
   if (
-    classdata.selectedTerm === "" &&
-    classdata.selectedAcademicSession === "" &&
+    classdata.selectedTerm === "" ||
+    classdata.selectedAcademicSession === "" ||
     classdata.studentsubject === ""
   ) {
     return;
