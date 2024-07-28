@@ -118,12 +118,7 @@
               {% for subject in subjects_taught_for_class %}
               <option
                 value="{{ subject.subject_name }}"
-                {%
-                if
-                forloop.first
-                %}selected{%
-                endif
-                %}
+                {% if forloop.first %} selected {% endif %}
               >
                 {{ subject.subject_name }}
               </option>
@@ -141,12 +136,7 @@
               {% for Session in academic_session %}
               <option
                 value="{{ Session.session }}"
-                {%
-                if
-                forloop.first
-                %}selected{%
-                endif
-                %}
+                {% if forloop.first %} selected {% endif %}
               >
                 {{ Session.session }}
               </option>
@@ -159,12 +149,7 @@
               {% for Term in Terms %}
               <option
                 value="{{ Term.term }}"
-                {%
-                if
-                forloop.first
-                %}selected{%
-                endif
-                %}
+                {% if forloop.first %}selected{% endif %}
               >
                 {{ Term.term }}
               </option>
@@ -295,8 +280,7 @@
                   id="seventhcheckbox"
                 />
                 <label class="form-check-label" for="seventhcheckbox"
-                  >Exam</label
-                >
+                  >Exam</label>
               </li>
             </ul>
           </div>
