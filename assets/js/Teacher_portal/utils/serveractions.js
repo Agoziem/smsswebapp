@@ -1,3 +1,5 @@
+import { showSpinner, hideSpinner } from "../../utils/displayspinner.js";
+
 // -----------------------------------------------------------
 // getting from the server
 // -----------------------------------------------------------
@@ -10,6 +12,41 @@ async function getstudentdata(classdata) {
     return;
   }
   const response = await fetch(`/Teachers_Portal/getstudentresults/`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "X-CSRFToken": csrftoken,
+    },
+    body: JSON.stringify(classdata),
+  });
+  const data = await response.json();
+  return data;
+}
+
+// ---------------------------------------------------
+// function to get Student Annual Result
+// ---------------------------------------------------
+async function getannualresultdata(classdata) {
+  showSpinner("updatesubjectspinner", "subjectbtnmessage", "Loading...");
+  console.log(classdata);
+  const response = await fetch(`/Teachers_Portal/annualresultcomputation/`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "X-CSRFToken": csrftoken,
+    },
+    body: JSON.stringify(classdata),
+  });
+  const data = await response.json();
+  hideSpinner("updatesubjectspinner", "subjectbtnmessage", "load Results");
+  return data;
+}
+
+// -----------------------------------------------------
+// Function to get Class Annual Result
+// ------------------------------------------------------
+async function getannualclassresult(classdata) {
+  const response = await fetch(`/Teachers_Portal/annualclassresultcomputation/`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -135,6 +172,8 @@ function publishstudentresult(url, data, classdata, displayalert) {
 
 export {
   getstudentdata,
+  getannualclassresult,
+  getannualresultdata,
   updatestudentresult,
   submitallstudentresult,
   getstudentresult,

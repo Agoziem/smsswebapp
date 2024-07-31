@@ -53,3 +53,50 @@ def getclasspublishedResults(request):
     except Exception as e:
         print(e)
         return JsonResponse({'error': 'An error occured try again later'}, safe=False)
+    
+
+
+# Admin annual View of School Results
+def schoolannualresult_view(request):
+    school_classes = Class.objects.all()
+    academic_session = AcademicSession.objects.all()
+    context = {
+        'school_classes': school_classes,
+        'academic_session': academic_session,
+    }
+    return render(request,'schoolannualresults.html',context)
+
+def getclassannualpublishedResults(request):
+    try:
+        data = json.loads(request.body)
+        class_ =data.get('classname')
+        academic_session = data.get('session')
+        classobject = Class.objects.get(Class=class_)
+        academic_sessionobject = AcademicSession.objects.get(session=academic_session)
+        subject_allocations = Subjectallocation.objects.get(classname=classobject)
+        classstudent = Students_Pin_and_ID.objects.filter(student_class=classobject).first()
+        classannualresultdata = {}
+        try:
+            annualresultsummary = AnnualStudent.objects.get(Student_name=classstudent,academicsession=academic_sessionobject)
+            classannualresultdata["classname"] =  classobject.Class
+            classannualresultdata['published'] = annualresultsummary.published
+            annualsubjectResults = []
+            for subject in subject_allocations.subjects.all():
+                Subjectresult = {}
+                try:
+                    subject_results = AnnualResult.objects.get(Student_name=annualresultsummary,Subject=subject)
+                    Subjectresult['subject'] = subject.subject_name
+                    Subjectresult['published'] = subject_results.published
+                except:
+                    Subjectresult['subject'] = subject.subject_name
+                    Subjectresult['published'] = False
+                annualsubjectResults.append(Subjectresult)
+            classannualresultdata['subjects'] = annualsubjectResults
+        except:
+            classannualresultdata["classname"] =  classobject.Class
+            classannualresultdata['published'] = False
+            classannualresultdata['subjects'] = []
+        return JsonResponse(classannualresultdata, safe=False)
+    except Exception as e:
+        print(e)
+        return JsonResponse({'error': 'An error occured try again later'}, safe=False)

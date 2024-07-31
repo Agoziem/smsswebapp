@@ -209,6 +209,103 @@ def unpublish_classresults_view(request):
         }, safe=False)
 
 
+# -----------------------------------------------------------------------------------
+# Annual views for the Form teachers
+# -----------------------------------------------------------------------------------
+@login_required
+def PublishAnnualResults_view(request,Classname):
+    academic_session= AcademicSession.objects.all()
+    class_object = Class.objects.get(Class=Classname)
+    subjects_allocation = Subjectallocation.objects.filter(classname=class_object).first()
+    subject_code = []
+    for subobject in subjects_allocation.subjects.all():
+        subject_code.append(subobject.subject_code)
+    context = {
+        'subjects_allocation': subjects_allocation,
+        "class": class_object,
+        'sub_list':subject_code,
+        "academic_session":academic_session
+        }
+    return render(request, 'Annual_Publish_Result.html', context)
+
+
+def annual_class_computation_view(request):
+    data=json.loads(request.body)
+    classobject=Class.objects.get(Class=data['studentclass'])
+    Acadsessionobject=AcademicSession.objects.get(session=data['selectedAcademicSession'])
+    students = Students_Pin_and_ID.objects.filter(student_class=classobject)
+    subjects_allocated = Subjectallocation.objects.filter(classname=classobject).first()
+    final_list = []
+    for student in students:
+        studentdict={
+            'Name':student.student_name
+        }
+        for subobject in subjects_allocated.subjects.all():
+            subject = {}
+            try:
+                subject_object = Subject.objects.get(subject_code=subobject.subject_code)
+                studentAnnual = AnnualStudent.objects.get(Student_name=student, academicsession=Acadsessionobject)
+                subjectAnnual = AnnualResult.objects.get(Student_name=studentAnnual, Subject=subject_object)
+                subject['subject_code'] = subobject.subject_code
+                subject['subject_name'] = subobject.subject_name
+                subject['Average'] = subjectAnnual.Average
+                subject['published'] = subjectAnnual.published
+            except:
+                subject['subject_code'] = subobject.subject_code
+                subject['subject_name'] = subobject.subject_name
+                subject['Average'] = "-"
+                subject['published'] = False
+            studentdict[subobject.subject_code] = subject
+            studentdict['published'] = studentAnnual.published
+        final_list.append(studentdict)
+    return JsonResponse(final_list, safe=False)
+
+
+# 
+def publish_annualstudentresult_view(request):
+    try:
+        data=json.loads(request.body)
+        Acadsessionobject=data['classdata']['selectedAcademicSession']
+        Classdata=data['classdata']['studentclass']
+        for studentdata in data['data']:
+            classobject=Class.objects.get(Class=Classdata)
+            resultsession = AcademicSession.objects.get(session=Acadsessionobject)
+            student = Students_Pin_and_ID.objects.get(student_name=studentdata['Name'],student_class=classobject)
+            studentnumber=Students_Pin_and_ID.objects.filter(student_class=classobject).count()
+            try:
+                studentresult=AnnualStudent.objects.get(Student_name=student,academicsession=resultsession)
+                studentresult.TotalScore=studentdata['Total']
+                studentresult.Totalnumber= studentnumber
+                studentresult.Average=studentdata['Average']
+                studentresult.Position=studentdata['Position']
+                studentresult.Remark=studentdata['Remarks']
+                studentresult.Verdict = studentdata['Verdict']
+                studentresult.published = True
+                studentresult.save()
+            except Exception as e:
+                print(str(e))
+                continue
+        return JsonResponse({
+            "type": "success",
+            "message": "Annual Results have been published and are now opened to the Students"
+            }, safe=False)
+    except:
+        return JsonResponse({"type":"danger","message":"something went wrong, try again later" }, safe=False)
+    
+
+def unpublish_annual_classresults_view(request):
+    data=json.loads(request.body)
+    classobject=Class.objects.get(Class=data['classdata']['studentclass'])
+    Acadsessionobject=AcademicSession.objects.get(session=data['classdata']['selectedAcademicSession'])
+    students = Students_Pin_and_ID.objects.filter(student_class=classobject)
+    for student in students:
+        try:
+            studentresult=AnnualStudent.objects.get(Student_name=student,academicsession=Acadsessionobject)
+            studentresult.published = False
+            studentresult.save()
+        except:
+            continue
+    return JsonResponse({"type":"success","message":"Results have been Unpublished and its now closed to the Students"}, safe=False)
 
 
 

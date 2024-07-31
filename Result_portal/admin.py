@@ -8,8 +8,6 @@ admin.site.register(Subjectallocation)
 admin.site.register(Excelfiles)
 admin.site.register(Newsletter)
 admin.site.register(Assignments)
-admin.site.register(AnnualStudent)
-admin.site.register(AnnualResult)
 
 @admin.register(Students_Pin_and_ID)
 class Students_Pin_and_IDAdmin(admin.ModelAdmin):
@@ -52,18 +50,17 @@ class ResultAdmin(admin.ModelAdmin):
     search_fields = ('student_class','Subject') 
     list_filter = ('student','student_class','Subject')
 
+@admin.register(AnnualStudent)
+class AnnualStudentAdmin(admin.ModelAdmin):
+    list_display = ('Student_name', 'TotalScore', 'Average', 'Position')
+    ordering = ('Student_name', 'TotalScore', 'Average', 'Position')
+    search_fields = ('TotalScore', 'Average', 'Position')
+    list_filter = ('Student_name', 'TotalScore', 'Average', 'Position')
 
-# @admin.register(AnnualStudent)
-# class AnnualStudentAdmin(admin.ModelAdmin):
-#     list_display=('Student_name','TotalScore','Average','Position')
-#     ordering=('Student_name','TotalScore','Average','Position')
-#     search_fields=('TotalScore','Average','Position')
-#     list_filter=('Student_name','TotalScore','Average','Position')
-
-# @admin.register(AnnualResult)
-# class ResultAdmin(admin.ModelAdmin):
-#     list_display = ('students_result_data__Student_name','Subject')
-#     ordering = ('students_result_data__Student_name','Subject')
-#     search_fields = ('students_result_data__Student_name','Subject') 
-#     list_filter = ('students_result_data__Student_name','Subject')
+@admin.register(AnnualResult)
+class AnnualResultAdmin(admin.ModelAdmin):
+    list_display = ('Student_name', 'Subject')
+    ordering = ('Student_name', 'Subject')
+    search_fields = ('Student_name', 'Subject__subject_name')
+    list_filter = ('Student_name', 'Subject__subject_name')
 

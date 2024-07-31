@@ -132,6 +132,7 @@ class Student_Result_Data(models.Model):
 	Term=models.ForeignKey(Term,on_delete=models.CASCADE,blank=True,null=True)
 	AcademicSession=models.ForeignKey(AcademicSession,on_delete=models.CASCADE,blank=True,null=True)
 	published=models.BooleanField(default=False)
+	
 
 	def __str__(self):
 		return str(self.Student_name.student_name+"-"+self.Student_name.student_class.Class)
@@ -169,15 +170,16 @@ class AnnualStudent(models.Model):
 	Totalnumber=models.CharField(max_length=100, blank=True,null=True , default="-")
 	Average=models.CharField(max_length=100, blank=True,null=True , default="-")
 	Position=models.CharField(max_length=100, blank=True,null=True , default="-")
-	AcademicSession=models.ForeignKey(AcademicSession,on_delete=models.CASCADE,blank=True,null=True)
+	academicsession=models.ForeignKey(AcademicSession,on_delete=models.CASCADE,blank=True,null=True)
 	published=models.BooleanField(default=False)
+	Verdict=models.CharField(max_length=100, blank=True,null=True , default="-")
 
 	def __str__(self):
 		return str(self.Student_name.student_name +"-"+ self.Student_name.student_class.Class)
 
 
 class AnnualResult(models.Model):
-	students_result_data = models.ForeignKey(AnnualStudent,on_delete=models.CASCADE)
+	Student_name = models.ForeignKey(AnnualStudent,on_delete=models.CASCADE)
 	Subject= models.ForeignKey(Subject,on_delete=models.CASCADE)
 	FirstTermTotal= models.CharField(max_length=100, blank=True,null=True,default="-")
 	SecondTermTotal= models.CharField(max_length=100, blank=True,null=True,default="-")
@@ -190,4 +192,4 @@ class AnnualResult(models.Model):
 	published=models.BooleanField(default=False)
 	
 	def __str__(self):
-		return str(self.students_result_data.Student_name +"-"+ self.Subject.subject_name)
+		return str(self.Student_name.Student_name.student_name +"-"+ self.Subject.subject_name)

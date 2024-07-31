@@ -23,6 +23,10 @@ urlpatterns = [
 	path('getstudentsubjecttotals/',getstudentsubjecttotals_view , name='getstudentsubjecttotals'),   
 	path('publishstudentresult/',publish_student_result_view , name='publishstudentresult'),
     path('unpublishclassresult/',unpublish_classresults_view , name='unpublishstudentresult'),
+    path('<str:Classname>/AnnualResults/',PublishAnnualResults_view , name='AnnualResults'), 
+    path('annualclassresultcomputation/',annual_class_computation_view , name='annualclassresultcomputation'),
+    path('publishannualclassresult/',publish_annualstudentresult_view , name='publishannualresult'),
+    path('unpublishannualclassresult/',unpublish_annual_classresults_view , name='unpublishannualresult'),
 
 	path('<str:Classname>/Students/',Students_view , name='Students'),   
 	path('newStudent/', createstudent_view , name='createstudent'),   
@@ -37,9 +41,14 @@ urlpatterns = [
 	path('updatestudentresults/',update_student_result_view , name='updatestudentresults'),   
 	path('submitallstudentresult/',submitallstudentresult_view , name='submitallstudentresult'),
     path('unpublishstudentresults/',unpublish_results_view , name='unpublishstudentresults'),
+    path('<str:Classname>/<int:id>/annualresult_computation/',annualresult_computation , name='annualresult_computation'),
+    path('annualresultcomputation/',annual_result_computation_view , name='annualresultcomputation'),
+    path('publishannualresults/',publish_annual_results , name='publishannualresults'),
+    path('unpublishannualresults/',unpublish_annual_results , name='unpublishannualresults'),
     
 	# Admin urls
     path('schoolresults/',schoolresult_view , name='schoolresults'),
-    path('getclasspublishedResults/',getclasspublishedResults , name='getclasspublishedResults')
- 
+    path('getclasspublishedResults/',getclasspublishedResults , name='getclasspublishedResults'),
+	path('schoolannualresult/',schoolannualresult_view, name='schoolannualresult'),
+    path('getclassannualpublishedResults/',getclassannualpublishedResults, name='getclassannualpublishedResults'),
 ]
