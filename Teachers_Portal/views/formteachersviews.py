@@ -17,7 +17,7 @@ def Students_view(request,Classname):
         'class':classobject,
         "students":students
         } 
-    return render(request,'students.html',context)
+    return render(request,'formteachers/students.html',context)
 
 def createstudent_view(request):
     data=json.loads(request.body)
@@ -79,8 +79,9 @@ def DeleteStudents_view(request):
 
 
 
-
+# ------------------------------------------
 # Form teachers View for submitting Results
+# ------------------------------------------
 @login_required
 def PublishResults_view(request,Classname):
     Terms=Term.objects.all()
@@ -97,7 +98,7 @@ def PublishResults_view(request,Classname):
         "Terms":Terms,
         "academic_session":academic_session
         }
-    return render(request, 'Publish_Result.html', context)
+    return render(request, 'formteachers/Publish_Result.html', context)
 
 def getstudentsubjecttotals_view(request):
     data=json.loads(request.body)
@@ -226,7 +227,7 @@ def PublishAnnualResults_view(request,Classname):
         'sub_list':subject_code,
         "academic_session":academic_session
         }
-    return render(request, 'Annual_Publish_Result.html', context)
+    return render(request, 'formteachers/Annual_Publish_Result.html', context)
 
 
 def annual_class_computation_view(request):
@@ -238,7 +239,8 @@ def annual_class_computation_view(request):
     final_list = []
     for student in students:
         studentdict={
-            'Name':student.student_name
+            'Name':student.student_name,
+            "subjects":[]
         }
         for subobject in subjects_allocated.subjects.all():
             subject = {}
@@ -255,7 +257,7 @@ def annual_class_computation_view(request):
                 subject['subject_name'] = subobject.subject_name
                 subject['Average'] = "-"
                 subject['published'] = False
-            studentdict[subobject.subject_code] = subject
+            studentdict['subjects'].append(subject)
             studentdict['published'] = studentAnnual.published
         final_list.append(studentdict)
     return JsonResponse(final_list, safe=False)

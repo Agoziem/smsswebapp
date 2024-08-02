@@ -13,7 +13,7 @@ def attendance_view(request,Classname):
     context={
         'class':classobject
     }
-    return render(request, 'attendance.html', context)
+    return render(request, 'formteachers/attendance.html', context)
 
 # Post Class Attendance
 def post_attendance(request,classname):

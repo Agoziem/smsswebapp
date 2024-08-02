@@ -28,7 +28,7 @@ def result_computation_view(request,Classname,id):
             "academic_session":academic_session,
             "subjects_taught_for_class":subjects_taught_for_class
         }
-    return render(request,'Result_computation.html',context)
+    return render(request,'teachers/Result_computation.html',context)
 
 @login_required
 def get_students_result_view(request):
@@ -146,7 +146,7 @@ def annualresult_computation(request,Classname,id):
         "academic_session":academic_session,
         "subjects_taught_for_class":subjects_taught_for_class
         } 
-    return render(request,'Annual_Results.html',context)
+    return render(request,'teachers/Annual_Results.html',context)
 
 def annual_result_computation_view(request):
     data = json.loads(request.body)

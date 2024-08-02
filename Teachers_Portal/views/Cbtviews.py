@@ -37,14 +37,14 @@ def CBT_Questions_view(request,teachers_id):
                 questionset.ExamClass.add(class_object)
             questionset.save()
         context = {'questionSet': questionset}
-        return render(request, 'CBT_Questions.html', context)
+        return render(request, 'cbt/CBT_Questions.html', context)
 
     context={
         "subjects":subjects,
         "classes":classes,
         "teacher":teacher
     }
-    return render(request,'CBT_details.html',context)
+    return render(request,'cbt/CBT_details.html',context)
 
 def CBT_update_details(request,id):
     questionset = QuestionSet.objects.get(id=id)
@@ -59,11 +59,11 @@ def CBT_update_details(request,id):
         context={
             'questionSet':questionset
         }
-        return render(request,'CBT_Questions.html',context)
+        return render(request,'cbt/CBT_Questions.html',context)
     context={
         "questionset":questionset
     }
-    return render(request,'CBT_update_details.html',context)
+    return render(request,'cbt/CBT_update_details.html',context)
 
 def submitquestion_view(request):
     if request.method == 'POST':

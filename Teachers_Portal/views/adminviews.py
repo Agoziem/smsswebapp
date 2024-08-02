@@ -14,7 +14,7 @@ def schoolresult_view(request):
         'academic_session': academic_session,
         'terms': terms,
     }
-    return render(request,'schoolresults.html',context)
+    return render(request,'admin/schoolresults.html',context)
 
 def getclasspublishedResults(request):
     try:
@@ -64,7 +64,7 @@ def schoolannualresult_view(request):
         'school_classes': school_classes,
         'academic_session': academic_session,
     }
-    return render(request,'schoolannualresults.html',context)
+    return render(request,'admin/schoolannualresults.html',context)
 
 def getclassannualpublishedResults(request):
     try:
