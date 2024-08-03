@@ -33,7 +33,7 @@ def profile_view(request,id):
         'subjects':subjects,
         'form':form
     }
-    return render(request,'editprofile.html',context)
+    return render(request,'teachers/editprofile.html',context)
 
 
 
