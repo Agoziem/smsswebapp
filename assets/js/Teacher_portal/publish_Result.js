@@ -200,10 +200,7 @@ function updateResultBadge(type, studentresult) {
 // -----------------------------------------------------------------------
 const showStudentSubjectResults = (student) => {
   const subjectsresultlist = document.querySelector("#resultspublished");
-  const studentSubjectResult = student.subjects.filter((key) => {
-    return mainsubjectlist.includes(key);
-  });
-  const studentSubjectResultData = studentSubjectResult.map(
+  const studentSubjectResultData = student.subjects.map(
     (subject, index) => {
       if (subject.published) {
         return `<li
