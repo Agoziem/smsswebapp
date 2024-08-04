@@ -22,36 +22,29 @@ class ClassResulthandler {
 
   // this has to be Calulated dynamically
   calculateTotal(student) {
-    const keys = Object.keys(student);
-    const startIndex = keys.indexOf("Name") + 1;
-    const endIndex = keys.indexOf("published");
-    const relevantKeys = keys.slice(startIndex, endIndex);
-    return relevantKeys.reduce(
-      (sum, key) =>
-        sum +
-        (isNaN(student[key]["Total"]) ? 0 : parseInt(student[key]["Total"])),
-      0
-    );
+    let total = student.subjects.reduce((sum, subject) => {
+      const Total = subject.Total;
+      return (
+        sum + (isNaN(Total) || Total === "-" ? 0 : parseFloat(Total))
+      );
+    }, 0);
+
+    return total;
   }
 
   // this has to be Calulated dynamically
   calculateAverage(student) {
-    const keys = Object.keys(student);
-    const startIndex = keys.indexOf("Name") + 1;
-    const endIndex = keys.indexOf("published");
-    const relevantKeys = keys.slice(startIndex, endIndex);
-    const greaterThanOrEqualToOneCount = relevantKeys.filter(
-      (key) =>
-        parseInt(student[key]["Total"]) >= 0 && student[key]["Total"] !== "-"
-    ).length;
-    // Check if greaterThanOrEqualToOneCount is not zero before performing the division
-    const average =
-      greaterThanOrEqualToOneCount !== 0
-        ? parseFloat((student.Total / greaterThanOrEqualToOneCount).toFixed(2))
-        : 0;
+    let validSubjectsCount = student.subjects.reduce((count, subject) => {
+      const total = subject.Total;
+      return count + (isNaN(total) || total === "-" ? 0 : 1);
+    }, 0);
 
-    return average;
+    let Total = this.calculateTotal(student);
+    let Average = validSubjectsCount > 0 ? Total / validSubjectsCount : 0;
+
+    return parseFloat(Average.toFixed(2)); 
   }
+
 
   calculateGrade(student) {
     if (student.Ave >= 70) return "A";

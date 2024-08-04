@@ -110,9 +110,12 @@ function populatetable(tabledata) {
         <tr>
             <td>${index + 1}</td>
             <td class="text-primary">${data.Name}</td>
-              ${mainsubjectlist
-                .map((subject) => `<td>${data[subject].Total}</td>`)
-                .join("")}
+            ${data.subjects
+              .map(
+                (subject) =>
+                  `<td>${subject.Total !== "-" ? subject.Total : ""}</td>`
+              )
+              .join("")}
             <td>${data.Total}</td>
             <td>${data.Ave}</td>
             <td>${data.Grade}</td>
@@ -197,20 +200,18 @@ function updateResultBadge(type, studentresult) {
 // -----------------------------------------------------------------------
 const showStudentSubjectResults = (student) => {
   const subjectsresultlist = document.querySelector("#resultspublished");
-  const studentResult = student;
-  const studentResultKeys = Object.keys(studentResult);
-  const studentSubjectResult = studentResultKeys.filter((key) => {
+  const studentSubjectResult = student.subjects.filter((key) => {
     return mainsubjectlist.includes(key);
   });
   const studentSubjectResultData = studentSubjectResult.map(
     (subject, index) => {
-      if (studentResult[subject].published) {
+      if (subject.published) {
         return `<li
             class="list-group-item d-flex justify-content-between align-items-center text-success fw-bold"
           >
           <div>
             <span class="me-2">${index + 1}.</i>
-            ${studentResult[subject].subject_name}
+            ${subject.subject_name}
           </div>
             <i class="fa-solid fa-check me-3 fw-bold "></i>
           </li>`;
@@ -220,7 +221,7 @@ const showStudentSubjectResults = (student) => {
           >
              <div>
                 <span class="me-2">${index + 1}.</i>
-                ${studentResult[subject].subject_name}
+                ${subject.subject_name}
               </div>
             <i class="fa-solid fa-xmark me-3 fw-bold "></i>
           </li>`;

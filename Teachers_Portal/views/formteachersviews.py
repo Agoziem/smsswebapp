@@ -113,6 +113,7 @@ def getstudentsubjecttotals_view(request):
         Resultdetails=Student_Result_Data.objects.filter(Student_name=student,Term=term_object,AcademicSession=session_object).first()
         student_dict = {
             'Name': student.student_name,
+            'subjects':[],
         }
         for subobject in subjects_allocated.subjects.all():
             subject = {}
@@ -127,7 +128,7 @@ def getstudentsubjecttotals_view(request):
                 subject['subject_name'] = subobject.subject_name
                 subject['Total'] = "-"
                 subject['published'] = False
-            student_dict[subobject.subject_code] = subject
+            student_dict['subjects'].append(subject)
             student_dict['published'] = Resultdetails.published
         final_list.append(student_dict)
     return JsonResponse(final_list, safe=False)
