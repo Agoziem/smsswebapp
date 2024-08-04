@@ -116,6 +116,7 @@ function displayResultPublishedbadge(data) {
     : classresultpublishedbadge.classList.replace("bg-success", "bg-secondary");
 }
 
+// 
 // --------------------------------------
 // function to display the published result
 // --------------------------------------
