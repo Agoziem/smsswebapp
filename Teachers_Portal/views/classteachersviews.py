@@ -11,8 +11,9 @@ from django.db.models import Q
 
 
 
-
+#-------------------------------------- 
 # Teachers Result Formulation Part
+# -------------------------------------
 @login_required
 def result_computation_view(request,Classname,id):
     teacher = Teacher.objects.get(id=id)
