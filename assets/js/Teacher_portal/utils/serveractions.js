@@ -11,6 +11,7 @@ async function getstudentdata(classdata) {
   ) {
     return;
   }
+  showSpinner("updatesubjectspinner", "subjectbtnmessage", "Loading...");
   const response = await fetch(`/Teachers_Portal/getstudentresults/`, {
     method: "POST",
     headers: {
@@ -20,6 +21,7 @@ async function getstudentdata(classdata) {
     body: JSON.stringify(classdata),
   });
   const data = await response.json();
+  hideSpinner("updatesubjectspinner", "subjectbtnmessage", "load Results");
   return data;
 }
 

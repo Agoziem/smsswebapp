@@ -238,6 +238,7 @@ def annual_class_computation_view(request):
     students = Students_Pin_and_ID.objects.filter(student_class=classobject)
     subjects_allocated = Subjectallocation.objects.filter(classname=classobject).first()
     final_list = []
+    published = False
     for student in students:
         studentdict={
             'Name':student.student_name,
@@ -252,14 +253,16 @@ def annual_class_computation_view(request):
                 subject['subject_code'] = subobject.subject_code
                 subject['subject_name'] = subobject.subject_name
                 subject['Average'] = subjectAnnual.Average
-                subject['published'] = subjectAnnual.published
+                subject['published'] = studentAnnual.published
+                published = studentAnnual.published
             except:
                 subject['subject_code'] = subobject.subject_code
                 subject['subject_name'] = subobject.subject_name
                 subject['Average'] = "-"
                 subject['published'] = False
+                published = False
+            studentdict['published'] = published
             studentdict['subjects'].append(subject)
-            studentdict['published'] = studentAnnual.published
         final_list.append(studentdict)
     return JsonResponse(final_list, safe=False)
 
