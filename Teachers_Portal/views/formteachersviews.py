@@ -266,8 +266,6 @@ def annual_class_computation_view(request):
         final_list.append(studentdict)
     return JsonResponse(final_list, safe=False)
 
-
-# 
 def publish_annualstudentresult_view(request):
     try:
         data=json.loads(request.body)

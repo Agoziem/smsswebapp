@@ -172,6 +172,7 @@ class AnnualStudent(models.Model):
 	Position=models.CharField(max_length=100, blank=True,null=True , default="-")
 	academicsession=models.ForeignKey(AcademicSession,on_delete=models.CASCADE,blank=True,null=True)
 	published=models.BooleanField(default=False)
+	Remark=models.CharField(max_length=100, blank=True,null=True , default="-")
 	Verdict=models.CharField(max_length=100, blank=True,null=True , default="-")
 
 	def __str__(self):
