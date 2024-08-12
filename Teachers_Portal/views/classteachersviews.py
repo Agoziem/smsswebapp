@@ -34,6 +34,7 @@ def result_computation_view(request,Classname,id):
 @login_required
 def get_students_result_view(request):
     data=json.loads(request.body)
+    print(data)
     classobject = Class.objects.get(Class=data['studentclass'])
     subjectobject = Subject.objects.get(subject_name=data['studentsubject'])
     term=Term.objects.get(term=data['selectedTerm'])
@@ -62,7 +63,7 @@ def get_students_result_view(request):
             'Exam': student_result_object.Exam,
             'published': student_result_object.published,
         })
-
+    print(studentResults, 'studentResults')
     return JsonResponse(studentResults, safe=False)
 
 @login_required
@@ -163,6 +164,7 @@ def annual_result_computation_view(request):
     
     students_annuals = []
     for student in students:
+        print(student.student_id, student.student_name)
         studentAnnual, created = AnnualStudent.objects.get_or_create(Student_name=student, academicsession=session)
         student_annual_details, created = AnnualResult.objects.get_or_create(Student_name=studentAnnual, Subject=subject_object)
         
@@ -177,19 +179,18 @@ def annual_result_computation_view(request):
                     students_result_summary=student_result_details, Subject=subject_object)
                 termsobject[term.term] = student_result.Total
             except Exception as e:
-                print(f"Exception: {e}")
+                termsobject[term.term] = '-'
                 continue
         try:
             students_annuals.append({
-                "studentID": student.student_id,
+                'studentID': student.student_id,
                 'Name': student.student_name,
                 'terms': termsobject,
                 'published': student_annual_details.published
             })
         except Exception as e:
-            print(f"Exception: {e}")
             continue
-
+    print(students_annuals)
     return JsonResponse(students_annuals, safe=False)
 
 
