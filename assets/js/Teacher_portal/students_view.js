@@ -9,6 +9,7 @@ const deletestudentModal = document.querySelector('#deletestudentModal');
 const deleteallstudentbtn = document.querySelector('#deleteallstudentbtn');
 const addandeditstudentdetailform = document.querySelector('#addandeditstudentdetailform');
 const studentclass = document.querySelector('#studentclass').value;
+const academicsession = document.querySelector('#academicsession').value;
 const alertcontainer = document.querySelector('.alertcontainer');
 const deletestudentbtn = document.querySelector('#deletestudentbtn');
 const removestudentsactionbtn = document.querySelector('#removestudentsactionbtn');
@@ -96,7 +97,7 @@ async function submitFormDetails() {
 // Submit to Server
 async function submitToServer(studentname, Student_sex) {
     spinner.classList.remove('.d-none');
-    const studentdata = { studentclass, studentname, Student_sex };
+    const studentdata = { studentclass, studentname, Student_sex,academicsession };
 
     try {
         const data = await addStudent(studentdata);
@@ -155,7 +156,7 @@ function submitUpdateFormDetails() {
 
 // Submit Update to Server
 async function submitUpdateToServer(studentID, studentname, Student_sex) {
-    const updatestudentdata = { studentID, studentclass, studentname, Student_sex };
+    const updatestudentdata = { studentID, studentclass, studentname, Student_sex,academicsession };
 
     try {
         const data = await updateStudent(updatestudentdata);

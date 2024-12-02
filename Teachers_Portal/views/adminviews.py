@@ -13,6 +13,7 @@ def schoolresult_view(request):
         'school_classes': school_classes,
         'academic_session': academic_session,
         'terms': terms,
+        "sessions":academic_session
     }
     return render(request,'admin/schoolresults.html',context)
 
@@ -63,6 +64,7 @@ def schoolannualresult_view(request):
     context = {
         'school_classes': school_classes,
         'academic_session': academic_session,
+        "sessions":academic_session
     }
     return render(request,'admin/schoolannualresults.html',context)
 

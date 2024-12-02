@@ -90,29 +90,46 @@ async function readJsonFromFile() {
 // ---------------------------------------------------
 // function to Populate the Table
 // ---------------------------------------------------
-function populatetable(tabledata) {
+function populatetable(tableData) {
   const tbody = document.querySelector("#dataTable").lastElementChild;
-  tbody.innerHTML = tabledata
-    .map(
-      (data, index) =>
-        `
-        <tr>
-            <td>${index + 1}</td>
-            <td class="text-primary">${data.Name}</td>
-            ${data.subjects.map(
-              (subject) =>
-                `<td>${subject.Average !== "-" ? subject.Average : ""}</td>`
-            )}
-            <td>${data.Total}</td>
-            <td>${data.Average}</td>
-            <td>${data.Grade}</td>
-            <td>${data.Position}</td>
-            <td>${data.Remarks}</td>
-            <td>${data.Verdict}</td>
-        </tr>`
-    )
-    .join("");
+
+  // Check if tableData is valid
+  if (Array.isArray(tableData) && tableData.length > 0) {
+    tbody.innerHTML = tableData
+      .map(
+        (data, index) =>
+          `
+          <tr>
+              <td scope="row">${index + 1}</td>
+              <td class="text-primary">${data.Name ?? "-"}</td>
+              ${
+                data.subjects?.length > 0
+                  ? data.subjects
+                      .map(
+                        (subject) =>
+                          `<td>${subject.Average !== "-" && subject.Average != null ? subject.Average : ""}</td>`
+                      )
+                      .join("")
+                  : '<td colspan="3" class="text-center text-muted">No Subjects</td>'
+              }
+              <td>${data.Total ?? "-"}</td>
+              <td>${data.Average ?? "-"}</td>
+              <td>${data.Grade ?? "-"}</td>
+              <td>${data.Position ?? "-"}</td>
+              <td>${data.Remarks ?? "-"}</td>
+              <td>${data.Verdict ?? "-"}</td>
+          </tr>`
+      )
+      .join("");
+  } else {
+    // Fallback for empty or invalid data
+    tbody.innerHTML = `
+      <tr>
+        <td colspan="10" class="text-center text-muted">No Student Records Found</td>
+      </tr>`;
+  }
 }
+
 
 // ------------------------------------------------------------------
 // function to publish Result /////////////////////////////////////
@@ -164,6 +181,9 @@ function displayalert(type, message) {
 // function to update the result badge and the button test //////////////
 // -----------------------------------------------------------------------
 function updateResultBadge(type, studentresult) {
+  // if (!studentresult.published) {
+  //   return;
+  // }
   if (type === "setbadge") {
     studentresult.published = !studentresult.published;
   }

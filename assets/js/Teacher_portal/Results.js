@@ -1,4 +1,6 @@
-// imports
+// -----------------------------------------------------------
+// Imports
+// -----------------------------------------------------------
 import StudentDataHandler from "./utils/StudentResulthandler.js";
 import DataTable from "./datatable/StudentResultDatatable.js";
 import {
@@ -7,6 +9,9 @@ import {
   submitallstudentresult,
 } from "./utils/serveractions.js";
 
+// -----------------------------------------------------------
+// DOM Elements
+// -----------------------------------------------------------
 const inputStudentResultModal = document.querySelector(
   "#inputStudentResultModal"
 );
@@ -19,65 +24,60 @@ const classinput = getstudentresultform.querySelector("input");
 const termSelect = document.getElementById("termSelect");
 const Examforminput = document.querySelector(".Examinput");
 const academicSessionSelect = document.getElementById("academicSessionSelect");
-const rowcheckboxes = document.querySelector(".rowgroup");
-document.querySelectorAll(".publishbtn").forEach((btn) => {
-  btn.addEventListener("click", exportTableToJSON);
-});
 const alertcontainer1 = document.querySelector(".alertcontainer1"); // for small screen
 const alertcontainer2 = document.querySelector(".alertcontainer2"); // for large screen
 
 // -----------------------------------------------------------
 // Global States
 // -----------------------------------------------------------
-let classdata = {
-  studentclass: classinput.value,
-};
+let classdata = { studentclass: classinput.value };
 let studentResult = [];
 let state;
 
 // -----------------------------------------------------------
-// event listener to save form selections on submit
+// Event Listeners
 // -----------------------------------------------------------
 document.addEventListener("DOMContentLoaded", () => {
-  getstudentresultform.addEventListener("submit", (e) => {
-    e.preventDefault();
-    saveformSelections();
+  getstudentresultform.addEventListener("submit", handleFormSubmit);
+  inputform.addEventListener("submit", handleStudentResultSubmit);
+  document.querySelectorAll(".publishbtn").forEach((btn) => {
+    btn.addEventListener("click", exportTableToJSON);
   });
-});
 
-document.addEventListener("DOMContentLoaded", () => {
   loadsavedSelection();
 });
 
 // -----------------------------------------------------------
-// Function to update student result on form submit
+// Event Handlers
 // -----------------------------------------------------------
-document.addEventListener("DOMContentLoaded", () => {
-  document
-    .getElementById("inputStudentResultform")
-    .addEventListener("submit", (e) => {
-      e.preventDefault();
-      const formData = new FormData(inputform);
-      const formDataObject = {};
-      formData.forEach((value, key) => {
-        formDataObject[key] = value;
-      });
-      classdata.studentsubject =
-        subjectselect.options[subjectselect.selectedIndex].value;
-      (classdata.selectedTerm = termSelect.value),
-        (classdata.selectedAcademicSession = academicSessionSelect.value),
-        updatestudentresult(
-          formDataObject,
-          classdata,
-          readJsonFromFile,
-          displayalert
-        );
-      $(inputStudentResultModal).modal("hide");
-    });
-});
+function handleFormSubmit(event) {
+  event.preventDefault();
+  saveformSelections();
+}
+
+function handleStudentResultSubmit(event) {
+  event.preventDefault();
+  const formData = new FormData(inputform);
+  const formDataObject = Object.fromEntries(formData);
+
+  classdata = {
+    ...classdata,
+    studentsubject: subjectselect.value,
+    selectedTerm: termSelect.value,
+    selectedAcademicSession: academicSessionSelect.value,
+  };
+
+  updatestudentresult(
+    formDataObject,
+    classdata,
+    readJsonFromFile,
+    displayalert
+  );
+  $(inputStudentResultModal).modal("hide");
+}
 
 // -----------------------------------------------------------
-// Function to save selected values to localStorage
+// Form Management
 // -----------------------------------------------------------
 function saveformSelections() {
   localStorage.setItem("selectedresultTerm", termSelect.value);
@@ -86,186 +86,150 @@ function saveformSelections() {
     academicSessionSelect.value
   );
   localStorage.setItem("selectedresultsubject", subjectselect.value);
-  classdata.selectedTerm = termSelect.value;
-  classdata.selectedAcademicSession = academicSessionSelect.value;
-  classdata.studentsubject =
-    subjectselect.options[subjectselect.selectedIndex].value;
 
-  // check whether the subject is Moral to adjust the Exam input Restrictions
-  if (subjectselect.value === "Moral instruction") {
-    Examforminput.innerHTML = "";
-    Examforminput.innerHTML = `
-                            <label for="Exam" class="form-label">Exam Score (100)</label>
-                            <input type="number" class="form-control" id="Exam" name="Exam" min="0" max="100">`;
-  } else {
-    Examforminput.innerHTML = "";
-    Examforminput.innerHTML = `
-                            <label for="Exam" class="form-label">Exam Score (60)</label>
-                            <input type="number" class="form-control" id="Exam" name="Exam" min="0" max="60">`;
-  }
+  classdata = {
+    ...classdata,
+    selectedTerm: termSelect.value,
+    selectedAcademicSession: academicSessionSelect.value,
+    studentsubject: subjectselect.value,
+  };
+
+  updateExamInput();
   readJsonFromFile();
 }
 
-// -----------------------------------------------------------
-// Function to load saved values from localStorage
-// -----------------------------------------------------------
 function loadsavedSelection() {
-  const savedTerm = localStorage.getItem("selectedresultTerm");
-  const savedAcademicSession = localStorage.getItem(
-    "selectedresultAcademicSession"
-  );
-  const savedsubject = localStorage.getItem("selectedresultsubject");
+  termSelect.value =
+    localStorage.getItem("selectedresultTerm") || termSelect.value;
+  academicSessionSelect.value =
+    localStorage.getItem("selectedresultAcademicSession") ||
+    academicSessionSelect.value;
+  subjectselect.value =
+    localStorage.getItem("selectedresultsubject") || subjectselect.value;
 
-  if (savedTerm !== null) {
-    termSelect.value = savedTerm;
-    classdata.selectedTerm = termSelect.value;
-  } else {
-    classdata.selectedTerm = termSelect.value;
-  }
+  classdata = {
+    ...classdata,
+    selectedTerm: termSelect.value,
+    selectedAcademicSession: academicSessionSelect.value,
+    studentsubject: subjectselect.value,
+  };
 
-  if (savedAcademicSession !== null) {
-    academicSessionSelect.value = savedAcademicSession;
-    classdata.selectedAcademicSession = academicSessionSelect.value;
-  } else {
-    classdata.selectedAcademicSession = academicSessionSelect.value;
-  }
-
-  if (savedsubject !== null) {
-    subjectselect.value = savedsubject;
-    classdata.studentsubject = subjectselect.value;
-  } else {
-    classdata.studentsubject = subjectselect.value;
-  }
-
-  // check whether the subject is Moral to adjust the Exam input Restrictions
-  if (subjectselect.value === "Moral instruction") {
-    Examforminput.innerHTML = "";
-    Examforminput.innerHTML = `
-                            <label for="Exam" class="form-label">Exam Score (100)</label>
-                            <input type="number" class="form-control" id="Exam" name="Exam" min="0" max="100">`;
-  } else {
-    Examforminput.innerHTML = "";
-    Examforminput.innerHTML = `
-                            <label for="Exam" class="form-label">Exam Score (60)</label>
-                            <input type="number" class="form-control" id="Exam" name="Exam" min="0" max="60">`;
-  }
-
+  updateExamInput();
   readJsonFromFile();
 }
 
+function updateExamInput() {
+  const isMoralInstruction = subjectselect.value === "Moral instruction";
+  Examforminput.innerHTML = `
+    <label for="Exam" class="form-label">Exam Score (${
+      isMoralInstruction ? 100 : 60
+    })</label>
+    <input type="number" class="form-control" id="Exam" name="Exam" min="0" max="${
+      isMoralInstruction ? 100 : 60
+    }">
+  `;
+}
+
 // -----------------------------------------------------------
-// Function to read JSON data from Server
+// Data Management
 // -----------------------------------------------------------
 async function readJsonFromFile() {
   try {
     const jsonData = await getstudentdata(classdata);
     const studentHandler = new StudentDataHandler(jsonData);
     const studentsWithCalculatedFields = studentHandler.getStudents();
-    //   populaterowcheckbox(studentsWithCalculatedFields)
+
     studentResult = studentsWithCalculatedFields;
     updateResultBadge("update", studentsWithCalculatedFields[0]);
     populatetable(studentsWithCalculatedFields);
-    const dataTable = new DataTable(inputStudentResultModal, inputform);
+    new DataTable(inputStudentResultModal, inputform);
   } catch (error) {
     console.error("Error reading JSON file:", error);
   }
 }
 
 // -----------------------------------------------------------
-// Function to populate the Table rows
+// Table Management
 // -----------------------------------------------------------
-function populatetable(tabledata) {
+function populatetable(tableData) {
   const tbody = document.querySelector("#dataTable").lastElementChild;
-  tbody.innerHTML = tabledata
-    .map(
-      (data, index) => `
-        <tr data-rowindex='${index + 1}'>
-            <td>${index + 1}</td>
-            <td class="text-primary text-uppercase"><a class="inputdetailsformmodelbtn text-decoration-none" style="cursor:pointer">${
-              data.Name
-            }</a></td>
-            <td>${data["1sttest"]}</td>
-            <td>${data["1stAss"]}</td>
-            <td>${data["MidTermTest"]}</td>
-            <td>${data["2ndTest"]}</td>
-            <td>${data["2ndAss"]}</td>
-            <td>${data["CA"] || "-"}</td>
-            <td>${data["Exam"]}</td> 
-            <td>${data["Total"] || "-"}</td>
-            <td>${data["Grade"] || "-"}</td>
-            <td>${data["Position"] || "-"}</td>
-            <td>${data["Remarks"] || "-"}</td>
-            <td>${data["studentID"] || "-"}</td>
-        </tr>`
-    )
-    .join("");
+  tbody.innerHTML = tableData.length
+    ? tableData
+        .map(
+          (data, index) => `
+          <tr data-rowindex="${index + 1}">
+              <td scope="row">${index + 1}</td>
+              <td class="text-primary text-uppercase">
+                <a class="inputdetailsformmodelbtn text-decoration-none" style="cursor:pointer">
+                  ${data.Name ?? "-"}
+                </a>
+              </td>
+              <td>${data["1sttest"] ?? "-"}</td>
+              <td>${data["1stAss"] ?? "-"}</td>
+              <td>${data["MidTermTest"] ?? "-"}</td>
+              <td>${data["2ndTest"] ?? "-"}</td>
+              <td>${data["2ndAss"] ?? "-"}</td>
+              <td>${data["CA"] ?? "-"}</td>
+              <td>${data["Exam"] ?? "-"}</td>
+              <td>${data["Total"] ?? "-"}</td>
+              <td>${data["Grade"] ?? "-"}</td>
+              <td>${data["Position"] ?? "-"}</td>
+              <td>${data["Remarks"] ?? "-"}</td>
+              <td>${data["studentID"] ?? "-"}</td>
+          </tr>`
+        )
+        .join("")
+    : `<tr data-rowindex="1">
+          <td colspan="14" class="text-center">No Student Records Found</td>
+       </tr>`;
 }
 
 // -----------------------------------------------------------
-// Function to export Table data to JSON
+// Result Submission
 // -----------------------------------------------------------
 function exportTableToJSON() {
   const url =
     state === "published"
       ? "/Teachers_Portal/unpublishstudentresults/"
       : "/Teachers_Portal/submitallstudentresult/";
-  const datatosubmit = studentResult;
-  classdata.studentsubject =
-    subjectselect.options[subjectselect.selectedIndex].value;
-  classdata.studentclass = classinput.value;
-  (classdata.selectedTerm = termSelect.value),
-    (classdata.selectedAcademicSession = academicSessionSelect.value),
-    submitallstudentresult(url, datatosubmit, classdata, displayalert);
-  updateResultBadge("setbadge", datatosubmit[0]);
+
+  submitallstudentresult(url, studentResult, classdata, displayalert).then(()=>{
+    location.reload();
+  })
 }
 
-// --------------------------------
-// display alert message
-// --------------------------------
+// -----------------------------------------------------------
+// Notifications
+// -----------------------------------------------------------
 function displayalert(type, message) {
   const alertdiv = document.createElement("div");
-  alertdiv.classList.add(
-    "alert",
-    `${type}`,
-    "d-flex",
-    "align-items-center",
-    "mt-3"
-  );
+  alertdiv.classList.add("alert", type, "d-flex", "align-items-center", "mt-3");
   alertdiv.setAttribute("role", "alert");
   alertdiv.innerHTML = `
-                        <i class="fa-solid fa-circle-check h6 me-2"></i>
-                        <div>
-                           ${message}
-                        </div>
-                        `;
-  if (window.innerWidth < 768) {
-    alertcontainer1.appendChild(alertdiv);
-  } else {
-    alertcontainer2.appendChild(alertdiv);
-  }
+    <i class="fa-solid fa-circle-check h6 me-2"></i>
+    <div>${message}</div>
+  `;
 
-  setTimeout(() => {
-    alertdiv.remove();
-  }, 3000);
+  (window.innerWidth < 768 ? alertcontainer1 : alertcontainer2).appendChild(
+    alertdiv
+  );
+  setTimeout(() => alertdiv.remove(), 3000);
 }
 
-// ------------------------------------------------------------------------------------------------
-// function to update the result badge
-// ------------------------------------------------------------------------------------------------
+// -----------------------------------------------------------
+// Result Badge Update
+// -----------------------------------------------------------
 function updateResultBadge(type, studentresult) {
-  if (type === "setbadge") {
-    studentresult.published = !studentresult.published;
-  }
+  if (type === "setbadge") studentresult.published = !studentresult.published;
+
   state = studentresult.published ? "published" : "unpublished";
   const badge = document.querySelector("#resultbadge");
-  studentresult.published
-    ? badge.classList.replace("bg-secondary", "bg-success")
-    : badge.classList.replace("bg-success", "bg-secondary");
+
+  badge.classList.toggle("bg-success", studentresult.published);
+  badge.classList.toggle("bg-secondary", !studentresult.published);
   badge.innerHTML = studentresult.published
-    ? `<i class="fa-solid fa-check-circle me-2"></i>
-       Result Published`
-    : `<i class="fa-solid fa-circle-plus me-2"></i>
-       Result Not Published`;
+    ? `<i class="fa-solid fa-check-circle me-2"></i> Result Published`
+    : `<i class="fa-solid fa-circle-plus me-2"></i> Result Not Published`;
 
   document.querySelectorAll(".publishbtn").forEach((btn) => {
     btn.innerHTML = studentresult.published

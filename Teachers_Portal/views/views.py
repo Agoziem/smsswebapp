@@ -10,7 +10,9 @@ from django.db.models import Q
 # Teachers Dashbord View
 @login_required
 def Teachers_dashboard_view(request):
+    sessions = AcademicSession.objects.all()
     context={
+        "sessions":sessions
     }
     return render(request,'Teachers_dashboard.html',context)
 
@@ -21,6 +23,7 @@ def profile_view(request,id):
     classes=Class.objects.all()
     subjects=Subject.objects.all()
     form = TeacherForm(instance=teacher)
+    sessions = AcademicSession.objects.all()
     if request.method == 'POST':
         form = TeacherForm(request.POST, instance=teacher)
         if form.is_valid():
@@ -31,7 +34,9 @@ def profile_view(request,id):
         'teacher': teacher,
         'classes':classes,
         'subjects':subjects,
-        'form':form
+        'form':form,
+        "sessions":sessions
+        
     }
     return render(request,'teachers/editprofile.html',context)
 

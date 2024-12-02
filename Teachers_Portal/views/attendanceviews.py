@@ -9,9 +9,11 @@ from CBT.models import *
 # for Class Attendance
 @login_required
 def attendance_view(request,Classname):
+    sessions = AcademicSession.objects.all()
     classobject = Class.objects.all()
     context={
-        'class':classobject
+        'class':classobject,
+        "sessions":sessions
     }
     return render(request, 'formteachers/attendance.html', context)
 

@@ -48,14 +48,17 @@ async function getannualresultdata(classdata) {
 // Function to get Class Annual Result
 // ------------------------------------------------------
 async function getannualclassresult(classdata) {
-  const response = await fetch(`/Teachers_Portal/annualclassresultcomputation/`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "X-CSRFToken": csrftoken,
-    },
-    body: JSON.stringify(classdata),
-  });
+  const response = await fetch(
+    `/Teachers_Portal/annualclassresultcomputation/`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "X-CSRFToken": csrftoken,
+      },
+      body: JSON.stringify(classdata),
+    }
+  );
   const data = await response.json();
   return data;
 }
@@ -101,7 +104,7 @@ function updatestudentresult(
 // -----------------------------------------------------------
 // Function to submit all students result to the server
 // -----------------------------------------------------------
-function submitallstudentresult(url, data, classdata, displayalert) {
+async function submitallstudentresult(url, data, classdata, displayalert) {
   const resulttosubmit = {
     data,
     classdata,
@@ -142,7 +145,7 @@ async function getstudentresult(classdata) {
 // -----------------------------------------------------------
 // Function to publish class result
 // -----------------------------------------------------------
-function publishstudentresult(url, data, classdata, displayalert) {
+async function publishstudentresult(url, data, classdata, displayalert) {
   const fulldata = {
     data,
     classdata,
@@ -168,6 +171,7 @@ function publishstudentresult(url, data, classdata, displayalert) {
       } else {
         console.error("Unexpected response type:", data.type);
       }
+      return data.type || "error";
     })
     .catch((error) => console.error("Error:", error));
 }

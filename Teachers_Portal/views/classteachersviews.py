@@ -19,32 +19,32 @@ def result_computation_view(request,Classname,id):
     teacher = Teacher.objects.get(id=id)
     Terms=Term.objects.all()
     academic_session= AcademicSession.objects.all()
-    classobject = Class.objects.get(Class=Classname)
-    subjectsforclass=Subjectallocation.objects.get(classname=classobject)
+    classobject = get_object_or_404(Class,Class=Classname)
+    subjectsforclass=get_object_or_404(Subjectallocation,classname=classobject)
     subjects_taught_for_class = teacher.subjects_taught.filter(id__in=subjectsforclass.subjects.values_list('id', flat=True))
 
     context={
             'class':classobject,
             "Terms":Terms,
             "academic_session":academic_session,
-            "subjects_taught_for_class":subjects_taught_for_class
+            "subjects_taught_for_class":subjects_taught_for_class,
+           "sessions":academic_session
         }
     return render(request,'teachers/Result_computation.html',context)
 
 @login_required
 def get_students_result_view(request):
     data=json.loads(request.body)
-    print(data)
     classobject = Class.objects.get(Class=data['studentclass'])
     subjectobject = Subject.objects.get(subject_name=data['studentsubject'])
     term=Term.objects.get(term=data['selectedTerm'])
     session=AcademicSession.objects.get(session=data['selectedAcademicSession'])
-    students = Students_Pin_and_ID.objects.filter(student_class=classobject)
+    students = StudentClassEnrollment.objects.filter(student_class=classobject,academic_session=session)
     studentResults = []
     
     for studentresult in students:
-        student_result_details,created = Student_Result_Data.objects.get_or_create(Student_name=studentresult,Term=term,AcademicSession=session)
-        student_result_object, created = Result.objects.get_or_create(student=studentresult, Subject=subjectobject, students_result_summary=student_result_details,student_class=classobject)
+        student_result_details,created = Student_Result_Data.objects.get_or_create(Student_name=studentresult.student,Term=term,AcademicSession=session)
+        student_result_object, created = Result.objects.get_or_create(student=studentresult.student, Subject=subjectobject, students_result_summary=student_result_details,student_class=classobject)
         try:
             total_test_score = TestQuestionSet.objects.get(
                 testSubject=subjectobject, testSetGroup__student=studentresult
@@ -63,7 +63,6 @@ def get_students_result_view(request):
             'Exam': student_result_object.Exam,
             'published': student_result_object.published,
         })
-    print(studentResults, 'studentResults')
     return JsonResponse(studentResults, safe=False)
 
 @login_required
@@ -76,7 +75,7 @@ def update_student_result_view(request):
     classobject= Class.objects.get(Class=Classdata)
     term=Term.objects.get(term=data['classdata']['selectedTerm'])
     session=AcademicSession.objects.get(session=data['classdata']['selectedAcademicSession'])
-    studentobject= Students_Pin_and_ID.objects.get(student_id=studentID,student_name=Name,student_class=classobject)
+    studentobject= Students_Pin_and_ID.objects.get(student_id=studentID,student_name=Name)
     subjectobject = Subject.objects.get(subject_name=subject)
     student_result_details = Student_Result_Data.objects.get(Student_name=studentobject,Term=term,AcademicSession=session)
     studentResult = Result.objects.get(student=studentobject,students_result_summary=student_result_details, Subject=subjectobject,student_class=classobject)
@@ -146,7 +145,9 @@ def annualresult_computation(request,Classname,id):
     context={
         'class':classobject,
         "academic_session":academic_session,
-        "subjects_taught_for_class":subjects_taught_for_class
+        "subjects_taught_for_class":subjects_taught_for_class,
+        "session":academic_session,
+         "sessions":academic_session
         } 
     return render(request,'teachers/Annual_Results.html',context)
 
@@ -159,13 +160,12 @@ def annual_result_computation_view(request):
     class_object = Class.objects.get(Class=class_name)
     session = AcademicSession.objects.get(session=academic_session)
     subject_object = Subject.objects.get(subject_name=subject_name)
-    students = Students_Pin_and_ID.objects.filter(student_class=class_object)
+    students = StudentClassEnrollment.objects.filter(student_class=class_object,academic_session=session)
     terms = Term.objects.all()
     
     students_annuals = []
     for student in students:
-        print(student.student_id, student.student_name)
-        studentAnnual, created = AnnualStudent.objects.get_or_create(Student_name=student, academicsession=session)
+        studentAnnual, created = AnnualStudent.objects.get_or_create(Student_name=student.student, academicsession=session)
         student_annual_details, created = AnnualResult.objects.get_or_create(Student_name=studentAnnual, Subject=subject_object)
         
         student_annual_details.Total = 0  # Ensure Total is initialized to zero
@@ -190,7 +190,6 @@ def annual_result_computation_view(request):
             })
         except Exception as e:
             continue
-    print(students_annuals)
     return JsonResponse(students_annuals, safe=False)
 
 
@@ -203,7 +202,7 @@ def publish_annual_results(request):
     session = AcademicSession.objects.get(session=academic_session)
     subject_object = Subject.objects.get(subject_name=subject_name)
     for result in data['data']:
-        student = Students_Pin_and_ID.objects.get(student_id=result['studentID'], student_name=result['Name'], student_class=class_object)
+        student = Students_Pin_and_ID.objects.get(student_id=result['studentID'], student_name=result['Name'])
         studentAnnual = AnnualStudent.objects.get(Student_name=student, academicsession=session)
         student_annual_details = AnnualResult.objects.get(Student_name=studentAnnual, Subject=subject_object)
         student_annual_details.FirstTermTotal = result["terms"]["1st Term"]
@@ -228,7 +227,7 @@ def unpublish_annual_results(request):
     session = AcademicSession.objects.get(session=academic_session)
     subject_object = Subject.objects.get(subject_name=subject_name)
     for studentdata in data['data']:
-        student = Students_Pin_and_ID.objects.get(student_name=studentdata['Name'], student_class=class_object)
+        student = Students_Pin_and_ID.objects.get(student_name=studentdata['Name'])
         studentAnnual = AnnualStudent.objects.get(Student_name=student, academicsession=session)
         student_annual_details = AnnualResult.objects.get(Student_name=studentAnnual, Subject=subject_object)
         student_annual_details.published = False

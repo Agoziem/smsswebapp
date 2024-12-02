@@ -10,50 +10,49 @@ import {
 // DOM Elements
 // ------------------------------------------------------
 const classinput = document.querySelector(".classinput");
-const subjectlistinput = document.querySelector(".subjectlist");
-const subjectlist = subjectlistinput.value;
-const modifiedList = subjectlist.replace(/'/g, '"');
-let jsonstring = `${modifiedList}`;
-let mainsubjectlist = JSON.parse(jsonstring);
 const alertcontainer = document.querySelector(".alertcontainer");
 const termSelect = document.getElementById("termSelect");
 const academicSessionSelect = document.getElementById("academicSessionSelect");
 const publishButton = document.getElementById("publishbtn");
+const subjectsresultlist = document.querySelector("#resultspublished");
+const resultbadge = document.querySelector("#resultbadge");
+
+// Parse subject list
+const subjectlist = document.querySelector(".subjectlist").value;
+const mainsubjectlist = JSON.parse(subjectlist.replace(/'/g, '"'));
+
 
 // ------------------------------------------------------
 // Event Listeners
 // ------------------------------------------------------
-
 publishButton.addEventListener("click", publishResult);
+termSelect.addEventListener("change", saveSelection);
+academicSessionSelect.addEventListener("change", saveSelection);
+window.addEventListener("DOMContentLoaded", loadSelection);
 
-termSelect.addEventListener("change", function () {
-  saveSelection();
-});
 
-academicSessionSelect.addEventListener("change", function () {
-  saveSelection();
-});
-
-window.addEventListener("DOMContentLoaded", () => {
-  loadSelection();
-});
-
-//   ------------------------------------------------------
-//   Global Variables
-//   ------------------------------------------------------
+// ------------------------------------------------------
+// Global Variables
+// ------------------------------------------------------
 let ClassResult = [];
-let classdata = {
+let state; // Published or unpublished
+const classdata = {
   studentclass: classinput.value,
 };
-let state;
+
 // ------------------------------------------------------
 // Function to save selected values to localStorage
 // ------------------------------------------------------
 function saveSelection() {
-  localStorage.setItem("selectedTerm", termSelect.value);
-  localStorage.setItem("selectedAcademicSession", academicSessionSelect.value);
-  classdata.selectedTerm = termSelect.value;
-  classdata.selectedAcademicSession = academicSessionSelect.value;
+  const { value: term } = termSelect;
+  const { value: session } = academicSessionSelect;
+
+  localStorage.setItem("selectedTerm", term);
+  localStorage.setItem("selectedAcademicSession", session);
+
+  classdata.selectedTerm = term;
+  classdata.selectedAcademicSession = session;
+
   readJsonFromFile();
 }
 
@@ -61,169 +60,155 @@ function saveSelection() {
 // Function to load saved values from localStorage
 // ------------------------------------------------------
 function loadSelection() {
-  const savedTerm = localStorage.getItem("selectedTerm");
-  const savedAcademicSession = localStorage.getItem("selectedAcademicSession");
+  termSelect.value = localStorage.getItem("selectedTerm") || termSelect.value;
+  academicSessionSelect.value =
+    localStorage.getItem("selectedAcademicSession") || academicSessionSelect.value;
 
-  if (savedTerm !== null) {
-    termSelect.value = savedTerm;
-    classdata.selectedTerm = termSelect.value;
-  } else {
-    classdata.selectedTerm = termSelect.value;
-  }
+  classdata.selectedTerm = termSelect.value;
+  classdata.selectedAcademicSession = academicSessionSelect.value;
 
-  if (savedAcademicSession !== null) {
-    academicSessionSelect.value = savedAcademicSession;
-    classdata.selectedAcademicSession = academicSessionSelect.value;
-  } else {
-    classdata.selectedAcademicSession = academicSessionSelect.value;
-  }
   readJsonFromFile();
 }
 
+
 // ------------------------------------------------------
-// function to get Student Result
+// Function to fetch and handle student results
 // ------------------------------------------------------
 async function readJsonFromFile() {
   try {
     const jsonData = await getstudentresult(classdata);
     const studentHandler = new ClassResulthandler(jsonData);
-    const studentsWithCalculatedFields = studentHandler.getStudents();
-    ClassResult = studentsWithCalculatedFields;
-    updateResultBadge("update", studentsWithCalculatedFields[0]);
-    showStudentSubjectResults(studentsWithCalculatedFields[0]);
-    populatetable(studentsWithCalculatedFields);
-    const dataTable = new ClassResultDataTable();
+    ClassResult = studentHandler.getStudents();
+
+    if (ClassResult.length) {
+      updateResultBadge("update", ClassResult[0]);
+      showStudentSubjectResults(ClassResult[0]);
+      populatetable(ClassResult);
+      new ClassResultDataTable(); // Initialize DataTable
+    } else {
+      displayalert("alert-warning", "No Student Records Found");
+    }
   } catch (error) {
-    console.error("Error reading JSON file:", error);
+    console.error("Error fetching student results:", error);
   }
 }
 
 // ------------------------------------------------------
-// function to Populate the Table
+// Function to populate the table
 // ------------------------------------------------------
-function populatetable(tabledata) {
+function populatetable(tableData) {
   const tbody = document.querySelector("#dataTable").lastElementChild;
-  tbody.innerHTML = tabledata
+
+  if (!Array.isArray(tableData) || !tableData.length) {
+    tbody.innerHTML = `
+      <tr>
+        <td colspan="10" class="text-center text-muted">No Student Records Found</td>
+      </tr>`;
+    return;
+  }
+
+  tbody.innerHTML = tableData
     .map(
       (data, index) =>
-        `
-        <tr>
-            <td>${index + 1}</td>
-            <td class="text-primary">${data.Name}</td>
-            ${data.subjects
-              .map(
-                (subject) =>
-                  `<td>${subject.Total !== "-" ? subject.Total : ""}</td>`
-              )
-              .join("")}
-            <td>${data.Total}</td>
-            <td>${data.Ave}</td>
-            <td>${data.Grade}</td>
-            <td>${data.Position}</td>
-            <td>${data.Remarks}</td>
+        `<tr>
+          <td scope="row">${index + 1}</td>
+          <td class="text-primary">${data.Name ?? "-"}</td>
+          ${data.subjects
+            ?.map(
+              (subject) =>
+                `<td>${
+                  subject.Total && subject.Total !== "-" ? subject.Total : ""
+                }</td>`
+            )
+            .join("") || ""}
+          <td>${data.Total ?? "-"}</td>
+          <td>${data.Ave ?? "-"}</td>
+          <td>${data.Grade ?? "-"}</td>
+          <td>${data.Position ?? "-"}</td>
+          <td>${data.Remarks ?? "-"}</td>
         </tr>`
     )
     .join("");
 }
 
-// ------------------------------------------------------------------
-// function to publish Result /////////////////////////////////////
-// ------------------------------------------------------------------
+
+// ------------------------------------------------------
+// Function to publish or unpublish results
+// ------------------------------------------------------
 function publishResult() {
+  if (!ClassResult.length) {
+    displayalert("alert-warning", "No result to publish");
+    return;
+  }
+
   const url =
     state === "published"
       ? "/Teachers_Portal/unpublishclassresult/"
       : "/Teachers_Portal/publishstudentresult/";
-  if (ClassResult.length === 0) {
-    displayalert("alert-warning", "No result to publish");
-    return;
-  }
-  const data = ClassResult;
-  console.log(data);
-  (classdata.studentclass = classinput.value),
-    (classdata.selectedTerm = termSelect.value),
-    (classdata.selectedAcademicSession = academicSessionSelect.value),
-    publishstudentresult(url, data, classdata, displayalert);
-  updateResultBadge("setbadge", data[0]);
+
+  const classdata = {
+    studentclass: classinput.value,
+    selectedTerm: termSelect.value,
+    selectedAcademicSession: academicSessionSelect.value,
+  };
+
+  publishstudentresult(url, ClassResult, classdata, displayalert).then(() => {
+    location.reload();
+  });
 }
 
-// ------------------------------------------------------------------
-// function to display Alert /////////////////////////////////////
-// ------------------------------------------------------------------
+
+// ------------------------------------------------------
+// Function to display alert messages
+// ------------------------------------------------------
 function displayalert(type, message) {
   const alertdiv = document.createElement("div");
-  alertdiv.classList.add(
-    "alert",
-    `${type}`,
-    "d-flex",
-    "align-items-center",
-    "mt-3"
-  );
+  alertdiv.className = `alert ${type} d-flex align-items-center mt-3`;
   alertdiv.setAttribute("role", "alert");
   alertdiv.innerHTML = `
-                        <i class="fa-solid fa-circle-check h6 me-2"></i>
-                        <div>
-                           ${message}
-                        </div>
-                        `;
+    <i class="fa-solid fa-circle-check h6 me-2"></i>
+    <div>${message}</div>`;
   alertcontainer.appendChild(alertdiv);
 
-  setTimeout(() => {
-    alertdiv.remove();
-  }, 3000);
+  setTimeout(() => alertdiv.remove(), 3000);
 }
 
-// -----------------------------------------------------------------------
-// function to update the result badge and the button test //////////////
-// -----------------------------------------------------------------------
+
+// ------------------------------------------------------
+// Function to update the result badge
+// ------------------------------------------------------
 function updateResultBadge(type, studentresult) {
+  if (!("published" in studentresult)) return;
   if (type === "setbadge") {
     studentresult.published = !studentresult.published;
   }
+
   state = studentresult.published ? "published" : "unpublished";
-  const badge = document.querySelector("#resultbadge");
-  studentresult.published
-    ? badge.classList.replace("bg-secondary", "bg-success")
-    : badge.classList.replace("bg-success", "bg-secondary");
-  badge.innerHTML = studentresult.published
-    ? `<i class="fa-solid fa-check-circle me-2"></i>
-        <span> Result Published </span>`
-    : `<i class="fa-solid fa-circle-xmark me-2"></i>
-        <span> Result Not Published </span>`;
-  publishButton.innerHTML = studentresult.published
-    ? "Unpublish Result"
-    : "Publish Result";
+  const isPublished = studentresult.published;
+
+  resultbadge.classList.replace(
+    isPublished ? "bg-secondary" : "bg-success",
+    isPublished ? "bg-success" : "bg-secondary"
+  );
+  resultbadge.innerHTML = isPublished
+    ? `<i class="fa-solid fa-check-circle me-2"></i><span> Result Published </span>`
+    : `<i class="fa-solid fa-circle-xmark me-2"></i><span> Result Not Published </span>`;
+  publishButton.innerHTML = isPublished ? "Unpublish Result" : "Publish Result";
 }
 
-// -----------------------------------------------------------------------
-// function to show the Student Subject Results Published
-// -----------------------------------------------------------------------
-const showStudentSubjectResults = (student) => {
-  const subjectsresultlist = document.querySelector("#resultspublished");
-  const studentSubjectResultData = student.subjects.map(
-    (subject, index) => {
-      if (subject.published) {
-        return `<li
-            class="list-group-item d-flex justify-content-between align-items-center text-success fw-bold"
-          >
-          <div>
-            <span class="me-2">${index + 1}.</i>
-            ${subject.subject_name}
-          </div>
-            <i class="fa-solid fa-check me-3 fw-bold "></i>
-          </li>`;
-      } else {
-        return `<li
-            class="list-group-item d-flex justify-content-between align-items-center text-danger fw-bold"
-          >
-             <div>
-                <span class="me-2">${index + 1}.</i>
-                ${subject.subject_name}
-              </div>
-            <i class="fa-solid fa-xmark me-3 fw-bold "></i>
-          </li>`;
-      }
-    }
-  );
-  subjectsresultlist.innerHTML = studentSubjectResultData.join("");
-};
+// ------------------------------------------------------
+// Function to show published subjects
+// ------------------------------------------------------
+function showStudentSubjectResults(student) {
+  subjectsresultlist.innerHTML = student.subjects
+    .map((subject, index) => {
+      const isPublished = subject.published;
+      return `<li class="list-group-item d-flex justify-content-between align-items-center ${
+        isPublished ? "text-success" : "text-danger"
+      } fw-bold">
+        <div><span class="me-2">${index + 1}.</span>${subject.subject_name}</div>
+        <i class="fa-solid fa-${isPublished ? "check" : "xmark"} me-3 fw-bold"></i>
+      </li>`;
+    })
+    .join("");
+}

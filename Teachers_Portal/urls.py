@@ -28,7 +28,7 @@ urlpatterns = [
     path('publishannualclassresult/',publish_annualstudentresult_view , name='publishannualresult'),
     path('unpublishannualclassresult/',unpublish_annual_classresults_view , name='unpublishannualresult'),
 
-	path('<str:Classname>/Students/',Students_view , name='Students'),   
+	path('<str:Classname>/<int:session_id>/Students', Students_view, name='students_list'),   
 	path('newStudent/', createstudent_view , name='createstudent'),   
 	path('updateStudent/', updatestudent_view , name='updatestudent'),   
 	path('DeleteStudents/', DeleteStudents_view , name='DeleteStudents'),   

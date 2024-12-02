@@ -7,13 +7,13 @@ const subMenuToggles = document.querySelectorAll('.sub-menu-toggle');
 
 
 // Toggle Hamburger Menu
-hamburgerMenu.addEventListener('click', () => {
+hamburgerMenu?.addEventListener('click', () => {
   hamburgerMenu.classList.toggle('active');
   menu.classList.toggle('active');
 });
 
 // Close Hamburger Menu on Link Click
-menuLinks.forEach(link => {
+menuLinks?.forEach(link => {
   link.addEventListener('click', () => {
     hamburgerMenu.classList.remove('active');
     menu.classList.remove('active');

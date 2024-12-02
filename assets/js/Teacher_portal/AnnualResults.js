@@ -106,28 +106,40 @@ async function readJsonFromFile() {
 // -----------------------------------------------------
 // Function to populate the table with data
 // ------------------------------------------------------
-function populatetable(tabledata) {
+function populatetable(tableData) {
   const tbody = document.querySelector("#dataTable").lastElementChild;
-  tbody.innerHTML = tabledata
-    .map(
-      (data, index) => `
-        <tr data-rowindex='${index + 1}'>
-            <td>${index + 1}</td>
-            <td class="text-primary text-uppercase"><a class="inputdetailsformmodelbtn text-decoration-none" style="cursor:pointer">${
-              data.Name
-            }</a></td>
-            <td>${data["terms"]["1st Term"] || "-"}</td>
-            <td>${data["terms"]["2nd Term"] || "-"}</td>
-            <td>${data["terms"]["3rd Term"] || "-"}</td>
-            <td>${data["Total"] || "-"}</td>
-            <td>${data["Average"] || "-"}</td>
-            <td>${data["Grade"] || "-"}</td>
-            <td>${data["Position"] || "-"}</td>
-            <td>${data["Remarks"] || "-"}</td>
-         
-        </tr>`
-    )
-    .join("");
+
+  // Check if tableData has valid content
+  if (Array.isArray(tableData) && tableData.length > 0) {
+    tbody.innerHTML = tableData
+      .map(
+        (data, index) => `
+          <tr data-rowindex="${index + 1}">
+              <td scope="row">${index + 1}</td>
+              <td class="text-primary text-uppercase">
+                <a 
+                  class="inputdetailsformmodelbtn text-decoration-none" 
+                  style="cursor:pointer"
+                >${data.Name ?? "-"}</a>
+              </td>
+              <td>${data["terms"]?.["1st Term"] ?? "-"}</td>
+              <td>${data["terms"]?.["2nd Term"] ?? "-"}</td>
+              <td>${data["terms"]?.["3rd Term"] ?? "-"}</td>
+              <td>${data["Total"] ?? "-"}</td>
+              <td>${data["Average"] ?? "-"}</td>
+              <td>${data["Grade"] ?? "-"}</td>
+              <td>${data["Position"] ?? "-"}</td>
+              <td>${data["Remarks"] ?? "-"}</td>
+          </tr>`
+      )
+      .join("");
+  } else {
+    // Fallback for empty or invalid data
+    tbody.innerHTML = `
+      <tr>
+        <td colspan="10" class="text-center text-muted">No Student Records Found</td>
+      </tr>`;
+  }
 }
 
 // -----------------------------------------------------
@@ -181,6 +193,9 @@ function displayalert(type, message) {
 // function to update the result badge
 // ------------------------------------------------------------------------------------------------
 function updateResultBadge(type, studentresult) {
+  if (!studentresult.published) {
+    return;
+  }
   if (type === "setbadge") {
     studentresult.published = !studentresult.published;
   }

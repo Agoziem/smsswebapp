@@ -14,6 +14,7 @@ def CBT_Questions_view(request,teachers_id):
     subjects=Subject.objects.all()
     classes=Class.objects.all()
     teacher=Teacher.objects.get(id=teachers_id)
+    sessions = AcademicSession.objects.all()
 
     if request.method == 'POST':
         classname = request.POST.getlist('test_classes')  # Assuming classname is a list
@@ -36,18 +37,20 @@ def CBT_Questions_view(request,teachers_id):
                 class_object = Class.objects.get(id=class_id)
                 questionset.ExamClass.add(class_object)
             questionset.save()
-        context = {'questionSet': questionset}
+        context = {'questionSet': questionset,"sessions":sessions}
         return render(request, 'cbt/CBT_Questions.html', context)
 
     context={
         "subjects":subjects,
         "classes":classes,
-        "teacher":teacher
+        "teacher":teacher,
+        "sessions":sessions
     }
     return render(request,'cbt/CBT_details.html',context)
 
 def CBT_update_details(request,id):
     questionset = QuestionSet.objects.get(id=id)
+    sessions = AcademicSession.objects.all()
     if request.method == 'POST':
         classname=request.POST.getlist('test_classes')
         time=request.POST['testTime']
@@ -57,11 +60,13 @@ def CBT_update_details(request,id):
         questionset.ExamClass.add(*class_objects)
         questionset.save()
         context={
-            'questionSet':questionset
+            'questionSet':questionset,
+            "sessions":sessions
         }
         return render(request,'cbt/CBT_Questions.html',context)
     context={
-        "questionset":questionset
+        "questionset":questionset,
+        "sessions":sessions
     }
     return render(request,'cbt/CBT_update_details.html',context)
 
