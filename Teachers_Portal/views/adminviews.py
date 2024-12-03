@@ -27,11 +27,11 @@ def getclasspublishedResults(request):
         termobject = Term.objects.get(term=term)
         academic_sessionobject = AcademicSession.objects.get(session=academic_session)
         subject_allocations = Subjectallocation.objects.get(classname=classobject)
-        classstudent = Students_Pin_and_ID.objects.filter(student_class=classobject).first()
+        classstudent = StudentClassEnrollment.objects.filter(student_class=classobject,academic_session=academic_sessionobject).first()
         classresultdata = {
         }
         try:
-            resultsummary = Student_Result_Data.objects.get(Student_name=classstudent,Term=termobject,AcademicSession=academic_sessionobject)
+            resultsummary = Student_Result_Data.objects.get(Student_name=classstudent.student,Term=termobject,AcademicSession=academic_sessionobject)
             classresultdata["classname"] =  classobject.Class
             classresultdata['published'] = resultsummary.published
             subjectResults = []
@@ -76,10 +76,10 @@ def getclassannualpublishedResults(request):
         classobject = Class.objects.get(Class=class_)
         academic_sessionobject = AcademicSession.objects.get(session=academic_session)
         subject_allocations = Subjectallocation.objects.get(classname=classobject)
-        classstudent = Students_Pin_and_ID.objects.filter(student_class=classobject).first()
+        classstudent = StudentClassEnrollment.objects.filter(student_class=classobject,academic_session=academic_sessionobject).first()
         classannualresultdata = {}
         try:
-            annualresultsummary = AnnualStudent.objects.get(Student_name=classstudent,academicsession=academic_sessionobject)
+            annualresultsummary = AnnualStudent.objects.get(Student_name=classstudent.student,academicsession=academic_sessionobject)
             classannualresultdata["classname"] =  classobject.Class
             classannualresultdata['published'] = annualresultsummary.published
             annualsubjectResults = []

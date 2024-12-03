@@ -84,6 +84,7 @@ async function readJsonFromFile() {
       updateResultBadge("update", ClassResult[0]);
       showStudentSubjectResults(ClassResult[0]);
       populatetable(ClassResult);
+      console.log(ClassResult)
       new ClassResultDataTable(); // Initialize DataTable
     } else {
       displayalert("alert-warning", "No Student Records Found");

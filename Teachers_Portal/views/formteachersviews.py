@@ -164,7 +164,6 @@ def getstudentsubjecttotals_view(request):
         class_object = Class.objects.get(Class=data['studentclass'])
         term_object = Term.objects.get(term=data['selectedTerm'])
         session_object = AcademicSession.objects.get(session=data['selectedAcademicSession'])
-        
         subjects_allocated = Subjectallocation.objects.filter(classname=class_object).first()
         if not subjects_allocated:
             return JsonResponse({"error": "No subjects allocated to this class"}, status=400)
@@ -184,6 +183,7 @@ def getstudentsubjecttotals_view(request):
             ).first()
 
             student_dict = {
+                'id':student.student.id,
                 'Name': student.student.student_name,
                 'subjects': [],
                 'published': result_details.published if result_details else False,
@@ -217,16 +217,16 @@ def getstudentsubjecttotals_view(request):
         print(f"Error: {e}")
         return JsonResponse({"error": "An error occurred while fetching student subject totals"}, status=500)
 
-# Publish the Students Results View /// Continue from here 
+# Publish the Students Results View 
 def publish_student_result_view(request):
     try:
         data = json.loads(request.body)
         term_object = Term.objects.get(term=data['classdata']['selectedTerm'])
         session_object = AcademicSession.objects.get(session=data['classdata']['selectedAcademicSession'])
         class_object = Class.objects.get(Class=data['classdata']['studentclass'])
-
         student_number = StudentClassEnrollment.objects.filter(student_class=class_object,academic_session=session_object).count()
 
+        print(data['data'])
         for student_data in data['data']:
             student = Students_Pin_and_ID.objects.get(
                 student_name=student_data['Name']
@@ -273,7 +273,6 @@ def unpublish_classresults_view(request):
         data = json.loads(request.body)
         term_object = Term.objects.get(term=data['classdata']['selectedTerm'])
         session_object = AcademicSession.objects.get(session=data['classdata']['selectedAcademicSession'])
-        class_object = Class.objects.get(Class=data['classdata']['studentclass'])
 
         for student_data in data['data']:
             try:
