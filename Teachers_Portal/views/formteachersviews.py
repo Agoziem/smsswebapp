@@ -176,11 +176,11 @@ def getstudentsubjecttotals_view(request):
         final_list = []
 
         for student in students:
-            result_details = Student_Result_Data.objects.filter(
+            result_details = Student_Result_Data.objects.get_or_create(
                 Student_name=student.student, 
                 Term=term_object, 
                 AcademicSession=session_object
-            ).first()
+            )
 
             student_dict = {
                 'id':student.student.id,
