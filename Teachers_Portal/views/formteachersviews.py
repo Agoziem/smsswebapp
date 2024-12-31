@@ -176,7 +176,7 @@ def getstudentsubjecttotals_view(request):
         final_list = []
 
         for student in students:
-            result_details = Student_Result_Data.objects.get_or_create(
+            result_details,created = Student_Result_Data.objects.get_or_create(
                 Student_name=student.student, 
                 Term=term_object, 
                 AcademicSession=session_object
