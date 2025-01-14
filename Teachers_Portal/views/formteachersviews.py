@@ -230,7 +230,7 @@ def publish_student_result_view(request):
         for student_data in data['data']:
             student_enrolled = StudentClassEnrollment.objects.get(
                 student__student_name=student_data['Name'],
-                student__student_id=f"smss/{student_data['id']}",
+                student__id = student_data['id'],
                 student_class=class_object,
                 academic_session=session_object
             )
