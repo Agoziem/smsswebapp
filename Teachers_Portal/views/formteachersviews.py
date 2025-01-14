@@ -228,12 +228,15 @@ def publish_student_result_view(request):
 
         print(data['data'])
         for student_data in data['data']:
-            student = Students_Pin_and_ID.objects.get(
-                student_name=student_data['Name']
+            student_enrolled = StudentClassEnrollment.objects.get(
+                student__student_name=student_data['Name'],
+                student__student_id=f"smss/{student_data['id']}",
+                student_class=class_object,
+                academic_session=session_object
             )
 
             student_result, created = Student_Result_Data.objects.get_or_create(
-                Student_name=student,
+                Student_name=student_enrolled.student,
                 Term=term_object,
                 AcademicSession=session_object,
                 defaults={
@@ -273,14 +276,17 @@ def unpublish_classresults_view(request):
         data = json.loads(request.body)
         term_object = Term.objects.get(term=data['classdata']['selectedTerm'])
         session_object = AcademicSession.objects.get(session=data['classdata']['selectedAcademicSession'])
-
+        class_object = Class.objects.get(Class=data['classdata']['studentclass'])
         for student_data in data['data']:
             try:
-                student = Students_Pin_and_ID.objects.get(
-                    student_name=student_data['Name']
+                student_enrolled = StudentClassEnrollment.objects.get(
+                    student__student_name=student_data['Name'],
+                    student__student_id=f"smss/{student_data['id']}",
+                    student_class=class_object,
+                    academic_session=session_object
                 )
                 student_result = Student_Result_Data.objects.get(
-                    Student_name=student,
+                    Student_name=student_enrolled.student,
                     Term=term_object,
                     AcademicSession=session_object
                 )
