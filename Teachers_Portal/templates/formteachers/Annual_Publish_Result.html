@@ -159,7 +159,9 @@
                   <th scope="col">VERDICT</th>
                 </tr>
               </thead>
-              <tbody></tbody>
+              <tbody>
+                
+              </tbody>
             </table>
           </div>
           <hr />
@@ -194,8 +196,14 @@
         </div>
         <div class="alertcontainer mb-2"></div>
         <button id="publishbtn" class="btn btn-primary w-100 mb-3 shadow-sm">
-          Publish Result <i class="fa-solid fa-right-from-bracket ms-2"></i>
+          <span
+            class="btn-spinner spinner-border spinner-border-sm ms-2 d-none"
+            role="status"
+            aria-hidden="true"
+          ></span>
+          <span class="btn-label">Publish Result</span>
         </button>
+
         <button class="btn btn-success w-100 mb-3 shadow-sm">
           Print to Excel <i class="fa-solid fa-file-excel ms-2"></i>
         </button>

@@ -68,13 +68,13 @@ def get_students_result_view(request):
 @login_required
 def update_student_result_view(request):
     data=json.loads(request.body)
-    subject=data['classdata']['studentsubject']
-    Classdata=data['classdata']['studentclass']
+    subject=data['classdata']['selectedSubject'] 
+    Classdata=data['classdata']['selectedClass']
     studentID=data['formDataObject']['studentID']
     Name=data['formDataObject']['Name']
     classobject= Class.objects.get(Class=Classdata)
     term=Term.objects.get(term=data['classdata']['selectedTerm'])
-    session=AcademicSession.objects.get(session=data['classdata']['selectedAcademicSession'])
+    session=AcademicSession.objects.get(session=data['classdata']['selectedSession'])
     studentobject= Students_Pin_and_ID.objects.get(student_id=studentID,student_name=Name)
     subjectobject = Subject.objects.get(subject_name=subject)
     student_result_details = Student_Result_Data.objects.get(Student_name=studentobject,Term=term,AcademicSession=session)
@@ -168,7 +168,6 @@ def annual_result_computation_view(request):
         studentAnnual, created = AnnualStudent.objects.get_or_create(Student_name=student.student, academicsession=session)
         student_annual_details, created = AnnualResult.objects.get_or_create(Student_name=studentAnnual, Subject=subject_object)
         
-        student_annual_details.Total = 0  # Ensure Total is initialized to zero
         termsobject = {}  # Reset for each student
 
         for term in terms:
@@ -183,8 +182,8 @@ def annual_result_computation_view(request):
                 continue
         try:
             students_annuals.append({
-                'studentID': student.student_id,
-                'Name': student.student_name,
+                'studentID': studentAnnual.Student_name.student_id,
+                'Name': studentAnnual.Student_name.student_name,
                 'terms': termsobject,
                 'published': student_annual_details.published
             })

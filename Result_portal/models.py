@@ -183,7 +183,7 @@ class AnnualStudent(models.Model):
 	Verdict=models.CharField(max_length=100, blank=True,null=True , default="-")
 
 	def __str__(self):
-		return str(self.Student_name.student_name +"-"+ self.Student_name.student_class.Class)
+		return str(self.Student_name.student_name)
 
 
 class AnnualResult(models.Model):

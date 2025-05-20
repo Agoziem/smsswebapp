@@ -66,9 +66,7 @@
       <li class="breadcrumb-item">
         <a href="{% url 'Teachers_portal:Teachers_dashboard' %}">Dashboard</a>
       </li>
-      <li class="breadcrumb-item active" aria-current="page">
-        Annual Results
-      </li>
+      <li class="breadcrumb-item active" aria-current="page">Annual Results</li>
     </ol>
   </nav>
   <hr />
@@ -98,6 +96,7 @@
         class="badge bg-success rounded-pill p-2 px-3 mb-5"
       ></div>
     </div>
+
     <div class="row justify-content-center">
       <!-- Form for Result Credentials -->
       <div class="col-md-3 pt-2">
@@ -137,32 +136,28 @@
               {% endfor %}
             </select>
           </div>
-          <button type="submit" class="btn btn-primary w-100 mb-4">
+          <!-- <button type="submit" class="btn btn-primary w-100 mb-4">
             <div class="d-flex justify-content-center">
               <div id="updatesubjectspinner" class="d-none me-2">
                 <div class="spinner-border spinner-border-sm" role="status">
                   <span class="visually-hidden">Loading...</span>
                 </div>
               </div>
-              <div id="subjectbtnmessage">load Results</div>
+              <div d="subjectbtnmessage">load Results</div>i
             </div>
-          </button>
+          </button> -->
         </form>
 
         <!--buttons display only for large Screen -->
         <div class="d-none d-md-block">
           <div class="alertcontainer2 mb-2"></div>
-          <button
-            class="publishbtn btn btn-warning text-light w-100 mb-3 shadow-sm"
-          >
-            <div class="d-flex justify-content-center">
-              <div id="publishspinner1" class="d-none me-2">
-                <div class="spinner-border spinner-border-sm" role="status">
-                  <span class="visually-hidden">Loading...</span>
-                </div>
-              </div>
-              <div id="publishmessage1">Publish Results</div>
-            </div>
+          <button class="publishbtn btn btn-primary w-100 mb-3 shadow-sm">
+            <span class="btn-label">Publish Result</span>
+            <span
+              class="btn-spinner d-none spinner-border spinner-border-sm"
+              role="status"
+              aria-hidden="true"
+            ></span>
           </button>
 
           <button class="btn btn-success w-100 mb-3 shadow-sm">
@@ -301,11 +296,6 @@
                 </tr>
               </thead>
               <tbody>
-                <tr class="text-center">
-                  <td colspan="11">
-                    No result entry found/Select the Correct Result Credentials
-                  </td>
-                </tr>
               </tbody>
             </table>
           </div>
@@ -329,17 +319,13 @@
       <!--buttons display only for Small Screen-->
       <div class="col-md-3 pt-3 pt-md-0 d-block d-md-none">
         <div class="alertcontainer1 mb-2"></div>
-        <button
-          class="publishbtn btn btn-warning text-light w-100 mb-3 shadow-sm"
-        >
-          <div class="d-flex justify-content-center">
-            <div id="publishspinner2" class="d-none me-2">
-              <div class="spinner-border spinner-border-sm" role="status">
-                <span class="visually-hidden">Loading...</span>
-              </div>
-            </div>
-            <div id="publishmessage2">Publish Results</div>
-          </div>
+        <button class="publishbtn btn btn-primary w-100 mb-3 shadow-sm">
+          <span class="btn-label">Publish Result</span>
+          <span
+            class="btn-spinner d-none spinner-border spinner-border-sm"
+            role="status"
+            aria-hidden="true"
+          ></span>
         </button>
 
         <button class="btn btn-success w-100 mb-3 shadow-sm">
@@ -410,9 +396,7 @@
                 value="4"
                 id="thirdCheckbox"
               />
-              <label class="form-check-label" for="thirdCheckbox"
-                >Total</label
-              >
+              <label class="form-check-label" for="thirdCheckbox">Total</label>
             </li>
             <li class="list-group-item">
               <input

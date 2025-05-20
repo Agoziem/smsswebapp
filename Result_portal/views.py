@@ -1,9 +1,6 @@
 from django.shortcuts import render
 from requests import session
 from .models import *
-import base64
-base64.encodestring = base64.encodebytes
-base64.decodestring = base64.decodebytes
 from django.contrib import messages
 from django.shortcuts import render
 from django.http import JsonResponse

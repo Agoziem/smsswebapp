@@ -11,7 +11,7 @@ async function getstudentdata(classdata) {
   ) {
     return;
   }
-  showSpinner("updatesubjectspinner", "subjectbtnmessage", "Loading...");
+  // showSpinner("updatesubjectspinner", "subjectbtnmessage", "Loading...");
   const response = await fetch(`/Teachers_Portal/getstudentresults/`, {
     method: "POST",
     headers: {
@@ -21,7 +21,7 @@ async function getstudentdata(classdata) {
     body: JSON.stringify(classdata),
   });
   const data = await response.json();
-  hideSpinner("updatesubjectspinner", "subjectbtnmessage", "load Results");
+  // hideSpinner("updatesubjectspinner", "subjectbtnmessage", "load Results");
   return data;
 }
 
@@ -29,7 +29,7 @@ async function getstudentdata(classdata) {
 // function to get Student Annual Result
 // ---------------------------------------------------
 async function getannualresultdata(classdata) {
-  showSpinner("updatesubjectspinner", "subjectbtnmessage", "Loading...");
+  // showSpinner("updatesubjectspinner", "subjectbtnmessage", "Loading...");
   console.log(classdata);
   const response = await fetch(`/Teachers_Portal/annualresultcomputation/`, {
     method: "POST",
@@ -40,7 +40,7 @@ async function getannualresultdata(classdata) {
     body: JSON.stringify(classdata),
   });
   const data = await response.json();
-  hideSpinner("updatesubjectspinner", "subjectbtnmessage", "load Results");
+  // hideSpinner("updatesubjectspinner", "subjectbtnmessage", "load Results");
   return data;
 }
 
@@ -73,6 +73,7 @@ function updatestudentresult(
   displayalert
 ) {
   if (
+    classdata.selectedClass === "" ||
     classdata.selectedTerm === "" ||
     classdata.selectedAcademicSession === "" ||
     classdata.studentsubject === ""
@@ -94,7 +95,7 @@ function updatestudentresult(
     .then((response) => response.json())
     .then((data) => {
       readJsonFromFile();
-      const type = "alert-success";
+      const type = "success";
       const message = data;
       displayalert(type, message);
     })
@@ -119,7 +120,7 @@ async function submitallstudentresult(url, data, classdata, displayalert) {
   })
     .then((response) => response.json())
     .then((data) => {
-      const type = "alert-success";
+      const type = "success";
       const message = data;
       displayalert(type, message);
     })
@@ -161,11 +162,11 @@ async function publishstudentresult(url, data, classdata, displayalert) {
     .then((response) => response.json())
     .then((data) => {
       if (data.type === "success") {
-        const type = "alert-success";
+        const type = "success";
         const message = data.message;
         displayalert(type, message);
       } else if (data.type === "error") {
-        const type = "alert-danger";
+        const type = "danger";
         const message = data.message;
         displayalert(type, message);
       } else {

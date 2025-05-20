@@ -1,3 +1,6 @@
+// ------------------------------------------------------
+// Imports
+// ------------------------------------------------------
 import AnnualResulthandler from "./utils/AnnualResulthandler.js";
 import AnnualStudentResultDatatable from "./datatable/AnnualResultDatatable.js";
 import {
@@ -5,214 +8,289 @@ import {
   submitallstudentresult,
 } from "./utils/serveractions.js";
 
-// ---------------------------------------------------
-// DOM elements
-// ---------------------------------------------------
-const getstudentresultform = document.getElementById("getstudentresultform");
-const subjectselect = getstudentresultform.querySelector("select");
-const classinput = getstudentresultform.querySelector("input");
-const academicSessionSelect = document.getElementById("academicSessionSelect");
-const alertcontainer1 = document.querySelector(".alertcontainer1"); // for small screen
-const alertcontainer2 = document.querySelector(".alertcontainer2"); // for large screen
-
-document.querySelectorAll(".publishbtn").forEach((btn) => {
-  btn.addEventListener("click", exportTableToJSON);
-});
-
-// ---------------------------------------------------
-// Global variables
-// ---------------------------------------------------
-let classdata = {
-  studentclass: classinput.value,
+// ------------------------------------------------------
+// DOM References (cached once)
+// ------------------------------------------------------
+const DOM = {
+  form: document.getElementById("getstudentresultform"),
+  subjectSelect: null, // filled below
+  classInput: null, // filled below
+  sessionSelect: document.getElementById("academicSessionSelect"),
+  publishBtns: document.querySelectorAll(".publishbtn"),
+  alertContainerSmall: document.querySelector(".alertcontainer1"),
+  alertContainerLarge: document.querySelector(".alertcontainer2"),
+  resultBadge: document.getElementById("resultbadge"),
+  dataTableBody: document.querySelector("#dataTable tbody"),
 };
 
-let studentResult = [];
-let state;
+// after DOM.form exists, wire up subject & class inputs:
+DOM.subjectSelect = DOM.form.querySelector("select");
+DOM.classInput = DOM.form.querySelector("input");
 
-// ---------------------------------------------------
-// Event listeners
-// ---------------------------------------------------
+// ------------------------------------------------------
+// LocalStorage Keys
+// ------------------------------------------------------
+const LS_KEYS = {
+  SESSION: "selectedresultAcademicSession",
+  SUBJECT: "selectedresultsubject",
+};
 
-// get student result
-document.addEventListener("DOMContentLoaded", () => {
-  getstudentresultform.addEventListener("submit", (e) => {
+// ------------------------------------------------------
+// App State
+// ------------------------------------------------------
+const appState = {
+  studentclass: DOM.classInput.value,
+  selectedSession: null,
+  selectedSubject: null,
+  studentResults: [],
+  isPublished: false,
+};
+
+// ------------------------------------------------------
+// Helpers
+// ------------------------------------------------------
+const saveToLS = (k, v) => localStorage.setItem(k, v);
+const readFromLS = (k, def) => localStorage.getItem(k) || def;
+
+function showAlert(type, msg) {
+  const container =
+    window.innerWidth < 768 ? DOM.alertContainerSmall : DOM.alertContainerLarge;
+
+  container.innerHTML = "";
+  const a = document.createElement("div");
+  a.className = `alert alert-${type} d-flex align-items-center mt-3`;
+  a.setAttribute("role", "alert");
+  a.innerHTML = `<i class="fa-solid fa-circle-check me-2"></i>${msg}`;
+  container.append(a);
+  setTimeout(() => (container.innerHTML = ""), 5000);
+}
+
+function setButtonLoading(btn, isLoading) {
+  const label = btn.querySelector(".btn-label");
+  const spinner = btn.querySelector(".btn-spinner");
+
+  if (isLoading) {
+    btn.disabled = true;
+    spinner.classList.remove("d-none");
+    label.textContent = appState.isPublished ? "Unpublishing…" : "Publishing…";
+  } else {
+    btn.disabled = false;
+    spinner.classList.add("d-none");
+    label.textContent = appState.isPublished
+      ? "Unpublish Result"
+      : "Publish Result";
+  }
+}
+
+const loadingTableData = () => {
+  DOM.dataTableBody.innerHTML = `
+    <tr>
+      <td colspan="11" class="text-center">
+        <div class="d-flex align-items-center justify-content-center">
+          <div class="spinner-border spinner-border-sm me-2" aria-hidden="true"></div>
+          <div role="status">Loading Annual Results...</div>
+        </div>
+      </td>
+    </tr>`;
+};
+
+// ------------------------------------------------------
+// Init: bind & first load
+// ------------------------------------------------------
+(function init() {
+  // form submit
+  DOM.form.addEventListener("submit", (e) => {
     e.preventDefault();
-    saveformSelections();
+    onFormSubmit();
   });
-});
 
-// load saved selection
-document.addEventListener("DOMContentLoaded", () => {
-  loadsavedSelection();
-});
+  // session/subject change
+  DOM.sessionSelect.addEventListener("change", onFormSubmit);
+  DOM.subjectSelect.addEventListener("change", onFormSubmit);
 
-// ---------------------------------------------------
-// Function to save selected values to localStorage
-// ---------------------------------------------------
-function saveformSelections() {
-  localStorage.setItem(
-    "selectedresultAcademicSession",
-    academicSessionSelect.value
+  // publish buttons
+  DOM.publishBtns.forEach((btn) =>
+    btn.addEventListener("click", onPublishClick)
   );
-  localStorage.setItem("selectedresultsubject", subjectselect.value);
-  classdata.selectedAcademicSession = academicSessionSelect.value;
-  classdata.studentsubject =
-    subjectselect.options[subjectselect.selectedIndex].value;
-  readJsonFromFile();
-}
 
-// -----------------------------------------------------
-// Function to load saved values from localStorage
+  // load saved selections
+  window.addEventListener("DOMContentLoaded", loadSavedSelections);
+
+  // first fetch
+  loadSavedSelections();
+})();
+
 // ------------------------------------------------------
-function loadsavedSelection() {
-  const savedAcademicSession = localStorage.getItem(
-    "selectedresultAcademicSession"
-  );
-  const savedsubject = localStorage.getItem("selectedresultsubject");
-
-  if (savedAcademicSession !== null) {
-    academicSessionSelect.value = savedAcademicSession;
-    classdata.selectedAcademicSession = academicSessionSelect.value;
-  } else {
-    classdata.selectedAcademicSession = academicSessionSelect.value;
-  }
-
-  if (savedsubject !== null) {
-    subjectselect.value = savedsubject;
-    classdata.studentsubject = subjectselect.value;
-  } else {
-    classdata.studentsubject = subjectselect.value;
-  }
-  readJsonFromFile();
-}
-
-// -----------------------------------------------------
-// Function to read JSON file and populate the table
+// Form / selection handlers
 // ------------------------------------------------------
-async function readJsonFromFile() {
-  try {
-    const jsonData = await getannualresultdata(classdata);
-    const studentHandler = new AnnualResulthandler(jsonData);
-    const studentsWithCalculatedFields = studentHandler.getStudents();
-    studentResult = studentsWithCalculatedFields;
-    updateResultBadge("update", studentsWithCalculatedFields[0]);
-    populatetable(studentsWithCalculatedFields);
-    const dataTable = new AnnualStudentResultDatatable();
-  } catch (error) {
-    console.error("Error reading JSON file:", error);
-  }
-}
-
-// -----------------------------------------------------
-// Function to populate the table with data
-// ------------------------------------------------------
-function populatetable(tableData) {
-  const tbody = document.querySelector("#dataTable").lastElementChild;
-
-  // Check if tableData has valid content
-  if (Array.isArray(tableData) && tableData.length > 0) {
-    tbody.innerHTML = tableData
-      .map(
-        (data, index) => `
-          <tr data-rowindex="${index + 1}">
-              <td scope="row">${index + 1}</td>
-              <td class="text-primary text-uppercase">
-                <a 
-                  class="inputdetailsformmodelbtn text-decoration-none" 
-                  style="cursor:pointer"
-                >${data.Name ?? "-"}</a>
-              </td>
-              <td>${data["terms"]?.["1st Term"] ?? "-"}</td>
-              <td>${data["terms"]?.["2nd Term"] ?? "-"}</td>
-              <td>${data["terms"]?.["3rd Term"] ?? "-"}</td>
-              <td>${data["Total"] ?? "-"}</td>
-              <td>${data["Average"] ?? "-"}</td>
-              <td>${data["Grade"] ?? "-"}</td>
-              <td>${data["Position"] ?? "-"}</td>
-              <td>${data["Remarks"] ?? "-"}</td>
-          </tr>`
-      )
-      .join("");
-  } else {
-    // Fallback for empty or invalid data
-    tbody.innerHTML = `
-      <tr>
-        <td colspan="10" class="text-center text-muted">No Student Records Found</td>
-      </tr>`;
-  }
-}
-
-// -----------------------------------------------------
-// Function to export table data to JSON
-// ------------------------------------------------------
-function exportTableToJSON() {
-  const url =
-    state === "published"
-      ? "/Teachers_Portal/unpublishannualresults/"
-      : "/Teachers_Portal/publishannualresults/";
-  const datatosubmit = studentResult;
-  classdata.studentsubject =
-    subjectselect.options[subjectselect.selectedIndex].value;
-  classdata.studentclass = classinput.value;
-  classdata.selectedAcademicSession = academicSessionSelect.value;
-  submitallstudentresult(url, datatosubmit, classdata, displayalert);
-  updateResultBadge("setbadge", datatosubmit[0]);
-}
-
-// -----------------------------------------------------
-// Function to display alert messages
-// ------------------------------------------------------
-function displayalert(type, message) {
-  const alertdiv = document.createElement("div");
-  alertdiv.classList.add(
-    "alert",
-    `${type}`,
-    "d-flex",
-    "align-items-center",
-    "mt-3"
-  );
-  alertdiv.setAttribute("role", "alert");
-  alertdiv.innerHTML = `
-                        <i class="fa-solid fa-circle-check me-2"></i>
-                        <div>
-                           ${message}
-                        </div>
-                        `;
-  // check for Screen Size and append alert message to the appropriate container
-  if (window.innerWidth < 768) {
-    alertcontainer1.appendChild(alertdiv);
-  } else {
-    alertcontainer2.appendChild(alertdiv);
-  }
-  setTimeout(() => {
-    alertdiv.remove();
-  }, 5000);
-}
-
-// ------------------------------------------------------------------------------------------------
-// function to update the result badge
-// ------------------------------------------------------------------------------------------------
-function updateResultBadge(type, studentresult) {
-  if (!studentresult.published) {
+function onFormSubmit() {
+  appState.selectedSession = DOM.sessionSelect.value;
+  appState.selectedSubject = DOM.subjectSelect.value;
+  saveToLS(LS_KEYS.SESSION, appState.selectedSession);
+  saveToLS(LS_KEYS.SUBJECT, appState.selectedSubject);
+  if (!appState.selectedSession || !appState.selectedSubject) {
     return;
   }
-  if (type === "setbadge") {
-    studentresult.published = !studentresult.published;
-  }
-  state = studentresult.published ? "published" : "unpublished";
-  const badge = document.querySelector("#resultbadge");
-  studentresult.published
-    ? badge.classList.replace("bg-secondary", "bg-success")
-    : badge.classList.replace("bg-success", "bg-secondary");
-  badge.innerHTML = studentresult.published
-    ? `<i class="fa-solid fa-check-circle me-2"></i>
-       Result Published`
-    : `<i class="fa-solid fa-circle-plus me-2"></i>
-       Result Not Published`;
+  fetchAndRender();
+}
 
-  document.querySelectorAll(".publishbtn").forEach((btn) => {
-    btn.innerHTML = studentresult.published
-      ? `UnPublish Result <i class="fa-solid fa-right-from-bracket ms-2"></i>`
-      : `Publish Result <i class='fa-solid fa-left-from-bracket ms-2'></i>`;
+function loadSavedSelections() {
+  const s = readFromLS(LS_KEYS.SESSION, DOM.sessionSelect.value);
+  const subj = readFromLS(LS_KEYS.SUBJECT, DOM.subjectSelect.value);
+
+  if (!s || !subj) {
+    return;
+  }
+
+  DOM.sessionSelect.value = s;
+  DOM.subjectSelect.value = subj;
+
+  appState.selectedSession = s;
+  appState.selectedSubject = subj;
+
+  fetchAndRender();
+}
+
+// ------------------------------------------------------
+// Fetch & render pipeline
+// ------------------------------------------------------
+async function fetchAndRender() {
+  clearAlerts();
+  // reset state
+  appState.studentResults = [];
+  appState.isPublished = false;
+  
+  loadingTableData()
+
+  try {
+    const payload = {
+      studentclass: appState.studentclass,
+      selectedAcademicSession: appState.selectedSession,
+      studentsubject: appState.selectedSubject,
+    };
+    const data = await getannualresultdata(payload);
+    console.log(data);
+    const handler = new AnnualResulthandler(data);
+    appState.studentResults = handler.getStudents();
+    if (!appState.studentResults.length) {
+      renderNoData();
+      return;
+    }
+
+    // first row drives badge
+    const first = appState.studentResults[0];
+    appState.isPublished = Boolean(first.published);
+    updateResultBadge(first.published);
+    renderTable(appState.studentResults);
+  } catch (err) {
+    console.error(err);
+    showAlert("danger", "Error fetching results");
+  } finally {
+    DOM.publishBtns.forEach((btn) => setButtonLoading(btn, false));
+  }
+}
+
+// ------------------------------------------------------
+// Render helpers
+// ------------------------------------------------------
+function renderNoData() {
+  DOM.dataTableBody.innerHTML = `
+    <tr><td colspan="10" class="text-center text-muted">
+      No Student Records Found
+    </td></tr>`;
+}
+
+function renderTable(rows) {
+  const frag = document.createDocumentFragment();
+  rows.forEach((r, i) => {
+    const tr = document.createElement("tr");
+    tr.setAttribute("data-rowindex", i + 1);
+    tr.innerHTML = `
+      <td>${i + 1}</td>
+      <td class="text-primary text-uppercase">
+        <a class="inputdetailsformmodelbtn text-decoration-none" style="cursor:pointer">
+          ${r.Name || "-"}
+        </a>
+      </td>
+      <td>${r.terms?.["1st Term"] ?? "-"}</td>
+      <td>${r.terms?.["2nd Term"] ?? "-"}</td>
+      <td>${r.terms?.["3rd Term"] ?? "-"}</td>
+      <td>${r.Total ?? "-"}</td>
+      <td>${r.Average ?? "-"}</td>
+      <td>${r.Grade ?? "-"}</td>
+      <td>${r.Position ?? "-"}</td>
+      <td>${r.Remarks ?? "-"}</td>
+    `;
+    frag.append(tr);
   });
+
+  DOM.dataTableBody.innerHTML = "";
+  DOM.dataTableBody.append(frag);
+  new AnnualStudentResultDatatable();
+}
+
+// ------------------------------------------------------
+// Publish / unpublish handler
+// ------------------------------------------------------
+async function onPublishClick(e) {
+  if (!appState.studentResults.length) {
+    return showAlert("warning", "No result to publish");
+  }
+
+  // determine URL
+  const url = appState.isPublished
+    ? "/Teachers_Portal/unpublishannualresults/"
+    : "/Teachers_Portal/publishannualresults/";
+
+  // prepare state to submit
+  const payload = {
+    studentclass: appState.studentclass,
+    selectedAcademicSession: appState.selectedSession,
+    studentsubject: appState.selectedSubject,
+  };
+
+  // show loader on this button only
+  DOM.publishBtns.forEach((btn) => setButtonLoading(btn, true));
+
+  try {
+    await submitallstudentresult(
+      url,
+      appState.studentResults,
+      payload,
+      showAlert
+    );
+
+    DOM.publishBtns.forEach((btn) => setButtonLoading(btn, true));
+    await fetchAndRender();
+  } catch (err) {
+    console.error(err);
+    showAlert("danger", "Failed to publish results");
+  } finally {
+    DOM.publishBtns.forEach((btn) => setButtonLoading(btn, false));
+  }
+}
+
+// ------------------------------------------------------
+// Badge updater
+// ------------------------------------------------------
+function updateResultBadge(isPublished) {
+  DOM.resultBadge.classList.toggle("bg-success", isPublished);
+  DOM.resultBadge.classList.toggle("bg-secondary", !isPublished);
+  DOM.resultBadge.innerHTML = isPublished
+    ? `<i class="fa-solid fa-check-circle me-2"></i>Result Published`
+    : `<i class="fa-solid fa-circle-xmark me-2"></i>Result Not Published`;
+
+  // update text on all publish buttons too
+  DOM.publishBtns.forEach((btn) => {
+    const label = btn.querySelector(".btn-label");
+    label.textContent = isPublished ? "Unpublish Result" : "Publish Result";
+  });
+}
+
+// ------------------------------------------------------
+// Utility
+// ------------------------------------------------------
+function clearAlerts() {
+  DOM.alertContainerSmall.innerHTML = "";
+  DOM.alertContainerLarge.innerHTML = "";
 }
