@@ -166,6 +166,7 @@ def PublishResults_view(request, Classname):
 def getstudentsubjecttotals_view(request):
     try:
         data=json.loads(request.body)
+        print(data)
         cls = Class.objects.get(Class=data['studentclass'])
         term = Term.objects.get(term=data['selectedTerm'])
         sess = AcademicSession.objects.get(session=data['selectedAcademicSession'])
@@ -210,6 +211,7 @@ def getstudentsubjecttotals_view(request):
     except Exception as e:
         print(str(e))
         return JsonResponse({"error": "An unexpected error occurred"},status=500)
+
 
 # Publish the Students Results View
 
