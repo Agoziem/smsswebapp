@@ -166,11 +166,12 @@ def PublishResults_view(request, Classname):
 def getstudentsubjecttotals_view(request):
     try:
         data=json.loads(request.body)
-        print(data)
+        print(f"data: {data}")
         cls = Class.objects.get(Class=data['studentclass'])
         term = Term.objects.get(term=data['selectedTerm'])
         sess = AcademicSession.objects.get(session=data['selectedAcademicSession'])
         subjects_allocated = Subjectallocation.objects.filter(classname=cls).first()
+        print(f"subjects_allocated: {subjects_allocated}")
         if not subjects_allocated:
             return JsonResponse({"error": "No subjects allocated to this class"}, status=400)
         
@@ -178,10 +179,12 @@ def getstudentsubjecttotals_view(request):
             student_class=cls,
             academic_session=sess
         ).select_related("student")
+        print(f"studentsenrolled: {students}")
         final_list = []
         # get all the Students related to the Class
         for student in students:
             Resultdetails,_=Student_Result_Data.objects.get_or_create(Student_name=student.student,Term=term,AcademicSession=sess)
+            print(f"Student Result Data: {Resultdetails}")
             student_dict = {
                 'id':student.student.id,
                 'Name': student.student.student_name,
@@ -203,6 +206,7 @@ def getstudentsubjecttotals_view(request):
                 student_dict['subjects'].append(subject)
             student_dict['published'] = Resultdetails.published
             final_list.append(student_dict)
+        print(f"final_list: {final_list}")
         return JsonResponse(final_list, safe=False)
     except json.JSONDecodeError:
         return JsonResponse({"error": "Invalid JSON body"}, status=400)
