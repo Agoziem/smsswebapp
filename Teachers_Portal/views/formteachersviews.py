@@ -188,6 +188,8 @@ def getstudentsubjecttotals_view(request):
             AcademicSession=sess
         )
         summary_map = {s.Student_name.pk: s for s in existing_summaries}
+        print(f"summary_map 1: {summary_map}")
+        
 
         # Determine which are missing
         missing_students = [s.student for s in students if s.student.pk not in summary_map]
@@ -195,6 +197,7 @@ def getstudentsubjecttotals_view(request):
             Student_Result_Data(Student_name=stu, Term=term, AcademicSession=sess)
             for stu in missing_students
         ])
+        print(f"creating missing students successfully")
 
         # Re-fetch all summaries again
         all_summaries = Student_Result_Data.objects.filter(
@@ -203,23 +206,27 @@ def getstudentsubjecttotals_view(request):
             AcademicSession=sess
         )
         summary_map = {s.Student_name.pk: s for s in all_summaries}
+        print(f"summary_map 2: {summary_map}")
 
         # 2. Bulk fetch all relevant Results in one query
         results = Result.objects.filter(
             students_result_summary__in=all_summaries,
             Subject__in=subjects_allocated.subjects.all()
         ).select_related("Subject", "students_result_summary", "student")
+        print(f"results: {results}")
 
         # 3. Build a result lookup
         result_map = {
             (r.students_result_summary.Student_name.pk, r.Subject.pk): r
             for r in results
         }
+        print(f"result_map: {result_map}")
 
         # 4. Construct final_list
         final_list = []
         for enrollment in students:
             student = enrollment.student
+            print(f"student: {student}")
             summary = summary_map.get(student.id)
             if not summary:
                 continue
