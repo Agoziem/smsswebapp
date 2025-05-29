@@ -165,108 +165,51 @@ def PublishResults_view(request, Classname):
 
 def getstudentsubjecttotals_view(request):
     try:
-        data = json.loads(request.body)
-        cls_name = data.get("studentclass")
-        term_name = data.get("selectedTerm")
-        sess_name = data.get("selectedAcademicSession")
-
-        # 1) Validate class, term, session
-        try:
-            cls   = Class.objects.get(Class=cls_name)
-            term  = Term.objects.get(term=term_name)
-            sess  = AcademicSession.objects.get(session=sess_name)
-        except (Class.DoesNotExist, Term.DoesNotExist, AcademicSession.DoesNotExist):
-            return JsonResponse({"error": "Invalid class, term or session"}, status=400)
-
-        # 2) Fetch subject allocation & subjects
-        alloc = Subjectallocation.objects.filter(classname=cls).prefetch_related("subjects").first()
-        if not alloc:
+        data=json.loads(request.body)
+        cls = Class.objects.get(Class=data['studentclass'])
+        term = Term.objects.get(term=data['selectedTerm'])
+        sess = AcademicSession.objects.get(session=data['selectedAcademicSession'])
+        subjects_allocated = Subjectallocation.objects.filter(classname=cls).first()
+        if not subjects_allocated:
             return JsonResponse({"error": "No subjects allocated to this class"}, status=400)
-        subjects = list(alloc.subjects.all())
-
-        # 3) Fetch all enrolled students
-        enrolls = (
-            StudentClassEnrollment.objects
-              .filter(student_class=cls, academic_session=sess)
-              .select_related("student")
-        )
-        students = [e.student for e in enrolls]
-        if not students:
-            return JsonResponse([], safe=False)
-
-        # 4) Bulk get_or_create Student_Result_Data summaries
-        existing_summaries = Student_Result_Data.objects.filter(
-            Student_name__in=students,
-            Term=term,
-            AcademicSession=sess
-        )
-        summary_map = { s.Student_name.pk: s for s in existing_summaries }
-
-        # Create missing ones in a single bulk_create
-        missing_students = [st for st in students if st.id not in summary_map]
-        to_create = [
-            Student_Result_Data(Student_name=st, Term=term, AcademicSession=sess)
-            for st in missing_students
-        ]
-        if to_create:
-            Student_Result_Data.objects.bulk_create(to_create)
-            # re-fetch the newly created summaries
-            new_summaries = Student_Result_Data.objects.filter(
-                Student_name__in=missing_students,
-                Term=term,
-                AcademicSession=sess
-            )
-            for s in new_summaries:
-                summary_map[s.Student_name.pk] = s
-
-        # 5) Bulk fetch all Result rows for these summaries & subjects
-        all_summaries = list(summary_map.values())
-        results_qs = Result.objects.filter(
-            students_result_summary__in=all_summaries,
-            Subject__in=subjects
-        ).select_related("Subject", "students_result_summary")
-
-        # Build lookup: (student_id, subject_id) -> Result
-        result_map = {
-            (r.students_result_summary.Student_name.pk, r.Subject.pk): r
-            for r in results_qs
-        }
-
-        # 6) Assemble final_list
+        
+        students = StudentClassEnrollment.objects.filter(
+            student_class=cls,
+            academic_session=sess
+        ).select_related("student")
         final_list = []
+        # get all the Students related to the Class
         for student in students:
-            summary = summary_map[student.id]
-            published_flag = summary.published
-
+            Resultdetails,_=Student_Result_Data.objects.get_or_create(Student_name=student.student,Term=term,AcademicSession=sess)
             student_dict = {
-                "id":        student.id,
-                "Name":      student.student_name,
-                "published": published_flag,
-                "subjects":  []
+                'id':student.student.id,
+                'Name': student.student.student_name,
+                'subjects':[],
             }
-
-            for subj in subjects:
-                key = (student.id, subj.id)
-                res = result_map.get(key)
-                student_dict["subjects"].append({
-                    "subject_code": subj.subject_code,
-                    "subject_name": subj.subject_name,
-                    "Total":        getattr(res, "Total", "-"),
-                    "published":    bool(getattr(res, "published", False)),
-                })
-
+            for subobject in subjects_allocated.subjects.all():
+                subject = {}
+                try:
+                    subresult = Result.objects.get(students_result_summary=Resultdetails, Subject=subobject)
+                    subject['subject_code'] = subobject.subject_code
+                    subject['subject_name'] = subobject.subject_name
+                    subject['Total'] = subresult.Total
+                    subject['published'] = subresult.published
+                except:
+                    subject['subject_code'] = subobject.subject_code
+                    subject['subject_name'] = subobject.subject_name
+                    subject['Total'] = "-"
+                    subject['published'] = False
+                student_dict['subjects'].append(subject)
+            student_dict['published'] = Resultdetails.published
             final_list.append(student_dict)
-
         return JsonResponse(final_list, safe=False)
-
     except json.JSONDecodeError:
         return JsonResponse({"error": "Invalid JSON body"}, status=400)
+    except (Class.DoesNotExist, Term.DoesNotExist, AcademicSession.DoesNotExist):
+            return JsonResponse({"error": "Invalid class, term or session"}, status=400)
     except Exception as e:
-        # Log e here as needed
-        return JsonResponse(
-            {"error": "An unexpected error occurred"},
-            status=500
-        )
+        print(str(e))
+        return JsonResponse({"error": "An unexpected error occurred"},status=500)
 
 # Publish the Students Results View
 
