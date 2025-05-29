@@ -7,6 +7,7 @@ from django.contrib.auth.decorators import login_required
 from CBT.models import *
 import json
 from django.shortcuts import get_object_or_404
+from itertools import islice
 
 # /////////////////////////////////////////////
 # Form teachers View for CRUD Students Details
@@ -209,19 +210,26 @@ def getstudentsubjecttotals_view(request):
         print(f"summary_map 2: {summary_map}")
 
         # 2. Bulk fetch all relevant Results in one query
-        results = Result.objects.filter(
+        result_map = {}
+        batch_size = 5000  # or any safe value depending on your instance size
+        results_iterator = Result.objects.filter(
             students_result_summary__in=all_summaries,
             Subject__in=subjects_allocated.subjects.all()
-        ).select_related("Subject", "students_result_summary", "student")
-        print(f"results: {results}")
+        ).select_related(
+            "Subject", "students_result_summary", "students_result_summary__Student_name"
+        ).iterator(chunk_size=batch_size)
+
+        print("trying out result mapping")
+        for r in results_iterator:
+            print(f"results: {r}")
+            result_map[(r.students_result_summary.Student_name.id, r.Subject.id)] = r
+        print(f"result_map: {result_map}")
 
         # 3. Build a result lookup
-        print("trying out result mapping")
-        result_map = {
-            (r.students_result_summary.Student_name.id, r.Subject.id): r
-            for r in results
-        }
-        print(f"result_map: {result_map}")
+        # result_map = {
+        #     (r.students_result_summary.Student_name.id, r.Subject.id): r
+        #     for r in results
+        # }
 
         # 4. Construct final_list
         final_list = []
