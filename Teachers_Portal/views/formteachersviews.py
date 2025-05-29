@@ -180,33 +180,71 @@ def getstudentsubjecttotals_view(request):
             academic_session=sess
         ).select_related("student")
         print(f"studentsenrolled: {students}")
+
+        # 1. Get or create summaries in bulk (avoid calling get_or_create in loop)
+        existing_summaries = Student_Result_Data.objects.filter(
+            Student_name__in=[s.student for s in students],
+            Term=term,
+            AcademicSession=sess
+        )
+        summary_map = {s.Student_name.pk: s for s in existing_summaries}
+
+        # Determine which are missing
+        missing_students = [s.student for s in students if s.student.pk not in summary_map]
+        Student_Result_Data.objects.bulk_create([
+            Student_Result_Data(Student_name=stu, Term=term, AcademicSession=sess)
+            for stu in missing_students
+        ])
+
+        # Re-fetch all summaries again
+        all_summaries = Student_Result_Data.objects.filter(
+            Student_name__in=[s.student for s in students],
+            Term=term,
+            AcademicSession=sess
+        )
+        summary_map = {s.Student_name.pk: s for s in all_summaries}
+
+        # 2. Bulk fetch all relevant Results in one query
+        results = Result.objects.filter(
+            students_result_summary__in=all_summaries,
+            Subject__in=subjects_allocated.subjects.all()
+        ).select_related("Subject", "students_result_summary", "student")
+
+        # 3. Build a result lookup
+        result_map = {
+            (r.students_result_summary.Student_name.pk, r.Subject.pk): r
+            for r in results
+        }
+
+        # 4. Construct final_list
         final_list = []
-        # get all the Students related to the Class
-        for student in students:
-            Resultdetails,_=Student_Result_Data.objects.get_or_create(Student_name=student.student,Term=term,AcademicSession=sess)
-            print(f"Student Result Data: {Resultdetails}")
+        for enrollment in students:
+            student = enrollment.student
+            summary = summary_map.get(student.id)
+            if not summary:
+                continue
+
             student_dict = {
-                'id':student.student.id,
-                'Name': student.student.student_name,
-                'subjects':[],
+                "id": student.id,
+                "Name": student.student_name,
+                "published": summary.published,
+                "subjects": []
             }
-            for subobject in subjects_allocated.subjects.all():
-                subject = {}
-                try:
-                    subresult = Result.objects.get(students_result_summary=Resultdetails, Subject=subobject)
-                    subject['subject_code'] = subobject.subject_code
-                    subject['subject_name'] = subobject.subject_name
-                    subject['Total'] = subresult.Total
-                    subject['published'] = subresult.published
-                except:
-                    subject['subject_code'] = subobject.subject_code
-                    subject['subject_name'] = subobject.subject_name
-                    subject['Total'] = "-"
-                    subject['published'] = False
-                student_dict['subjects'].append(subject)
-            student_dict['published'] = Resultdetails.published
+            print(f"student_dict: {student_dict}")
+
+            for subject in subjects_allocated.subjects.all():
+                key = (student.id, subject.id)
+                result = result_map.get(key)
+                print(f"result: {result}")
+                student_dict["subjects"].append({
+                    "subject_code": subject.subject_code,
+                    "subject_name": subject.subject_name,
+                    "Total": result.Total if result else "-",
+                    "published": result.published if result else False
+                })
+
             final_list.append(student_dict)
-        print(f"final_list: {final_list}")
+
         return JsonResponse(final_list, safe=False)
     except json.JSONDecodeError:
         return JsonResponse({"error": "Invalid JSON body"}, status=400)
