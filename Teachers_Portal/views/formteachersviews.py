@@ -216,8 +216,9 @@ def getstudentsubjecttotals_view(request):
         print(f"results: {results}")
 
         # 3. Build a result lookup
+        print("trying out result mapping")
         result_map = {
-            (r.students_result_summary.Student_name.pk, r.Subject.pk): r
+            (r.students_result_summary.Student_name.id, r.Subject.id): r
             for r in results
         }
         print(f"result_map: {result_map}")
