@@ -3,3 +3,4 @@ __pycache__/
 media/
 static/
 Result_portal/templates/activation.html
+SMSSvenv/

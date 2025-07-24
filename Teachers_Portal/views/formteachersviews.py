@@ -63,7 +63,7 @@ def createstudent_view(request):
 
         return JsonResponse(
             {
-                "student_ID": student.id,
+                "student_ID": student.pk,
                 "student_id": student.student_id,
                 "student_name": student.student_name,
                 "student_sex": student.Sex,
@@ -104,7 +104,7 @@ def updatestudent_view(request):
         )
 
         context = {
-            "student_ID": updateStudent.id,
+            "student_ID": updateStudent.pk,
             "student_id": updateStudent.student_id,
             "student_name": updateStudent.student_name,
             "student_sex": updateStudent.Sex,
@@ -149,6 +149,10 @@ def PublishResults_view(request, Classname):
         classname=class_object).first()
     subject_code = []
     sessions = AcademicSession.objects.all()
+    if not subjects_allocation:
+        return render(request, 'formteachers/Publish_Result.html', {
+            'error': 'No subjects allocated to this class.'
+        })
     for subobject in subjects_allocation.subjects.all():
         subject_code.append(subobject.subject_code)
     context = {
@@ -167,12 +171,10 @@ def PublishResults_view(request, Classname):
 def getstudentsubjecttotals_view(request):
     try:
         data=json.loads(request.body)
-        print(f"data: {data}")
         cls = Class.objects.get(Class=data['studentclass'])
         term = Term.objects.get(term=data['selectedTerm'])
         sess = AcademicSession.objects.get(session=data['selectedAcademicSession'])
         subjects_allocated = Subjectallocation.objects.filter(classname=cls).first()
-        print(f"subjects_allocated: {subjects_allocated}")
         if not subjects_allocated:
             return JsonResponse({"error": "No subjects allocated to this class"}, status=400)
         
@@ -180,7 +182,6 @@ def getstudentsubjecttotals_view(request):
             student_class=cls,
             academic_session=sess
         ).select_related("student")
-        print(f"studentsenrolled: {students}")
 
         # 1. Get or create summaries in bulk (avoid calling get_or_create in loop)
         existing_summaries = Student_Result_Data.objects.filter(
@@ -189,8 +190,6 @@ def getstudentsubjecttotals_view(request):
             AcademicSession=sess
         )
         summary_map = {s.Student_name.pk: s for s in existing_summaries}
-        print(f"summary_map 1: {summary_map}")
-        
 
         # Determine which are missing
         missing_students = [s.student for s in students if s.student.pk not in summary_map]
@@ -198,7 +197,6 @@ def getstudentsubjecttotals_view(request):
             Student_Result_Data(Student_name=stu, Term=term, AcademicSession=sess)
             for stu in missing_students
         ])
-        print(f"creating missing students successfully")
 
         # Re-fetch all summaries again
         all_summaries = Student_Result_Data.objects.filter(
@@ -207,7 +205,6 @@ def getstudentsubjecttotals_view(request):
             AcademicSession=sess
         )
         summary_map = {s.Student_name.pk: s for s in all_summaries}
-        print(f"summary_map 2: {summary_map}")
 
         # 2. Bulk fetch all relevant Results in one query
         result_map = {}
@@ -219,23 +216,16 @@ def getstudentsubjecttotals_view(request):
             "Subject", "students_result_summary", "students_result_summary__Student_name"
         ).iterator(chunk_size=batch_size)
 
-        print("trying out result mapping")
-        for r in results_iterator:
-            print(f"results: {r}")
-            result_map[(r.students_result_summary.Student_name.id, r.Subject.id)] = r
-        print(f"result_map: {result_map}")
-
         # 3. Build a result lookup
-        # result_map = {
-        #     (r.students_result_summary.Student_name.id, r.Subject.id): r
-        #     for r in results
-        # }
+        for r in results_iterator:
+            if not r.students_result_summary or not r.Subject:
+                continue
+            result_map[(r.students_result_summary.Student_name.pk, r.Subject.pk)] = r
 
         # 4. Construct final_list
         final_list = []
         for enrollment in students:
             student = enrollment.student
-            print(f"student: {student}")
             summary = summary_map.get(student.id)
             if not summary:
                 continue
@@ -246,12 +236,10 @@ def getstudentsubjecttotals_view(request):
                 "published": summary.published,
                 "subjects": []
             }
-            print(f"student_dict: {student_dict}")
 
             for subject in subjects_allocated.subjects.all():
                 key = (student.id, subject.id)
                 result = result_map.get(key)
-                print(f"result: {result}")
                 student_dict["subjects"].append({
                     "subject_code": subject.subject_code,
                     "subject_name": subject.subject_name,
@@ -384,6 +372,10 @@ def PublishAnnualResults_view(request, Classname):
         classname=class_object).first()
     subject_code = []
     sessions = AcademicSession.objects.all()
+    if not subjects_allocation:
+        return render(request, 'formteachers/Annual_Publish_Result.html', {
+            'error': 'No subjects allocated to this class.'
+        })
     for subobject in subjects_allocation.subjects.all():
         subject_code.append(subobject.subject_code)
     context = {
