@@ -1,339 +1,171 @@
-from ninja import Router
-from ninja.errors import HttpError
 from django.shortcuts import get_object_or_404
-from typing import List
-
-from ..models import (
-    Student_Result_Data, Result, AnnualStudent, AnnualResult,
-    Students_Pin_and_ID, Class, Subject, Term, AcademicSession
-)
+from ninja_extra import api_controller, route
+from typing import List, Optional
+from ..models import Student_Result_Data, Result, AnnualStudent, AnnualResult
 from ..schemas import (
-    StudentResultDataCreateSchema,
-    StudentResultDataUpdateSchema,
-    StudentResultDataResponseSchema,
-    StudentResultDataDeleteSchema,
-    ResultCreateSchema,
-    ResultUpdateSchema,
-    ResultResponseSchema,
-    ResultDeleteSchema,
-    AnnualStudentCreateSchema,
-    AnnualStudentUpdateSchema,
-    AnnualStudentResponseSchema,
-    AnnualStudentDeleteSchema,
-    AnnualResultCreateSchema,
-    AnnualResultUpdateSchema,
-    AnnualResultResponseSchema,
-    AnnualResultDeleteSchema
+    StudentResultDataCreateSchema, StudentResultDataUpdateSchema, StudentResultDataResponseSchema,
+    ResultCreateSchema, ResultUpdateSchema, ResultResponseSchema,
+    AnnualStudentCreateSchema, AnnualStudentUpdateSchema, AnnualStudentResponseSchema,
+    AnnualResultCreateSchema, AnnualResultUpdateSchema, AnnualResultResponseSchema,
+    SuccessResponseSchema
 )
 
-student_result_data_router = Router(tags=["Student Result Data"])
-result_router = Router(tags=["Results"])
-annual_student_router = Router(tags=["Annual Students"])
-annual_result_router = Router(tags=["Annual Results"])
+
+@api_controller('/student-result-data', tags=['Student Result Data'])
+class StudentResultDataController:
+    """Controller for managing student result data"""
+    
+    @route.get('/', response=List[StudentResultDataResponseSchema], summary="Get all student result data")
+    def list_student_result_data(self, published: Optional[bool] = None):
+        """Get all student result data, optionally filter by published status"""
+        queryset = Student_Result_Data.objects.all()
+        if published is not None:
+            queryset = queryset.filter(published=published)
+        return queryset
+    
+    @route.get('/{int:id}', response=StudentResultDataResponseSchema, summary="Get student result data by ID")
+    def get_student_result_data(self, id: int):
+        """Get a specific student result data by ID"""
+        return get_object_or_404(Student_Result_Data, id=id)
+    
+    @route.post('/', response=StudentResultDataResponseSchema, summary="Create new student result data")
+    def create_student_result_data(self, payload: StudentResultDataCreateSchema):
+        """Create a new student result data"""
+        return Student_Result_Data.objects.create(**payload.model_dump())
+    
+    @route.put('/{int:id}', response=StudentResultDataResponseSchema, summary="Update student result data")
+    def update_student_result_data(self, id: int, payload: StudentResultDataUpdateSchema):
+        """Update an existing student result data"""
+        student_result = get_object_or_404(Student_Result_Data, id=id)
+        for attr, value in payload.model_dump(exclude_unset=True).items():
+            setattr(student_result, attr, value)
+        student_result.save()
+        return student_result
+    
+    @route.delete('/{int:id}', response=SuccessResponseSchema, summary="Delete student result data")
+    def delete_student_result_data(self, id: int):
+        """Delete a student result data"""
+        student_result = get_object_or_404(Student_Result_Data, id=id)
+        student_result.delete()
+        return {"message": "Student result data deleted successfully"}
 
 
-# Student Result Data routes
-@student_result_data_router.get("/", response=List[StudentResultDataResponseSchema])
-def list_student_result_data(request):
-    """Get all student result data"""
-    result_data = Student_Result_Data.objects.select_related('Student_name', 'Term', 'AcademicSession').all()
-    return [
-        StudentResultDataResponseSchema(
-            id=data.pk,
-            total_score=data.TotalScore if data.TotalScore is not None else "-",
-            total_number=data.Totalnumber if data.Totalnumber is not None else "-",
-            average=data.Average if data.Average is not None else "-",
-            position=data.Position if data.Position is not None else "-",
-            remark=data.Remark if data.Remark is not None else "-",
-            published=data.published,
-            student_name=data.Student_name.student_name if data.Student_name else None,
-            term=data.Term.term if data.Term else None,
-            academic_session=data.AcademicSession.session if data.AcademicSession else None
-        ) for data in result_data
-    ]
+@api_controller('/results', tags=['Results'])
+class ResultController:
+    """Controller for managing individual subject results"""
+    
+    @route.get('/', response=List[ResultResponseSchema], summary="Get all results")
+    def list_results(self, published: Optional[bool] = None, student_id: Optional[int] = None):
+        """Get all results, optionally filter by published status or student"""
+        queryset = Result.objects.all()
+        if published is not None:
+            queryset = queryset.filter(published=published)
+        if student_id is not None:
+            queryset = queryset.filter(student_id=student_id)
+        return queryset
+    
+    @route.get('/{int:id}', response=ResultResponseSchema, summary="Get result by ID")
+    def get_result(self, id: int):
+        """Get a specific result by ID"""
+        return get_object_or_404(Result, id=id)
+    
+    @route.post('/', response=ResultResponseSchema, summary="Create new result")
+    def create_result(self, payload: ResultCreateSchema):
+        """Create a new result"""
+        return Result.objects.create(**payload.model_dump())
+    
+    @route.put('/{int:id}', response=ResultResponseSchema, summary="Update result")
+    def update_result(self, id: int, payload: ResultUpdateSchema):
+        """Update an existing result"""
+        result = get_object_or_404(Result, id=id)
+        for attr, value in payload.model_dump(exclude_unset=True).items():
+            setattr(result, attr, value)
+        result.save()
+        return result
+    
+    @route.delete('/{int:id}', response=SuccessResponseSchema, summary="Delete result")
+    def delete_result(self, id: int):
+        """Delete a result"""
+        result = get_object_or_404(Result, id=id)
+        result.delete()
+        return {"message": "Result deleted successfully"}
 
 
-@student_result_data_router.get("/{result_data_id}", response=StudentResultDataResponseSchema)
-def get_student_result_data(request, result_data_id: int):
-    """Get specific student result data by ID"""
-    data = get_object_or_404(
-        Student_Result_Data.objects.select_related('Student_name', 'Term', 'AcademicSession'),
-        id=result_data_id
-    )
-    return StudentResultDataResponseSchema(
-        id=data.pk,
-        total_score=data.TotalScore if data.TotalScore is not None else "-",
-        total_number=data.Totalnumber if data.Totalnumber is not None else "-",
-        average=data.Average if data.Average is not None else "-",
-        position=data.Position if data.Position is not None else "-",
-        remark=data.Remark if data.Remark is not None else "-",
-        published=data.published,
-        student_name=data.Student_name.student_name if data.Student_name else None,
-        term=data.Term.term if data.Term else None,
-        academic_session=data.AcademicSession.session if data.AcademicSession else None
-    )
+@api_controller('/annual-students', tags=['Annual Students'])
+class AnnualStudentController:
+    """Controller for managing annual student data"""
+    
+    @route.get('/', response=List[AnnualStudentResponseSchema], summary="Get all annual students")
+    def list_annual_students(self, published: Optional[bool] = None):
+        """Get all annual students, optionally filter by published status"""
+        queryset = AnnualStudent.objects.all()
+        if published is not None:
+            queryset = queryset.filter(published=published)
+        return queryset
+    
+    @route.get('/{int:id}', response=AnnualStudentResponseSchema, summary="Get annual student by ID")
+    def get_annual_student(self, id: int):
+        """Get a specific annual student by ID"""
+        return get_object_or_404(AnnualStudent, id=id)
+    
+    @route.post('/', response=AnnualStudentResponseSchema, summary="Create new annual student")
+    def create_annual_student(self, payload: AnnualStudentCreateSchema):
+        """Create a new annual student"""
+        return AnnualStudent.objects.create(**payload.model_dump())
+    
+    @route.put('/{int:id}', response=AnnualStudentResponseSchema, summary="Update annual student")
+    def update_annual_student(self, id: int, payload: AnnualStudentUpdateSchema):
+        """Update an existing annual student"""
+        annual_student = get_object_or_404(AnnualStudent, id=id)
+        for attr, value in payload.model_dump(exclude_unset=True).items():
+            setattr(annual_student, attr, value)
+        annual_student.save()
+        return annual_student
+    
+    @route.delete('/{int:id}', response=SuccessResponseSchema, summary="Delete annual student")
+    def delete_annual_student(self, id: int):
+        """Delete an annual student"""
+        annual_student = get_object_or_404(AnnualStudent, id=id)
+        annual_student.delete()
+        return {"message": "Annual student deleted successfully"}
 
 
-@student_result_data_router.post("/", response=StudentResultDataResponseSchema)
-def create_student_result_data(request, payload: StudentResultDataCreateSchema):
-    """Create new student result data"""
-    student = get_object_or_404(Students_Pin_and_ID, id=payload.student_name_id)
-    term = get_object_or_404(Term, id=payload.term_id) if payload.term_id else None
-    academic_session = get_object_or_404(AcademicSession, id=payload.academic_session_id) if payload.academic_session_id else None
+@api_controller('/annual-results', tags=['Annual Results'])
+class AnnualResultController:
+    """Controller for managing annual results"""
     
-    data = Student_Result_Data.objects.create(
-        Student_name=student,
-        TotalScore=payload.total_score,
-        Totalnumber=payload.total_number,
-        Average=payload.average,
-        Position=payload.position,
-        Remark=payload.remark,
-        Term=term,
-        AcademicSession=academic_session,
-        published=payload.published
-    )
+    @route.get('/', response=List[AnnualResultResponseSchema], summary="Get all annual results")
+    def list_annual_results(self, published: Optional[bool] = None, student_id: Optional[int] = None):
+        """Get all annual results, optionally filter by published status or student"""
+        queryset = AnnualResult.objects.all()
+        if published is not None:
+            queryset = queryset.filter(published=published)
+        if student_id is not None:
+            queryset = queryset.filter(student_name_id=student_id)
+        return queryset
     
-    return StudentResultDataResponseSchema(
-        id=data.pk,
-        total_score=data.TotalScore if data.TotalScore is not None else "-",
-        total_number=data.Totalnumber if data.Totalnumber is not None else "-",
-        average=data.Average if data.Average is not None else "-",
-        position=data.Position if data.Position is not None else "-",
-        remark=data.Remark if data.Remark is not None else "-",
-        published=data.published,
-        student_name=data.Student_name.student_name if data.Student_name else None,
-        term=data.Term.term if data.Term else None,
-        academic_session=data.AcademicSession.session if data.AcademicSession else None
-    )
-
-
-@student_result_data_router.put("/{result_data_id}", response=StudentResultDataResponseSchema)
-def update_student_result_data(request, result_data_id: int, payload: StudentResultDataUpdateSchema):
-    """Update existing student result data"""
-    data = get_object_or_404(Student_Result_Data, id=result_data_id)
+    @route.get('/{int:id}', response=AnnualResultResponseSchema, summary="Get annual result by ID")
+    def get_annual_result(self, id: int):
+        """Get a specific annual result by ID"""
+        return get_object_or_404(AnnualResult, id=id)
     
-    update_data = payload.dict(exclude_unset=True)
+    @route.post('/', response=AnnualResultResponseSchema, summary="Create new annual result")
+    def create_annual_result(self, payload: AnnualResultCreateSchema):
+        """Create a new annual result"""
+        return AnnualResult.objects.create(**payload.model_dump())
     
-    if 'student_name_id' in update_data:
-        student = get_object_or_404(Students_Pin_and_ID, id=update_data['student_name_id'])
-        data.Student_name = student
+    @route.put('/{int:id}', response=AnnualResultResponseSchema, summary="Update annual result")
+    def update_annual_result(self, id: int, payload: AnnualResultUpdateSchema):
+        """Update an existing annual result"""
+        annual_result = get_object_or_404(AnnualResult, id=id)
+        for attr, value in payload.model_dump(exclude_unset=True).items():
+            setattr(annual_result, attr, value)
+        annual_result.save()
+        return annual_result
     
-    if 'term_id' in update_data:
-        term = get_object_or_404(Term, id=update_data['term_id']) if update_data['term_id'] else None
-        data.Term = term
-    
-    if 'academic_session_id' in update_data:
-        academic_session = get_object_or_404(AcademicSession, id=update_data['academic_session_id']) if update_data['academic_session_id'] else None
-        data.AcademicSession = academic_session
-    
-    # Update other fields
-    field_mapping = {
-        'total_score': 'TotalScore',
-        'total_number': 'Totalnumber',
-        'average': 'Average',
-        'position': 'Position',
-        'remark': 'Remark',
-        'published': 'published'
-    }
-    
-    for key, value in update_data.items():
-        if key in field_mapping:
-            setattr(data, field_mapping[key], value)
-    
-    data.save()
-    
-    return StudentResultDataResponseSchema(
-        id=data.pk,
-        total_score=data.TotalScore if data.TotalScore is not None else "-",
-        total_number=data.Totalnumber if data.Totalnumber is not None else "-",
-        average=data.Average if data.Average is not None else "-",
-        position=data.Position if data.Position is not None else "-",
-        remark=data.Remark if data.Remark is not None else "-",
-        published=data.published,
-        student_name=data.Student_name.student_name if data.Student_name else None,
-        term=data.Term.term if data.Term else None,
-        academic_session=data.AcademicSession.session if data.AcademicSession else None
-    )
-
-
-@student_result_data_router.delete("/{result_data_id}", response=StudentResultDataDeleteSchema)
-def delete_student_result_data(request, result_data_id: int):
-    """Delete student result data"""
-    data = get_object_or_404(Student_Result_Data, id=result_data_id)
-    data.delete()
-    return StudentResultDataDeleteSchema(deleted_id=result_data_id)
-
-
-# Result routes
-@result_router.get("/", response=List[ResultResponseSchema])
-def list_results(request):
-    """Get all results"""
-    results = Result.objects.select_related('student', 'student_class', 'Subject').all()
-    return [
-        ResultResponseSchema(
-            id=result.pk,
-            first_test=result.FirstTest if result.FirstTest is not None else "-",
-            first_ass=result.FirstAss if result.FirstAss is not None else "-",
-            mid_term_test=result.MidTermTest if result.MidTermTest is not None else "-",
-            second_ass=result.SecondAss if result.SecondAss is not None else "-",
-            second_test=result.SecondTest if result.SecondTest is not None else "-",
-            ca=result.CA if result.CA is not None else "-",
-            exam=result.Exam if result.Exam is not None else "-",
-            total=result.Total if result.Total is not None else "-",
-            grade=result.Grade if result.Grade is not None else "-",
-            subject_position=result.SubjectPosition if result.SubjectPosition is not None else "-",
-            remark=result.Remark if result.Remark is not None else "-",
-            published=result.published,
-            student_name=result.student.student_name if result.student else None,
-            student_class_name=result.student_class.Class if result.student_class else None,
-            subject_name=result.Subject.subject_name if result.Subject else None
-        ) for result in results
-    ]
-
-
-@result_router.get("/{result_id}", response=ResultResponseSchema)
-def get_result(request, result_id: int):
-    """Get specific result by ID"""
-    result = get_object_or_404(
-        Result.objects.select_related('student', 'student_class', 'Subject'),
-        id=result_id
-    )
-    return ResultResponseSchema(
-        id=result.pk,
-        first_test=result.FirstTest if result.FirstTest is not None else "-",
-        first_ass=result.FirstAss if result.FirstAss is not None else "-",
-        mid_term_test=result.MidTermTest if result.MidTermTest is not None else "-",
-        second_ass=result.SecondAss if result.SecondAss is not None else "-",
-        second_test=result.SecondTest if result.SecondTest is not None else "-",
-        ca=result.CA if result.CA is not None else "-",
-        exam=result.Exam if result.Exam is not None else "-",
-        total=result.Total if result.Total is not None else "-",
-        grade=result.Grade if result.Grade is not None else "-",
-        subject_position=result.SubjectPosition if result.SubjectPosition is not None else "-",
-        remark=result.Remark if result.Remark is not None else "-",
-        published=result.published, 
-        student_name=result.student.student_name if result.student else None,
-        student_class_name=result.student_class.Class if result.student_class else None,
-        subject_name=result.Subject.subject_name if result.Subject else None
-    )
-
-
-@result_router.post("/", response=ResultResponseSchema)
-def create_result(request, payload: ResultCreateSchema):
-    """Create new result"""
-    student = get_object_or_404(Students_Pin_and_ID, id=payload.student_id)
-    student_class = get_object_or_404(Class, id=payload.student_class_id) if payload.student_class_id else None
-    subject = get_object_or_404(Subject, id=payload.subject_id)
-    result_summary = get_object_or_404(Student_Result_Data, id=payload.students_result_summary_id) if payload.students_result_summary_id else None
-    
-    result = Result.objects.create(
-        student=student,
-        student_class=student_class,
-        students_result_summary=result_summary,
-        Subject=subject,
-        FirstTest=payload.first_test,
-        FirstAss=payload.first_ass,
-        MidTermTest=payload.mid_term_test,
-        SecondAss=payload.second_ass,
-        SecondTest=payload.second_test,
-        CA=payload.ca,
-        Exam=payload.exam,
-        Total=payload.total,
-        Grade=payload.grade,
-        SubjectPosition=payload.subject_position,
-        Remark=payload.remark,
-        published=payload.published
-    )
-    
-    return ResultResponseSchema(
-        id=result.pk,
-        first_test=result.FirstTest if result.FirstTest is not None else "-",
-        first_ass=result.FirstAss if result.FirstAss is not None else "-",
-        mid_term_test=result.MidTermTest if result.MidTermTest is not None else "-",
-        second_ass=result.SecondAss if result.SecondAss is not None else "-",
-        second_test=result.SecondTest if result.SecondTest is not None else "-",
-        ca=result.CA if result.CA is not None else "-",
-        exam=result.Exam if result.Exam is not None else "-",
-        total=result.Total if result.Total is not None else "-",
-        grade=result.Grade if result.Grade is not None else "-",
-        subject_position=result.SubjectPosition if result.SubjectPosition is not None else "-",
-        remark=result.Remark if result.Remark is not None else "-",
-        published=result.published,
-        student_name=result.student.student_name,
-        student_class_name=result.student_class.Class if result.student_class else None,
-        subject_name=result.Subject.subject_name
-    )
-
-
-@result_router.put("/{result_id}", response=ResultResponseSchema)
-def update_result(request, result_id: int, payload: ResultUpdateSchema):
-    """Update existing result"""
-    result = get_object_or_404(Result, id=result_id)
-    
-    update_data = payload.dict(exclude_unset=True)
-    
-    # Update foreign keys
-    if 'student_id' in update_data:
-        student = get_object_or_404(Students_Pin_and_ID, id=update_data['student_id'])
-        result.student = student
-    
-    if 'student_class_id' in update_data:
-        student_class = get_object_or_404(Class, id=update_data['student_class_id']) if update_data['student_class_id'] else None
-        result.student_class = student_class
-    
-    if 'subject_id' in update_data:
-        subject = get_object_or_404(Subject, id=update_data['subject_id'])
-        result.Subject = subject
-    
-    if 'students_result_summary_id' in update_data:
-        result_summary = get_object_or_404(Student_Result_Data, id=update_data['students_result_summary_id']) if update_data['students_result_summary_id'] else None
-        result.students_result_summary = result_summary
-    
-    # Update other fields
-    field_mapping = {
-        'first_test': 'FirstTest',
-        'first_ass': 'FirstAss',
-        'mid_term_test': 'MidTermTest',
-        'second_ass': 'SecondAss',
-        'second_test': 'SecondTest',
-        'ca': 'CA',
-        'exam': 'Exam',
-        'total': 'Total',
-        'grade': 'Grade',
-        'subject_position': 'SubjectPosition',
-        'remark': 'Remark',
-        'published': 'published'
-    }
-    
-    for key, value in update_data.items():
-        if key in field_mapping:
-            setattr(result, field_mapping[key], value)
-    
-    result.save()
-    
-    return ResultResponseSchema(
-        id=result.pk,
-        first_test=result.FirstTest if result.FirstTest is not None else "-",
-        first_ass=result.FirstAss if result.FirstAss is not None else "-",
-        mid_term_test=result.MidTermTest if result.MidTermTest is not None else "-",
-        second_ass=result.SecondAss if result.SecondAss is not None else "-",
-        second_test=result.SecondTest if result.SecondTest is not None else "-",
-        ca=result.CA if result.CA is not None else "-",
-        exam=result.Exam if result.Exam is not None else "-",
-        total=result.Total if result.Total is not None else "-",
-        grade=result.Grade if result.Grade is not None else "-",
-        subject_position=result.SubjectPosition if result.SubjectPosition is not None else "-",
-        remark=result.Remark if result.Remark is not None else "-",
-        published=result.published,
-        student_name=result.student.student_name if result.student else None,
-        student_class_name=result.student_class.Class if result.student_class else None,
-        subject_name=result.Subject.subject_name if result.Subject else None
-    )
-
-
-@result_router.delete("/{result_id}", response=ResultDeleteSchema)
-def delete_result(request, result_id: int):
-    """Delete result"""
-    result = get_object_or_404(Result, id=result_id)
-    result.delete()
-    return ResultDeleteSchema(deleted_id=result_id)
+    @route.delete('/{int:id}', response=SuccessResponseSchema, summary="Delete annual result")
+    def delete_annual_result(self, id: int):
+        """Delete an annual result"""
+        annual_result = get_object_or_404(AnnualResult, id=id)
+        annual_result.delete()
+        return {"message": "Annual result deleted successfully"}

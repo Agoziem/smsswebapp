@@ -1,149 +1,93 @@
-from ninja import Router
-from ninja.errors import HttpError
 from django.shortcuts import get_object_or_404
-from typing import List
-
+from ninja_extra import api_controller, route
+from typing import List, Optional
 from ..models import Students_Pin_and_ID, StudentClassEnrollment
 from ..schemas import (
-    StudentsCreateSchema,
-    StudentsUpdateSchema,
-    StudentsResponseSchema,
-    StudentsDeleteSchema,
-    StudentClassEnrollmentCreateSchema,
-    StudentClassEnrollmentUpdateSchema,
-    StudentClassEnrollmentResponseSchema,
-    StudentClassEnrollmentDeleteSchema
+    StudentsPinAndIDCreateSchema, StudentsPinAndIDUpdateSchema, StudentsPinAndIDResponseSchema,
+    StudentClassEnrollmentCreateSchema, StudentClassEnrollmentUpdateSchema, StudentClassEnrollmentResponseSchema,
+    SuccessResponseSchema
 )
 
-students_router = Router(tags=["Students"])
-enrollment_router = Router(tags=["Student Enrollments"])
 
-
-# Students routes
-@students_router.get("/", response=List[StudentsResponseSchema])
-def list_students(request):
-    """Get all students"""
-    students = Students_Pin_and_ID.objects.all()
-    return [
-        StudentsResponseSchema(
-            id=student.pk,
-            sn=student.SN,
-            student_name=student.student_name if student.student_name else "Not Available",
-            student_id=student.student_id,
-            sex=student.Sex,
-            student_pin=student.student_pin,
-            student_photo=student.student_Photo.url if student.student_Photo else None
-        ) for student in students
-    ]
-
-
-@students_router.get("/{student_id}", response=StudentsResponseSchema)
-def get_student(request, student_id: int):
-    """Get a specific student by ID"""
-    student = get_object_or_404(Students_Pin_and_ID, id=student_id)
-    return StudentsResponseSchema(
-        id=student.pk,
-        sn=student.SN,
-        student_name=student.student_name if student.student_name else "Not Available",
-        student_id=student.student_id,
-        sex=student.Sex,
-        student_pin=student.student_pin,
-        student_photo=student.student_Photo.url if student.student_Photo else None
-    )
-
-
-@students_router.post("/", response=StudentsResponseSchema)
-def create_student(request, payload: StudentsCreateSchema):
-    """Create a new student"""
-    student = Students_Pin_and_ID.objects.create(
-        SN=payload.sn,
-        student_Photo=payload.student_photo,
-        student_name=payload.student_name,
-        Sex=payload.sex,
-        student_password=payload.student_password
-    )
+@api_controller('/students', tags=['Students'])
+class StudentController:
+    """Controller for managing students"""
     
-    return StudentsResponseSchema(
-        id=student.pk,
-        sn=student.SN,
-        student_name=student.student_name if student.student_name else "Not Available",
-        student_id=student.student_id,
-        sex=student.Sex,
-        student_pin=student.student_pin,
-        student_photo=student.student_Photo.url if student.student_Photo else None
-    )
-
-
-@students_router.put("/{student_id}", response=StudentsResponseSchema)
-def update_student(request, student_id: int, payload: StudentsUpdateSchema):
-    """Update an existing student"""
-    student = get_object_or_404(Students_Pin_and_ID, id=student_id)
+    @route.get('/', response=List[StudentsPinAndIDResponseSchema], summary="Get all students")
+    def list_students(self, sex: Optional[str] = None):
+        """Get all students, optionally filter by sex"""
+        queryset = Students_Pin_and_ID.objects.all()
+        if sex is not None:
+            queryset = queryset.filter(Sex=sex)
+        return queryset
     
-    update_data = payload.dict(exclude_unset=True)
-    field_mapping = {
-        'sn': 'SN',
-        'student_photo': 'student_Photo',
-        'student_name': 'student_name',
-        'sex': 'Sex',
-        'student_password': 'student_password'
-    }
+    @route.get('/{int:id}', response=StudentsPinAndIDResponseSchema, summary="Get student by ID")
+    def get_student(self, id: int):
+        """Get a specific student by ID"""
+        return get_object_or_404(Students_Pin_and_ID, id=id)
     
-    for key, value in update_data.items():
-        model_field = field_mapping.get(key, key)
-        setattr(student, model_field, value)
+    @route.post('/', response=StudentsPinAndIDResponseSchema, summary="Create new student")
+    def create_student(self, payload: StudentsPinAndIDCreateSchema):
+        """Create a new student"""
+        return Students_Pin_and_ID.objects.create(**payload.model_dump())
     
-    student.save()
+    @route.put('/{int:id}', response=StudentsPinAndIDResponseSchema, summary="Update student")
+    def update_student(self, id: int, payload: StudentsPinAndIDUpdateSchema):
+        """Update an existing student"""
+        student = get_object_or_404(Students_Pin_and_ID, id=id)
+        for attr, value in payload.model_dump(exclude_unset=True).items():
+            setattr(student, attr, value)
+        student.save()
+        return student
     
-    return StudentsResponseSchema(
-        id=student.pk,
-        sn=student.SN,
-        student_name=student.student_name if student.student_name else "Not Available",
-        student_id=student.student_id,
-        sex=student.Sex,
-        student_pin=student.student_pin,
-        student_photo=student.student_Photo.url if student.student_Photo else None
-    )
+    @route.delete('/{int:id}', response=SuccessResponseSchema, summary="Delete student")
+    def delete_student(self, id: int):
+        """Delete a student"""
+        student = get_object_or_404(Students_Pin_and_ID, id=id)
+        student.delete()
+        return {"message": "Student deleted successfully"}
 
 
-@students_router.delete("/{student_id}", response=StudentsDeleteSchema)
-def delete_student(request, student_id: int):
-    """Delete a student"""
-    student = get_object_or_404(Students_Pin_and_ID, id=student_id)
-    student.delete()
-    return StudentsDeleteSchema(deleted_id=student_id)
+@api_controller('/student-enrollments', tags=['Student Enrollments'])
+class StudentEnrollmentController:
+    """Controller for managing student class enrollments"""
+    
+    @route.get('/', response=List[StudentClassEnrollmentResponseSchema], summary="Get all student enrollments")
+    def list_enrollments(self, student_id: Optional[int] = None, class_id: Optional[int] = None):
+        """Get all student enrollments, optionally filter by student or class"""
+        queryset = StudentClassEnrollment.objects.all()
+        if student_id is not None:
+            queryset = queryset.filter(student_id=student_id)
+        if class_id is not None:
+            queryset = queryset.filter(student_class_id=class_id)
+        return queryset
+    
+    @route.get('/{int:id}', response=StudentClassEnrollmentResponseSchema, summary="Get enrollment by ID")
+    def get_enrollment(self, id: int):
+        """Get a specific enrollment by ID"""
+        return get_object_or_404(StudentClassEnrollment, id=id)
+    
+    @route.post('/', response=StudentClassEnrollmentResponseSchema, summary="Create new enrollment")
+    def create_enrollment(self, payload: StudentClassEnrollmentCreateSchema):
+        """Create a new student enrollment"""
+        return StudentClassEnrollment.objects.create(**payload.model_dump())
+    
+    @route.put('/{int:id}', response=StudentClassEnrollmentResponseSchema, summary="Update enrollment")
+    def update_enrollment(self, id: int, payload: StudentClassEnrollmentUpdateSchema):
+        """Update an existing enrollment"""
+        enrollment = get_object_or_404(StudentClassEnrollment, id=id)
+        for attr, value in payload.model_dump(exclude_unset=True).items():
+            setattr(enrollment, attr, value)
+        enrollment.save()
+        return enrollment
+    
+    @route.delete('/{int:id}', response=SuccessResponseSchema, summary="Delete enrollment")
+    def delete_enrollment(self, id: int):
+        """Delete an enrollment"""
+        enrollment = get_object_or_404(StudentClassEnrollment, id=id)
+        enrollment.delete()
+        return {"message": "Student enrollment deleted successfully"}
 
-
-# Student Enrollment routes
-@enrollment_router.get("/", response=List[StudentClassEnrollmentResponseSchema])
-def list_student_enrollments(request):
-    """Get all student enrollments"""
-    enrollments = StudentClassEnrollment.objects.select_related('student', 'student_class', 'academic_session').all()
-    return [
-        StudentClassEnrollmentResponseSchema(
-            id=enrollment.pk,
-            student_name=enrollment.student.student_name if enrollment.student else None,
-            class_name=enrollment.student_class.Class if enrollment.student_class else None,
-            academic_session=enrollment.academic_session.session if enrollment.academic_session else None
-        ) for enrollment in enrollments
-    ]
-
-
-@enrollment_router.get("/{enrollment_id}", response=StudentClassEnrollmentResponseSchema)
-def get_student_enrollment(request, enrollment_id: int):
-    """Get a specific student enrollment by ID"""
-    enrollment = get_object_or_404(
-        StudentClassEnrollment.objects.select_related('student', 'student_class', 'academic_session'),
-        id=enrollment_id
-    )
-    return StudentClassEnrollmentResponseSchema(
-        id=enrollment.pk,
-        student_name=enrollment.student.student_name if enrollment.student else None,
-        class_name=enrollment.student_class.Class if enrollment.student_class else None,
-        academic_session=enrollment.academic_session.session if enrollment.academic_session else None
-    )
-
-
-@enrollment_router.post("/", response=StudentClassEnrollmentResponseSchema)
 def create_student_enrollment(request, payload: StudentClassEnrollmentCreateSchema):
     """Create a new student enrollment"""
     from ..models import Class, AcademicSession
@@ -152,54 +96,4 @@ def create_student_enrollment(request, payload: StudentClassEnrollmentCreateSche
     student_class = get_object_or_404(Class, id=payload.student_class_id)
     academic_session = get_object_or_404(AcademicSession, id=payload.academic_session_id)
     
-    enrollment = StudentClassEnrollment.objects.create(
-        student=student,
-        student_class=student_class,
-        academic_session=academic_session
-    )
-    
-    return StudentClassEnrollmentResponseSchema(
-        id=enrollment.pk,
-        student_name=enrollment.student.student_name,
-        class_name=enrollment.student_class.Class,
-        academic_session=enrollment.academic_session.session
-    )
 
-
-@enrollment_router.put("/{enrollment_id}", response=StudentClassEnrollmentResponseSchema)
-def update_student_enrollment(request, enrollment_id: int, payload: StudentClassEnrollmentUpdateSchema):
-    """Update an existing student enrollment"""
-    from ..models import Class, AcademicSession
-    
-    enrollment = get_object_or_404(StudentClassEnrollment, id=enrollment_id)
-    
-    update_data = payload.dict(exclude_unset=True)
-    
-    if 'student_id' in update_data:
-        student = get_object_or_404(Students_Pin_and_ID, id=update_data['student_id'])
-        enrollment.student = student
-    
-    if 'student_class_id' in update_data:
-        student_class = get_object_or_404(Class, id=update_data['student_class_id'])
-        enrollment.student_class = student_class
-    
-    if 'academic_session_id' in update_data:
-        academic_session = get_object_or_404(AcademicSession, id=update_data['academic_session_id'])
-        enrollment.academic_session = academic_session
-    
-    enrollment.save()
-    
-    return StudentClassEnrollmentResponseSchema(
-        id=enrollment.pk,
-        student_name=enrollment.student.student_name if enrollment.student else None,
-        class_name=enrollment.student_class.Class if enrollment.student_class else None,
-        academic_session=enrollment.academic_session.session if enrollment.academic_session else None
-    )
-
-
-@enrollment_router.delete("/{enrollment_id}", response=StudentClassEnrollmentDeleteSchema)
-def delete_student_enrollment(request, enrollment_id: int):
-    """Delete a student enrollment"""
-    enrollment = get_object_or_404(StudentClassEnrollment, id=enrollment_id)
-    enrollment.delete()
-    return StudentClassEnrollmentDeleteSchema(deleted_id=enrollment_id)

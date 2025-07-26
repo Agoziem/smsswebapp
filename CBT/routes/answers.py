@@ -1,89 +1,49 @@
-from ninja import Router
+from typing import List
 from ninja.errors import HttpError
 from django.shortcuts import get_object_or_404
-from typing import List
+from ninja_extra import api_controller, route
 
 from ..models import Answer
 from ..schemas import (
     AnswerCreateSchema,
     AnswerUpdateSchema,
     AnswerResponseSchema,
-    AnswerDeleteSchema
+    SuccessResponseSchema
 )
 
-router = Router(tags=["Answers"])
+@api_controller("/answers", tags=["Answers"])
+class AnswerController:
 
+    @route.get("/", response=List[AnswerResponseSchema])
+    def list_answers(self):
+        """Get all answers"""
+        return Answer.objects.all()
 
-@router.get("/", response=List[AnswerResponseSchema])
-def list_answers(request):
-    """Get all answers"""
-    answers = Answer.objects.all()
-    return [
-        AnswerResponseSchema(
-            id=answer.pk,
-            answer_id=answer.answerId,
-            answer_text=answer.answertext,
-            is_correct=answer.isCorrect
-        ) for answer in answers
-    ]
+    @route.get("/{answer_id}", response=AnswerResponseSchema)
+    def get_answer(self, answer_id: int):
+        """Get a specific answer by ID"""
+        return get_object_or_404(Answer, id=answer_id)
 
+    @route.post("/", response=AnswerResponseSchema)
+    def create_answer(self, payload: AnswerCreateSchema):
+        """Create a new answer"""
+        return Answer.objects.create(**payload.model_dump())
 
-@router.get("/{answer_id}", response=AnswerResponseSchema)
-def get_answer(request, answer_id: int):
-    """Get a specific answer by ID"""
-    answer = get_object_or_404(Answer, id=answer_id)
-    return AnswerResponseSchema(
-        id=answer.pk,
-        answer_id=answer.answerId,
-        answer_text=answer.answertext,
-        is_correct=answer.isCorrect
-    )
+    @route.put("/{answer_id}", response=AnswerResponseSchema)
+    def update_answer(self, answer_id: int, payload: AnswerUpdateSchema):
+        """Update an existing answer"""
+        answer = get_object_or_404(Answer, id=answer_id)
+        
+        update_data = payload.model_dump(exclude_unset=True)
+        for key, value in update_data.items():
+            setattr(answer, key, value)
+        
+        answer.save()
+        return answer
 
-
-@router.post("/", response=AnswerResponseSchema)
-def create_answer(request, payload: AnswerCreateSchema):
-    """Create a new answer"""
-    answer = Answer.objects.create(
-        answerId=payload.answer_id,
-        answertext=payload.answer_text,
-        isCorrect=payload.is_correct
-    )
-    return AnswerResponseSchema(
-        id=answer.pk,
-        answer_id=answer.answerId,
-        answer_text=answer.answertext,
-        is_correct=answer.isCorrect
-    )
-
-
-@router.put("/{answer_id}", response=AnswerResponseSchema)
-def update_answer(request, answer_id: int, payload: AnswerUpdateSchema):
-    """Update an existing answer"""
-    answer = get_object_or_404(Answer, id=answer_id)
-    
-    update_data = payload.dict(exclude_unset=True)
-    field_mapping = {
-        'answer_id': 'answerId',
-        'answer_text': 'answertext',
-        'is_correct': 'isCorrect'
-    }
-    
-    for key, value in update_data.items():
-        model_field = field_mapping.get(key, key)
-        setattr(answer, model_field, value)
-    
-    answer.save()
-    return AnswerResponseSchema(
-        id=answer.pk,
-        answer_id=answer.answerId,
-        answer_text=answer.answertext,
-        is_correct=answer.isCorrect
-    )
-
-
-@router.delete("/{answer_id}", response=AnswerDeleteSchema)
-def delete_answer(request, answer_id: int):
-    """Delete an answer"""
-    answer = get_object_or_404(Answer, id=answer_id)
-    answer.delete()
-    return AnswerDeleteSchema(deleted_id=answer_id)
+    @route.delete("/{answer_id}", response={200: SuccessResponseSchema, 404: "Answer not found"})
+    def delete_answer(self, answer_id: int):
+        """Delete an answer"""
+        answer = get_object_or_404(Answer, id=answer_id)
+        answer.delete()
+        return {"message": "Answer deleted successfully"}
