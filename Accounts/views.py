@@ -33,7 +33,7 @@ def signup_view(request):
             email = request.POST['email']
         else:
             email = ''
-        if Role == 'Formteacher':
+        if Role == 'Formteacher' and 'Classname' not in request.POST:
             classname = request.POST['Classname']
         try:
             User.objects.get(username=username)
@@ -44,7 +44,7 @@ def signup_view(request):
             user.is_staff = True
             user.save()
             if Role == 'Formteacher':
-                class_formed=Class.objects.get(Class=classname)
+                class_formed=Class.objects.get(Class=classname)  
                 teacher = Teacher.objects.create(
                     user=user,
                     Role=Role,
@@ -57,7 +57,7 @@ def signup_view(request):
                     Role=Role,
                     )
                 teacher.save()
-            return redirect(reverse('Teachers_portal:profile', kwargs={'id': teacher.id }))  # Replace 'home' with the name of your desired homepage URL
+            return redirect(reverse('Teachers_portal:profile', kwargs={'id': teacher.pk }))  # Replace 'home' with the name of your desired homepage URL
     context = {
         'classes': classes
     }

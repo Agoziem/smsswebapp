@@ -131,8 +131,8 @@ def submit_test_view(request):
         context={
             'status': 'success',
             'submitted':'false',
-            'studentobject':studentobject.id,
-            'test_set_group':test_set_group.id,
+            'studentobject':studentobject.pk,
+            'test_set_group':test_set_group.pk,
         }
         return JsonResponse(context, safe=False)
         
