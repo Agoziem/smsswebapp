@@ -14,7 +14,7 @@ ROLE_CHOICES = [
     ]
 
 class Teacher(models.Model):
-	user = models.OneToOneField(User, on_delete=models.CASCADE, default=2)  
+	user = models.OneToOneField(User, on_delete=models.CASCADE)  
 	FirstName= models.CharField(max_length= 200, blank=True,default='None')
 	LastName= models.CharField(max_length= 200, blank=True, default='None')
 	Phone_number= models.CharField(max_length= 200, blank=True)
@@ -40,7 +40,7 @@ class Teacher(models.Model):
 		return url
 	
 	def save(self, *args, **kwargs):
-		if self.id:  # if object exists in database
+		if self.pk:  # if object exists in database
 			super().save(*args, **kwargs)  # simply update the fields
 		else:  # if object is new
 			while not self.teachers_id:
@@ -69,12 +69,6 @@ class Attendance(models.Model):
     def __str__(self):
         return f"{self.student} ({self.date}): {'Present' if self.is_present else 'Absent'}"
 
-    def delete(self, using=None, keep_parents=False):
-        self.deleted_at = timezone.now()
-        self.save()
-
-    def hard_delete(self, using=None):
-        super().delete(using=using)
 
 
 

@@ -16,15 +16,11 @@ urlpatterns = [
     # ///////////////////////////////// Result Activation
     path('submit_contact_form/', submit_contact_form, name='submit_contact_form' ),
     path('submit_sub_form/', submit_sub_form, name='submit_sub_form' ),
-    path('Elibrary/', include('Elibrary.urls')),
     path('gallery/', photo_gallery_view, name='gallery'),
-    # path('Blog/', include('Blog.urls')),
-    path('Payment_portal/', include('Payment_portal.urls')),
     path('Accounts/', include('Accounts.urls')),
     path('Result_portal/', include('Result_portal.urls')),
     path('Teachers_Portal/', include('Teachers_Portal.urls')),
     path('CBT/', include('CBT.urls')),
-    path('Admission_form/', include('Admission_form.urls')),
 ]
 
 if settings.DEBUG_ENV:

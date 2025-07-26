@@ -1,10 +1,5 @@
 from django.db import models
-from openpyxl import Workbook,load_workbook
-import boto3
-import io
-import base64
-base64.encodestring = base64.encodebytes
-base64.decodestring = base64.decodebytes
+# from openpyxl import Workbook,load_workbook
 import os
 import random
 from ckeditor.fields import RichTextField
@@ -54,7 +49,7 @@ class Newsletter(models.Model):
 	newsletterFile=models.FileField(upload_to = 'media/Newsletter' ,blank = True)
 	
 	def __str__(self):
-		return f"Newsletter for {self.currentTerm.term}"
+		return f"Newsletter for {self.currentTerm.term}" if self.currentTerm else "No Term"
 	
 	@property
 	def NewsletterURL(self):
@@ -105,11 +100,13 @@ class Students_Pin_and_ID(models.Model):
 		return str(self.student_name)
 
 	def save(self, *args, **kwargs):
-		if self.id:  # if object exists in database
+		if self.pk:  # if object exists in database
 			super().save(*args, **kwargs)
 		else:
 			while not self.student_id:
-        	# Split the full_name field value into a list of names 
+        	# Split the full_name field value into a list of names
+				if not self.student_name:
+					self.student_name = "No name"
 				names = self.student_name.split()
 				# Remove extra spaces from each name in the list	
 				names = [name.upper().strip() for name in names]
@@ -147,27 +144,25 @@ class Student_Result_Data(models.Model):
 # Model for the Students Results	
 class Result(models.Model):
 	student = models.ForeignKey(Students_Pin_and_ID,on_delete=models.CASCADE)
-	student_class=models.ForeignKey(Class,on_delete=models.CASCADE, blank=True,null=True,default=1)
+	student_class = models.ForeignKey(Class,on_delete=models.CASCADE, blank=True,null=True)
 	students_result_summary = models.ForeignKey(Student_Result_Data,on_delete=models.CASCADE,blank=True,null=True)
-	Subject= models.ForeignKey(Subject,on_delete=models.CASCADE)
-	FirstTest= models.CharField(max_length=100, blank=True,null=True , default="-")
-	FirstAss= models.CharField(max_length=100, blank=True,null=True , default="-")
-	MidTermTest= models.CharField(max_length=100, blank=True,null=True , default="-")
-	SecondAss= models.CharField(max_length=100, blank=True,null=True , default="-")
-	SecondTest= models.CharField(max_length=100, blank=True,null=True , default="-")
-	CA= models.CharField(max_length=100, blank=True,null=True , default="-")
-	Exam= models.CharField(max_length=100, blank=True,null=True , default="-")
-	Total= models.CharField(max_length=100, blank=True,null=True , default="-")
-	Grade=models.CharField(max_length=100, blank=True,null=True , default="-")
-	SubjectPosition=models.CharField(max_length=100, blank=True,null=True , default="-")
-	Remark=models.CharField(max_length= 100, blank=True,null=True , default="-")
-	published=models.BooleanField(default=False)
+	Subject = models.ForeignKey(Subject,on_delete=models.CASCADE)
+	FirstTest = models.CharField(max_length=100, blank=True,null=True , default="-")
+	FirstAss = models.CharField(max_length=100, blank=True,null=True , default="-")
+	MidTermTest = models.CharField(max_length=100, blank=True,null=True , default="-")
+	SecondAss = models.CharField(max_length=100, blank=True,null=True , default="-")
+	SecondTest = models.CharField(max_length=100, blank=True,null=True , default="-")
+	CA = models.CharField(max_length=100, blank=True,null=True , default="-")
+	Exam = models.CharField(max_length=100, blank=True,null=True , default="-")
+	Total = models.CharField(max_length=100, blank=True,null=True , default="-")
+	Grade = models.CharField(max_length=100, blank=True,null=True , default="-")
+	SubjectPosition = models.CharField(max_length=100, blank=True,null=True , default="-")
+	Remark = models.CharField(max_length= 100, blank=True,null=True , default="-")
+	published = models.BooleanField(default=False)
 
 
 	def __str__(self):
-		return str(self.student.student_name + " - " + self.Subject.subject_name)
-
-	
+		return f"{self.student.student_name} - {self.Subject.subject_name}" if self.student and self.Subject else "No Student or Subject"
 
 
 #Models for Annual Students Results
@@ -200,4 +195,4 @@ class AnnualResult(models.Model):
 	published=models.BooleanField(default=False)
 	
 	def __str__(self):
-		return str(self.Student_name.Student_name.student_name +"-"+ self.Subject.subject_name)
+		return f"{self.Student_name.Student_name.student_name} - {self.Subject.subject_name}"
