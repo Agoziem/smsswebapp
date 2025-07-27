@@ -3,56 +3,129 @@
 {% block content%}
 {% include 'main_navbar.html' %}
 
-<section class="mb-5">
-    {% if testday %}
-    {% if questionsetsgroup %}
-	<div class="container p-5 mt-2 ">
-		<h6 class="text-center mb-3" style="font-family: 'League Spartan', sans-serif;">Hi  <span class="fw-bold fs-3 mb-2 ms-2">{{ student.student_name }}</span> <br>you are about to start
-			your <span class="fw-bold"> PRE-EXAMINATION TEST (Computer Based)</span> , and you will be writing the following Subjects below for Today : 
-            <br><br>{% for questionset in questionsetsgroup %} <span class="fs-5">{{ questionset }}</span><br> {% endfor %}
-            <br><br><i class="fa-regular fa-hourglass-half me-2 h4"></i>Total Time given : <span class="fw-bold fs-5 text-success">{{total_time}}mins</span>
-		</h6>
-        <div class="d-flex justify-content-center">
-            <div class=" flex-column align-items-center bg-light p-4" style="max-width: 554px;">
-                <span class="fw-bold text-warning"><i class="fa-solid fa-circle-exclamation me-3"></i> Kindly take note of the
-                    following Instructions :</span>
-                <ul>
-                    <li class="mb-1">The Test is Regulated and your Score will be recorded immediately your Time elapse, endeavour
-                        to Finish before Time</li>
-                    <li class="mb-1">use of Extraneous materials , is higly Prohibited and unaccepted</li>
-                    <li class="mb-1">immediately you click on <span class="fw-bold">"proceed with Test"</span> , the Time starts counting down</li>
-                    <li class="mb-1">be sure to cross-check your answers before submiting , because once you have submitted, you can't submit again </li>
+<section class="py-16 bg-base-100">
+    <div class="container mx-auto px-4 max-w-4xl">
+        {% if testday %}
+        {% if questionsetsgroup %}
+        <!-- Test Instructions -->
+        <div class="text-center space-y-6 mb-12">
+            <div class="space-y-4">
+                <h2 class="text-3xl font-bold text-primary">Welcome to Your Test</h2>
+                <div class="max-w-2xl mx-auto">
+                    <p class="text-lg">
+                        Hi <span class="text-2xl font-bold text-primary ml-2">{{ student.student_name }}</span>
+                    </p>
+                    <p class="text-base mt-4">
+                        You are about to start your <span class="font-bold text-wine-red">PRE-EXAMINATION TEST (Computer Based)</span>, and you will be writing the following subjects today:
+                    </p>
+                </div>
+            </div>
+
+            <!-- Subjects List -->
+            <div class="card bg-base-200 shadow-lg max-w-md mx-auto">
+                <div class="card-body">
+                    <h3 class="card-title text-center text-primary">Today's Subjects</h3>
+                    <div class="space-y-2">
+                        {% for questionset in questionsetsgroup %}
+                        <div class="badge badge-primary badge-lg">{{ questionset }}</div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Time Allocation -->
+            <div class="alert alert-info max-w-md mx-auto">
+                <i class="fa-regular fa-hourglass-half text-2xl"></i>
+                <div>
+                    <div class="font-bold">Total Time Allocated</div>
+                    <div class="text-lg text-success font-bold">{{total_time}} minutes</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Instructions Card -->
+        <div class="card bg-warning/10 border border-warning/30 shadow-lg mb-8">
+            <div class="card-body">
+                <div class="flex items-start gap-3 mb-4">
+                    <i class="fa-solid fa-circle-exclamation text-warning text-2xl"></i>
+                    <h3 class="card-title text-warning">Important Instructions</h3>
+                </div>
+                <ul class="space-y-3 text-base">
+                    <li class="flex items-start gap-2">
+                        <i class="fa-solid fa-check text-success mt-1"></i>
+                        The Test is regulated and your score will be recorded immediately your time elapses. Endeavour to finish before time.
+                    </li>
+                    <li class="flex items-start gap-2">
+                        <i class="fa-solid fa-check text-success mt-1"></i>
+                        Use of extraneous materials is highly prohibited and unaccepted.
+                    </li>
+                    <li class="flex items-start gap-2">
+                        <i class="fa-solid fa-check text-success mt-1"></i>
+                        Immediately you click on <span class="font-bold">"Proceed with Test"</span>, the timer starts counting down.
+                    </li>
+                    <li class="flex items-start gap-2">
+                        <i class="fa-solid fa-check text-success mt-1"></i>
+                        Be sure to cross-check your answers before submitting, because once you have submitted, you can't submit again.
+                    </li>
                 </ul>
             </div>
         </div>
         
-        <div class="mt-4 d-flex flex-column align-items-center">
-            <a href="{% url 'CBT:Test' student_id=student.id class_id=classobject.id questionGroup_id=questionGroup.id %}" class="btn btn-primary w-50" > proceed with Test </a>
+        <!-- Proceed Button -->
+        <div class="text-center">
+            <a href="{% url 'CBT:Test' student_id=student.id class_id=classobject.id questionGroup_id=questionGroup.id %}" 
+               class="btn btn-primary btn-lg px-12">
+                Proceed with Test
+                <i class="fa-solid fa-arrow-right ml-2"></i>
+            </a>
         </div>
-	</div>
-    {% else %}
-    <div class="container p-5 mt-2 ">
-        <h6 class="text-center mb-3 fs-4" style="font-family: 'League Spartan', sans-serif;">Hi <span
-                class="fw-bold fs-3 mb-2 ms-2">{{ student.student_name }}</span> <br><br>
-                There is no Tests available for your Class <span class="fw-bold">{{ student.student_class }}</span> 
-        </h6>
-        <p class="text-center "> Please check your Test Schedule and ensure that your class is writing Today</p>
-    </div>
-    {% endif %}
-    {% else %}
-    <div class="container p-5 mt-2 ">
-        <h6 class="text-center mb-3 fs-4" style="font-family: 'League Spartan', sans-serif;">Hi <span
-                class="fw-bold fs-3 mb-2 ms-2">{{ student.student_name }}</span> <br><br>
-                There is no Test available Today , check back later
-        </h6>
-    </div>
-    {% endif %}
-	<div class="text-center ">
-		<p class='mb-0'>powered and secured by GDD-Impact <i class="fa-solid fa-lock ms-2"></i></p>
-	</div>
-</section>
 
-<!-- get the Students details -->
+        {% else %}
+        <!-- No Tests Available for Class -->
+        <div class="hero min-h-[50vh]">
+            <div class="hero-content text-center">
+                <div class="max-w-md">
+                    <i class="fa-solid fa-calendar-xmark text-6xl text-warning mb-6"></i>
+                    <h2 class="text-3xl font-bold mb-4">
+                        Hi <span class="text-primary">{{ student.student_name }}</span>
+                    </h2>
+                    <p class="text-lg mb-6">
+                        There are no tests available for your class <span class="font-bold text-primary">{{ student.student_class }}</span>
+                    </p>
+                    <p class="text-base text-base-content/70">
+                        Please check your test schedule and ensure that your class is writing today
+                    </p>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+        
+        {% else %}
+        <!-- No Tests Available Today -->
+        <div class="hero min-h-[50vh]">
+            <div class="hero-content text-center">
+                <div class="max-w-md">
+                    <i class="fa-solid fa-calendar-xmark text-6xl text-info mb-6"></i>
+                    <h2 class="text-3xl font-bold mb-4">
+                        Hi <span class="text-primary">{{ student.student_name }}</span>
+                    </h2>
+                    <p class="text-lg">
+                        There are no tests available today. Check back later.
+                    </p>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Powered by footer -->
+        <div class="text-center mt-12 pt-8 border-t border-base-300">
+            <p class="text-sm text-base-content/60 flex items-center justify-center gap-2">
+                Powered and secured by GDD-Impact 
+                <i class="fa-solid fa-lock text-success"></i>
+            </p>
+        </div>
+    </div>
+</section>
 
 {% include 'main_footer.html' %}
 {% endblock %}

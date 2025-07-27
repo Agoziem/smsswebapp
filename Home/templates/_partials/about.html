@@ -1,0 +1,45 @@
+{% load static %}
+<section id="About" class="relative bg-[var(--bg-dark-cream)] p-[6.5vw]">
+  <img
+    class="absolute w-48 top-[7%] left-[3%]"
+    src="{% static 'images/Rectangle about.svg' %}"
+    alt="Rectangle decoration"
+  />
+  <img
+    class="absolute w-48 bottom-[7%] left-[3%]"
+    src="{% static 'images/Circle about.svg' %}"
+    alt="Circle decoration"
+  />
+  <img class="absolute w-20 bottom-[7%] right-[3%]" src="{% static 'images/bubbles.svg' %}" alt="Bubbles decoration" />
+  <div class="relative z-10 bg-[var(--main-bg-color)] shadow-[var(--big-card-shadow)] rounded grid lg:grid-cols-2 gap-6 mb-4">
+    <div class="pt-5 py-4 px-5">
+      <h4 class="text-sm font-bold text-black uppercase tracking-wide mb-4" style="font-family: var(--main-font-family); font-size: 15.5px;">About</h4>
+      <h1 class="text-4xl font-bold text-black mb-4" style="font-family: var(--main-font-family); line-height: 5rem;">Welcome to SMSS OMAGBA</h1>
+      <div class="flex space-x-2 my-3">
+        <div class="bg-wine-red w-16 h-1.5 rounded-l-sm shadow-sm"></div>
+        <div class="bg-white w-10 h-1.5 rounded-r-sm shadow-sm"></div>
+      </div>
+      <p class="font-bold mb-3 text-sm">
+        St Marks Standard Secondary School is located in a reserved and serene
+        environment fit for learning within Omagba phase 1; is a co-educational,
+        mission secondary school under the episcopal leadership of the diocese
+        on the Niger, Anglican communion; which was founded on 13th September
+        2010, with F. I Okey as the pioneer principal. We pride ourselves with
+        raising morally sound students who through Godly counsels, technological
+        and innovative schemes such as skill aquisition classes, social
+        activities and other extra-curricular activities that will help the
+        total development of our young ones to take their place in the society
+      </p>
+      <a href="#" class="bg-wine-red text-white px-6 py-2 rounded font-medium hover:bg-opacity-90 transition-colors mt-1 mb-2 inline-flex items-center gap-2">
+        Know more about us <i class="fa fa-angle-double-right"></i>
+      </a>
+    </div>
+    <div class="px-0">
+      <img
+        src="{% static 'images/front Building Retouched.jpg' %}"
+        class="w-full h-full object-cover rounded-r"
+        alt="SMSS School Building"
+      />
+    </div>
+  </div>
+</section>

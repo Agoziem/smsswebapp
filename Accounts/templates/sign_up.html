@@ -1,141 +1,138 @@
-{% extends 'base.html' %} {% load static %} {% block title %} Sign up {% endblock %} {% block content %}
-<section class="my-2 mb-5">
-  <div class="d-flex flex-column justify-content-center align-items-center">
-    <h1 class="mb-4">Sign up</h1>
-    <div
-      class="Payment_Card row justify-content-center align-items-center"
-      style="
-        max-width: 800px;
-        box-shadow: 0px 4px 52px 4px rgb(2 8 10 / 22%);
-        border-radius: 20px 20px 20px 20px;
-      "
-    >
-      <div class="col-md ps-0 d-none d-md-block">
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %} Sign up {% endblock %}
+
+{% block content %}
+<section class="py-4 mb-8">
+  <div class="flex flex-col justify-center items-center">
+    <h1 class="text-4xl font-bold mb-6">Sign up</h1>
+    <div class="card lg:card-side bg-base-100 shadow-xl max-w-4xl w-full mx-4">
+      <figure class="lg:w-1/2 hidden md:block">
         <img
           src="{% static 'images/Teachers_login.jpg' %}"
-          alt=""
-          style="
-            width: 100%;
-            height: 700px;
-            object-fit: cover;
-            border-radius: 20px 0px 0px 20px;
-          "
+          alt="Sign up Image"
+          class="w-full h-96 lg:h-full object-cover"
         />
-      </div>
-      <div class="col-md">
-        <div
-          class="mt-4 d-flex flex-column align-items-center px-2 py-4 py-md-0"
-        >
-          {% if messages %} {% for message in messages %}
-          <div class="alert alert-danger alert-dismissible fade d-flex">
-            <i
-              class="fa-solid fa-triangle-exclamation mx-2 {{ message.tags }} h5"
-            ></i>
-            <div>{{ message }}</div>
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="alert"
-              aria-label="Close"
-            ></button>
+      </figure>
+      <div class="card-body lg:w-1/2 flex justify-center items-center">
+        <div class="w-full max-w-sm space-y-4">
+          {% if messages %}
+          {% for message in messages %}
+          <div class="alert alert-error">
+            <i class="fa-solid fa-triangle-exclamation text-xl"></i>
+            <span>{{ message }}</span>
+            <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
+              <i class="fa-solid fa-times"></i>
+            </button>
           </div>
-          {% endfor %} {% endif %}
+          {% endfor %}
+          {% endif %}
 
-          <div class="logo_div" style="border-radius: 50%">
-            <img src="{% static 'images/St Marks Logo.png' %}" alt="" />
+          <div class="flex justify-center">
+            <div class="avatar">
+              <div class="w-20 rounded-full">
+                <img src="{% static 'images/St Marks Logo.png' %}" alt="School Logo" />
+              </div>
+            </div>
           </div>
 
           <form
             id="contact-form"
-            class="form"
-            style="width: 280px; font-weight: 600; color: #052640"
             method="POST"
             action="{% url 'Accounts:signup' %}"
+            class="space-y-4 font-semibold text-base-content"
           >
             {% csrf_token %}
-            <div class="mb-3">
-              <label for="name" class="form-label">username</label>
+            <div class="form-control">
+              <label class="label" for="name">
+                <span class="label-text font-semibold">Username</span>
+              </label>
               <input
                 type="text"
                 name="username"
-                class="form-control"
                 id="name"
-                placeholder="enter your username"
+                placeholder="Enter your username"
+                class="input input-bordered w-full"
                 required
               />
             </div>
 
-            <div class="mb-3">
-              <label for="email" class="form-label">email address</label>
+            <div class="form-control">
+              <label class="label" for="email">
+                <span class="label-text font-semibold">Email Address</span>
+              </label>
               <input
                 type="email"
                 name="email"
-                class="form-control"
                 id="email"
                 placeholder="name@example.com"
+                class="input input-bordered w-full"
               />
             </div>
 
-            <div class="mb-3">
-              <label for="exampleFormControlInput1" class="form-label"
-                >password</label
-              >
-              <div class="input-group">
+            <div class="form-control">
+              <label class="label" for="exampleFormControlInput1">
+                <span class="label-text font-semibold">Password</span>
+              </label>
+              <div class="join w-full">
                 <input
                   type="password"
                   name="password1"
-                  class="form-control"
                   id="exampleFormControlInput1"
                   placeholder="Enter Password"
+                  class="input input-bordered join-item flex-1"
                   required
                 />
-                <div class="input-group-text toggle-password1">
+                <button type="button" class="btn btn-outline join-item toggle-password1">
                   <i class="fa-solid fa-eye"></i>
-                </div>
+                </button>
               </div>
             </div>
 
-            <div class="mb-4">
-              <label for="exampleFormControlInput2" class="form-label"
-                >confirm Password</label
-              >
-              <div class="input-group">
+            <div class="form-control">
+              <label class="label" for="exampleFormControlInput2">
+                <span class="label-text font-semibold">Confirm Password</span>
+              </label>
+              <div class="join w-full">
                 <input
                   type="password"
                   name="password2"
-                  class="form-control"
                   id="exampleFormControlInput2"
                   placeholder="Re-enter your Password"
+                  class="input input-bordered join-item flex-1"
                   required
                 />
-                <div class="input-group-text toggle-password2">
+                <button type="button" class="btn btn-outline join-item toggle-password2">
                   <i class="fa-solid fa-eye"></i>
-                </div>
+                </button>
               </div>
             </div>
 
-            <div class="mb-3">
-              <label for="Groupname" class="form-label">Select a Group</label>
+            <div class="form-control">
+              <label class="label" for="Groupname">
+                <span class="label-text font-semibold">Select a Group</span>
+              </label>
               <select
                 name="Groupname"
                 id="Groupname"
-                class="form-select"
-                aria-label="Default select example"
+                class="select select-bordered w-full"
                 required
               >
-                <option value="" disabled selected>select your group</option>
+                <option value="" disabled selected>Select your group</option>
                 <option value="Teacher">Teacher</option>
                 <option value="Formteacher">Formteacher</option>
                 <option value="Admin">Admin</option>
               </select>
             </div>
 
-            <div class="mb-3" id="Classname" style="display: none">
-              <label class="form-label">select your Class</label>
+            <div class="form-control hidden" id="Classname">
+              <label class="label">
+                <span class="label-text font-semibold">Select your Class</span>
+              </label>
               <select
                 name="Classname"
-                class="form-select"
-                aria-label="Default select example"
+                class="select select-bordered w-full"
               >
                 <option value="" disabled selected>
                   Select your Form class
@@ -146,23 +143,22 @@
               </select>
             </div>
 
-            <div class="my-4">
-              <span id="error-text" class="text-danger" style="display: none"
-                >Passwords do not match</span
-              >
+            <div class="space-y-4 mt-6">
+              <span id="error-text" class="text-error hidden">
+                Passwords do not match
+              </span>
               <button
                 id="submit-btn"
-                class="btn btn-primary w-100 shadow-sm"
-                style="display: block"
+                type="submit"
+                class="btn btn-primary w-full"
               >
                 Sign up
               </button>
             </div>
-            <p class="fw-normal">
-              Already have an Account ? Then
-              <a href="{% url 'Accounts:login' %}" class="text-decoration-none"
-                >Login</a
-              >
+            
+            <p class="text-center font-normal">
+              Already have an Account?
+              <a href="{% url 'Accounts:login' %}" class="link link-primary">Login</a>
             </p>
           </form>
         </div>
@@ -172,9 +168,4 @@
 </section>
 
 <script src="{% static 'js/Accounts/Signup.js' %}"></script>
-<script
-  src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
-  integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
-  crossorigin="anonymous"
-></script>
 {% endblock %}

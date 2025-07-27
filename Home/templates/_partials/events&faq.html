@@ -1,0 +1,85 @@
+{% load static %}
+<section id="FAQ" class="FAQ_News p-2 pb-16 my-16">
+  <div class="sideline_text text-center">
+    be kept abrest with our news and update
+  </div>
+  <h1 class="text-center text-4xl font-bold">Events Update & FAQ</h1>
+  <div class="multiplerule my-12 flex justify-center">
+    <div class="Nrule"></div>
+    <div class="Nrule2"></div>
+  </div>
+  <div class="container mx-auto px-4">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+      <div class="pt-12">
+        {% if events %} {% for event in events %}
+        <div class="bg-[var(--bg-wine-red)] text-[var(--cream-color)] rounded-[var(--card-border-radius)] shadow-[var(--big-card-shadow)] max-w-[500px] flex mb-12">
+          {% if event.EventimageURL == '' %}
+          <img
+            class="w-[170px] h-[180px] object-cover rounded-l-[var(--card-border-radius)] hidden sm:block"
+            src="{% static 'images/No image.svg' %}"
+            alt=""
+          />
+          {% else %}
+          <img
+            class="w-[170px] h-[180px] object-cover rounded-l-[var(--card-border-radius)] hidden sm:block"
+            src="{{ event.EventimageURL }}"
+            alt=""
+          />
+          {% endif %}
+          <div class="py-12 pl-10">
+            <h5 class="text-xl font-bold" style="font-family: var(--main-font-family)">{{ event.Eventtitle }}</h5>
+            <div class="text-sm font-bold">
+              {% if event.Eventspeaker_Chairman %}
+              <div class="text-[13px]">
+                Speaker : {{ event.Eventspeaker_Chairman }}
+              </div>
+              {% endif %}
+              <div class="text-[13px]">Venue : {{ event.Eventvenue }}</div>
+            </div>
+            <div class="flex justify-center mt-16 items-center">
+              <div class="flex justify-between items-center">
+                <img
+                  class="w-[38px] h-[38px]"
+                  src="{% static 'images/Event_time_icon.svg' %}"
+                  alt=""
+                />
+                <div class="text-[13px] ml-2">{{ event.Eventtime }}</div>
+              </div>
+              <div class="mx-12 flex justify-between items-center">
+                <img
+                  class="w-[38px] h-[38px]"
+                  src="{% static 'images/Event_date_icon.svg' %}"
+                  alt=""
+                />
+                <div class="text-[13px] ml-2">{{ event.Eventdate }}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        {% endfor %} {% else %}
+
+        <div id="events" class="max-w-[500px] max-h-[180px] bg-[var(--bg-dark-cream)] mx-auto">
+          <div class="py-20 pl-12 text-center">
+            <h5 class="px-12">no Events yet !!</h5>
+          </div>
+        </div>
+        {% endif %}
+      </div>
+      <div>
+        <div class="max-w-md mx-auto">
+          {% for question in FAQ %}
+          <div class="collapse collapse-plus bg-base-200 mb-2">
+            <input type="radio" name="faq-accordion" />
+            <div class="collapse-title text-xl font-medium" style="font-family: 'League Spartan', sans-serif">
+              {{ question.Questions }}
+            </div>
+            <div class="collapse-content">
+              <p>{{ question.Answer }}</p>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

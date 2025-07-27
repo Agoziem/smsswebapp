@@ -1,8 +1,8 @@
 from django.db import models
 from Result_portal.models import Students_Pin_and_ID,Class,Subject
 from Teachers_Portal.models import Teacher
-from ckeditor.fields import RichTextField
 from django.utils import timezone
+from django_ckeditor_5.fields import CKEditor5Field
 # Teachers CBT Models (Models for Setting)
 
 class Test(models.Model):
@@ -22,7 +22,7 @@ class Answer(models.Model):
     
 class Question(models.Model):
     questionId=models.CharField(max_length=100,default="None",blank=False)
-    questiontext = RichTextField(default="None",blank=False,null=True)
+    questiontext = CKEditor5Field('Text', config_name='extends')
     questionMark = models.IntegerField(default=0,blank=True)
     required=models.BooleanField(default=True)
     answers = models.ManyToManyField(Answer)

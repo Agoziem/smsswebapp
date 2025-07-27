@@ -23,17 +23,29 @@
   <title>SMSS Omagba</title>
 </head>
 
-<body class="d-flex justify-content-center align-items-center vh-100">
-    <section>
-        <div class="404_container d-flex flex-column justify-content-center align-items-center">
-            <img src="{% static 'images/St Marks Logo.png' %}" alt="" class=" schoollogo img-fluid">
-            <h3 class="display1 mt-0">St Marks Secondary School Omagba</h3>
-            <p class="sideline_text"><i class="fa-solid fa-triangle-exclamation h3 me-2"></i> Result upload in Progress ............ please Check Back Tomorrow </p>
+<body class="bg-base-200">
+  <div class="hero min-h-screen">
+    <div class="hero-content text-center">
+      <div class="max-w-md">
+        <img src="{% static 'images/St Marks Logo.png' %}" alt="School Logo" class="mx-auto mb-8 h-32 w-auto">
+        <h1 class="text-4xl font-bold display1 text-wine-red mb-6">St Marks Secondary School Omagba</h1>
+        
+        <div class="alert alert-warning">
+          <i class="fa-solid fa-triangle-exclamation text-2xl"></i>
+          <div>
+            <h3 class="font-bold">Result Upload in Progress</h3>
+            <div class="text-sm">Please check back tomorrow</div>
+          </div>
         </div>
-    </section>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
-    crossorigin="anonymous"></script>
+        
+        <div class="mt-8">
+          <a href="{% url 'home' %}" class="btn btn-primary">
+            <i class="fa-solid fa-home mr-2"></i>
+            Back to Home
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
 </body>
 </html>

@@ -12,5 +12,10 @@
   "description": "",
   "devDependencies": {
     "vite": "^7.0.6"
+  },
+  "dependencies": {
+    "@tailwindcss/vite": "^4.1.11",
+    "daisyui": "^5.0.47",
+    "tailwindcss": "^4.1.11"
   }
 }

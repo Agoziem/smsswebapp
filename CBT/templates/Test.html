@@ -2,170 +2,139 @@
 {% load static %}
 {% block content%}
 {% include 'main_navbar.html' %}
-<!-- styles for the page , move it to a file later -->
-<style>
-.test_container{
-    background-color: white;
-    border-radius: 20px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-
-.question_set_name{
-    font-size: 24px;
-    text-align: center;
-}
-.question_number{
-    color: #8f8d8d;
-    font-size: 15px;
-    text-decoration: wavy;
-}
-
-.test_card {
-    border-radius: 10px;
-    border: 0;
-    margin-bottom: 20px;
-}
-.required_indicator{
-    background-color: #3c2100;
-    color: white;
-    padding: 5px 7px;
-    border-radius: 4px;
-    margin-right: 10px;
-    font-weight: 500;
-}
-
-.Time_container{ 
-    background-color: #3b0505;
-    padding: 11px 22px;
-    border-radius: 25px;
-    font-weight: 600;
-    color: white;
-}
-.Time_container i{
-   color: white;
-}
-
-.fixed-div {
-    position: fixed;
-    bottom: 0;
-    left: 50%;
-    transform: translate( -50%);
-    z-index: 10000;
-    
-}
-</style>
 
 <!-- Test Container -->
-<input type="text" id="groupname" value="{{questionGroup.name}}" hidden>
-<input type="text" id="grouptestname" value="{{questionGroup.test.name}}" hidden>
-<input type="text" id="studentname" value="{{student.student_name}}" hidden>
-<input type="text" id="studentclass" value="{{student.student_class}}" hidden>
-<input type="text" id="testduration" value="{{total_time}}" hidden>
-<section class="px-2 py-3 bg-light d-flex justify-content-center align-items-center">
-    <div class="container">
-        <div class="fixed-div d-flex justify-content-center py-2 ">
-            <div class="Time_container d-flex align-items-center shadow-sm">
-                <i class="fa-solid fa-stopwatch me-2 h5"></i>
-                <div class="me-2">Time left:</div>
-                <div>
+<input type="hidden" id="groupname" value="{{questionGroup.name}}">
+<input type="hidden" id="grouptestname" value="{{questionGroup.test.name}}">
+<input type="hidden" id="studentname" value="{{student.student_name}}">
+<input type="hidden" id="studentclass" value="{{student.student_class}}">
+<input type="hidden" id="testduration" value="{{total_time}}">
+
+<section class="py-8 bg-base-200 min-h-screen">
+    <div class="container mx-auto px-4">
+        <!-- Fixed Timer -->
+        <div class="fixed bottom-4 left-1/2 transform -translate-x-1/2 z-50">
+            <div class="Time_container bg-wine-red text-base-100 px-6 py-3 rounded-full shadow-lg flex items-center gap-3">
+                <i class="fa-solid fa-stopwatch text-xl"></i>
+                <div class="font-semibold">Time left:</div>
+                <div class="font-bold text-lg">
                     <span id="timer"></span>
                 </div>
             </div>
         </div>
-        <div class="test_container p-3 bg-light">
-            <form  id="testform" class="d-flex flex-column align-items-center needs-validation" novalidate>
-                 {% for questionset in questionsetsgroup %}
-                <div class="question_set" >
-                    <div class="question_set_name mb-3">{{ questionset.subject }}</div>
-                {% for question in questionset.questions.all %}
-                <div class="card test_card shadow-sm" style="width: 80vw; max-width: 500px;">
-                    <div class="card-body p-4 px-5">
-                        <div class="d-flex justify-content-between align-items-end mb-2">
-                            <div class="question_number mb-2">{% if question.required %} <span class="required_indicator">required</span>{% endif %} Question {{ forloop.counter }}</div>
-                            <div class="bg-light p-3 py-1 test_mark" style="border-radius: 10px;">{% if question.questionMark == 1 %}{{ question.questionMark }} mark {% else %}{{ question.questionMark }} marks{% endif %}</div>
-                        </div>
-                        <!-- The Question -->
-                        <h5 class="test_question"> {{ question.questiontext|safe }}
-                        </h5>
-                        <!-- <h6 class="card-subtitle mb-2 text-body-secondary">Card subtitle</h6> -->
-                        <div class="answers_container my-3">
 
-                            <!--  The answers -->
-                            {% for answer in question.answers.all %}
-                            <div class="form-check mb-1">
-                                <input class="form-check-input" type="radio" name="answer{{ question.id }}" id="validationFormCheck{{ answer.id }}" {% if question.required %}{% if forloop.last %} required {% endif %}{% endif %} >
-                                <label class="form-check-label" for="validationFormCheck{{ answer.id }}" data-iscorrect="{{ answer.isCorrect }}">
-                                    {{ answer.answertext }}
-                                </label>
-                                {% if forloop.last %}
-                                    <div class="invalid-feedback">you must select one of the options</div>
-                                {% endif %}
+        <!-- Test Form Container -->
+        <div class="test_container bg-base-100 rounded-3xl p-6 shadow-xl mx-auto max-w-4xl">
+            <form id="testform" class="space-y-8">
+                {% for questionset in questionsetsgroup %}
+                <div class="question_set">
+                    <div class="question_set_name text-center text-2xl font-bold text-primary mb-6 pb-3 border-b-2 border-primary/20">
+                        {{ questionset.subject }}
+                    </div>
+                    
+                    <div class="space-y-6">
+                        {% for question in questionset.questions.all %}
+                        <div class="card bg-base-100 shadow-lg border-l-4 border-primary/30 hover:border-primary transition-colors">
+                            <div class="card-body">
+                                <!-- Question Header -->
+                                <div class="flex justify-between items-end mb-4">
+                                    <div class="flex items-center gap-3">
+                                        {% if question.required %}
+                                        <span class="badge badge-warning gap-1">
+                                            <i class="fa-solid fa-asterisk text-xs"></i>
+                                            Required
+                                        </span>
+                                        {% endif %}
+                                        <span class="text-base-content/60 text-sm">Question {{ forloop.counter }}</span>
+                                    </div>
+                                    <div class="badge badge-primary badge-outline">
+                                        {% if question.questionMark == 1 %}
+                                            {{ question.questionMark }} mark 
+                                        {% else %}
+                                            {{ question.questionMark }} marks
+                                        {% endif %}
+                                    </div>
+                                </div>
 
+                                <!-- Question Text -->
+                                <h3 class="text-lg font-medium mb-4 leading-relaxed">
+                                    {{ question.questiontext|safe }}
+                                </h3>
+
+                                <!-- Answer Options -->
+                                <div class="space-y-3">
+                                    {% for answer in question.answers.all %}
+                                    <div class="form-control">
+                                        <label class="label cursor-pointer justify-start gap-3 p-3 rounded-lg hover:bg-base-200 transition-colors">
+                                            <input type="radio" 
+                                                   name="answer{{ question.id }}" 
+                                                   id="validationFormCheck{{ answer.id }}"
+                                                   class="radio radio-primary" 
+                                                   {% if question.required %}{% if forloop.last %} required {% endif %}{% endif %}
+                                                   data-iscorrect="{{ answer.isCorrect }}">
+                                            <span class="label-text text-base">{{ answer.answertext }}</span>
+                                        </label>
+                                        {% if forloop.last and question.required %}
+                                        <div class="text-error text-sm mt-1 hidden validation-message">
+                                            You must select one of the options
+                                        </div>
+                                        {% endif %}
+                                    </div>
+                                    {% endfor %}
+                                </div>
                             </div>
-                            {% endfor %}
-                            
                         </div>
+                        {% endfor %}
                     </div>
                 </div>
                 {% endfor %}
-                </div>
-                {% endfor %}
-                <div class="d-flex flex-column align-items-center" style="width: 80vw; max-width: 400px;">
-                    <div class="alert alert-danger d-flex align-items-center d-none" role="alert">
-                        <i class="fa-solid fa-triangle-exclamation me-4 h4"></i>
-                        <div class="alert-text">
-                            <!-- inputted with Javascript -->
-                        </div>
-                    </div>
-                    <button type="submit" class="btn btn-primary w-75">submit</button>
 
-                    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-                    aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h1 class="modal-title fs-5" id="staticBackdropLabel">Confirmation</h1>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                            are you sure you have gone over your work and you are ready to Submit , if yes , then Click the Submit button
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">cancel</button>
-                                <button id="testsubmit"  class="btn btn-primary">Submit</button>
-                            </div>
-                        </div>
+                <!-- Submit Section -->
+                <div class="flex flex-col items-center space-y-4 pt-8">
+                    <div class="alert alert-error hidden" id="validation-alert">
+                        <i class="fa-solid fa-triangle-exclamation"></i>
+                        <span class="alert-text"></span>
                     </div>
+                    <button type="submit" class="btn btn-primary btn-lg px-12">
+                        Submit Test
+                        <i class="fa-solid fa-paper-plane ml-2"></i>
+                    </button>
                 </div>
-                </div>
-
-                <!-- Bootstrap Modal -->
-                
             </form>
-            <!-- the Question Card --> 
-           
         </div>
-    </div>    
+    </div>
 </section>
 
-
-<!-- scripts for the page , move it to a file later -->
-<footer class="footer bg-light">
-<div class="sub_footer d-flex justify-content-center align-items-center py-4">
-    <div>
-        <p class="my-0 text-center">&copy; 2022 SMSS Omagba, inst . All rights reserved.</p>
-        <p class="my-0 text-center">designed by Gozzy designs and development</p>
+<!-- Confirmation Modal -->
+<dialog id="submitConfirmModal" class="modal">
+    <div class="modal-box">
+        <h3 class="font-bold text-lg mb-4">
+            <i class="fa-solid fa-check-circle text-success mr-2"></i>
+            Confirm Submission
+        </h3>
+        <p class="py-4">
+            Are you sure you have gone over your work and you are ready to submit? 
+            Once submitted, you cannot make any changes.
+        </p>
+        <div class="modal-action">
+            <button type="button" class="btn btn-ghost" onclick="document.getElementById('submitConfirmModal').close()">
+                Cancel
+            </button>
+            <button id="testsubmit" class="btn btn-primary">
+                Submit Test
+            </button>
+        </div>
     </div>
-</div>
+</dialog>
+
+<!-- Footer -->
+<footer class="footer bg-base-200 text-base-content p-4">
+    <div class="w-full text-center">
+        <p>&copy; 2022 SMSS Omagba, inst. All rights reserved.</p>
+        <p class="text-sm opacity-70">Designed by Gozzy designs and development</p>
+    </div>
 </footer>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
-    crossorigin="anonymous"></script>
+
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="{% static 'js/Student_Portal/Test.js' %}"></script>
-<!--  i amm com -->
-<!-- {% include 'main_footer.html' %} -->
 {% endblock %}

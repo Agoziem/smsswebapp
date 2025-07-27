@@ -1,32 +1,50 @@
-{% extends 'base.html' %} {% load static %} {% block content%} {% include
-'main_navbar.html' %}
-<div class="text-center pt-3 mt-4">
-  <h1 style="font-size: 32px">Photo Gallery</h1>
-  <div class="multiplerule mt-3 d-flex justify-content-center">
-    <div class="Nrule"></div>
-    <div class="Nrule2"></div>
-  </div>
-  <p class="mt-3">
-    View our Photo Gallery to see the Awesome pics of Our Students at different
-    occasions at St Marks Standard Secondary School
-  </p>
-</div>
-<section id="Files" class="container p-3 pt-2 mb-3">
-  <div class="grid">
-    {% for photo in photos %}
-    <div class="Photo_card rounded">
-      <a href="{{ photo.imageURL }}" class="text-decoration-none"
-        ><img src="{{ photo.imageURL }}" class="card-img-top" alt="..." />
-      </a>
-      <div class="card-body">
-        <p class="pb-0 mb-0">{{ photo.Description }}</p>
-        <p class="mb-0">
-          Click on the Picture to Expand
-          <i class="fa-solid fa-up-right-and-down-left-from-center ms-2"></i>
-        </p>
+{% extends 'base.html' %}
+{% load static %}
+{% block content%}
+{% include 'main_navbar.html' %}
+
+<!-- Gallery Header -->
+<div class="hero min-h-[40vh] bg-gradient-to-br from-primary to-secondary">
+  <div class="hero-content text-center text-base-100">
+    <div class="max-w-md">
+      <h1 class="text-5xl font-bold">Photo Gallery</h1>
+      <div class="multiplerule flex justify-center space-x-2 mt-6 mb-4">
+        <div class="Nrule w-12 h-1 bg-base-100"></div>
+        <div class="Nrule2 w-8 h-1 bg-accent"></div>
       </div>
+      <p class="text-lg">
+        View our Photo Gallery to see the Awesome pics of Our Students at different
+        occasions at St Marks Standard Secondary School
+      </p>
     </div>
-    {% endfor %}
+  </div>
+</div>
+
+<!-- Photo Gallery Grid -->
+<section id="Files" class="py-16 bg-base-100">
+  <div class="container mx-auto px-4">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+      {% for photo in photos %}
+      <div class="Photo_card card bg-base-200 shadow-lg hover:shadow-xl transition-shadow duration-300">
+        <figure class="aspect-square overflow-hidden">
+          <a href="{{ photo.imageURL }}" class="block w-full h-full">
+            <img src="{{ photo.imageURL }}" 
+                 class="w-full h-full object-cover hover:scale-105 transition-transform duration-300" 
+                 alt="{{ photo.Description }}" />
+          </a>
+        </figure>
+        <div class="card-body p-4">
+          <p class="text-sm font-medium">{{ photo.Description }}</p>
+          <p class="text-xs text-base-content/70 flex items-center mt-2">
+            Click on the Picture to Expand
+            <i class="fa-solid fa-up-right-and-down-left-from-center ml-2"></i>
+          </p>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
   </div>
 </section>
-{% include 'main_footer.html' %} {% endblock %}
+
+{% include 'main_footer.html' %}
+{% endblock %}

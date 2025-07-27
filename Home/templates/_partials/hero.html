@@ -1,0 +1,77 @@
+{% load static %}
+<div
+  class="relative min-h-screen bg-gradient-to-br from-wine-red/10 via-base-100 to-wine-red/5"
+>
+  <div class="pt-8 pb-20 md:pt-12 lg:pt-10 md:pb-10 overflow-x-clip">
+    <div class="auto-container relative z-20 px-4">
+      <div class="grid md:grid-cols-2 md:justify-between gap-8 gap-y-12">
+        <div class="">
+          <div
+            class="inline-block bg-primary/10 text-primary text-sm font-medium px-4 py-2 rounded-full mb-4"
+          >
+            Excellence in Education
+          </div>
+
+          <h1
+            class="text-3xl sm:text-5xl md:text-7xl font-bold tracking-tight bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent"
+          >
+            For Accurate Teaching and Maximum Learning
+          </h1>
+
+          <p
+            class="text-lg mt-6 tracking-tight md:max-w-[457px] text-base-content"
+          >
+            St Marks Standard Secondary School Omagba - Nurturing academic
+            excellence, moral values, and innovative thinking in a serene
+            learning environment.
+          </p>
+
+          <div class="flex gap-3 items-center mt-8 flex-wrap">
+            <a
+              href="/#Requirements"
+              class="btn btn-primary rounded-full h-12 px-8 bg-gradient-to-r from-wine-red to-wine-red/90 border-none text-white hover:shadow-lg"
+            >
+              Register Now
+            </a>
+            <a
+              href="/#Portal"
+              class="btn btn-ghost rounded-full flex items-center gap-2 h-12 px-6 hover:bg-wine-red/5"
+            >
+              <span>Student Portal</span>
+              <i class="fas fa-arrow-right text-sm"></i>
+            </a>
+          </div>
+
+          <!-- Stats Cards -->
+          <div class="mt-8">
+            <div
+              class="bg-base-100/95 backdrop-blur-sm rounded-xl shadow-xl p-6 grid grid-cols-3 gap-4 max-w-md"
+            >
+              <div class="text-center">
+                <h3 class="text-2xl font-bold text-wine-red">32+</h3>
+                <p class="text-sm font-medium text-base-content">Subjects</p>
+              </div>
+              <div class="text-center">
+                <h3 class="text-2xl font-bold text-wine-red">700+</h3>
+                <p class="text-sm font-medium text-base-content">Students</p>
+              </div>
+              <div class="text-center">
+                <h3 class="text-2xl font-bold text-wine-red">30+</h3>
+                <p class="text-sm font-medium text-base-content">Teachers</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Image Grid -->
+        <div class="max-w-[588px] overflow-hidden">
+          <img
+            class="w-full h-full"
+            src="{% static 'images/Hero Image.png' %}"
+            alt="School Hero Image"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

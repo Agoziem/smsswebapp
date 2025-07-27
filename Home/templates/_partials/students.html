@@ -1,0 +1,93 @@
+{% load static %}
+<section id="Portal" class="p-2">
+  <div class="container mx-auto">
+    <div class="grid lg:grid-cols-2 gap-8 px-2 items-center justify-between">
+      <div class="text-start">
+        <img
+          src="{% static 'images/Portal.png' %}"
+          class="w-4/5 min-w-[250px] h-auto"
+          alt="Student Portal"
+        />
+      </div>
+      <div class="py-5 pt-3">
+        <h4
+          class="text-sm font-bold text-black uppercase tracking-wide mb-4"
+          style="font-family: var(--main-font-family); font-size: 15.5px"
+        >
+          Students Section
+        </h4>
+        <h1
+          class="text-4xl font-bold text-black mb-4"
+          style="font-family: var(--main-font-family); line-height: 5rem"
+        >
+          Student's Portal
+        </h1>
+        <div class="flex space-x-2 my-3">
+          <div class="bg-wine-red w-16 h-1.5 rounded-l-sm shadow-sm"></div>
+          <div class="bg-white w-10 h-1.5 rounded-r-sm shadow-sm"></div>
+        </div>
+        <p class="font-bold mb-4">
+          Portal for Result Checking and Assessment ,for Payments such as
+          payments of School fees, Textbooks,School Uniforms and other
+          resources, Digital Library where Students can Assess their favourite
+          E-Textbooks, Past Questions and Answers, at their own convinence etc
+        </p>
+        <!-- DaisyUI Dropdown -->
+        <div class="dropdown p-2">
+          <div
+            tabindex="0"
+            role="button"
+            class="btn btn-primary bg-wine-red border-wine-red hover:bg-wine-red/90 text-white"
+          >
+            Visit our Portals and Explore
+            <svg
+              width="12px"
+              height="12px"
+              class="ml-2 fill-current opacity-60"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 2048 2048"
+            >
+              <path
+                d="m1799 349 242 241-1017 1017L7 590l242-241 775 775 775-775z"
+              ></path>
+            </svg>
+          </div>
+          <ul
+            tabindex="0"
+            class="dropdown-content menu bg-base-100 rounded-box z-[1] w-64 p-2 shadow-lg"
+          >
+            <li>
+              <a
+                href="{% url 'Result_portal:classes' %}"
+                class="text-black hover:bg-wine-red hover:text-white transition-colors"
+              >
+                Result Portal
+              </a>
+            </li>
+            <li><hr class="my-1 border-gray-200" /></li>
+            <li>
+              <a
+                href="#"
+                class="text-black hover:bg-wine-red hover:text-white transition-colors"
+              >
+                Payment Portal
+              </a>
+            </li>
+            <li><hr class="my-1 border-gray-200" /></li>
+            <li>
+              <a
+                href="#"
+                class="text-black hover:bg-wine-red hover:text-white transition-colors"
+              >
+                Digital library
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!--  -->
+<div class="h-1.5 bg-[var(--bg-dark-cream)] scale-y-[-1]"></div>

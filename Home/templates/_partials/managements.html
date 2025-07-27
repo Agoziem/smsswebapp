@@ -1,0 +1,107 @@
+{% load static %}
+<section id="Management" class="p-3 py-4">
+    <div class="container mx-auto">
+        <div class="text-center text-sm font-bold text-black uppercase tracking-wide mb-4" style="font-family: var(--main-font-family); font-size: 15.5px;">Management</div>
+        <h1 class="text-center text-4xl font-bold text-black mb-4" style="font-family: var(--main-font-family); line-height: 5rem;">Meet the School Management</h1>
+        <div class="flex justify-center space-x-2 my-3">
+            <div class="bg-wine-red w-16 h-1.5 rounded-l-sm shadow-sm"></div>
+            <div class="bg-white w-10 h-1.5 rounded-r-sm shadow-sm"></div>
+        </div>
+        <!-- Slide -->
+
+        <div class="max-w-[1120px] w-full mx-auto swiper">
+            <div class="mx-2 md:mx-10 pb-5 rounded-3xl overflow-hidden slider-content">
+        
+                <div class="swiper-wrapper">
+                    {% for management in managements %}
+                    <div class="swiper-slide">
+                        <div class="h-80 rounded-xl shadow-lg my-10 relative bg-white flex flex-col items-center p-0">
+                            <div class="rounded-t-xl h-42 w-full bg-wine-red mb-5"></div>
+                            <div class="absolute top-[10%] left-1/2 transform -translate-x-1/2 w-30 h-30 bg-wine-red flex justify-center items-center rounded-full border-4 border-white mb-3">
+                                {% if management.managementimageURL == '' %}
+                                <img src="{% static 'images/default.png' %}" class="w-24 h-24 object-cover object-top rounded-full" alt="{{ management.Profilename }}" />
+                                {% else %}
+                                <img src="{{management.managementimageURL }}" class="w-24 h-24 object-cover object-top rounded-full" alt="{{ management.Profilename }}" />
+                                {% endif %}
+                            </div>
+                            <div class="text-center mt-16">
+                                <h6 class="mb-0 font-bold text-center" style="font-family: var(--main-font-family);">{{ management.Profilename }}</h6>
+                                <p class="text-gray-500 my-1 text-sm">
+                                    {{management.Role}} <br />
+                                    {{ management.Phonenumber }}
+                                </p>
+                            </div>
+                            <div class="flex space-x-2 mt-2">
+                                <a href="{{ management.Twitterpage }}"><img class="w-6 h-6"
+                                        src="{% static 'images/twitter icon mag.svg' %}" alt="Twitter"></a>
+                                <a href="{{ management.Facebookpage }}"><img class="w-6 h-6"
+                                        src="{% static 'images/facebook icon mag.svg' %}" alt="Facebook"></a>
+                                <a href="{{ management.Whatsapp }}"><img class="w-6 h-6"
+                                        src="{% static 'images/instagram icon mag.svg' %}" alt="Instagram"></a>
+
+                            </div>
+
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                <div class="swiper-button-next !text-wine-red !right-0 font-bold"></div>
+                <div class="swiper-button-prev !text-wine-red !left-0 font-bold"></div>
+                <div class="swiper-pagination management-pagination"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="h-1.5 bg-[var(--bg-dark-cream)] scale-y-[-1]"></div>
+
+    <!-- Teachers Section  -->
+
+    <div id="Teachers" class="container mx-auto mt-4">
+        <div class="text-center text-sm font-bold uppercase tracking-wide mb-4" style="font-family: var(--main-font-family); font-size: 15.5px; color: var(--royal-blue-dark);">Teachers</div>
+        <h1 class="text-center text-4xl font-bold mb-4" style="font-family: var(--main-font-family); line-height: 5rem; color: var(--royal-blue-dark);">Meet Our Professional Teachers</h1>
+        <div class="flex justify-center space-x-2 my-3">
+            <div class="w-16 h-1.5 rounded-l-sm shadow-sm" style="background-color: var(--bg-royal-blue-light);"></div>
+            <div class="bg-white w-10 h-1.5 rounded-r-sm shadow-sm"></div>
+        </div>
+        <!-- Slide -->
+        <div class="max-w-[1120px] w-full mx-auto swiper">
+            <div class="mx-2 md:mx-10 pb-5 rounded-3xl overflow-hidden slider-content2">
+                <div class="swiper-wrapper">
+                    {% for Teacher in Teachers %}
+                    <div class="swiper-slide">
+                        <div class="h-80 rounded-xl shadow-lg my-10 relative bg-white flex flex-col items-center p-0">
+                            <div class="rounded-t-xl h-42 w-full mb-5" style="background-color: var(--royal-blue-light);"></div>
+                            <div class="absolute top-[10%] left-1/2 transform -translate-x-1/2 w-30 h-30 flex justify-center items-center rounded-full border-4 border-white mb-3" style="background-color: var(--royal-blue-light);">
+                                {% if Teacher.TopTeachersimageURL == '' %}
+                                <img src="{% static 'images/default.png' %}" class="w-24 h-24 object-cover object-top rounded-full" alt="{{ Teacher.Profilename }}" />
+                                {% else %}
+                                <img src="{{Teacher.TopTeachersimageURL}}" class="w-24 h-24 object-cover object-top rounded-full" alt="{{ Teacher.Profilename }}" />
+                                {% endif %}
+                            </div>
+                            <div class="text-center mt-16">
+                                <h6 class="mb-0 font-bold text-center" style="font-family: var(--main-font-family);">{{ Teacher.Profilename }}</h6>
+                                <p class="text-gray-500 my-1 text-sm">
+                                    {{Teacher.Role}} <br />
+                                    {{ Teacher.Phonenumber }}
+                                </p>
+                            </div>
+                            <div class="flex space-x-2 mt-2">
+                                <a href="{{ Teacher.Twitterpage }}"><img class="w-6 h-6"
+                                        src="{% static 'images/twitter icon Teacher.svg' %}" alt="Twitter"></a>
+                                <a href="{{ Teacher.Facebookpage }}"><img class="w-6 h-6"
+                                        src="{% static 'images/facebook icon Teacher.svg' %}" alt="Facebook"></a>
+                                <a href="{{ Teacher.Whatsapp }}"><img class="w-6 h-6"
+                                        src="{% static 'images/instagram icon Teacher.svg' %}" alt="Instagram"></a>
+                            </div>
+                        </div>
+
+                    </div>
+                    {% endfor %}
+                </div>
+                <div class="swiper-button-next !right-0 font-bold" style="color: var(--bg-royal-blue-light);"></div>
+                <div class="swiper-button-prev !left-0 font-bold" style="color: var(--bg-royal-blue-light);"></div>
+                <div class="swiper-pagination teachers-pagination"></div>
+            </div>
+        </div>
+    </div>
+</section>

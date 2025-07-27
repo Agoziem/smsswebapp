@@ -1,0 +1,73 @@
+{% load static %}
+
+<section id="Track" class="bg-white py-5 px-3">
+  <div class="text-sm font-bold text-black uppercase tracking-wide mb-2 text-center" style="font-family: var(--main-font-family); font-size: 15.5px;">Visions & Missions</div>
+  <h1 class="text-center text-4xl font-bold text-black mb-4" style="font-family: var(--main-font-family); line-height: 5rem;">Our Tracks</h1>
+  <div class="flex justify-center space-x-2 mt-2 mb-3 md:mb-0">
+    <div class="bg-wine-red w-16 h-1.5 rounded-l-sm shadow-sm"></div>
+    <div class="bg-white w-10 h-1.5 rounded-r-sm shadow-sm"></div>
+  </div>
+  <div class="grid lg:grid-cols-2 gap-8 px-2 items-center justify-center">
+    <div class="flex justify-center">
+      <img
+        src="{% static 'images/Track image.png' %}"
+        class="w-full max-w-md h-auto"
+        alt="Track Image"
+      />
+    </div>
+    <div class="py-5 flex flex-col items-center md:block space-y-6">
+      <!-- Vision Card -->
+      <div class="relative bg-[var(--btn-cream-color)] p-5 rounded-2xl shadow-lg max-w-md">
+        <img
+          class="absolute top-1/2 -left-2 transform -translate-y-1/2 w-16 h-16"
+          src="{% static 'images/Vision.svg' %}"
+          alt="Vision"
+        />
+        <div class="pl-10">
+          <h5 class="text-2xl text-center font-bold mb-2" style="font-family: var(--main-font-family);">Vision</h5>
+          <p class="text-sm font-bold">
+            To initiate a paradigm shift in teaching and learning process which
+            engenders relevant intellectual skills for innovation and holistic
+            development; thus providing vitalisaton to communal and national
+            renaissance.
+          </p>
+        </div>
+      </div>
+      
+      <!-- Mission Card -->
+      <div class="relative bg-wine-red text-white p-5 rounded-2xl shadow-lg max-w-md">
+        <img
+          class="absolute top-1/2 -left-2 transform -translate-y-1/2 w-16 h-16"
+          src="{% static 'images/Mission.svg' %}"
+          alt="Mission"
+        />
+        <div class="pl-10">
+          <h5 class="text-2xl text-center font-bold mb-2" style="font-family: var(--main-font-family);">Mission</h5>
+          <p class="text-sm font-bold">
+            Our mission is to raise and maintain high standards academically and
+            morally through nurturing of the spiritual, academic, emotional and
+            physical being that will in turn produce creative thinking, applied
+            knowledge, collaborative spirit and leadership skills in a secondary
+            school student.
+          </p>
+        </div>
+      </div>
+      
+      <!-- Values Card -->
+      <div class="relative bg-[var(--btn-cream-color)] p-5 rounded-2xl shadow-lg max-w-md">
+        <img
+          class="absolute top-1/2 -left-2 transform -translate-y-1/2 w-16 h-16"
+          src="{% static 'images/values.svg' %}"
+          alt="Values"
+        />
+        <div class="pl-10">
+          <h5 class="text-2xl text-center font-bold mb-2" style="font-family: var(--main-font-family);">Values</h5>
+          <p class="text-sm font-bold">
+            Teamwork, Integrity, Creativity, Stewardship, Excellence, Passion,
+            Resilience
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

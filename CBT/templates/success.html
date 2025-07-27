@@ -2,28 +2,56 @@
 {% load static %}
 {% block content%}
 {% include 'main_navbar.html' %}
-<section class="px-5">
-    <div class="container" style="max-width: 500px;">
-        <div class="d-flex flex-column justify-content-center align-items-center ">
-            <h5 class="my-5 mb-3"> {{studentobject.student_name}} your answers have been submitted Successfully</h5>
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th scope="col">Subjects</th>
-                        <th scope="col">Test Score</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for test in studenttestobject.testquestionset_set.all %}
-                    <tr>
-                        <td>{{ test.testSubject }}</td>
-                        <td>{{ test.testTotalScore }}</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-            <div class="mb-4">
-                <a href="{% url 'CBT:Cbt' %}" class="btn btn-warning"><i class="fa-solid fa-share fa-flip-horizontal me-3"></i>back to Login</a>
+
+<section class="py-16 bg-base-100">
+    <div class="container mx-auto px-4 max-w-2xl">
+        <div class="text-center space-y-8">
+            <!-- Success Message -->
+            <div class="space-y-4">
+                <div class="flex justify-center">
+                    <div class="bg-success/20 p-6 rounded-full">
+                        <i class="fa-solid fa-check-circle text-6xl text-success"></i>
+                    </div>
+                </div>
+                <h2 class="text-3xl font-bold text-success">
+                    Test Completed Successfully!
+                </h2>
+                <p class="text-lg text-base-content">
+                    {{studentobject.student_name}}, your answers have been submitted successfully
+                </p>
+            </div>
+
+            <!-- Results Table -->
+            <div class="card bg-base-200 shadow-lg">
+                <div class="card-body">
+                    <h3 class="card-title text-center mb-6">Your Test Results</h3>
+                    <div class="overflow-x-auto">
+                        <table class="table table-zebra w-full">
+                            <thead>
+                                <tr class="text-primary">
+                                    <th class="text-lg">Subjects</th>
+                                    <th class="text-lg">Test Score</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for test in studenttestobject.testquestionset_set.all %}
+                                <tr>
+                                    <td class="font-medium">{{ test.testSubject }}</td>
+                                    <td class="font-bold text-primary">{{ test.testTotalScore }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Back Button -->
+            <div class="pt-4">
+                <a href="{% url 'CBT:Cbt' %}" class="btn btn-secondary btn-lg gap-2">
+                    <i class="fa-solid fa-share fa-flip-horizontal"></i>
+                    Back to Login
+                </a>
             </div>
         </div>
     </div>

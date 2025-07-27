@@ -1,5 +1,5 @@
 from django.db import models
-from ckeditor.fields import RichTextField
+from django_ckeditor_5.fields import CKEditor5Field
 from Result_portal.models import Class
 
 
@@ -75,8 +75,8 @@ class Subscription(models.Model):
 		return str(self.Email)
 		
 class Header(models.Model):
-	About=RichTextField(blank=True,null=True)
-	Aims_and_Objectives= RichTextField(blank=True,null=True)
+	About=CKEditor5Field('Text', config_name='extends')
+	Aims_and_Objectives= CKEditor5Field('Text', config_name='extends')
 	Vision=models.TextField(blank=True,null=True)
 	Mission=models.TextField(blank=True,null=True)
 	

@@ -1,0 +1,87 @@
+{% load static %}
+
+<section id="Target" class="bg-[var(--bg-light)] text-center p-4 mt-0">
+  <div class="text-sm font-bold text-black uppercase tracking-wide mb-2" style="font-family: var(--main-font-family); font-size: 15.5px;">Work Target</div>
+  <h1 class="text-center text-4xl font-bold text-black mb-4" style="font-family: var(--main-font-family); line-height: 5rem;">Our Set Target</h1>
+  <div class="flex justify-center">
+    <div class="hidden md:flex justify-between space-x-8">
+      <div class="text-center">
+        <img
+          class="mb-2 w-3/4 h-auto mx-auto"
+          src="{% static 'images/Good moral.svg' %}"
+          alt="Good Morals"
+        />
+        <p class="font-medium">Good Morals</p>
+      </div>
+      <div class="text-center">
+        <img
+          class="mb-2 w-3/4 h-auto mx-auto"
+          src="{% static 'images/Academic Excellence.svg' %}"
+          alt="Academic Excellence"
+        />
+        <p class="font-medium">Academic Excellence</p>
+      </div>
+      <div class="text-center">
+        <img
+          class="mb-2 w-3/4 h-auto mx-auto"
+          src="{% static 'images/Creativity.svg' %}"
+          alt="Creativity"
+        />
+        <p class="font-medium">Creativity</p>
+      </div>
+      <div class="text-center">
+        <img
+          class="mb-2 w-3/4 h-auto mx-auto"
+          src="{% static 'images/Innovation.svg' %}"
+          alt="Innovation"
+        />
+        <p class="text-left pl-3 font-medium">Innovation</p>
+      </div>
+    </div>
+
+    <!-- for Small Screen  -->
+
+    <div class="md:hidden">
+      <div class="flex justify-center space-x-4 mb-4">
+        <div class="text-center">
+          <img
+            class="mb-2 w-full h-auto"
+            src="{% static 'images/Good moral.svg' %}"
+            alt="Good Morals"
+            style="width: 146.5px; height: 88.81px"
+          />
+          <p class="font-medium">Good Morals</p>
+        </div>
+        <div class="text-center">
+          <img
+            class="mb-2 w-full h-auto"
+            src="{% static 'images/Excellence.svg' %}"
+            alt="Academic Excellence"
+            style="width: 88.81px; height: 88.81px"
+          />
+          <p class="font-medium">Academic Excellence</p>
+        </div>
+      </div>
+      <div class="flex justify-center space-x-4">
+        <div class="text-center">
+          <img
+            class="mb-2 w-full h-auto"
+            src="{% static 'images/Creativity.svg' %}"
+            alt="Creativity"
+            style="width: 146.5px; height: 88.81px"
+          />
+          <p class="font-medium">Creativity</p>
+        </div>
+        <div class="text-center">
+          <img
+            class="mb-2 w-full h-auto"
+            src="{% static 'images/Innovation.svg' %}"
+            alt="Innovation"
+            style="width: 88.81px; height: 88.81px"
+          />
+          <p class="text-left pl-3 font-medium">Innovation</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

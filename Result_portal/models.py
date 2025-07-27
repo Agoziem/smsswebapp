@@ -2,7 +2,7 @@ from django.db import models
 # from openpyxl import Workbook,load_workbook
 import os
 import random
-from ckeditor.fields import RichTextField
+from django_ckeditor_5.fields import CKEditor5Field
 
 # Model for the Academic Session 
 class AcademicSession(models.Model):
@@ -45,7 +45,7 @@ class Subjectallocation(models.Model):
 # Model for the Newsletter Section & Assignments
 class Newsletter(models.Model):
 	currentTerm = models.ForeignKey(Term, on_delete=models.CASCADE , blank = True,null=True)
-	newsletter= RichTextField(blank=True,null=True)
+	newsletter= CKEditor5Field('Text', config_name='extends')
 	newsletterFile=models.FileField(upload_to = 'media/Newsletter' ,blank = True)
 	
 	def __str__(self):

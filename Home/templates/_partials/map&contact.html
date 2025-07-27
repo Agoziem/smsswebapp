@@ -1,0 +1,103 @@
+{% load static %}
+
+<section id="contact" class="bg-[var(--bg-dark-cream)] mt-20 py-20 px-[2vw]">
+  <div class="bg-[var(--main-bg-color)] shadow-[var(--big-card-shadow)] rounded-[var(--card-border-radius)] px-0 md:px-16 pt-16 py-16">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+      <div class="flex flex-col items-center">
+        <div class="sideline_text">Contact form</div>
+        <h1 class="text-center font-bold mb-12 text-4xl">Send us your feedback</h1>
+        <div class="multiplerule my-12 flex justify-center">
+          <div class="Nrule"></div>
+          <div class="Nrule2"></div>
+        </div>
+        <div class="w-full max-w-[465px] flex flex-col items-center px-20">
+          <ul class="w-full text-base">
+            {% for info in schools %}
+            <li class="bg-[var(--main-bg-color)] py-2 px-0 border-b border-gray-200">
+              <span class="font-bold mr-2">
+                <i class="fa-solid fa-envelope"></i>
+              </span>
+              {{info.Emailaddress}}
+            </li>
+            <li class="bg-[var(--main-bg-color)] py-2 px-0 border-b border-gray-200">
+              <span class="font-bold mr-2">
+                <i class="fa-brands fa-whatsapp"></i>
+              </span>
+              {{info.Whatsapp}}
+            </li>
+            <li class="bg-[var(--main-bg-color)] py-2 px-0 border-b border-gray-200">
+              <span class="font-bold mr-2">
+                <i class="fa-solid fa-location-dot"></i>
+              </span>
+              {{info.Schoollocation}}
+            </li>
+            {% endfor %}
+          </ul>
+        </div>
+        <div class="mt-16 flex flex-col items-center px-2">
+          <!-- Alert after Submission  -->
+
+          <div class="alert alert-success" style="display: none">
+            <i class="bi bi-check-circle-fill mx-2 text-success text-xl"></i>
+          </div>
+
+          <div class="alert alert-error" style="display: none">
+            <i class="fa-solid fa-triangle-exclamation mx-2 text-error text-xl"></i>
+          </div>
+
+          <form id="contact-form" class="w-[280px] font-semibold text-[#052640]">
+            <div class="form-control mb-12">
+              <label class="label">
+                <span class="label-text font-semibold text-[#052640]">Name</span>
+              </label>
+              <input
+                type="text"
+                name="name"
+                class="input input-bordered w-full bg-[var(--bg-light)] border-[1.8px] border-[var(--bg-dark-cream)] focus:outline-none focus:border-[var(--bg-dark-cream)]"
+                placeholder="enter your name"
+                required
+              />
+            </div>
+            <div class="form-control mb-12">
+              <label class="label">
+                <span class="label-text font-semibold text-[#052640]">Email address</span>
+              </label>
+              <input
+                type="email"
+                name="email"
+                class="input input-bordered w-full bg-[var(--bg-light)] border-[1.8px] border-[var(--bg-dark-cream)] focus:outline-none focus:border-[var(--bg-dark-cream)]"
+                placeholder="name@example.com"
+                required
+              />
+            </div>
+            <div class="form-control mb-12">
+              <label class="label">
+                <span class="label-text font-semibold text-[#052640]">Message</span>
+              </label>
+              <textarea
+                class="textarea textarea-bordered h-24 bg-[var(--bg-light)] border-[1.8px] border-[var(--bg-dark-cream)] focus:outline-none focus:border-[var(--bg-dark-cream)]"
+                name="message"
+                rows="6"
+                required
+              ></textarea>
+            </div>
+            <button
+              id="submit-btn"
+              type="submit"
+              class="btn btn-primary w-full mb-2 shadow-sm block"
+            >
+              Send Message
+            </button>
+          </form>
+        </div>
+      </div>
+      <div class="flex flex-col items-center mt-16 lg:mt-0">
+        <div
+          id="map"
+          style="width: 100%; height: 500px"
+          class="shadow-sm"
+        ></div>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,155 +1,267 @@
 {% load static %}
 <!-- Navbar for Large -->
 
-<nav class="navbar navbar-expand-lg navbar-light mt-0 fixed-top shadow-sm">
-    <div class=" container px-2 d-flex justify-content-between">
-        <!-- First Part of the Nav bar -->
-
-        <div class="d-flex justify-content-between">
-            <a href="{% url 'home' %}"><img src="{% static 'images/St Marks Logo.png' %}" alt="..."
-                    class="brand_image img-fluid"></a>
-        </div>
-        <div class="d-flex d-lg-none align-items-center justify-content-center">
-            <div class="nav-item-envelope me-3 position-relative">
-                <i class="fas fa-search h5 " style="color:#3b0505;"></i>
-            </div>
-            <div class="hamburger-menu ">
-                <div class="bar"></div>
-                <div class="bar"></div>
-                <div class="bar"></div>
-            </div>
-        </div>
-
-
-        <!-- Second Part of the Nav bar -->
-        <div class="d-none d-lg-flex collapse navbar-collapse" id="navmenu">
-            <ol class="navbar-nav mx-auto text-start ps-1">
-                <li class="nav-item me-2">
-                    <a href="{% url 'home' %}" class="nav-link active">Home <i
-                            class="fa-solid fa-caret-down ms-1"></i></a>
-                    <ul class="py-2 ps-0">
-                        <li class="px-4"><a href="/#About">About Us</a></li>
-                        <li class="px-4"><a href="/#Management">Teachers</a></li>
-                        <li class="px-4"><a href="/#Management">Management</a></li>
-                        <li class="px-4"><a href="/#review">Reviews</a></li>
-                        <li class="px-4"><a href="/#contact">Contact us</a></li>
-                        <li class="px-4"><a href="/#FAQ">FAQ</a></li>
-                    </ul>
-                </li>
-
-                <li class="nav-item me-2">
-                    <a href="#" class="nav-link">Articles</a>
-                </li>
-                <li class="nav-item me-2">
-                    <a href="{% url 'Teachers_portal:Teachers_dashboard' %}" class="nav-link">Teachers Portal</a>
-                </li>
-
-                <li class="nav-item me-2">
-                    <a class="nav-link">Students Section <i class="fa-solid fa-caret-down ms-1"></i></a>
-                    <ul class="py-2 ps-0">
-                        <li class="px-4"><a href="{% url 'Result_portal:classes' %}">Result Portal</a></li>
-                        <li class="px-4"><a href="{% url 'CBT:Cbt' %}">CBT</a></li>
-                        <li class="px-4"><a href="#">E-library</a></li>
-                        <li class="px-4"><a href="#">Payment Portal</a></li>
-                    </ul>
-                </li>
-
-                <li class="nav-item me-2">
-                    <a class="nav-link">Admissions <i class="fa-solid fa-caret-down ms-1"></i></a>
-                    <ul class="py-2 ps-0">
-                        <li class="px-4"><a href="#">Purchase Form</a></li>
-                        <li class="px-4"><a href="{% url 'CBT:Cbt' %}">CBT</a></li>
-                        <li class="px-4"><a href="#">Ent Exam Result</a></li>
-                    </ul>
-                </li>
-                <li class="nav-item me-2">
-                    <a href="#" class="nav-link">Contact us</a>
-                </li>
-            </ol>
-        </div>
-
-        <!-- Third Part of the Nav bar -->
-        <div class="d-none d-lg-flex">
-            <ol class="navbar-nav text-start ps-1">
-                <li class="nav-item-envelope me-3 position-relative">
-                    <a class="nav-link">
-                        <i class="fas fa-search h5"></i>
-                    </a>
-                </li>
-                <li class="nav-item mx-3 ">
-                    <a class="nav-link" href="#">
-                        <i class="fa-solid fa-user h4"></i>
-                        <i class="fa-solid fa-caret-down ms-1"></i>
-                    </a>
-                    <ul class="ps-0 py-3" style="right: 46px;">
-                        {% if request.user.is_superuser %}
-                        <li class="px-5"><a href="{% url 'activation_side' %}">Activation</a></li>
-                        <li class="px-5"><a href="{% url 'cardactivate' %}">Students Card</a></li>
-                        {% endif %}
-                        <li class="px-5"><a href="/admin" target="_blank">Admin</a></li>
-                    </ul>
-                </li>
-            </ol>
-        </div>
-
-
+<nav class="navbar bg-base-100 sticky top-0 w-full z-50 shadow-sm">
+  <div class="auto-container flex justify-between items-center">
+    <!-- First Part of the Nav bar -->
+    <div class="navbar-start">
+      <a href="{% url 'home' %}" class="block w-18 h-18 overflow-hidden">
+        <img
+          src="{% static 'images/St Marks Logo.png' %}"
+          alt="SMSS Logo"
+          class="object-cover rounded-full"
+        />
+      </a>
     </div>
+
+    <!-- Mobile menu button -->
+    <div class="lg:hidden flex items-center justify-center">
+      <div class="nav-item-envelope relative mr-3">
+        <i class="fas fa-search text-xl text-primary"></i>
+      </div>
+      <div class="drawer-end">
+        <input id="mobile-drawer" type="checkbox" class="drawer-toggle" />
+        <div class="drawer-content">
+          <label for="mobile-drawer" class="btn btn-square btn-ghost lg:hidden">
+            <svg
+              class="w-6 h-6"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M4 6h16M4 12h16M4 18h16"
+              ></path>
+            </svg>
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <!-- Second Part of the Nav bar - Desktop Menu -->
+    <div class="hidden lg:flex navbar-center">
+      <ul class="menu menu-horizontal px-1 text-base font-bold">
+        <li class="dropdown dropdown-hover">
+          <label
+            tabindex="0"
+            class="text-black hover:text-primary cursor-pointer"
+          >
+            Home <i class="fa-solid fa-caret-down ml-1"></i>
+          </label>
+          <ul
+            tabindex="0"
+            class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52"
+          >
+            <li>
+              <a href="/#About" class="text-primary font-bold">About Us</a>
+            </li>
+            <li>
+              <a href="/#Management" class="text-primary font-bold">Teachers</a>
+            </li>
+            <li>
+              <a href="/#Management" class="text-primary font-bold"
+                >Management</a
+              >
+            </li>
+            <li>
+              <a href="/#review" class="text-primary font-bold">Reviews</a>
+            </li>
+            <li>
+              <a href="/#contact" class="text-primary font-bold">Contact us</a>
+            </li>
+            <li><a href="/#FAQ" class="text-primary font-bold">FAQ</a></li>
+          </ul>
+        </li>
+
+        <li><a href="#" class="text-black hover:text-primary">Articles</a></li>
+        <li>
+          <a
+            href="{% url 'Teachers_portal:Teachers_dashboard' %}"
+            class="text-black hover:text-primary"
+            >Teachers Portal</a
+          >
+        </li>
+
+        <li class="dropdown dropdown-hover">
+          <label
+            tabindex="0"
+            class="text-black hover:text-primary cursor-pointer"
+          >
+            Students Section <i class="fa-solid fa-caret-down ml-1"></i>
+          </label>
+          <ul
+            tabindex="0"
+            class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52"
+          >
+            <li>
+              <a
+                href="{% url 'Result_portal:classes' %}"
+                class="text-primary font-bold"
+                >Result Portal</a
+              >
+            </li>
+            <li>
+              <a href="{% url 'CBT:Cbt' %}" class="text-primary font-bold"
+                >CBT</a
+              >
+            </li>
+            <li><a href="#" class="text-primary font-bold">E-library</a></li>
+            <li>
+              <a href="#" class="text-primary font-bold">Payment Portal</a>
+            </li>
+          </ul>
+        </li>
+
+        <li class="dropdown dropdown-hover">
+          <label
+            tabindex="0"
+            class="text-black hover:text-primary cursor-pointer"
+          >
+            Admissions <i class="fa-solid fa-caret-down ml-1"></i>
+          </label>
+          <ul
+            tabindex="0"
+            class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52"
+          >
+            <li>
+              <a href="#" class="text-primary font-bold">Purchase Form</a>
+            </li>
+            <li>
+              <a href="{% url 'CBT:Cbt' %}" class="text-primary font-bold"
+                >CBT</a
+              >
+            </li>
+            <li>
+              <a href="#" class="text-primary font-bold">Ent Exam Result</a>
+            </li>
+          </ul>
+        </li>
+
+        <li>
+          <a href="#" class="text-black hover:text-primary">Contact us</a>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Third Part of the Nav bar - User Actions -->
+    <div class="hidden lg:flex navbar-end">
+      <div class="flex items-center space-x-4">
+        <div class="nav-item-envelope relative">
+          <button class="btn btn-ghost btn-circle">
+            <i class="fas fa-search text-xl"></i>
+          </button>
+        </div>
+
+        <div class="dropdown dropdown-end">
+          <label tabindex="0" class="btn btn-ghost btn-circle">
+            <i class="fa-solid fa-user text-xl"></i>
+          </label>
+          <ul
+            tabindex="0"
+            class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52"
+          >
+            {% if request.user.is_superuser %}
+            <li>
+              <a
+                href="{% url 'activation_side' %}"
+                class="text-primary font-bold"
+                >Activation</a
+              >
+            </li>
+            <li>
+              <a href="{% url 'cardactivate' %}" class="text-primary font-bold"
+                >Students Card</a
+              >
+            </li>
+            {% endif %}
+            <li>
+              <a href="/admin" target="_blank" class="text-primary font-bold"
+                >Admin</a
+              >
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
 </nav>
 
-<!-- Navbar for Small Screen -->
-<nav class="menu">
-    <ul>
-        <li class="sub-menu-toggle">
-            <div class="d-flex justify-content-between align-items-center">
-                <a class="me-2">Quick links</a>
-                <i class="sub-menu-toggle-icon fas fa-plus"></i>
-            </div>
-            <ul class="sub-menu">
-                <li><a href="{% url 'home' %}" class="menulink">Home</a></li>
-                <li><a href="/#About" class="menulink">About us</a></li>
-                <li><a href="/#Management" class="menulink">Teachers</a></li>
-                <li><a href="/#Management" class="menulink">Management</a></li>
-                <li><a href="/#review" class="menulink">Reviews</a></li>
-                <li><a href="/#contact" class="menulink">Contact us</a></li>
-                <li><a href="/#FAQ" class="menulink">FAQ</a></li>
-            </ul>
-        </li>
-        <li><a href="#" class="menulink">Articles</a></li>
-        <li><a href="{% url 'Teachers_portal:Teachers_dashboard' %}" class="menulink">Teachers Portal</a></li>
-        <li class="sub-menu-toggle">
-            <div class="d-flex justify-content-between align-items-center">
-                <a>Admissions</a>
-                <i class="sub-menu-toggle-icon fas fa-plus "></i>
-            </div>
-            <ul class="sub-menu">
-                <li><a href="#" class="menulink">Purchase Form</a></li>
-                <li><a href="{% url 'CBT:Cbt' %}" class="menulink">CBT</a></li>
-                <li><a href="" class="menulink">Ent Exam Result</a></li>
-            </ul>
-        </li>
-        <li class="sub-menu-toggle">
-            <div class="d-flex justify-content-between align-items-center">
-                <a class="me-2" class="menulink">Students Section</a>
-                <i class="sub-menu-toggle-icon fas fa-plus"></i>
-            </div>
-            <ul class="sub-menu">
-                <li><a href="{% url 'Result_portal:classes' %}" class="menulink">Result Portal</a></li>
-                <li><a href="{% url 'CBT:Cbt' %}" class="menulink">CBT</a></li>
-                <li><a href="#" class="menulink">Elibrary</a></li>
-                <li><a href="#" class="menulink">Payment Portal</a></li>
-            </ul>
-        </li>
-        <li class="sub-menu-toggle">
-            <div class="d-flex justify-content-between align-items-center">
-                <a class="me-2" class="menulink">Admin</a>
-                <i class="sub-menu-toggle-icon fas fa-plus"></i>
-            </div>
-            <ul class="sub-menu">
-                {% if request.user.is_superuser %}
-                <li><a href="{% url 'activation_side' %}" class="menulink">Activation</a></li>
-                {% endif %}
-                <li><a href="/admin" target="_blank" class="menulink">Admin</a></li>
-            </ul>
-        </li>
-    </ul>
-</nav>
+<!-- Mobile Drawer Menu -->
+<div class="drawer lg:hidden">
+  <input id="mobile-drawer" type="checkbox" class="drawer-toggle" />
+  <div class="drawer-side">
+    <label for="mobile-drawer" class="drawer-overlay"></label>
+    <aside class="w-80 min-h-full bg-base-200">
+      <div class="p-4">
+        <h2 class="text-xl font-bold mb-4">Menu</h2>
+        <ul class="menu w-full">
+          <li class="mb-2">
+            <details>
+              <summary class="text-primary font-bold">Home</summary>
+              <ul>
+                <li><a href="/#About">About Us</a></li>
+                <li><a href="/#Management">Teachers</a></li>
+                <li><a href="/#Management">Management</a></li>
+                <li><a href="/#review">Reviews</a></li>
+                <li><a href="/#contact">Contact us</a></li>
+                <li><a href="/#FAQ">FAQ</a></li>
+              </ul>
+            </details>
+          </li>
+          <li><a href="#" class="text-primary font-bold">Articles</a></li>
+          <li>
+            <a
+              href="{% url 'Teachers_portal:Teachers_dashboard' %}"
+              class="text-primary font-bold"
+              >Teachers Portal</a
+            >
+          </li>
+          <li class="mb-2">
+            <details>
+              <summary class="text-primary font-bold">Students Section</summary>
+              <ul>
+                <li>
+                  <a href="{% url 'Result_portal:classes' %}">Result Portal</a>
+                </li>
+                <li><a href="{% url 'CBT:Cbt' %}">CBT</a></li>
+                <li><a href="#">E-library</a></li>
+                <li><a href="#">Payment Portal</a></li>
+              </ul>
+            </details>
+          </li>
+          <li class="mb-2">
+            <details>
+              <summary class="text-primary font-bold">Admissions</summary>
+              <ul>
+                <li><a href="#">Purchase Form</a></li>
+                <li><a href="{% url 'CBT:Cbt' %}">CBT</a></li>
+                <li><a href="#">Ent Exam Result</a></li>
+              </ul>
+            </details>
+          </li>
+          <li><a href="#" class="text-primary font-bold">Contact us</a></li>
+          {% if request.user.is_superuser %}
+          <li>
+            <a href="{% url 'activation_side' %}" class="text-primary font-bold"
+              >Activation</a
+            >
+          </li>
+          <li>
+            <a href="{% url 'cardactivate' %}" class="text-primary font-bold"
+              >Students Card</a
+            >
+          </li>
+          {% endif %}
+          <li>
+            <a href="/admin" target="_blank" class="text-primary font-bold"
+              >Admin</a
+            >
+          </li>
+        </ul>
+      </div>
+    </aside>
+  </div>
+</div>
