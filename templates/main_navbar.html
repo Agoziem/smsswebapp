@@ -5,7 +5,10 @@
   <div class="auto-container flex justify-between items-center">
     <!-- First Part of the Nav bar -->
     <div class="navbar-start">
-      <a href="{% url 'home' %}" class="block w-18 h-18 overflow-hidden">
+      <a
+        href="{% url 'home' %}"
+        class="block w-[60px] h-[60px] overflow-hidden"
+      >
         <img
           src="{% static 'images/St Marks Logo.png' %}"
           alt="SMSS Logo"
@@ -43,13 +46,13 @@
 
     <!-- Second Part of the Nav bar - Desktop Menu -->
     <div class="hidden lg:flex navbar-center">
-      <ul class="menu menu-horizontal px-1 text-base font-bold">
+      <ul class="menu menu-horizontal px-1 text-sm font-bold">
         <li class="dropdown dropdown-hover">
           <label
             tabindex="0"
             class="text-black hover:text-primary cursor-pointer"
           >
-            Home <i class="fa-solid fa-caret-down ml-1"></i>
+            Home <i data-lucide="chevron-down" class="ml-1 w-4 h-auto"></i>
           </label>
           <ul
             tabindex="0"
@@ -90,7 +93,8 @@
             tabindex="0"
             class="text-black hover:text-primary cursor-pointer"
           >
-            Students Section <i class="fa-solid fa-caret-down ml-1"></i>
+            Students Section
+            <i data-lucide="chevron-down" class="ml-1 w-4 h-auto"></i>
           </label>
           <ul
             tabindex="0"
@@ -99,18 +103,20 @@
             <li>
               <a
                 href="{% url 'Result_portal:classes' %}"
-                class="text-primary font-bold"
+                class="text-primary font-semibold"
                 >Result Portal</a
               >
             </li>
             <li>
-              <a href="{% url 'CBT:Cbt' %}" class="text-primary font-bold"
+              <a href="{% url 'CBT:Cbt' %}" class="text-primary font-semibold"
                 >CBT</a
               >
             </li>
-            <li><a href="#" class="text-primary font-bold">E-library</a></li>
             <li>
-              <a href="#" class="text-primary font-bold">Payment Portal</a>
+              <a href="#" class="text-primary font-semibold">E-library</a>
+            </li>
+            <li>
+              <a href="#" class="text-primary font-semibold">Payment Portal</a>
             </li>
           </ul>
         </li>
@@ -120,22 +126,23 @@
             tabindex="0"
             class="text-black hover:text-primary cursor-pointer"
           >
-            Admissions <i class="fa-solid fa-caret-down ml-1"></i>
+            Admissions
+            <i data-lucide="chevron-down" class="ml-1 w-4 h-auto"></i>
           </label>
           <ul
             tabindex="0"
             class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52"
           >
             <li>
-              <a href="#" class="text-primary font-bold">Purchase Form</a>
+              <a href="#" class="text-primary font-semibold">Purchase Form</a>
             </li>
             <li>
-              <a href="{% url 'CBT:Cbt' %}" class="text-primary font-bold"
+              <a href="{% url 'CBT:Cbt' %}" class="text-primary font-semibold"
                 >CBT</a
               >
             </li>
             <li>
-              <a href="#" class="text-primary font-bold">Ent Exam Result</a>
+              <a href="#" class="text-primary font-semibold">Ent Exam Result</a>
             </li>
           </ul>
         </li>
@@ -150,15 +157,39 @@
     <div class="hidden lg:flex navbar-end">
       <div class="flex items-center space-x-4">
         <div class="nav-item-envelope relative">
-          <button class="btn btn-ghost btn-circle">
-            <i class="fas fa-search text-xl"></i>
+          <button
+            class="btn btn-ghost btn-circle text-black hover:text-primary"
+          >
+            <i data-lucide="user-round-plus" class="w-6 h-auto"></i>
           </button>
         </div>
 
         <div class="dropdown dropdown-end">
-          <label tabindex="0" class="btn btn-ghost btn-circle">
-            <i class="fa-solid fa-user text-xl"></i>
-          </label>
+          {% if request.user.is_authenticated  %}
+          <label
+            tabindex="0"
+            class="btn btn-ghost btn-circle text-black hover:text-primary"
+          >
+              <div
+                class="w-8 h-8 flex justify-center items-center rounded-full bg-secondary shrink-0"
+              >
+                <h6 class="text-primary font-extrabold text-lg">
+                  {% if request.user.username %} {{ request.user.username|slice:":1" }} {% else %} ? {% endif %}
+                </h6>
+              </div>
+            </label>
+          {% else %}
+          <label
+            tabindex="0"
+            class="btn btn-ghost btn-circle text-black hover:text-primary"
+          >
+              <div
+                class="w-9 h-9 flex justify-center items-center rounded-full bg-secondary shrink-0"
+              >
+                <i data-lucide="shield-user" class="w-5 h-auto text-primary"></i>
+              </div>
+            </label>
+          {% endif %}
           <ul
             tabindex="0"
             class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52"
@@ -167,18 +198,23 @@
             <li>
               <a
                 href="{% url 'activation_side' %}"
-                class="text-primary font-bold"
+                class="text-primary font-semibold"
                 >Activation</a
               >
             </li>
             <li>
-              <a href="{% url 'cardactivate' %}" class="text-primary font-bold"
+              <a
+                href="{% url 'cardactivate' %}"
+                class="text-primary font-semibold"
                 >Students Card</a
               >
             </li>
             {% endif %}
             <li>
-              <a href="/admin" target="_blank" class="text-primary font-bold"
+              <a
+                href="/admin"
+                target="_blank"
+                class="text-primary font-semibold"
                 >Admin</a
               >
             </li>

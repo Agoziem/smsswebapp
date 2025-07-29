@@ -1,83 +1,148 @@
-{% extends 'base.html' %}
-{% load static %}
-{% block content%}
-{% include 'main_navbar.html' %}
+{% extends 'base.html' %} {% load static %} {% block content%} {% include
+'main_navbar.html' %}
 
-<section class="py-16 bg-base-100">
-    <div class="container mx-auto px-4">
-        <!-- Students Card Front Section -->
-        <div class="flex flex-col lg:flex-row items-center justify-between mb-8">
-            <h2 class="text-3xl font-bold text-primary mb-4 lg:mb-0">SMSS Students Card (Front)</h2>
-            <button id="download_btn" class="btn btn-primary gap-2">
-                <i class="fa-solid fa-download"></i>
-                Download Cards
-                <span class="loading loading-spinner loading-sm hidden"></span>
-            </button>
-        </div>
-        
-        <div id="student_card_container" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-7 gap-4 mb-12">
-            <!-- Card templates - maintaining the original repeated structure -->
-            {% for i in "123456789012345678901" %}
-            <div class="card bg-base-200 shadow-lg aspect-[5/8] overflow-hidden">
-                <figure class="w-full h-full">
-                    <img class="studentcardimg w-full h-full object-cover" 
-                         src="{% static 'images/Smss Cards Background.jpg' %}" 
-                         alt="Student Card Front">
-                </figure>
-            </div>
-            {% endfor %}
-        </div>
-
-        <!-- Students Card Back Section -->
-        <div class="flex flex-col lg:flex-row items-center justify-between mb-8">
-            <h2 class="text-3xl font-bold text-primary mb-4 lg:mb-0">SMSS Students Card (Back)</h2>
-            
-            <!-- Pagination -->
-            <div class="flex items-center gap-4 mb-4 lg:mb-0">
-                <div class="join">
-                    {% if students.has_previous %}
-                    <a href="?page=1" class="join-item btn btn-sm">« First</a>
-                    <a href="?page={{ students.previous_page_number }}" class="join-item btn btn-sm">‹ Previous</a>
-                    {% endif %}
-                    
-                    <button class="join-item btn btn-sm btn-active">
-                        Page {{ students.number }} of {{ students.paginator.num_pages }}
-                    </button>
-                    
-                    {% if students.has_next %}
-                    <a href="?page={{ students.next_page_number }}" class="join-item btn btn-sm">Next ›</a>
-                    <a href="?page={{ students.paginator.num_pages }}" class="join-item btn btn-sm">Last »</a>
-                    {% endif %}
-                </div>
-            </div>
-            
-            <button id="download_back_btn" class="btn btn-primary gap-2">
-                <i class="fa-solid fa-download"></i>
-                Download Cards
-                <span class="loading loading-spinner loading-sm hidden"></span>
-            </button>
-        </div>
-        
-        <div id="student_card_back_container" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-7 gap-4">
-            {% for student in students %}
-            <div class="studentcard card bg-base-200 shadow-lg aspect-[5/8] overflow-hidden relative">
-                <figure class="w-full h-full">
-                    <img class="studentcardimg w-full h-full object-cover" 
-                         src="{% static 'images/Smss Cards Background back.jpg' %}" 
-                         alt="Student Card Back">
-                </figure>
-                <div class="text-overlay absolute inset-0 flex flex-col justify-center items-center text-center p-2">
-                    <h3 class="text-lg font-bold text-wine-red mb-2">{{ student.student_class }}</h3>
-                    <h4 class="text-sm font-semibold text-base-content mb-1">{{ student.student_name }}</h4>
-                    <p class="text-xs text-base-content/80 mb-1">{{ student.student_id }}</p>
-                    <p class="text-xs text-base-content/80">{{ student.student_pin }}</p>
-                </div>
-            </div>
-            {% endfor %}
-        </div>
+<section class="py-10 bg-base-100">
+  <div class="auto-container">
+    <!-- Section Header Following Design System -->
+    <div class="flex flex-col items-center mb-8">
+      <div class="sideline_text text-primary">Student Cards</div>
+      <h1 class="text-4xl text-center text-primary">SMSS Student ID Cards</h1>
     </div>
+
+    <div class="flex justify-center mt-3 mb-8">
+      <div class="Nrule"></div>
+      <div class="Nrule2"></div>
+    </div>
+
+    <!-- Students Card Front Section -->
+    <div class="bg-primary/5 rounded-xl p-6 mb-12">
+      <div class="flex flex-col lg:flex-row items-center justify-between mb-6">
+        <h2 class="text-2xl font-bold text-primary mb-4 lg:mb-0">
+          Card Front Design
+        </h2>
+        <button id="download_btn" class="btn btn-primary gap-2">
+          <i class="fa-solid fa-download"></i>
+          Download Cards
+          <span class="loading loading-spinner loading-sm hidden"></span>
+        </button>
+      </div>
+
+      <div
+        id="student_card_container"
+        class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-7 gap-4"
+      >
+        <!-- Card templates - maintaining the original repeated structure -->
+        {% for i in "123456789012345678901" %}
+        <div
+          class="card bg-base-200 shadow-lg aspect-[5/8] overflow-hidden hover:shadow-md transition-shadow"
+        >
+          <figure class="w-full h-full">
+            <img
+              class="studentcardimg w-full h-full object-cover"
+              src="{% static 'images/Smss Cards Background.jpg' %}"
+              alt="Student Card Front"
+            />
+          </figure>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+
+    <!-- Students Card Back Section -->
+    <div class="bg-secondary/5 rounded-xl p-6">
+      <div class="flex flex-col lg:flex-row items-center justify-between mb-6">
+        <h2 class="text-2xl font-bold text-primary mb-4 lg:mb-0">
+          Card Back with Student Data
+        </h2>
+
+        <!-- Pagination Following Design System -->
+        <div class="flex items-center gap-4 mb-4 lg:mb-0">
+          <div class="join">
+            {% if students.has_previous %}
+            <a href="?page=1" class="join-item btn btn-sm btn-outline"
+              >« First</a
+            >
+            <a
+              href="?page={{ students.previous_page_number }}"
+              class="join-item btn btn-sm btn-outline"
+              >‹ Previous</a
+            >
+            {% endif %}
+
+            <button class="join-item btn btn-sm btn-primary">
+              Page {{ students.number }} of {{ students.paginator.num_pages }}
+            </button>
+
+            {% if students.has_next %}
+            <a
+              href="?page={{ students.next_page_number }}"
+              class="join-item btn btn-sm btn-outline"
+              >Next ›</a
+            >
+            <a
+              href="?page={{ students.paginator.num_pages }}"
+              class="join-item btn btn-sm btn-outline"
+              >Last »</a
+            >
+            {% endif %}
+          </div>
+        </div>
+
+        <button id="download_back_btn" class="btn btn-primary gap-2">
+          <i class="fa-solid fa-download"></i>
+          Download Cards
+          <span class="loading loading-spinner loading-sm hidden"></span>
+        </button>
+      </div>
+
+      {% if students %}
+      <div
+        id="student_card_back_container"
+        class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-7 gap-4"
+      >
+        {% for student in students %}
+        <div
+          class="studentcard card bg-base-200 shadow-lg aspect-[5/8] overflow-hidden relative hover:shadow-md transition-shadow"
+        >
+          <figure class="w-full h-full">
+            <img
+              class="studentcardimg w-full h-full object-cover"
+              src="{% static 'images/Smss Cards Background back.jpg' %}"
+              alt="Student Card Back"
+            />
+          </figure>
+          <div
+            class="text-overlay absolute inset-0 flex flex-col justify-center items-center text-center p-2"
+          >
+            <h3 class="text-lg font-bold text-primary mb-2">
+              {{ student.student_class }}
+            </h3>
+            <h4 class="text-sm font-semibold text-base-content mb-1">
+              {{ student.student_name }}
+            </h4>
+            <p class="text-xs text-base-content/80 mb-1">
+              {{ student.student_id }}
+            </p>
+            <p class="text-xs text-base-content/80">
+              {{ student.student_pin }}
+            </p>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+      {% else %}
+      <!-- Empty State Following Design System -->
+      <div class="w-full">
+        <div
+          class="mx-auto max-w-[450px] max-h-[180px] bg-primary/20 py-20 px-12 text-primary"
+        >
+          <h5 class="text-center">No student cards available yet!</h5>
+        </div>
+      </div>
+      {% endif %}
+    </div>
+  </div>
 </section>
 
 <script src="{% static 'js/Access_cards.js' %}"></script>
-{% include 'main_footer.html' %}
-{% endblock %}
+{% include 'main_footer.html' %} {% endblock %}

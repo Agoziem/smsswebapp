@@ -1,0 +1,81 @@
+{% comment %} Recent Activities Component {% endcomment %}
+<div class="bg-base-100 rounded-xl shadow-lg p-6 mb-8">
+  <div class="flex flex-col items-center mb-6">
+    <h2 class="text-2xl font-bold text-primary text-center">Recent Activities</h2>
+    <p class="text-sm text-base-content/70 mt-2 text-center">Your latest actions and updates</p>
+  </div>
+  
+  <div class="flex justify-center mb-6">
+    <div class="h-0.5 w-12 bg-primary rounded"></div>
+    <div class="h-0.5 w-8 bg-primary/60 rounded ml-1"></div>
+  </div>
+
+  <div class="space-y-4">
+    {% if recent_activities %}
+      {% for activity in recent_activities %}
+      <div class="flex items-start gap-4 p-4 bg-base-200/50 rounded-lg hover:bg-base-200 transition-colors">
+        <div class="bg-{{ activity.type }}/10 p-2 rounded-full flex-shrink-0">
+          <i class="fas {{ activity.icon }} text-{{ activity.type }} text-sm"></i>
+        </div>
+        <div class="flex-grow">
+          <p class="text-sm font-medium text-base-content">{{ activity.description }}</p>
+          <p class="text-xs text-base-content/60 mt-1">{{ activity.timestamp|timesince }} ago</p>
+        </div>
+        <div class="badge badge-{{ activity.type }} badge-outline badge-sm">{{ activity.category }}</div>
+      </div>
+      {% endfor %}
+    {% else %}
+      <!-- Default Activities -->
+      <div class="flex items-start gap-4 p-4 bg-base-200/50 rounded-lg">
+        <div class="bg-success/10 p-2 rounded-full flex-shrink-0">
+          <i class="fas fa-check text-success text-sm"></i>
+        </div>
+        <div class="flex-grow">
+          <p class="text-sm font-medium text-base-content">Profile updated successfully</p>
+          <p class="text-xs text-base-content/60 mt-1">2 hours ago</p>
+        </div>
+        <div class="badge badge-success badge-outline badge-sm">Profile</div>
+      </div>
+
+      <div class="flex items-start gap-4 p-4 bg-base-200/50 rounded-lg">
+        <div class="bg-primary/10 p-2 rounded-full flex-shrink-0">
+          <i class="fas fa-clipboard-list text-primary text-sm"></i>
+        </div>
+        <div class="flex-grow">
+          <p class="text-sm font-medium text-base-content">Added new CBT questions for Mathematics</p>
+          <p class="text-xs text-base-content/60 mt-1">1 day ago</p>
+        </div>
+        <div class="badge badge-primary badge-outline badge-sm">CBT</div>
+      </div>
+
+      <div class="flex items-start gap-4 p-4 bg-base-200/50 rounded-lg">
+        <div class="bg-secondary/10 p-2 rounded-full flex-shrink-0">
+          <i class="fas fa-user-graduate text-secondary text-sm"></i>
+        </div>
+        <div class="flex-grow">
+          <p class="text-sm font-medium text-base-content">Published results for JSS 2A</p>
+          <p class="text-xs text-base-content/60 mt-1">3 days ago</p>
+        </div>
+        <div class="badge badge-secondary badge-outline badge-sm">Results</div>
+      </div>
+
+      <div class="flex items-start gap-4 p-4 bg-base-200/50 rounded-lg">
+        <div class="bg-info/10 p-2 rounded-full flex-shrink-0">
+          <i class="fas fa-calendar-check text-info text-sm"></i>
+        </div>
+        <div class="flex-grow">
+          <p class="text-sm font-medium text-base-content">Attendance marked for all classes</p>
+          <p class="text-xs text-base-content/60 mt-1">1 week ago</p>
+        </div>
+        <div class="badge badge-info badge-outline badge-sm">Attendance</div>
+      </div>
+    {% endif %}
+  </div>
+
+  <div class="text-center mt-6">
+    <a href="#" class="btn btn-outline btn-primary btn-sm gap-2">
+      <i class="fas fa-history"></i>
+      View All Activities
+    </a>
+  </div>
+</div>

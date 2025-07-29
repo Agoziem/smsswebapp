@@ -14,7 +14,6 @@ from django.core.paginator import Paginator,EmptyPage, PageNotAnInteger
 
 
 
-
 def activation_view(request):
     tests = Test.objects.all()
     questions = QuestionSet.objects.all().order_by('subject__subject_name')
@@ -72,28 +71,29 @@ def student_card_view(request):
     return render(request, "card_activation.html", context)
     
 def home_view(request):
-	queryset1=School.objects.all()
-	queryset2=Management.objects.all()
-	queryset3=Header.objects.all()
-	queryset4=FAQ.objects.all()
-	queryset5=UpcomingEvents.objects.order_by('-id')[:2]
-	queryset6=PhotoGallery.objects.order_by('-id')[:6]
-	queryset7=TopTeacher.objects.all()
-	queryset8=ParentsReview.objects.all()
-	queryset9=Article.objects.order_by('-id')[:4]
-	context= {
-	'mapbox_private_key':settings.MAPBOXGL_ACCESSTOKEN,
-	'schools':queryset1,
-	'managements':queryset2,
-	'headers':queryset3,
-	'FAQ':queryset4,
-	'events':queryset5,
-	'photos':queryset6,
-	"Teachers":queryset7,
-	"parentsreviews":queryset8,
-	"articles":queryset9
-	}
-	return render(request,'home.html',context)
+    queryset1=School.objects.all()
+    queryset2=Management.objects.all()
+    queryset3=Header.objects.all()
+    queryset4=FAQ.objects.all()
+    queryset5=UpcomingEvents.objects.order_by('-id')[:2]
+    queryset6=PhotoGallery.objects.order_by('-id')[:6]
+    queryset7=TopTeacher.objects.all()
+    queryset8=ParentsReview.objects.all()
+    queryset9=Article.objects.order_by('-id')[:4]
+    map_box_private_key = settings.MAPBOXGL_ACCESSTOKEN
+    context= {
+        'map_box_private_key':map_box_private_key,
+        'schools':queryset1,
+        'managements':queryset2,
+        'headers':queryset3,
+        'FAQ':queryset4,
+        'events':queryset5,
+        'photos':queryset6,
+        "Teachers":queryset7,
+        "parentsreviews":queryset8,
+        "articles":queryset9
+        }
+    return render(request,'home.html',context)
 	
 def about_view(request):
 	queryset3=Header.objects.all()

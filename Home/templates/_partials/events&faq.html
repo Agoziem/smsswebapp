@@ -1,5 +1,5 @@
 {% load static %}
-<section id="FAQ" class="FAQ_News p-2 pb-16 my-16">
+<section id="FAQ" class="FAQ_News p-2 pb-16 pt-10">
   <div class="sideline_text text-center">
     be kept abrest with our news and update
   </div>
@@ -8,26 +8,36 @@
     <div class="Nrule"></div>
     <div class="Nrule2"></div>
   </div>
-  <div class="container mx-auto px-4">
+
+  <div class="auto-container">
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
-      <div class="pt-12">
-        {% if events %} {% for event in events %}
-        <div class="bg-[var(--bg-wine-red)] text-[var(--cream-color)] rounded-[var(--card-border-radius)] shadow-[var(--big-card-shadow)] max-w-[500px] flex mb-12">
+      <!-- Events Section -->
+      <div class="space-y-4">
+        {% if events %} 
+        {% for event in events %}
+        <div class="rounded-xl shadow-lg bg-primary/5 px-6 pl-2 md:pl-6 flex items-center">
+
+          <!-- Event Image -->
           {% if event.EventimageURL == '' %}
-          <img
-            class="w-[170px] h-[180px] object-cover rounded-l-[var(--card-border-radius)] hidden sm:block"
-            src="{% static 'images/No image.svg' %}"
-            alt=""
-          />
+
+          <div
+            class="w-[150px] h-[180px] bg-secondary rounded-xl hidden sm:flex justify-center items-center"
+          >
+            <i class="i fa-solid fa-image text-4xl text-primary"></i>
+          </div>
           {% else %}
           <img
-            class="w-[170px] h-[180px] object-cover rounded-l-[var(--card-border-radius)] hidden sm:block"
+            class="w-[150px] h-[180px] object-cover rounded-xl hidden sm:block"
             src="{{ event.EventimageURL }}"
             alt=""
           />
           {% endif %}
+
+          <!-- Event Details -->
           <div class="py-12 pl-10">
-            <h5 class="text-xl font-bold" style="font-family: var(--main-font-family)">{{ event.Eventtitle }}</h5>
+            <h5 class="text-xl font-bold text-primary">
+              {{ event.Eventtitle }}
+            </h5>
             <div class="text-sm font-bold">
               {% if event.Eventspeaker_Chairman %}
               <div class="text-[13px]">
@@ -36,21 +46,23 @@
               {% endif %}
               <div class="text-[13px]">Venue : {{ event.Eventvenue }}</div>
             </div>
-            <div class="flex justify-center mt-16 items-center">
+
+            <!-- second part -->
+            <div class="flex justify-center mt-6 items-center">
               <div class="flex justify-between items-center">
-                <img
-                  class="w-[38px] h-[38px]"
-                  src="{% static 'images/Event_time_icon.svg' %}"
-                  alt=""
-                />
+                <div
+                  class="w-10 h-10 flex items-center justify-center bg-secondary rounded-full shrink-0"
+                >
+                  <i class="i fa-solid fa-clock text-primary text-lg"></i>
+                </div>
                 <div class="text-[13px] ml-2">{{ event.Eventtime }}</div>
               </div>
               <div class="mx-12 flex justify-between items-center">
-                <img
-                  class="w-[38px] h-[38px]"
-                  src="{% static 'images/Event_date_icon.svg' %}"
-                  alt=""
-                />
+                <div
+                  class="w-10 h-10 flex items-center justify-center bg-secondary rounded-full shrink-0"
+                >
+                  <i class="i fa-solid fa-calendar text-primary text-lg"></i>
+                </div>
                 <div class="text-[13px] ml-2">{{ event.Eventdate }}</div>
               </div>
             </div>
@@ -58,23 +70,30 @@
         </div>
         {% endfor %} {% else %}
 
-        <div id="events" class="max-w-[500px] max-h-[180px] bg-[var(--bg-dark-cream)] mx-auto">
-          <div class="py-20 pl-12 text-center">
-            <h5 class="px-12">no Events yet !!</h5>
+        <div class="w-full">
+          <div
+            id="events"
+            class="mx-auto max-w-[450px] max-h-[180px] bg-primary/20 py-20 px-12"
+          >
+            <h5 class="text-center text-primary">no Events yet !!</h5>
           </div>
         </div>
         {% endif %}
       </div>
+
+      <!-- FAQ Section -->
       <div>
         <div class="max-w-md mx-auto">
           {% for question in FAQ %}
-          <div class="collapse collapse-plus bg-base-200 mb-2">
+          <div
+            class="collapse collapse-arrow bg-primary/10 border border-secondary/50 mb-4"
+          >
             <input type="radio" name="faq-accordion" />
-            <div class="collapse-title text-xl font-medium" style="font-family: 'League Spartan', sans-serif">
+            <div class="collapse-title font-semibold text-primary">
               {{ question.Questions }}
             </div>
-            <div class="collapse-content">
-              <p>{{ question.Answer }}</p>
+            <div class="collapse-content text-sm text-primary">
+              {{ question.Answer }}
             </div>
           </div>
           {% endfor %}

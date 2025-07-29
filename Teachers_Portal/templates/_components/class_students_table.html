@@ -1,0 +1,193 @@
+{% comment %} Class Students Data Table Component {% endcomment %}
+<div class="bg-base-100 rounded-xl shadow-lg p-6">
+  <!-- Table Controls -->
+  <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4 mb-6">
+    <!-- Search and Filter -->
+    <div class="flex flex-col sm:flex-row gap-4 flex-grow">
+      <div class="form-control">
+        <div class="input-group">
+          <input type="text" id="class-search" placeholder="Search classes..." 
+                 class="input input-bordered placeholder:text-secondary focus:outline-orange focus:border-orange w-full max-w-xs" />
+          <button class="btn btn-square btn-primary">
+            <i class="fas fa-search"></i>
+          </button>
+        </div>
+      </div>
+      
+      <select id="session-filter" class="select select-bordered placeholder:text-secondary focus:outline-orange focus:border-orange">
+        <option value="">All Sessions</option>
+        <option value="2024/2025">2024/2025</option>
+        <option value="2023/2024">2023/2024</option>
+      </select>
+    </div>
+
+    <!-- Action Buttons -->
+    <div id="class-actions" class="hidden gap-2">
+      <button class="btn btn-secondary btn-sm gap-2">
+        <i class="fas fa-chart-bar"></i>
+        Generate Report
+      </button>
+      <button class="btn btn-info btn-sm gap-2">
+        <i class="fas fa-download"></i>
+        Export Data
+      </button>
+    </div>
+  </div>
+
+  <!-- Table -->
+  <div class="overflow-x-auto">
+    <table id="class-table" class="table table-zebra w-full">
+      <thead class="bg-primary text-base-100">
+        <tr>
+          <th>
+            <input type="checkbox" id="select-all-classes" class="checkbox checkbox-sm" />
+          </th>
+          <th>Class</th>
+          <th>Form Teacher</th>
+          <th>Total Students</th>
+          <th>Male</th>
+          <th>Female</th>
+          <th>Session</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% if class_data %}
+          {% for class in class_data %}
+          <tr class="hover">
+            <td>
+              <input type="checkbox" class="checkbox checkbox-sm class-checkbox" value="{{ class.id }}" />
+            </td>
+            <td>
+              <div class="flex items-center gap-3">
+                <div class="bg-primary/10 p-2 rounded-lg">
+                  <i class="fas fa-school text-primary"></i>
+                </div>
+                <span class="font-bold text-primary">{{ class.Class }}</span>
+              </div>
+            </td>
+            <td class="font-medium">{{ class.form_teacher|default:"Not Assigned" }}</td>
+            <td>
+              <span class="badge badge-primary badge-lg">{{ class.total_students|default:"0" }}</span>
+            </td>
+            <td class="text-center">{{ class.male_count|default:"0" }}</td>
+            <td class="text-center">{{ class.female_count|default:"0" }}</td>
+            <td>{{ class.session|default:"Current" }}</td>
+            <td>
+              <div class="dropdown dropdown-end">
+                <label tabindex="0" class="btn btn-ghost btn-xs">
+                  <i class="fas fa-ellipsis-v"></i>
+                </label>
+                <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
+                  <li><a href="#" class="text-sm"><i class="fas fa-users mr-2"></i>View Students</a></li>
+                  <li><a href="#" class="text-sm"><i class="fas fa-chart-bar mr-2"></i>Class Analytics</a></li>
+                  <li><a href="#" class="text-sm"><i class="fas fa-clipboard-list mr-2"></i>Manage Results</a></li>
+                </ul>
+              </div>
+            </td>
+          </tr>
+          {% endfor %}
+        {% else %}
+          <!-- Sample Data -->
+          <tr class="hover">
+            <td><input type="checkbox" class="checkbox checkbox-sm class-checkbox" value="1" /></td>
+            <td>
+              <div class="flex items-center gap-3">
+                <div class="bg-primary/10 p-2 rounded-lg">
+                  <i class="fas fa-school text-primary"></i>
+                </div>
+                <span class="font-bold text-primary">JSS 1A</span>
+              </div>
+            </td>
+            <td class="font-medium">Mrs. Johnson</td>
+            <td><span class="badge badge-primary badge-lg">35</span></td>
+            <td class="text-center">18</td>
+            <td class="text-center">17</td>
+            <td>2024/2025</td>
+            <td>
+              <div class="dropdown dropdown-end">
+                <label tabindex="0" class="btn btn-ghost btn-xs">
+                  <i class="fas fa-ellipsis-v"></i>
+                </label>
+                <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
+                  <li><a href="#" class="text-sm"><i class="fas fa-users mr-2"></i>View Students</a></li>
+                  <li><a href="#" class="text-sm"><i class="fas fa-chart-bar mr-2"></i>Class Analytics</a></li>
+                  <li><a href="#" class="text-sm"><i class="fas fa-clipboard-list mr-2"></i>Manage Results</a></li>
+                </ul>
+              </div>
+            </td>
+          </tr>
+          <tr class="hover">
+            <td><input type="checkbox" class="checkbox checkbox-sm class-checkbox" value="2" /></td>
+            <td>
+              <div class="flex items-center gap-3">
+                <div class="bg-secondary/10 p-2 rounded-lg">
+                  <i class="fas fa-school text-secondary"></i>
+                </div>
+                <span class="font-bold text-primary">JSS 2B</span>
+              </div>
+            </td>
+            <td class="font-medium">Mr. Okafor</td>
+            <td><span class="badge badge-primary badge-lg">32</span></td>
+            <td class="text-center">16</td>
+            <td class="text-center">16</td>
+            <td>2024/2025</td>
+            <td>
+              <div class="dropdown dropdown-end">
+                <label tabindex="0" class="btn btn-ghost btn-xs">
+                  <i class="fas fa-ellipsis-v"></i>
+                </label>
+                <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
+                  <li><a href="#" class="text-sm"><i class="fas fa-users mr-2"></i>View Students</a></li>
+                  <li><a href="#" class="text-sm"><i class="fas fa-chart-bar mr-2"></i>Class Analytics</a></li>
+                  <li><a href="#" class="text-sm"><i class="fas fa-clipboard-list mr-2"></i>Manage Results</a></li>
+                </ul>
+              </div>
+            </td>
+          </tr>
+          <tr class="hover">
+            <td><input type="checkbox" class="checkbox checkbox-sm class-checkbox" value="3" /></td>
+            <td>
+              <div class="flex items-center gap-3">
+                <div class="bg-info/10 p-2 rounded-lg">
+                  <i class="fas fa-school text-info"></i>
+                </div>
+                <span class="font-bold text-primary">SS 1A</span>
+              </div>
+            </td>
+            <td class="font-medium">Mrs. Adamu</td>
+            <td><span class="badge badge-primary badge-lg">28</span></td>
+            <td class="text-center">14</td>
+            <td class="text-center">14</td>
+            <td>2024/2025</td>
+            <td>
+              <div class="dropdown dropdown-end">
+                <label tabindex="0" class="btn btn-ghost btn-xs">
+                  <i class="fas fa-ellipsis-v"></i>
+                </label>
+                <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
+                  <li><a href="#" class="text-sm"><i class="fas fa-users mr-2"></i>View Students</a></li>
+                  <li><a href="#" class="text-sm"><i class="fas fa-chart-bar mr-2"></i>Class Analytics</a></li>
+                  <li><a href="#" class="text-sm"><i class="fas fa-clipboard-list mr-2"></i>Manage Results</a></li>
+                </ul>
+              </div>
+            </td>
+          </tr>
+        {% endif %}
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Pagination -->
+  <div class="flex flex-col sm:flex-row justify-between items-center mt-6 gap-4">
+    <div class="text-sm text-base-content/70">
+      Showing <span class="font-medium">1-10</span> of <span class="font-medium">15</span> classes
+    </div>
+    <div class="btn-group">
+      <button class="btn btn-sm">«</button>
+      <button class="btn btn-sm btn-active">1</button>
+      <button class="btn btn-sm">2</button>
+      <button class="btn btn-sm">»</button>
+    </div>
+  </div>
+</div>

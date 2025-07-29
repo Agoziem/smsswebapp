@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block title %}Teachers Portal{% endblock %} 
+{% load static %} 
+{% block content %}
+<div>
+  <div class="drawer lg:drawer-open">
+    <!-- Sidebar -->
+    {% include "_layouts/sidebar.html" %}
+
+    <!-- Main content -->
+    <div class="drawer-content flex flex-col min-h-screen">
+      <!-- Navbar -->
+      {% include "_layouts/navbar.html" %}
+
+      <!-- Main page content -->
+      <main class="flex-grow bg-primary/10">
+        <div class="min-h-screen flex flex-col">
+          <div class="flex-grow p-6">
+            {% block dashboard_content %}
+            {% endblock %}
+          </div>
+          {% include "_layouts/footer.html" %}
+        </div>
+      </main>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'js/Teacher_portal/scripts.js' %}"></script>
+{% endblock %}
+

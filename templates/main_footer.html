@@ -1,6 +1,6 @@
 {% load static %} {% load static %}
-<footer class="bg-[var(--bg-wine-red)] text-white pt-10">
-  <div class="grid grid-cols-12 gap-4 pb-16 px-20 mr-0">
+<footer class="bg-primary text-white/80 pt-14">
+  <div class="grid grid-cols-12 gap-4 px-8 md:px-20 pb-4 md:pb-0 mr-0">
     <div class="col-span-12 sm:col-span-8 md:col-span-4 pr-1 sm:pr-16 md:pr-20">
       <div
         id="sub_form_alert_success"
@@ -20,55 +20,46 @@
         <div>An error occurred while sending your message.</div>
       </div>
       <form id="sub_form">
-        <h5
+        <h4
           class="text-lg font-bold mb-4"
-          style="font-family: var(--main-font-family)"
         >
           Subscribe to our newsletter
-        </h5>
+        </h4>
         <p class="mb-4">Monthly digest of whats new and exciting from us.</p>
         <div class="flex w-full gap-2">
           <label for="newsletter1" class="sr-only">Email address</label>
           <input
             id="newsletter1"
             type="email"
-            class="input input-bordered flex-1"
+            class="input placeholder:text-secondary focus:outline-orange focus:border-orange focus-within:outline-orange focus-within:border-orange flex-1"
             placeholder="Email address"
             name="email"
             required
           />
-          <button class="btn btn-secondary" value="submit" type="submit">
+          <button class="btn btn-orange" value="submit" type="submit">
             Subscribe
           </button>
         </div>
       </form>
-      <ul class="flex mt-12 space-x-12">
+      <ul class="flex mt-12 space-x-4">
         <li>
           <a href="#"
-            ><i
-              class="fa-brands fa-facebook text-[var(--main-bg-color)] text-[22px]"
-            ></i
+            ><i class="fa-brands fa-facebook text-cream text-[22px]"></i
           ></a>
         </li>
         <li>
           <a href="#"
-            ><i
-              class="fa-brands fa-instagram text-[var(--main-bg-color)] text-[22px]"
-            ></i
+            ><i class="fa-brands fa-instagram text-cream text-[22px]"></i
           ></a>
         </li>
         <li>
           <a href="#"
-            ><i
-              class="fa-brands fa-whatsapp text-[var(--main-bg-color)] text-[22px]"
-            ></i
+            ><i class="fa-brands fa-whatsapp text-cream text-[22px]"></i
           ></a>
         </li>
         <li>
           <a href="#"
-            ><i
-              class="fa-brands fa-twitter text-[var(--main-bg-color)] text-[22px]"
-            ></i
+            ><i class="fa-brands fa-twitter text-cream text-[22px]"></i
           ></a>
         </li>
       </ul>
@@ -77,7 +68,6 @@
     <div class="col-span-5 sm:col-span-3 md:col-span-2 py-12 md:pt-0">
       <h5
         class="text-lg font-bold mb-4 md:text-lg md:font-bold"
-        style="font-family: var(--main-font-family)"
       >
         Quick links
       </h5>
@@ -136,8 +126,7 @@
     <div class="col-span-5 md:col-span-2 py-12 md:pt-0">
       <h5
         class="text-lg font-bold mb-4 md:text-lg md:font-bold"
-        style="font-family: var(--main-font-family)"
-      >
+        >
         Articles
       </h5>
       <ul class="space-y-2">
@@ -185,10 +174,7 @@
     </div>
 
     <div class="col-span-5 md:col-span-2">
-      <h5
-        class="text-lg font-bold mb-4 md:text-lg md:font-bold"
-        style="font-family: var(--main-font-family)"
-      >
+      <h5 class="text-lg font-bold mb-4 md:text-lg md:font-bold">
         Students portal
       </h5>
       <ul class="space-y-2">
@@ -244,9 +230,7 @@
     </div>
   </div>
 
-  <div
-    class="bg-[var(--bg-dark-wine-red)] text-white flex justify-center items-center py-16"
-  >
+  <div class="bg-primary-dark text-white flex justify-center items-center py-6">
     <div>
       <p class="my-0 text-center text-[11px] md:text-[10px]">
         &copy; 2022 SMSS Omagba, inst . All rights reserved.
@@ -257,5 +241,4 @@
     </div>
   </div>
 </footer>
-<script src="{% static 'js/swiper-bundle.min.js' %}"></script>
 <script src="{% static 'js/main.js' %}"></script>

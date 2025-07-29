@@ -1,51 +1,91 @@
+{% extends 'base.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" />
-  <link href='https://api.mapbox.com/mapbox-gl-js/v2.3.1/mapbox-gl.css' rel='stylesheet' />
-  <link rel="preconnect" href="https://fonts.googleapis.com"> 
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> 
-  <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;500;600;700&display=swap"
-    rel="stylesheet">
-  <link rel="stylesheet" href="https://use.typekit.net/oov2wcw.css">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js"></script>
-  <link rel="stylesheet" href="{% static 'css/styles.css' %}">
-  <link rel="stylesheet" href="{% static 'css/Home.css' %}">
-  <link rel="stylesheet" href="{% static 'css/404.css' %}">
-  <title>SMSS Omagba</title>
-</head>
+{% block content%}
+{% include 'main_navbar.html' %}
 
-<body class="bg-base-200">
-  <div class="hero min-h-screen">
-    <div class="hero-content text-center">
-      <div class="max-w-md">
-        <img src="{% static 'images/St Marks Logo.png' %}" alt="School Logo" class="mx-auto mb-8 h-32 w-auto">
-        <h1 class="text-4xl font-bold display1 text-wine-red mb-6">St Marks Secondary School Omagba</h1>
-        
-        <div class="alert alert-warning">
-          <i class="fa-solid fa-triangle-exclamation text-2xl"></i>
-          <div>
-            <h3 class="font-bold">Result Upload in Progress</h3>
-            <div class="text-sm">Please check back tomorrow</div>
+<section class="bg-gradient-to-br from-primary/10 via-base-100 to-primary/5 min-h-screen">
+  <!-- Main Container Following Design System -->
+  <div class="min-h-screen flex items-center justify-center px-4">
+    <div class="max-w-2xl mx-auto text-center">
+      <!-- School Title -->
+      <div class="mb-8 animate__animated animate__fadeInUp animate__delay-1s">
+        <h1 class="text-2xl md:text-3xl font-bold mb-2 display1">
+          St Marks Secondary School Omagba
+        </h1>
+        <div class="flex justify-center mb-4">
+          <div class="Nrule"></div>
+          <div class="Nrule2"></div>
+        </div>
+        <p class="text-base-content/70 text-lg">Result Portal</p>
+      </div>
+
+      <!-- Status Alert Following Design System -->
+      <div class="mb-8 animate__animated animate__fadeInUp animate__delay-2s">
+        <div class="bg-primary/10 border border-primary/10 rounded-xl p-6">
+          <div class="flex flex-col items-center gap-4">
+            <div class="bg-primary/20 p-4 rounded-full w-14 h-14 flex items-center justify-center">
+              <i class="fa-solid fa-upload text-primary text-2xl"></i>
+            </div>
+            <div>
+              <h3 class="text-xl font-bold text-primary mb-2">Result Upload in Progress</h3>
+              <p class="text-black/70">
+                Our team is currently updating the result portal with the latest academic results. 
+                Please check back tomorrow for access to your results.
+              </p>
+            </div>
           </div>
         </div>
-        
-        <div class="mt-8">
-          <a href="{% url 'home' %}" class="btn btn-primary">
-            <i class="fa-solid fa-home mr-2"></i>
-            Back to Home
-          </a>
+      </div>
+
+      <!-- Additional Information -->
+      <div class="mb-8 animate__animated animate__fadeInUp animate__delay-3s">
+        <div class="bg-info/10 border border-blue-600 rounded-xl p-6">
+          <div class="flex items-start gap-4">
+            <div class="bg-info/20 p-3 w-10 h-10 rounded-full flex items-center justify-center">
+              <i class="fa-solid fa-info-circle text-blue-600 text-xl"></i>
+            </div>
+            <div class="text-left">
+              <h4 class="font-semibold text-blue-600 mb-2">Need Assistance?</h4>
+              <p class="text-sm text-base-content/70 mb-3">
+                If you have urgent concerns about your results or need immediate assistance, 
+                please contact the school administration.
+              </p>
+              <div class="flex flex-wrap gap-2 text-sm">
+                <span class="badge badge-outline badge-info text-blue-600">
+                  <i class="fa-solid fa-phone mr-1"></i>
+                  School Office
+                </span>
+                <span class="badge badge-outline badge-info text-blue-600">
+                  <i class="fa-solid fa-envelope mr-1"></i>
+                  Academic Affairs
+                </span>
+              </div>
+            </div>
+          </div>
         </div>
+      </div>
+
+      <!-- Navigation Buttons -->
+      <div class="flex flex-col sm:flex-row gap-4 justify-center animate__animated animate__fadeInUp animate__delay-4s">
+        <a href="{% url 'home' %}" class="btn btn-primary gap-2">
+          <i class="fa-solid fa-home"></i>
+          Back to Home
+        </a>
+        <a href="{% url 'home' %}#contact" class="btn btn-outline btn-primary gap-2">
+          <i class="fa-solid fa-phone"></i>
+          Contact School
+        </a>
+      </div>
+
+      <!-- Footer Note -->
+      <div class="mt-12 pt-8 border-t border-base-content/10 animate__animated animate__fadeInUp animate__delay-5s">
+        <p class="text-sm text-base-content/60">
+          <i class="fa-solid fa-clock mr-2"></i>
+          Portal will be available tomorrow • Thank you for your patience
+        </p>
       </div>
     </div>
   </div>
-</body>
-</html>
+</section>
+{% endblock %}
+

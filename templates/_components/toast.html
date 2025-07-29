@@ -1,0 +1,12 @@
+<!-- toast notifications -->
+
+<div class="toast toast-top toast-end">
+  <div class="alert alert-{{type}} bg-white shadow-lg">
+    {% if icon %} {% if type == 'success' %}
+    <i class="bi bi-check-circle-fill mx-2 text-success text-xl"></i>
+    {% elif type == 'error' %}
+    <i class="fa-solid fa-triangle-exclamation mx-2 text-error text-xl"></i>
+    {% endif %} {% endif %}
+    <span class="ml-2">{{message}}</span>
+  </div>
+</div>

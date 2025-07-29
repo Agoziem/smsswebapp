@@ -1,0 +1,31 @@
+{% load static %} 
+<footer class="footer footer-center bg-base-300 text-base-content p-6 mt-auto">
+  <div class="auto-container">
+    <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+      <!-- Copyright -->
+      <div class="text-sm text-base-content/70">
+        <p>&copy; {{ "now"|date:"Y" }} SMSS Omagba. All rights reserved.</p>
+      </div>
+      
+      <!-- Navigation Links -->
+      <div class="flex items-center gap-4 text-sm">
+        <a href="#" class="link link-hover text-base-content/70 hover:text-primary transition-colors">
+          Privacy Policy
+        </a>
+        <span class="text-base-content/40">•</span>
+        <a href="#" class="link link-hover text-base-content/70 hover:text-primary transition-colors">
+          Terms & Conditions
+        </a>
+        <span class="text-base-content/40">•</span>
+        <a href="{% url 'home' %}" class="link link-hover text-base-content/70 hover:text-primary transition-colors">
+          Back to Website
+        </a>
+      </div>
+      
+      <!-- Developer Credit -->
+      <div class="text-xs text-base-content/60">
+        <p>Powered by GDD-Impact</p>
+      </div>
+    </div>
+  </div>
+</footer>

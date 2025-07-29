@@ -1,10 +1,16 @@
 {% load static %}
-<section id="gallery" class="bg-[var(--bg-dark-cream)] py-4 mb-3">
+<section id="gallery" class="bg-primary/20 py-10 mb-3">
   <div class="container mx-auto py-4 mb-0 text-center">
-    <div class="text-center text-sm font-bold text-black uppercase tracking-wide mb-4" style="font-family: var(--main-font-family); font-size: 15.5px;">Photo Catalog</div>
-    <h1 class="text-4xl font-bold text-black mb-4" style="font-family: var(--main-font-family); line-height: 5rem;">View Our Photo Gallery</h1>
+    <div class="flex flex-col items-center">
+      <div class="sideline_text">Photo Catalog</div>
+      <h1 class="text-4xl">View Our Photo Gallery</h1>
+    </div>
+
     <div class="flex justify-center">
-      <div class="w-full max-w-[700px] grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-[0.5vw]">
+      {% if photos %}
+      <div
+        class="w-full max-w-[700px] grid grid-cols-1 justify-items-center sm:grid-cols-2 md:grid-cols-3 gap-3 md:gap-4"
+      >
         {% for picture in photos %}
         <img
           class="h-48 w-auto object-cover rounded border border-gray-200 shadow-sm hover:shadow-md transition-shadow"
@@ -13,10 +19,19 @@
         />
         {% endfor %}
       </div>
+      {% else %}
+      <div class="text-center">
+        <div class="text-primary">No photos available in the gallery.</div>
+      </div>
+      {% endif %}
     </div>
 
-    <a href="{% url 'gallery' %}" class="btn btn-primary bg-wine-red border-wine-red hover:bg-wine-red/90 text-white mt-3">
-      see more Pictures
-    </a>
+    {% if photos %}
+    <div class="mt-4">
+      <a href="{% url 'gallery' %}" class="btn btn-primary text-white mt-3">
+        See more Pictures
+      </a>
+    </div>
+    {% endif %}
   </div>
 </section>

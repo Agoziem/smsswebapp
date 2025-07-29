@@ -3,56 +3,121 @@
 {% block content%}
 {% include 'main_navbar.html' %}
 
-<section class="py-16 bg-base-100">
-    <div class="container mx-auto px-4 max-w-2xl">
-        <div class="text-center space-y-8">
-            <!-- Success Message -->
-            <div class="space-y-4">
-                <div class="flex justify-center">
-                    <div class="bg-success/20 p-6 rounded-full">
-                        <i class="fa-solid fa-check-circle text-6xl text-success"></i>
-                    </div>
+<!-- Hero Section Following Design System -->
+<section class="relative bg-cover py-16 bg-center bg-no-repeat" 
+         style="background-image: url('{% static 'images/SuccessCover.jpg' %}')">
+    <!-- Overlay -->
+    <div class="absolute inset-0 bg-success opacity-60"></div>
+    
+    <div class="relative z-10 auto-container text-center text-white">
+        <div class="flex flex-col items-center">
+            <div class="sideline_text text-white">Assessment Complete</div>
+            <h1 class="text-4xl md:text-5xl font-bold text-white mb-4 display1">Test Completed</h1>
+            
+            <div class="flex justify-center mb-6">
+                <div class="Nrule"></div>
+                <div class="Nrule2"></div>
+            </div>
+            
+            <p class="text-lg text-white/90 max-w-2xl mx-auto">
+                Congratulations {{studentobject.student_name}}, you have successfully completed your test
+            </p>
+        </div>
+    </div>
+</section>
+
+<!-- Main Content Section Following Design System -->
+<section class="py-10 bg-primary/5">
+    <div class="auto-container">
+        <!-- Success Message -->
+        <div class="mb-8">
+            <div class="bg-base-100 rounded-xl shadow-lg p-6 md:p-8 text-center">
+                <div class="bg-success/10 p-6 rounded-full w-24 h-24 mx-auto mb-6 flex items-center justify-center">
+                    <i class="fa-solid fa-check-circle text-success text-4xl"></i>
                 </div>
-                <h2 class="text-3xl font-bold text-success">
-                    Test Completed Successfully!
+                
+                <h2 class="text-3xl font-bold text-success mb-4">
+                    Test Successfully Submitted!
                 </h2>
-                <p class="text-lg text-base-content">
-                    {{studentobject.student_name}}, your answers have been submitted successfully
+                
+                <div class="flex justify-center mb-4">
+                    <div class="Nrule"></div>
+                    <div class="Nrule2"></div>
+                </div>
+                
+                <p class="text-lg text-base-content/80 mb-6">
+                    Dear <span class="font-bold text-primary">{{studentobject.student_name}}</span>, 
+                    your answers have been recorded and submitted successfully. Thank you for completing the assessment.
                 </p>
-            </div>
-
-            <!-- Results Table -->
-            <div class="card bg-base-200 shadow-lg">
-                <div class="card-body">
-                    <h3 class="card-title text-center mb-6">Your Test Results</h3>
-                    <div class="overflow-x-auto">
-                        <table class="table table-zebra w-full">
-                            <thead>
-                                <tr class="text-primary">
-                                    <th class="text-lg">Subjects</th>
-                                    <th class="text-lg">Test Score</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for test in studenttestobject.testquestionset_set.all %}
-                                <tr>
-                                    <td class="font-medium">{{ test.testSubject }}</td>
-                                    <td class="font-bold text-primary">{{ test.testTotalScore }}</td>
-                                </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
-                    </div>
+                
+                <div class="bg-success/10 p-4 rounded-lg max-w-md mx-auto">
+                    <p class="text-sm text-success font-medium">
+                        <i class="fa-solid fa-info-circle mr-2"></i>
+                        Your results will be reviewed and made available shortly
+                    </p>
                 </div>
             </div>
+        </div>
 
-            <!-- Back Button -->
-            <div class="pt-4">
-                <a href="{% url 'CBT:Cbt' %}" class="btn btn-secondary btn-lg gap-2">
-                    <i class="fa-solid fa-share fa-flip-horizontal"></i>
-                    Back to Login
+        <!-- Results Table Following Design System -->
+        <div class="mb-8">
+            <div class="bg-base-100 rounded-xl shadow-lg p-6 md:p-8">
+                <div class="flex flex-col items-center mb-6">
+                    <h2 class="text-2xl font-bold text-primary text-center">Your Test Summary</h2>
+                    <p class="text-sm text-base-content/70 mt-2 text-center">Review your completed subjects and scores</p>
+                </div>
+                
+                <div class="flex justify-center mb-6">
+                    <div class="Nrule"></div>
+                    <div class="Nrule2"></div>
+                </div>
+                
+                <div class="overflow-x-auto">
+                    <table class="table table-zebra">
+                        <thead class="bg-primary text-base-100">
+                            <tr>
+                                <th class="text-center">Subject</th>
+                                <th class="text-center">Score</th>
+                                <th class="text-center">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for test in studenttestobject.testquestionset_set.all %}
+                            <tr class="hover">
+                                <td class="font-medium text-center">{{ test.testSubject }}</td>
+                                <td class="font-bold text-primary text-center">{{ test.testTotalScore }}</td>
+                                <td class="text-center">
+                                    <span class="badge badge-success">Completed</span>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Navigation Actions -->
+        <div class="text-center">
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="{% url 'CBT:Cbt' %}" class="btn btn-secondary gap-2">
+                    <i class="fa-solid fa-arrow-left"></i>
+                    Back to CBT Login
+                </a>
+                <a href="{% url 'home' %}" class="btn btn-primary gap-2">
+                    <i class="fa-solid fa-home"></i>
+                    Back to Home
                 </a>
             </div>
+        </div>
+
+        <!-- Footer Note -->
+        <div class="text-center mt-12 pt-8 border-t border-base-content/10">
+            <p class="text-sm text-base-content/60 flex items-center justify-center gap-2">
+                <i class="fa-solid fa-shield-halved text-success"></i>
+                Test securely completed and recorded
+                <i class="fa-solid fa-check text-success"></i>
+            </p>
         </div>
     </div>
 </section>

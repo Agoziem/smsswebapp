@@ -1,0 +1,31 @@
+
+<!-- back to top button -->
+<div class="fixed bottom-4 right-4 z-50">
+  <button
+    id="back-to-top"
+    class="btn btn-circle btn-primary"
+    title="Back to top"
+  >
+    <i class="fa-solid fa-arrow-up"></i>
+  </button>
+</div>
+
+<!-- Script to handle back to top functionality -->
+<script>
+    document.getElementById('back-to-top').addEventListener('click', function() {
+        window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+        });
+    });
+    
+    // Show the button when scrolled down
+    window.addEventListener('scroll', function() {
+        const button = document.getElementById('back-to-top');
+        if (window.scrollY > 300) {
+        button.classList.remove('hidden');
+        } else {
+        button.classList.add('hidden');
+        }
+    });
+</script>

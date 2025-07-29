@@ -12,9 +12,9 @@
 
 <section class="py-8 bg-base-200 min-h-screen">
     <div class="container mx-auto px-4">
-        <!-- Fixed Timer -->
+<!-- Fixed Timer Following Design System -->
         <div class="fixed bottom-4 left-1/2 transform -translate-x-1/2 z-50">
-            <div class="Time_container bg-wine-red text-base-100 px-6 py-3 rounded-full shadow-lg flex items-center gap-3">
+            <div class="bg-primary text-base-100 px-6 py-3 rounded-full shadow-lg flex items-center gap-3">
                 <i class="fa-solid fa-stopwatch text-xl"></i>
                 <div class="font-semibold">Time left:</div>
                 <div class="font-bold text-lg">
@@ -23,13 +23,17 @@
             </div>
         </div>
 
-        <!-- Test Form Container -->
-        <div class="test_container bg-base-100 rounded-3xl p-6 shadow-xl mx-auto max-w-4xl">
+        <!-- Test Form Container Following Design System -->
+        <div class="bg-base-100 rounded-xl shadow-lg p-6 md:p-8 mx-auto max-w-4xl">
             <form id="testform" class="space-y-8">
                 {% for questionset in questionsetsgroup %}
                 <div class="question_set">
-                    <div class="question_set_name text-center text-2xl font-bold text-primary mb-6 pb-3 border-b-2 border-primary/20">
-                        {{ questionset.subject }}
+                    <div class="flex flex-col items-center mb-8">
+                        <h2 class="text-2xl font-bold text-primary text-center">{{ questionset.subject }}</h2>
+                        <div class="flex justify-center mt-3">
+                            <div class="Nrule"></div>
+                            <div class="Nrule2"></div>
+                        </div>
                     </div>
                     
                     <div class="space-y-6">
@@ -89,15 +93,18 @@
                 </div>
                 {% endfor %}
 
-                <!-- Submit Section -->
-                <div class="flex flex-col items-center space-y-4 pt-8">
-                    <div class="alert alert-error hidden" id="validation-alert">
-                        <i class="fa-solid fa-triangle-exclamation"></i>
-                        <span class="alert-text"></span>
+                <!-- Submit Section Following Design System -->
+                <div class="flex flex-col items-center space-y-6 pt-8">
+                    <div class="bg-error/10 border border-error/20 rounded-lg p-4 hidden" id="validation-alert">
+                        <div class="flex items-center gap-3">
+                            <i class="fa-solid fa-triangle-exclamation text-error text-lg"></i>
+                            <span class="text-error font-medium alert-text"></span>
+                        </div>
                     </div>
-                    <button type="submit" class="btn btn-primary btn-lg px-12">
+                    <button type="submit" class="btn btn-primary btn-lg gap-3 px-8">
+                        <i class="fa-solid fa-paper-plane"></i>
                         Submit Test
-                        <i class="fa-solid fa-paper-plane ml-2"></i>
+                        <i class="fa-solid fa-check"></i>
                     </button>
                 </div>
             </form>

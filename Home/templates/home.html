@@ -41,9 +41,14 @@
 {% include '_partials/reviews.html' with parentsreviews=parentsreviews %}
 
 <!-- Map & Contact -->
-{% include '_partials/map&contact.html' with schools=schools %}
-<script src="{% static 'js/home.js' %}"></script>
+{% include '_partials/map&contact.html' with schools=schools map_box_private_key=map_box_private_key %}
 
 <!-- Footer -->
 {% include 'main_footer.html' %}
+
+<!-- back to top button -->
+{% include '_components/back_to_top.html' %}
+
 {% endblock %}
+
+<script src="{% static 'js/home.js' %}"></script>

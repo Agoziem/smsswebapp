@@ -1,186 +1,293 @@
-{% extends 'base.html' %}
-{% load static %}
-{% block content%}
+{% extends 'base.html' %} {% load static %} {% block content%} 
 {% include 'main_navbar.html' %}
 
-<!-- Hero Section -->
-<div class="hero min-h-96 relative" style="background: linear-gradient(135deg, #3b0505 0%, #621c1c 100%);">
-    <div class="hero-overlay bg-black bg-opacity-20"></div>
-    <div class="hero-content text-center text-base-100">
-        <div class="max-w-md">
-            <h1 class="mb-5 text-5xl font-bold display1">Online Result Portal</h1>
-            <p class="mb-5 text-xl font-semibold">SMSS Omagba</p>
-            <div class="flex justify-center gap-2">
-                <div class="h-1 w-12 bg-base-100 rounded"></div>
-                <div class="h-1 w-8 bg-base-100/60 rounded"></div>
-            </div>
-        </div>
+<!-- Hero Section Following Design System -->
+<section
+  class="relative bg-cover py-12 bg-center bg-no-repeat"
+  style="background-image: url('{% static 'images/ResultCover2.jpg' %}')"
+>
+  <!-- Overlay -->
+  <div class="absolute inset-0 bg-primary opacity-50"></div>
+
+  <div class="relative z-10 auto-container text-center text-white">
+    <div class="flex flex-col items-center">
+      <div class="sideline_text text-white">Student Portal</div>
+      <h1 class="text-4xl text-white">Online Result Portal</h1>
     </div>
-</div>
+  </div>
+</section>
 
-<!-- Main Content Section -->
-<section class="py-12 bg-base-200">
-    <div class="container mx-auto px-4">
-        <div class="grid lg:grid-cols-2 gap-8 items-start">
-            <!-- Instructions Column -->
-            <div class="order-2 lg:order-1">
-                <div class="card bg-base-100 shadow-xl">
-                    <div class="card-body">
-                        <h3 class="card-title text-2xl mb-6 text-primary">
-                            Follow the Procedure Below to Check Your Result
-                        </h3>
-                        <div class="flex gap-2 mb-6">
-                            <div class="h-1 w-16 bg-primary rounded"></div>
-                            <div class="h-1 w-10 bg-primary/60 rounded"></div>
-                        </div>
-                        
-                        <div class="space-y-4">
-                            <div class="flex items-start gap-3">
-                                <i class="bi bi-check-circle-fill text-success text-xl mt-1"></i>
-                                <p class="text-base">
-                                    Select the Student Class in order to Populate the Students List
-                                </p>
-                            </div>
-                            <div class="flex items-start gap-3">
-                                <i class="bi bi-check-circle-fill text-success text-xl mt-1"></i>
-                                <p class="text-base">
-                                    Select the Student Name from the Student List
-                                </p>
-                            </div>
-                            <div class="flex items-start gap-3">
-                                <i class="bi bi-check-circle-fill text-success text-xl mt-1"></i>
-                                <p class="text-base">
-                                    Enter your Student ID Correctly like "smss/1234"
-                                </p>
-                            </div>
-                            <div class="flex items-start gap-3">
-                                <i class="bi bi-check-circle-fill text-success text-xl mt-1"></i>
-                                <p class="text-base">
-                                    Enter your Card Pin Correctly
-                                </p>
-                            </div>
-                            <div class="flex items-start gap-3">
-                                <i class="bi bi-check-circle-fill text-success text-xl mt-1"></i>
-                                <p class="text-base">
-                                    Then click on the "View result Button"
-                                </p>
-                            </div>
-                            <div class="flex items-start gap-3">
-                                <i class="bi bi-check-circle-fill text-success text-xl mt-1"></i>
-                                <p class="text-base">
-                                    If you encounter any Challenges contact the Site Administrators
-                                    <br><strong>(the number in your Access Card)</strong>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
+<!-- Main Content Section Following Design System -->
+<section class="py-10 bg-primary/5">
+  <div class="auto-container">
+    <div class="grid lg:grid-cols-2 gap-8 items-start">
+      <!-- Instructions Column Following Design System -->
+      <div class="order-2 lg:order-1">
+        <div class="bg-base-100 rounded-xl shadow-lg p-6 md:p-8">
+          <div class="flex flex-col items-center mb-6">
+            <h2 class="text-2xl font-bold text-primary text-center">
+              How to Check Your Result
+            </h2>
+            <p class="text-sm text-base-content/70 mt-2 text-center">
+              Follow these simple steps
+            </p>
+          </div>
+
+          <div class="flex justify-center mb-6">
+            <div class="Nrule"></div>
+            <div class="Nrule2"></div>
+          </div>
+
+          <div class="space-y-4">
+            <div class="bg-primary/5 p-4 rounded-lg border-l-4 border-primary">
+              <div class="flex items-center gap-3">
+                <div
+                  class="w-6 h-6 bg-primary rounded-full flex items-center justify-center flex-shrink-0 mt-0.5"
+                >
+                  <span class="text-white text-xs font-bold">1</span>
                 </div>
+                <p class="text-sm font-medium text-primary">
+                  Select the Student Class to populate the Students List
+                </p>
+              </div>
             </div>
 
-            <!-- Form Column -->
-            <div class="order-1 lg:order-2">
-                <div class="card bg-base-100 shadow-xl">
-                    <div class="card-body">
-                        <h4 class="card-title text-center text-xl mb-6">Student Details</h4>
-                        
-                        <!-- Messages -->
-                        {% if messages %}
-                            {% for message in messages %}
-                            <div class="alert alert-success mb-4">
-                                <i class="bi bi-check-circle-fill"></i>
-                                <span>{{ message }}</span>
-                            </div>
-                            {% endfor %}
-                        {% endif %}
-
-                        <form action="." method="POST" class="space-y-4">
-                            {% csrf_token %}
-                            
-                            <!-- Academic Session and Term -->
-                            <div class="grid md:grid-cols-2 gap-4">
-                                <div class="form-control">
-                                    <label class="label" for="sessionSelect">
-                                        <span class="label-text font-medium">Academic Session:</span>
-                                    </label>
-                                    <select id="sessionSelect" name="AcademicSession" class="select select-bordered w-full" required>
-                                        <option value="" disabled selected>Select the Academic Session</option>
-                                        {% for Session in academic_session %}
-                                        <option value="{{ Session.id }}">{{ Session.session }}</option>
-                                        {% endfor %}
-                                    </select>
-                                </div>
-                                
-                                <div class="form-control">
-                                    <label class="label" for="term">
-                                        <span class="label-text font-medium">Term:</span>
-                                    </label>
-                                    <select id="term" name="Term" class="select select-bordered w-full" required>
-                                        <option value="" disabled selected>Select the Term</option>
-                                        {% for Term in Terms %}
-                                        <option value="{{ Term.term }}">{{ Term.term }}</option>
-                                        {% endfor %}
-                                    </select>
-                                </div>
-                            </div>
-
-                            <!-- Class Selection -->
-                            <div class="form-control">
-                                <label class="label" for="class">
-                                    <span class="label-text font-medium">Classes:</span>
-                                </label>
-                                <select id="class" name="student_class" class="select select-bordered w-full" required>
-                                    <option value="" disabled selected>--Select your class--</option>
-                                    {% for class in classes %}
-                                    <option value="{{ class.Class }}">{{ class.Class }}</option>
-                                    {% endfor %}
-                                </select>
-                            </div>
-
-                            <!-- Student Selection -->
-                            <div class="form-control">
-                                <label class="label" for="Students">
-                                    <span class="label-text font-medium">Students List:</span>
-                                </label>
-                                <select id="Students" name="student_name" class="select select-bordered w-full" required>
-                                    <!-- Populated by JavaScript -->
-                                </select>
-                            </div>
-
-                            <!-- Student ID -->
-                            <div class="form-control">
-                                <label class="label" for="studentId">
-                                    <span class="label-text font-medium">Student ID:</span>
-                                </label>
-                                <input type="text" id="studentId" name="student_id" 
-                                       class="input input-bordered w-full" 
-                                       placeholder="Enter your Student ID" required>
-                            </div>
-
-                            <!-- Card Pin -->
-                            <div class="form-control">
-                                <label class="label" for="pin">
-                                    <span class="label-text font-medium">Card Pin:</span>
-                                </label>
-                                <input type="text" name="student_pin" id="pin" 
-                                       class="input input-bordered w-full" 
-                                       placeholder="Enter your Card Pin" required>
-                            </div>
-
-                            <!-- Submit Button -->
-                            <div class="form-control mt-6">
-                                <button type="submit" class="btn btn-primary w-full">
-                                    View Your Result
-                                    <i class="bi bi-eye ml-2"></i>
-                                </button>
-                            </div>
-                        </form>
-                    </div>
+            <div class="bg-primary/5 p-4 rounded-lg border-l-4 border-primary">
+              <div class="flex items-center gap-3">
+                <div
+                  class="w-6 h-6 bg-primary rounded-full flex items-center justify-center flex-shrink-0 mt-0.5"
+                >
+                  <span class="text-white text-xs font-bold">2</span>
                 </div>
+                <p class="text-sm font-medium text-primary">
+                  Select your Name from the Student List
+                </p>
+              </div>
             </div>
+
+            <div class="bg-primary/5 p-4 rounded-lg border-l-4 border-primary">
+              <div class="flex items-center gap-3">
+                <div
+                  class="w-6 h-6 bg-primary rounded-full flex items-center justify-center flex-shrink-0 mt-0.5"
+                >
+                  <span class="text-white text-xs font-bold">3</span>
+                </div>
+                <p class="text-sm font-medium text-primary">
+                  Enter your Student ID correctly (e.g., "smss/1234")
+                </p>
+              </div>
+            </div>
+
+            <div class="bg-primary/5 p-4 rounded-lg border-l-4 border-primary">
+              <div class="flex items-center gap-3">
+                <div
+                  class="w-6 h-6 bg-primary rounded-full flex items-center justify-center flex-shrink-0 mt-0.5"
+                >
+                  <span class="text-white text-xs font-bold">4</span>
+                </div>
+                <p class="text-sm font-medium text-primary">
+                  Enter your Card Pin correctly
+                </p>
+              </div>
+            </div>
+
+            <div class="bg-primary/5 p-4 rounded-lg border-l-4 border-primary">
+              <div class="flex items-center gap-3">
+                <div
+                  class="w-6 h-6 bg-primary rounded-full flex items-center justify-center flex-shrink-0 mt-0.5"
+                >
+                  <span class="text-white text-xs font-bold">5</span>
+                </div>
+                <p class="text-sm font-medium text-primary">
+                  Click "View Result" button to access your results
+                </p>
+              </div>
+            </div>
+
+            <div
+              class="bg-orange-200/30 p-4 rounded-lg border-l-4 border-amber-500 mt-6"
+            >
+              <div class="flex items-center gap-3">
+                <i
+                  class="fa-solid fa-info-circle text-amber-500 text-lg mt-0.5"
+                ></i>
+                <div>
+                  <p class="text-sm font-medium text-amber-500">Need Help?</p>
+                  <p class="text-xs text-amber-500 mt-1">
+                    Contact Site Administrators using the number on your Access
+                    Card
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
+      </div>
+
+      <!-- Form Column Following Design System -->
+      <div class="order-1 lg:order-2">
+        <div class="bg-base-100 rounded-xl shadow-lg p-6 md:p-8">
+          <div class="flex flex-col items-center mb-6">
+            <h2 class="text-2xl font-bold text-primary text-center">
+              Student Login
+            </h2>
+            <p class="text-sm text-base-content/70 mt-2 text-center">
+              Enter your details to view results
+            </p>
+          </div>
+
+          <div class="flex justify-center mb-6">
+            <div class="Nrule"></div>
+            <div class="Nrule2"></div>
+          </div>
+
+          <!-- Messages Following Design System -->
+          {% if messages %} {% for message in messages %}
+          <div
+            class="bg-success/10 border border-success/20 rounded-lg p-4 mb-6"
+          >
+            <div class="flex items-center gap-3">
+              <i class="fa-solid fa-check-circle text-success text-lg"></i>
+              <span class="text-success font-medium">{{ message }}</span>
+            </div>
+          </div>
+          {% endfor %} {% endif %}
+
+          <form action="." method="POST" class="space-y-6">
+            {% csrf_token %}
+
+            <!-- Academic Session and Term -->
+            <div class="grid md:grid-cols-2 gap-4">
+              <div class="form-control">
+                <label class="label" for="sessionSelect">
+                  <span class="label-text font-semibold text-primary"
+                    >Academic Session:</span
+                  >
+                </label>
+                <select
+                  id="sessionSelect"
+                  name="AcademicSession"
+                  class="select select-bordered placeholder:text-secondary focus:outline-orange focus:border-orange focus-within:outline-orange focus-within:border-orange w-full"
+                  required
+                >
+                  <option value="" disabled selected>
+                    Select Academic Session
+                  </option>
+                  {% for Session in academic_session %}
+                  <option value="{{ Session.id }}">
+                    {{ Session.session }}
+                  </option>
+                  {% endfor %}
+                </select>
+              </div>
+
+              <div class="form-control">
+                <label class="label" for="term">
+                  <span class="label-text font-semibold text-primary"
+                    >Term:</span
+                  >
+                </label>
+                <select
+                  id="term"
+                  name="Term"
+                  class="select select-bordered placeholder:text-secondary focus:outline-orange focus:border-orange focus-within:outline-orange focus-within:border-orange w-full"
+                  required
+                >
+                  <option value="" disabled selected>Select Term</option>
+                  {% for Term in Terms %}
+                  <option value="{{ Term.term }}">{{ Term.term }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+            </div>
+
+            <!-- Class Selection -->
+            <div class="grid md:grid-cols-2 gap-4">
+              <div class="form-control">
+                <label class="label" for="class">
+                  <span class="label-text font-semibold text-primary"
+                    >Class:</span
+                  >
+                </label>
+                <select
+                  id="class"
+                  name="student_class"
+                  class="select select-bordered placeholder:text-secondary focus:outline-orange focus:border-orange focus-within:outline-orange focus-within:border-orange w-full"
+                  required
+                >
+                  <option value="" disabled selected>Select your class</option>
+                  {% for class in classes %}
+                  <option value="{{ class.Class }}">{{ class.Class }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+
+              <!-- Student Selection -->
+              <div class="form-control">
+                <label class="label" for="Students">
+                  <span class="label-text font-semibold text-primary"
+                    >Student Name:</span
+                  >
+                </label>
+                <select
+                  id="Students"
+                  name="student_name"
+                  class="select select-bordered placeholder:text-secondary focus:outline-orange focus:border-orange focus-within:outline-orange focus-within:border-orange w-full"
+                  required
+                >
+                  <option value="" disabled selected>Select your name</option>
+                  <!-- Populated by JavaScript -->
+                </select>
+              </div>
+            </div>
+
+            <!-- Student ID -->
+            <div class="form-control">
+              <label class="label" for="studentId">
+                <span class="label-text font-semibold text-primary"
+                  >Student ID:</span
+                >
+              </label>
+              <input
+                type="text"
+                id="studentId"
+                name="student_id"
+                class="input placeholder:text-secondary focus:outline-orange focus:border-orange focus-within:outline-orange focus-within:border-orange w-full"
+                placeholder="e.g., smss/1234"
+                required
+              />
+            </div>
+
+            <!-- Card Pin -->
+            <div class="form-control">
+              <label class="label" for="pin">
+                <span class="label-text font-semibold text-primary"
+                  >Card Pin:</span
+                >
+              </label>
+              <input
+                type="text"
+                name="student_pin"
+                id="pin"
+                class="input input-bordered placeholder:text-secondary focus:outline-orange focus:border-orange focus-within:outline-orange focus-within:border-orange w-full"
+                placeholder="Enter your Card Pin"
+                required
+              />
+            </div>
+
+            <!-- Submit Button -->
+            <div class="form-control mt-8">
+              <button type="submit" class="btn btn-primary w-full gap-2">
+                <i class="fa-solid fa-eye"></i>
+                View Your Result
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
     </div>
+  </div>
 </section>
 
 <script src="{% static 'js/Student_Portal/result_Populating.js' %}"></script>
-{% include 'main_footer.html' %}
-{% endblock %}
+{% include 'main_footer.html' %} {% endblock %}

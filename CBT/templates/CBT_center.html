@@ -3,85 +3,171 @@
 {% block content%}
 {% include 'main_navbar.html' %}
 
-<section class="py-16 bg-gradient-to-br from-primary/10 to-secondary/10">
-    <div class="container mx-auto px-4">
-        <!-- Header Section -->
-        <div class="text-center mb-12">
-            <h1 class="text-5xl font-bold text-primary mb-4">CBT Center</h1>
-            <p class="text-lg text-base-content/80 max-w-md mx-auto leading-relaxed">
-                Welcome to our CBT Center. Kindly enter your Students Details Correctly in order to Proceed
+<!-- Hero Section Following Design System -->
+<section class="relative bg-cover py-12 bg-center bg-no-repeat" 
+         style="background-image: url('{% static 'images/Exam Picture.jpg' %}')">
+    <!-- Overlay -->
+    <div class="absolute inset-0 bg-primary opacity-60"></div>
+    
+    <div class="relative z-10 auto-container text-center text-white">
+        <div class="flex flex-col items-center">
+            <div class="sideline_text text-white">Assessment Portal</div>
+            <h1 class="text-4xl md:text-5xl font-bold text-white mb-4 display1">CBT Center</h1>
+            
+            <div class="flex justify-center mb-6">
+                <div class="Nrule"></div>
+                <div class="Nrule2"></div>
+            </div>
+            
+            <p class="text-lg text-white/90 max-w-2xl mx-auto leading-relaxed">
+                Welcome to our Computer-Based Testing Center. Enter your student details correctly to proceed with your assessment.
             </p>
         </div>
+    </div>
+</section>
 
-        <!-- CBT Form Card -->
-        <div class="flex justify-center">
-            <div class="card lg:card-side bg-base-100 shadow-xl max-w-4xl w-full">
-                <figure class="lg:w-1/2 hidden md:block">
-                    <img src="{% static 'images/Gathering.jpg' %}" 
-                         alt="Students gathering" 
-                         class="w-full h-96 lg:h-full object-cover">
-                </figure>
-                
-                <div class="card-body lg:w-1/2 flex justify-center items-center">
-                    <div class="w-full max-w-sm space-y-6">
-                        <!-- Messages -->
-                        {% if messages %}
-                        {% for message in messages %}
-                        <div class="alert alert-success">
-                            <i class="fa-solid fa-check-circle"></i>
-                            <span>{{ message }}</span>
-                        </div>
-                        {% endfor %}
-                        {% endif %}
-
-                        <!-- CBT Form -->
-                        <form id="student_info" method="POST" class="space-y-6">
-                            {% csrf_token %}
-                            
-                            <div class="form-control">
-                                <label class="label" for="class">
-                                    <span class="label-text font-semibold">Classes:</span>
-                                </label>
-                                <select id="class" name="student_class" class="select select-bordered w-full" required>
-                                    <option value="" disabled selected>--Select your class--</option>
-                                    {% for class in classobjects %}
-                                    <option value="{{ class.Class }}">{{ class.Class }}</option>
-                                    {% endfor %}
-                                </select>
-                            </div>
-
-                            <div class="form-control">
-                                <label class="label" for="Students">
-                                    <span class="label-text font-semibold">Students List:</span>
-                                </label>
-                                <select id="Students" name="student_name" class="select select-bordered w-full" required>
-                                    <option value="" disabled selected>--Select your name--</option>
-                                </select>
-                            </div>
-
-                            <!-- Hidden time and date fields -->
-                            <input type="hidden" id="time" name="time">
-                            <input type="hidden" id="date" name="date">
-
-                            <div class="form-control">
-                                <label class="label" for="studentId">
-                                    <span class="label-text font-semibold">Enter your Student ID:</span>
-                                </label>
-                                <input type="text" 
-                                       id="studentId" 
-                                       name="student_id"
-                                       class="input input-bordered w-full" 
-                                       placeholder="example: smss/3547" 
-                                       required>
-                            </div>
-
-                            <button id="submit" 
-                                    type="submit" 
-                                    class="btn btn-primary w-full">
-                                Submit
-                            </button>
-                        </form>
+<!-- Main Content Section Following Design System -->
+<section class="py-10 bg-primary/5">
+    <div class="auto-container">
+        <div class="grid lg:grid-cols-2 gap-8 items-start">
+            <!-- Instructions Column -->
+            <div class="order-2 lg:order-1">
+                <div class="bg-base-100 rounded-xl shadow-lg p-6 md:p-8">
+                    <div class="flex flex-col items-center mb-6">
+                        <h2 class="text-2xl font-bold text-primary text-center">CBT Instructions</h2>
+                        <p class="text-sm text-base-content/70 mt-2 text-center">Please read carefully before proceeding</p>
                     </div>
+                    
+                    <div class="flex justify-center mb-6">
+                        <div class="Nrule"></div>
+                        <div class="Nrule2"></div>
+                    </div>
+                    
+                    <div class="space-y-4">
+                        <div class="bg-primary/5 p-4 rounded-lg border-l-4 border-primary">
+                            <div class="flex items-center gap-3">
+                                <div class="w-6 h-6 bg-primary rounded-full flex items-center justify-center flex-shrink-0">
+                                    <span class="text-white text-xs font-bold">1</span>
+                                </div>
+                                <p class="text-sm font-medium text-primary">Select your class from the dropdown list</p>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-primary/5 p-4 rounded-lg border-l-4 border-primary">
+                            <div class="flex items-center gap-3">
+                                <div class="w-6 h-6 bg-primary rounded-full flex items-center justify-center flex-shrink-0">
+                                    <span class="text-white text-xs font-bold">2</span>
+                                </div>
+                                <p class="text-sm font-medium text-primary">Choose your name from the students list</p>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-primary/5 p-4 rounded-lg border-l-4 border-primary">
+                            <div class="flex items-center gap-3">
+                                <div class="w-6 h-6 bg-primary rounded-full flex items-center justify-center flex-shrink-0">
+                                    <span class="text-white text-xs font-bold">3</span>
+                                </div>
+                                <p class="text-sm font-medium text-primary">Enter your Student ID correctly (e.g., "smss/3547")</p>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-primary/5 p-4 rounded-lg border-l-4 border-primary">
+                            <div class="flex items-center gap-3">
+                                <div class="w-6 h-6 bg-primary rounded-full flex items-center justify-center flex-shrink-0">
+                                    <span class="text-white text-xs font-bold">4</span>
+                                </div>
+                                <p class="text-sm font-medium text-primary">Click Submit to access your CBT examination</p>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-orange-200/30 p-4 rounded-lg border-l-4 border-amber-500 mt-6">
+                            <div class="flex items-center gap-3">
+                                <i class="fa-solid fa-exclamation-triangle text-amber-500 text-lg"></i>
+                                <div>
+                                    <p class="text-sm font-medium text-amber-500">Important Notice</p>
+                                    <p class="text-xs text-amber-500 mt-1">Ensure all details are correct before submitting. Contact your teacher if you encounter any issues.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Form Column -->
+            <div class="order-1 lg:order-2">
+                <div class="bg-base-100 rounded-xl shadow-lg p-6 md:p-8">
+                    <div class="flex flex-col items-center mb-6">
+                        <h2 class="text-2xl font-bold text-primary text-center">Student Login</h2>
+                        <p class="text-sm text-base-content/70 mt-2 text-center">Enter your details to access CBT</p>
+                    </div>
+                    
+                    <div class="flex justify-center mb-6">
+                        <div class="Nrule"></div>
+                        <div class="Nrule2"></div>
+                    </div>
+                    
+                    <!-- Messages Following Design System -->
+                    {% if messages %}
+                    {% for message in messages %}
+                    <div class="bg-success/10 border border-success/20 rounded-lg p-4 mb-6">
+                        <div class="flex items-center gap-3">
+                            <i class="fa-solid fa-check-circle text-success text-lg"></i>
+                            <span class="text-success font-medium">{{ message }}</span>
+                        </div>
+                    </div>
+                    {% endfor %}
+                    {% endif %}
+
+                    <!-- CBT Form -->
+                    <form id="student_info" method="POST" class="space-y-6">
+                        {% csrf_token %}
+                        
+                        <div class="form-control">
+                            <label class="label" for="class">
+                                <span class="label-text font-semibold text-primary">Class:</span>
+                            </label>
+                            <select id="class" name="student_class" 
+                                    class="select select-bordered placeholder:text-secondary focus:outline-orange focus:border-orange focus-within:outline-orange focus-within:border-orange w-full" required>
+                                <option value="" disabled selected>Select your class</option>
+                                {% for class in classobjects %}
+                                <option value="{{ class.Class }}">{{ class.Class }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <div class="form-control">
+                            <label class="label" for="Students">
+                                <span class="label-text font-semibold text-primary">Student Name:</span>
+                            </label>
+                            <select id="Students" name="student_name" 
+                                    class="select select-bordered placeholder:text-secondary focus:outline-orange focus:border-orange focus-within:outline-orange focus-within:border-orange w-full" required>
+                                <option value="" disabled selected>Select your name</option>
+                            </select>
+                        </div>
+
+                        <!-- Hidden time and date fields -->
+                        <input type="hidden" id="time" name="time">
+                        <input type="hidden" id="date" name="date">
+
+                        <div class="form-control">
+                            <label class="label" for="studentId">
+                                <span class="label-text font-semibold text-primary">Student ID:</span>
+                            </label>
+                            <input type="text" 
+                                   id="studentId" 
+                                   name="student_id"
+                                   class="input input-bordered placeholder:text-secondary focus:outline-orange focus:border-orange focus-within:outline-orange focus-within:border-orange w-full" 
+                                   placeholder="e.g., smss/3547" 
+                                   required>
+                        </div>
+
+                        <div class="form-control mt-8">
+                            <button id="submit" type="submit" class="btn btn-primary w-full gap-2">
+                                <i class="fa-solid fa-arrow-right"></i>
+                                Access CBT Portal
+                            </button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>

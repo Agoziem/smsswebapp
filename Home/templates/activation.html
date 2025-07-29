@@ -1,108 +1,183 @@
-{% extends 'base.html' %}
-{% load static %}
-{% block content%}
+{% extends 'base.html' %} {% load static %} {% block content%} 
 {% include 'main_navbar.html' %}
 
-<!-- Main page starts here -->
-<section class="py-16 bg-base-100">
-  <div class="container mx-auto px-4">
-    <h1 class="text-4xl font-bold text-center text-primary mb-8">CBT SUBJECTS ALLOCATION</h1>
-    
+<!-- Header Section Following Design System -->
+<section
+  class="relative bg-cover py-12 bg-center bg-no-repeat"
+  style="background-image: url('{% static 'images/ResultCover2.jpg' %}')"
+>
+  <!-- Overlay -->
+  <div class="absolute inset-0 bg-primary opacity-50"></div>
+
+  <div class="relative z-10 auto-container text-center text-white">
+    <div class="flex flex-col items-center">
+      <div class="sideline_text text-white">CBT System</div>
+      <h1 class="text-4xl text-white"> Subject Allocation Manager</h1>
+    </div>
+  </div>
+</section>
+
+<!-- Main Content Section -->
+<section class="py-10 bg-primary/5">
+  <div class="auto-container">
     <div class="grid lg:grid-cols-2 gap-8 items-start">
-      <!-- Allocation Form -->
-      <div class="card bg-base-200 shadow-lg">
-        <div class="card-body">
-          <form class="subjectallocationform space-y-6">
+      <!-- Allocation Form Following Design System -->
+      <div class="bg-base-100 rounded-xl shadow-lg p-6 md:p-8">
+        <div class="flex flex-col items-center mb-6">
+          <h2 class="text-2xl font-bold text-primary">Create New Allocation</h2>
+          <p class="text-sm text-base-content/70 mt-2">
+            Configure test subjects and schedules
+          </p>
+        </div>
+
+        <form class="subjectallocationform space-y-6">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div class="form-control">
               <label class="label" for="testselect">
-                <span class="label-text font-semibold">Select the Test:</span>
+                <span class="label-text font-semibold text-primary"
+                  >Select the Test:</span
+                >
               </label>
-              <select id="testselect" name="Test" class="select select-bordered w-full" required>
+              <select
+                id="testselect"
+                name="Test"
+                class="select placeholder:text-secondary focus:outline-orange focus:border-orange focus-within:outline-orange focus-within:border-orange w-full"
+                required
+              >
                 <option value="" disabled selected>Select a Test</option>
                 {% for test in tests %}
                 <option value="{{ test.name }}">{{ test.name }}</option>
                 {% endfor %}
               </select>
             </div>
-
+  
             <div class="form-control">
               <label class="label" for="allocationname">
-                <span class="label-text font-semibold">Enter a name:</span>
+                <span class="label-text font-semibold text-primary"
+                  >Enter a name:</span
+                >
               </label>
-              <input type="text" name="Name" id="allocationname" 
-                     class="input input-bordered w-full" 
-                     placeholder="Allocation name" required>
+              <input
+                type="text"
+                name="Name"
+                id="allocationname"
+                class="input placeholder:text-secondary focus:outline-orange focus:border-orange focus-within:outline-orange focus-within:border-orange w-full"
+                placeholder="Allocation name"
+                required
+              />
             </div>
+          </div>
+          
+          
 
-            <div class="form-control">
-              <label class="label" for="dateselect">
-                <span class="label-text font-semibold">Select the Test day:</span>
-              </label>
-              <input id="dateselect" type="date" name="Day" 
-                     class="input input-bordered w-full" required>
-            </div>
+          <div class="form-control">
+            <label class="label" for="dateselect">
+              <span class="label-text font-semibold text-primary"
+                >Select the Test day:</span
+              >
+            </label>
+            <input
+              id="dateselect"
+              type="date"
+              name="Day"
+              class="input placeholder:text-secondary focus:outline-orange focus:border-orange focus-within:outline-orange focus-within:border-orange w-full"
+              required
+            />
+          </div>
 
-            <div class="form-control">
-              <label class="label" for="subjectselect">
-                <span class="label-text font-semibold">Select the Subjects:</span>
-              </label>
-              <select id="subjectselect" name="questions" 
-                      class="select select-bordered w-full h-32" 
-                      multiple required>
-                {% for question in questions %}
-                <option value="{{ question.id }}" class="py-2">
-                  {{ question.subject }} [{% for questionclass in question.ExamClass.all %} {{questionclass.Class}} {% endfor %}]
-                </option>
-                {% endfor %}
-              </select>
-              <div class="label">
-                <span class="label-text-alt">Hold Ctrl/Cmd to select multiple subjects</span>
-              </div>
+          <div class="form-control">
+            <label class="label" for="subjectselect">
+              <span class="label-text font-semibold text-primary"
+                >Select the Subjects:</span
+              >
+            </label>
+            <select
+              id="subjectselect"
+              name="questions"
+              class="select placeholder:text-secondary focus:outline-orange focus:border-orange focus-within:outline-orange focus-within:border-orange w-full h-32"
+              multiple
+              required
+            >
+              {% for question in questions %}
+              <option value="{{ question.id }}" class="py-2">
+                {{ question.subject }} 
+                [{% for questionclass in question.ExamClass.all %} {{questionclass.Class}} {% endfor %}]
+              </option>
+              {% endfor %}
+            </select>
+            <div class="label">
+              <span class="label-text-alt"
+                >Hold Ctrl/Cmd to select multiple subjects</span
+              >
             </div>
+          </div>
 
-            <div class="form-control">
-              <button type="submit" class="btn btn-primary w-full">
-                Submit allocations
-              </button>
-            </div>
-          </form>
-        </div>
+          <div class="form-control">
+            <button type="submit" class="btn btn-primary w-full gap-2">
+              <i class="fa-solid fa-plus"></i>
+              Submit allocations
+            </button>
+          </div>
+        </form>
       </div>
 
-      <!-- Test Allocated List -->
-      <div class="card bg-base-200 shadow-lg">
-        <div class="card-body">
-          <h2 class="card-title text-primary mb-4">Test allocated</h2>
-          {% if testgroup %}
-          <ul class="space-y-2">
-            {% for testallocated in testgroup %}
-            <li class="p-3 bg-base-100 rounded-lg shadow-sm border-l-4 border-primary">
-              {{ testallocated.name }}
-            </li>
-            {% endfor %}
-          </ul>
-          {% else %}
-          <div class="text-center py-8 text-base-content/60">
-            <i class="fa-regular fa-folder-open text-4xl mb-4 block"></i>
-            <p>No tests allocated yet</p>
-          </div>
-          {% endif %}
+      <!-- Test Allocated List Following Design System -->
+      <div class="bg-base-100 rounded-xl shadow-lg p-6 pb-10">
+        <div class="flex flex-col items-center mb-6">
+          <h2 class="text-2xl font-bold text-primary">Active Allocations</h2>
+          <p class="text-sm text-base-content/70 mt-2">
+            Currently scheduled tests
+          </p>
         </div>
+
+        {% if testgroup %}
+        <div class="space-y-3">
+          {% for testallocated in testgroup %}
+          <div
+            class="bg-primary/5 p-4 rounded-lg border-l-4 border-primary hover:bg-primary/10 transition-colors"
+          >
+            <h3 class="font-bold text-primary">{{ testallocated.name }}</h3>
+            <p class="text-xs text-base-content/70 mt-1">Active allocation</p>
+          </div>
+          {% endfor %}
+        </div>
+        {% else %}
+        <!-- Empty State Following Design System -->
+        <div class="w-full">
+          <div
+            class="mx-auto max-w-[300px] bg-primary/5 py-12 px-8 text-primary text-center rounded-xl"
+          >
+            <i class="fa-regular fa-folder-open text-3xl mb-4 block"></i>
+            <h5>No allocations yet!</h5>
+            <p class="text-xs mt-2">Create your first test allocation</p>
+          </div>
+        </div>
+        {% endif %}
       </div>
     </div>
   </div>
 </section>
 
-<!-- Success Modal -->
+<!-- Success Modal Following Design System -->
 <dialog id="submitallocationModal" class="modal">
-  <div class="modal-box">
-    <h3 class="font-bold text-lg text-success">
-      <i class="fa-solid fa-check-circle mr-2"></i>
-      Confirmation
-    </h3>
-    <p class="py-4">Test allocation submitted successfully</p>
-    <div class="modal-action">
-      <button class="btn btn-primary" onclick="document.getElementById('submitallocationModal').close()">
+  <div class="modal-box bg-base-100 rounded-xl shadow-lg">
+    <div class="text-center p-4">
+      <div
+        class="w-16 h-16 bg-success/20 rounded-full flex items-center justify-center mx-auto mb-4"
+      >
+        <i class="fa-solid fa-check-circle text-3xl text-success"></i>
+      </div>
+      <h3 class="font-bold text-xl text-primary mb-2">Success!</h3>
+      <p class="text-base-content/70">
+        Test allocation has been submitted successfully
+      </p>
+    </div>
+    <div class="modal-action justify-center">
+      <button
+        class="btn btn-primary"
+        onclick="document.getElementById('submitallocationModal').close()"
+      >
+        <i class="fa-solid fa-check mr-2"></i>
         Close
       </button>
     </div>
@@ -111,16 +186,18 @@
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-const subjectallocationform = document.querySelector(".subjectallocationform");
-const subjectSelect = document.getElementById('subjectselect');
-const testselect = document.getElementById('testselect');
-const dateselect = document.getElementById('dateselect');
-const allocationname = document.getElementById('allocationname');
-const submitmodal = document.getElementById('submitallocationModal');
+  const subjectallocationform = document.querySelector(
+    ".subjectallocationform"
+  );
+  const subjectSelect = document.getElementById("subjectselect");
+  const testselect = document.getElementById("testselect");
+  const dateselect = document.getElementById("dateselect");
+  const allocationname = document.getElementById("allocationname");
+  const submitmodal = document.getElementById("submitallocationModal");
 
-subjectallocationform.addEventListener('submit', processform);
+  subjectallocationform.addEventListener("submit", processform);
 
-function processform(e) {
+  function processform(e) {
     e.preventDefault();
 
     // Initialize an array to store selected questions
@@ -128,39 +205,39 @@ function processform(e) {
 
     // Iterate through selected options and add values to the array
     for (const option of subjectSelect.selectedOptions) {
-        selectedQuestions.push(option.value);
+      selectedQuestions.push(option.value);
     }
 
     const formDataObject = {
-        Testname: allocationname.value,
-        date: dateselect.value,
-        testselected: testselect.value,
-        questions: selectedQuestions
+      Testname: allocationname.value,
+      date: dateselect.value,
+      testselected: testselect.value,
+      questions: selectedQuestions,
     };
 
-    submitgrouptoserver(formDataObject)
-    subjectallocationform.reset()
-}
+    submitgrouptoserver(formDataObject);
+    subjectallocationform.reset();
+  }
 
-function submitgrouptoserver(formDataObject){
-  fetch('/testallocation/',{
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'X-CSRFToken': csrftoken
-        },
-        body: JSON.stringify(formDataObject)
-  }).then(response => response.json())
-    .then(data => {
-       submitmodal.showModal();
-       
-       setTimeout(() => {
-        submitmodal.close();
-       }, 3000);
+  function submitgrouptoserver(formDataObject) {
+    fetch("/testallocation/", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "X-CSRFToken": csrftoken,
+      },
+      body: JSON.stringify(formDataObject),
     })
-    .catch(error => console.error('Error:', error));
-}
+      .then((response) => response.json())
+      .then((data) => {
+        submitmodal.showModal();
+
+        setTimeout(() => {
+          submitmodal.close();
+        }, 3000);
+      })
+      .catch((error) => console.error("Error:", error));
+  }
 </script>
 
-{% include 'main_footer.html' %}
-{% endblock %}
+{% include 'main_footer.html' %} {% endblock %}

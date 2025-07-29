@@ -1,9 +1,9 @@
 {% load static %}
 <div
-  class="relative min-h-screen bg-gradient-to-br from-wine-red/10 via-base-100 to-wine-red/5"
+  class="relative min-h-screen bg-gradient-to-br from-primary/10 via-base-100 to-primary/5"
 >
-  <div class="pt-8 pb-20 md:pt-12 lg:pt-10 md:pb-10 overflow-x-clip">
-    <div class="auto-container relative z-20 px-4">
+  <div class="pt-4 pb-20 md:pt-8 lg:pt-10 md:pb-10 overflow-x-clip">
+    <div class="auto-container relative z-20 px-4 py-10">
       <div class="grid md:grid-cols-2 md:justify-between gap-8 gap-y-12">
         <div class="">
           <div
@@ -13,7 +13,7 @@
           </div>
 
           <h1
-            class="text-3xl sm:text-5xl md:text-7xl font-bold tracking-tight bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent"
+            class="text-3xl sm:text-5xl md:text-7xl font-bold tracking-tight bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent pb-2"
           >
             For Accurate Teaching and Maximum Learning
           </h1>
@@ -35,7 +35,7 @@
             </a>
             <a
               href="/#Portal"
-              class="btn btn-ghost rounded-full flex items-center gap-2 h-12 px-6 hover:bg-wine-red/5"
+              class="btn btn-ghost text-black rounded-full flex items-center gap-2 h-12 px-6 hover:bg-wine-red/5"
             >
               <span>Student Portal</span>
               <i class="fas fa-arrow-right text-sm"></i>
@@ -43,28 +43,26 @@
           </div>
 
           <!-- Stats Cards -->
-          <div class="mt-8">
-            <div
-              class="bg-base-100/95 backdrop-blur-sm rounded-xl shadow-xl p-6 grid grid-cols-3 gap-4 max-w-md"
-            >
-              <div class="text-center">
-                <h3 class="text-2xl font-bold text-wine-red">32+</h3>
-                <p class="text-sm font-medium text-base-content">Subjects</p>
-              </div>
-              <div class="text-center">
-                <h3 class="text-2xl font-bold text-wine-red">700+</h3>
-                <p class="text-sm font-medium text-base-content">Students</p>
-              </div>
-              <div class="text-center">
-                <h3 class="text-2xl font-bold text-wine-red">30+</h3>
-                <p class="text-sm font-medium text-base-content">Teachers</p>
-              </div>
+          <div
+            class="mt-8 bg-primary/10 text-white backdrop-blur-sm rounded-xl p-6 grid grid-cols-3 gap-4 max-w-md"
+          >
+            <div class="text-center">
+              <h3 class="text-4xl font-bold text-primary">32+</h3>
+              <div class="text-base font-medium text-primary">Subjects</div>
+            </div>
+            <div class="text-center">
+              <h3 class="text-4xl font-bold text-primary">700+</h3>
+              <div class="text-base font-medium text-primary">Students</div>
+            </div>
+            <div class="text-center">
+              <h3 class="text-4xl  font-bold text-primary">30+</h3>
+              <div class="text-base font-medium text-primary">Teachers</div>
             </div>
           </div>
         </div>
 
         <!-- Image Grid -->
-        <div class="max-w-[588px] overflow-hidden">
+        <div class="max-w-[588px] overflow-visible">
           <img
             class="w-full h-full"
             src="{% static 'images/Hero Image.png' %}"

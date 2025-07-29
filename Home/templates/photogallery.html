@@ -3,29 +3,36 @@
 {% block content%}
 {% include 'main_navbar.html' %}
 
-<!-- Gallery Header -->
-<div class="hero min-h-[40vh] bg-gradient-to-br from-primary to-secondary">
-  <div class="hero-content text-center text-base-100">
-    <div class="max-w-md">
-      <h1 class="text-5xl font-bold">Photo Gallery</h1>
-      <div class="multiplerule flex justify-center space-x-2 mt-6 mb-4">
-        <div class="Nrule w-12 h-1 bg-base-100"></div>
-        <div class="Nrule2 w-8 h-1 bg-accent"></div>
-      </div>
-      <p class="text-lg">
-        View our Photo Gallery to see the Awesome pics of Our Students at different
-        occasions at St Marks Standard Secondary School
-      </p>
+<!-- Gallery Header Following Design System -->
+<section class="relative bg-gradient-to-br from-primary/10 via-base-100 to-primary/5 py-12">
+  <!-- Overlay -->
+  <!-- <div class="absolute inset-0 bg-primary/10 opacity-90"></div> -->
+  
+  <div class="relative z-10 auto-container text-center text-primary">
+    <div class="flex flex-col items-center">
+      <div class="sideline_text text-primary">Photo Catalog</div>
+      <h1 class="text-4xl text-primary">SMSS Photo Gallery</h1>
     </div>
+    
+    <div class="flex justify-center mt-3 mb-6">
+      <div class="Nrule"></div>
+      <div class="Nrule2"></div>
+    </div>
+    
+    <p class="text-lg text-primary max-w-2xl mx-auto">
+      View our Photo Gallery to see the awesome pictures of our students at different
+      occasions at St Marks Standard Secondary School
+    </p>
   </div>
-</div>
+</section>
 
-<!-- Photo Gallery Grid -->
-<section id="Files" class="py-16 bg-base-100">
-  <div class="container mx-auto px-4">
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+<!-- Photo Gallery Grid Following Design System -->
+<section id="Files" class="py-10 bg-base-100">
+  <div class="auto-container">
+    {% if photos %}
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
       {% for photo in photos %}
-      <div class="Photo_card card bg-base-200 shadow-lg hover:shadow-xl transition-shadow duration-300">
+      <div class="card bg-base-100 shadow-lg hover:shadow-md transition-shadow rounded-xl overflow-hidden">
         <figure class="aspect-square overflow-hidden">
           <a href="{{ photo.imageURL }}" class="block w-full h-full">
             <img src="{{ photo.imageURL }}" 
@@ -34,15 +41,23 @@
           </a>
         </figure>
         <div class="card-body p-4">
-          <p class="text-sm font-medium">{{ photo.Description }}</p>
-          <p class="text-xs text-base-content/70 flex items-center mt-2">
-            Click on the Picture to Expand
-            <i class="fa-solid fa-up-right-and-down-left-from-center ml-2"></i>
+          <p class="font-medium text-primary">{{ photo.Description }}</p>
+          <p class="text-xs text-base-content/70 flex items-center">
+            <i class="fa-solid fa-expand mr-2 text-primary"></i>
+            Click to expand image
           </p>
         </div>
       </div>
       {% endfor %}
     </div>
+    {% else %}
+    <!-- Empty State Following Design System -->
+    <div class="w-full">
+      <div class="mx-auto max-w-[450px] max-h-[180px] bg-primary/20 py-20 px-12 text-primary">
+        <h5 class="text-center">No photos available in the gallery yet!</h5>
+      </div>
+    </div>
+    {% endif %}
   </div>
 </section>
 

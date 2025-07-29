@@ -1,0 +1,139 @@
+{% comment %} Dashboard JavaScript for Tables and Interactions {% endcomment %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Students Table Functionality
+    const studentsTable = {
+        init() {
+            this.setupCheckboxes();
+            this.setupSearch();
+            this.setupFilters();
+        },
+
+        setupCheckboxes() {
+            const selectAll = document.getElementById('select-all-students');
+            const checkboxes = document.querySelectorAll('.student-checkbox');
+            const actionsDiv = document.getElementById('students-actions');
+
+            if (selectAll) {
+                selectAll.addEventListener('change', function() {
+                    checkboxes.forEach(checkbox => {
+                        checkbox.checked = this.checked;
+                    });
+                    this.updateActionsVisibility();
+                }.bind(this));
+            }
+
+            checkboxes.forEach(checkbox => {
+                checkbox.addEventListener('change', this.updateActionsVisibility.bind(this));
+            });
+        },
+
+        updateActionsVisibility() {
+            const checkedBoxes = document.querySelectorAll('.student-checkbox:checked');
+            const actionsDiv = document.getElementById('students-actions');
+            
+            if (checkedBoxes.length > 0) {
+                actionsDiv.classList.remove('hidden');
+                actionsDiv.classList.add('flex');
+            } else {
+                actionsDiv.classList.add('hidden');
+                actionsDiv.classList.remove('flex');
+            }
+        },
+
+        setupSearch() {
+            const searchInput = document.getElementById('students-search');
+            if (searchInput) {
+                searchInput.addEventListener('input', function() {
+                    // Add search functionality here
+                    console.log('Searching for:', this.value);
+                });
+            }
+        },
+
+        setupFilters() {
+            const classFilter = document.getElementById('class-filter');
+            if (classFilter) {
+                classFilter.addEventListener('change', function() {
+                    // Add filter functionality here
+                    console.log('Filtering by class:', this.value);
+                });
+            }
+        }
+    };
+
+    // Class Table Functionality
+    const classTable = {
+        init() {
+            this.setupCheckboxes();
+            this.setupSearch();
+            this.setupFilters();
+        },
+
+        setupCheckboxes() {
+            const selectAll = document.getElementById('select-all-classes');
+            const checkboxes = document.querySelectorAll('.class-checkbox');
+            const actionsDiv = document.getElementById('class-actions');
+
+            if (selectAll) {
+                selectAll.addEventListener('change', function() {
+                    checkboxes.forEach(checkbox => {
+                        checkbox.checked = this.checked;
+                    });
+                    this.updateActionsVisibility();
+                }.bind(this));
+            }
+
+            checkboxes.forEach(checkbox => {
+                checkbox.addEventListener('change', this.updateActionsVisibility.bind(this));
+            });
+        },
+
+        updateActionsVisibility() {
+            const checkedBoxes = document.querySelectorAll('.class-checkbox:checked');
+            const actionsDiv = document.getElementById('class-actions');
+            
+            if (checkedBoxes.length > 0) {
+                actionsDiv.classList.remove('hidden');
+                actionsDiv.classList.add('flex');
+            } else {
+                actionsDiv.classList.add('hidden');
+                actionsDiv.classList.remove('flex');
+            }
+        },
+
+        setupSearch() {
+            const searchInput = document.getElementById('class-search');
+            if (searchInput) {
+                searchInput.addEventListener('input', function() {
+                    // Add search functionality here
+                    console.log('Searching for:', this.value);
+                });
+            }
+        },
+
+        setupFilters() {
+            const sessionFilter = document.getElementById('session-filter');
+            if (sessionFilter) {
+                sessionFilter.addEventListener('change', function() {
+                    // Add filter functionality here
+                    console.log('Filtering by session:', this.value);
+                });
+            }
+        }
+    };
+
+    // Initialize both tables
+    studentsTable.init();
+    classTable.init();
+
+    // Close dropdowns when clicking outside
+    document.addEventListener('click', function(e) {
+        if (!e.target.closest('.dropdown')) {
+            document.querySelectorAll('.dropdown-content').forEach(dropdown => {
+                dropdown.blur();
+            });
+        }
+    });
+});
+</script>

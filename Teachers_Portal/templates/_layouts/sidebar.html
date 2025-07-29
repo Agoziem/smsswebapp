@@ -1,0 +1,247 @@
+{% load static %}
+<input id="sidebar-drawer" type="checkbox" class="drawer-toggle" />
+<div class="drawer-side">
+  <label for="sidebar-drawer" class="drawer-overlay"></label>
+
+   <!-- Sidebar Header -->
+  <div
+    class="bg-white text-primary p-6 px-8 sticky top-0 z-10 space-y-3 border-b border-primary/10 w-full"
+  >
+    <div class="space-y-2">
+      <h1 class="text-xl font-bold">Teachers Portal</h1>
+      <p class="text-sm text-primary/80">SMSS Omagba</p>
+    </div>
+  </div>
+
+  <!-- Sidebar Menu -->
+  <aside class="w-80 md:w-64 min-h-full bg-base-200 shadow-xl">
+    <div class="w-full px-6">
+      <ul class="menu text-base-content mx-auto px-0 w-full">
+        <!-- Core Section -->
+        <li class="menu-title text-primary/40 font-bold">
+          <span>Core</span>
+        </li>
+        <li>
+          <a
+            href="{% url 'Teachers_portal:Teachers_dashboard' %}"
+            class="flex items-center gap-3 text-primary font-bold hover:bg-primary hover:text-white transition-colors"
+          >
+            <i class="fas fa-tachometer-alt text-base"></i>
+            <span>Teachers Dashboard</span>
+          </a>
+        </li>
+
+        <!-- Sections -->
+        <li class="menu-title text-primary/40 font-bold mt-4">
+          <span>Sections</span>
+        </li>
+
+        <!-- Termly Results -->
+        <li>
+          <details class="group">
+            <summary
+              class="flex items-center gap-3 text-primary hover:bg-primary hover:text-white transition-colors justify-between"
+            >
+              <div class="flex items-center gap-3">
+                <i class="fas fa-columns text-sm"></i>
+                <span>Termly Results</span>
+              </div>
+            </summary>
+            <ul class="ml-6 space-y-1">
+              {% for class in request.user.teacher.classes_taught.all %}
+              <li>
+                <a
+                  href="{% url 'Teachers_portal:result_computation' Classname=class.Class id=request.user.teacher.id %}"
+                  class="text-sm text-primary/80 hover:bg-secondary hover:text-primary transition-colors rounded-lg"
+                >
+                  {{ class.Class }}
+                </a>
+              </li>
+              {% endfor %}
+            </ul>
+          </details>
+        </li>
+
+        <!-- Annual Results -->
+        <li>
+          <details class="group">
+            <summary
+              class="flex items-center gap-3 text-primary hover:bg-primary hover:text-white transition-colors justify-between"
+            >
+              <div class="flex items-center gap-3">
+                <i class="fa-solid fa-graduation-cap text-sm"></i>
+                <span>Annual Results</span>
+              </div>
+            </summary>
+            <ul class="ml-6 space-y-1">
+              {% for class in request.user.teacher.classes_taught.all %}
+              <li>
+                <a
+                  href="{% url 'Teachers_portal:annualresult_computation' Classname=class.Class id=request.user.teacher.id %}"
+                  class="text-sm text-primary/80 hover:bg-secondary hover:text-primary transition-colors rounded-lg"
+                >
+                  {{ class.Class }}
+                </a>
+              </li>
+              {% endfor %}
+            </ul>
+          </details>
+        </li>
+
+        <!-- CBT Questions -->
+        <li>
+          <details class="group">
+            <summary
+              class="flex items-center gap-3 text-primary hover:bg-primary hover:text-white transition-colors justify-between"
+            >
+              <div class="flex items-center gap-3">
+                <i class="fas fa-book-open text-sm"></i>
+                <span>CBT Questions</span>
+              </div>
+            </summary>
+            <ul class="ml-6 space-y-1">
+              <li>
+                <a
+                  href="{% url 'Teachers_portal:CBT_Questions' request.user.teacher.id %}"
+                  class="text-sm text-primary/80 hover:bg-secondary hover:text-primary transition-colors rounded-lg"
+                >
+                  Add Questions
+                </a>
+              </li>
+            </ul>
+          </details>
+        </li>
+
+        <!-- Form Teacher Section -->
+        {% if request.user.teacher.Role == 'Formteacher' %}
+        <li class="menu-title text-primary/40 font-bold mt-4">
+          <span>Form Teacher - {{ request.user.teacher.classFormed }}</span>
+        </li>
+
+        <!-- View Students -->
+        <li>
+          <details class="group">
+            <summary
+              class="flex items-center gap-3 text-primary hover:bg-primary hover:text-white transition-colors justify-between"
+            >
+              <div class="flex items-center gap-3">
+                <i class="fa-solid fa-users text-sm"></i>
+                <span>View Students</span>
+              </div>
+            </summary>
+            <ul class="ml-6 space-y-1">
+              {% for session in sessions %}
+              <li>
+                <a
+                  href="{% url 'Teachers_portal:students_list' Classname=request.user.teacher.classFormed.Class session_id=session.id %}"
+                  class="text-sm text-primary/80 hover:bg-secondary hover:text-primary transition-colors rounded-lg"
+                >
+                  {{ request.user.teacher.classFormed.Class }} {{ session.session }}
+                </a>
+              </li>
+              {% endfor %}
+            </ul>
+          </details>
+        </li>
+
+        <!-- Publish Results -->
+        <li>
+          <a
+            href="{% url 'Teachers_portal:PublishResults' Classname=request.user.teacher.classFormed %}"
+            class="flex items-center gap-3 text-primary px-4 hover:bg-primary hover:text-white transition-colors"
+          >
+            <i class="fas fa-table text-sm"></i>
+            <span>Publish Termly Result</span>
+          </a>
+        </li>
+
+        <li>
+          <a
+            href="{% url 'Teachers_portal:AnnualResults' Classname=request.user.teacher.classFormed %}"
+            class="flex items-center gap-3 text-primary px-4 hover:bg-primary hover:text-white transition-colors"
+          >
+            <i class="fa-solid fa-book text-sm"></i>
+            <span>Publish Annual Result</span>
+          </a>
+        </li>
+
+        <li>
+          <a
+            href="{% url 'Teachers_portal:mark_attendance' Classname=request.user.teacher.classFormed %}"
+            class="flex items-center gap-3 text-primary px-4 hover:bg-primary hover:text-white transition-colors"
+          >
+            <i class="fa-solid fa-chart-column text-sm"></i>
+            <span>Class Analytics</span>
+          </a>
+        </li>
+        {% endif %}
+
+        <!-- Admin Section -->
+        {% if request.user.teacher.Role == 'Admin' %}
+        <li class="menu-title text-primary/40 font-bold mt-4">
+          <span>Admin</span>
+        </li>
+
+        <li>
+          <a
+            href="{% url 'Teachers_portal:schoolresults' %}"
+            class="flex items-center gap-3 text-primary px-4 hover:bg-primary hover:text-white transition-colors"
+          >
+            <i class="fa-solid fa-users text-sm"></i>
+            <span>School Termly Results</span>
+          </a>
+        </li>
+
+        <li>
+          <a
+            href="{% url 'Teachers_portal:schoolannualresult' %}"
+            class="flex items-center gap-3 text-primary px-3 hover:bg-primary hover:text-white transition-colors"
+          >
+            <i class="fa-solid fa-graduation-cap text-sm"></i>
+            <span>School Annual Results</span>
+          </a>
+        </li>
+        {% endif %}
+
+        <!-- User Actions -->
+        <li class="menu-title text-primary/40 font-bold mt-4">
+          <span>Account</span>
+        </li>
+
+        <li>
+          <a
+            href="{% url 'Teachers_portal:profile' id=request.user.teacher.id %}"
+            class="flex items-center gap-3 text-primary px-3 hover:bg-primary hover:text-white transition-colors"
+          >
+            <i class="fas fa-solid fa-user text-sm"></i>
+            <span>Profile</span>
+          </a>
+        </li>
+
+        <li>
+          <a
+            href="{% url 'Accounts:logout' %}"
+            class="flex items-center gap-3 text-primary px-3 hover:bg-error hover:text-white transition-colors"
+          >
+            <i
+              class="fas fa-solid fa-right-from-bracket fa-flip-horizontal text-sm"
+            ></i>
+            <span>Log Out</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </aside>
+
+  <!-- Sidebar Footer -->
+  <div
+    class="sticky bottom-0 left-0 right-0 p-4 py-2 border-t border-base-content/10 bg-primary text-primary-content w-full"
+  >
+    <div class="px-6">
+      <div class="text-xs text-primary-content/80">Logged in as:</div>
+      <div class="text-base font-semibold text-primary-content truncate">
+        {{ request.user.username }}
+      </div>
+    </div>
+  </div>
+</div>

@@ -6,7 +6,7 @@ export default defineConfig({
   base: "/static/",
   resolve: {
     alias: {
-      "@": resolve(__dirname, "static"), // NOT static/js
+      "@": resolve(__dirname, "static"),
     },
   },
   plugins: [tailwindcss()], // <-- move this here

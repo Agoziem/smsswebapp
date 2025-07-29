@@ -1,7 +1,7 @@
 {% load static %}
 <div class="hr"></div>
 <section id="review" class="Review mb-20">
-  <div class="container mx-auto mt-16 px-4">
+  <div class="container mx-auto px-4 py-8">
     <p class="sideline_text text-center mb-0">School Review</p>
     <h1 class="text-center font-bold text-4xl">Reviews from our Parents</h1>
     <div class="multiplerule my-12 flex justify-center">
@@ -9,61 +9,73 @@
       <div class="Nrule2"></div>
     </div>
     {% if parentsreviews %}
-    <div class="Slide-container swiper">
-      <div class="slider_content">
-        <div class="slider_wrapper swiper-wrapper">
+    <div class="max-w-[1120px] w-full mx-auto swiper">
+      <div
+        class="mx-2 md:mx-10 pb-5 rounded-3xl overflow-hidden slider-content"
+      >
+        <div class="swiper-wrapper">
           {% for review in parentsreviews %}
-          <div class="swiper-slide relative inline-block p-0 bg-white rounded-[20px] shadow-[3.81681px_3.81681px_3.81681px_rgba(0,0,0,0.25)] my-10">
-            <!-- Position differently -->
-            <div class="absolute bottom-[120px] left-[76px]">
-              <div class="w-[98px] h-[98px] bg-white flex justify-center items-center rounded-full border-[5.5px] border-[var(--bg-wine-red)] mr-2">
-                {% if review.ParentsprofileimageURL == '' %}
+          <div class="swiper-slide">
+            <div class="relative p-0 bg-white rounded-xl shadow-lg my-10">
+              <!-- Position differently -->
+              <div
+                class="w-22 h-22 absolute bottom-3 left-4 bg-white flex justify-center items-center rounded-full border-4 border-primary mr-2"
+              >
+                {% if review.ParentsprofileimageURL %}
                 <img
-                  src="{% static 'images/User dark.png' %}"
-                  class="w-20 h-20 object-cover object-top rounded-full"
-                  alt=""
+                  src="{{ review.ParentsprofileimageURL }}"
+                  class="w-20 h-20 object-cover object-top rounded-full bg-secondary"
+                  alt="{{ review.Name }}"
                 />
                 {% else %}
-                <img
-                  src="{{review.ParentsprofileimageURL}}"
-                  class="w-20 h-20 object-cover object-top rounded-full"
-                  alt=""
-                />
+                <div
+                  class="w-20 h-20 flex justify-center items-center rounded-full bg-secondary"
+                >
+                  <h6 class="text-primary font-bold text-3xl">
+                    {% if review.Name %} {{ review.Name|slice:":1" }} {% else %}
+                    ? {% endif %}
+                  </h6>
+                </div>
+
                 {% endif %}
               </div>
-            </div>
-            <div class="text-white absolute bottom-[25px] left-[128px] md:bottom-[15px] md:left-[125px] ml-2">
-              <h6 class="mb-0 font-bold text-[13px]" style="font-family: var(--main-font-family)">{{ review.Name }}</h6>
-              <p class="my-1 font-bold text-[8.25px]" style="font-family: var(--main-font-family)">{{review.Occupation}} <br /></p>
-            </div>
-            <img
-              class="absolute -top-[5%] left-1/2 transform -translate-x-1/2"
-              src="{% static 'images/Quote icon.svg' %}"
-              alt=""
-            />
-            <!-- ////////////// -->
 
-            <div class="text-[13px] text-[var(--Wine-red)] font-bold p-10 pt-[65px]">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit.
-              Necessitatibus temporibus illum ea porro quam ab odit, deserunt
-              deleniti sit officiis nesciunt aliquam est? Ad libero quod quia
-              accusamus aut perspiciatis ipsum veritatis blanditiis doloribus
-              voluptates laudantium labore laboriosam quam recusandae assumenda,
-              consectetur
+              <div
+                class="text-white absolute bottom-[28px] left-[120px] md:bottom-[15px] md:left-[125px] ml-2"
+              >
+                <h6 class="mb-0 font-bold text-[13px]">{{ review.Name }}</h6>
+                <p class="my-1 font-bold text-[8.25px]">
+                  {{review.Occupation}} <br />
+                </p>
+              </div>
+
+              <div
+                class="absolute -top-[5%] left-1/2 transform -translate-x-1/2 w-16 h-16 flex justify-center items-center bg-secondary rounded-full"
+              >
+                <i class="i fa-solid fa-quote-left text-3xl text-primary"></i>
+              </div>
+              <!-- ////////////// -->
+
+              <div class="text-[13px] font-medium p-10 pt-[65px]">
+                {{ review.Review }}
+              </div>
+              <div class="h-[82px] bg-primary rounded-b-[20px]"></div>
             </div>
-            <div class="h-[82px] bg-[var(--bg-wine-red)] rounded-b-[20px]"></div>
           </div>
           {% endfor %}
         </div>
-        <div class="swiper-button-next swipper-navBtn"></div>
-        <div class="swiper-button-prev swipper-navBtn"></div>
-        <div class="swiper-pagination"></div>
+        <div class="swiper-button-next !text-primary !right-0 font-bold"></div>
+        <div class="swiper-button-prev !text-primary !left-0 font-bold"></div>
+        <div class="swiper-pagination management-pagination"></div>
       </div>
     </div>
     {% else %}
-    <div id="events" class="mt-12">
-      <div class="py-20 pl-12 text-center">
-        <h5 class="px-12 sideline_text">no Reviews yet</h5>
+    <div class="w-full">
+      <div
+        id="events"
+        class="mx-auto max-w-[450px] max-h-[180px] bg-primary/20 py-20 px-12 text-primary"
+      >
+        <h5 class="text-center">no Reviews yet</h5>
       </div>
     </div>
     {% endif %}
