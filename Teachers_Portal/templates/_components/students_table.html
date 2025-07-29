@@ -1,34 +1,50 @@
 {% comment %} Students Data Table Component {% endcomment %}
-<div class="bg-base-100 rounded-xl shadow-lg p-6 mb-8">
-  <!-- Table Controls -->
-  <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4 mb-6">
-    <!-- Search and Filter -->
-    <div class="flex flex-col sm:flex-row gap-4 flex-grow">
-      <div class="form-control">
-        <div class="input-group">
-          <input type="text" id="students-search" placeholder="Search students..." 
-                 class="input input-bordered placeholder:text-secondary focus:outline-orange focus:border-orange w-full max-w-xs" />
-          <button class="btn btn-square btn-primary">
-            <i class="fas fa-search"></i>
-          </button>
-        </div>
-      </div>
-      
-      <select id="class-filter" class="select select-bordered placeholder:text-secondary focus:outline-orange focus:border-orange">
-        <option value="">All Classes</option>
-        {% for class in classes %}
-        <option value="{{ class.Class }}">{{ class.Class }}</option>
-        {% endfor %}
-      </select>
-    </div>
+<div class="bg-base-100 rounded-xl shadow-lg p-6 mb-8 space-y-4 w-[85vw] md:w-full mx-auto">
 
-    <!-- Action Buttons (Hidden by default, shown when rows selected) -->
-    <div id="students-actions" class="hidden gap-2">
+    <!-- Header -->
+  <div class="mb-6">
+    <h6 class="text-lg font-bold text-primary">Students</h6>
+    <p class="text-sm text-base-content/70">Manage student records</p>
+  </div>
+
+  <!-- Table Controls -->
+
+  <!-- Search and Filter -->
+  <div
+    class="flex flex-col sm:flex-row gap-4 flex-grow md:justify-between md:items-center"
+  >
+    <div class="form-control">
+      <div class="flex items-center gap-2 flex-nowrap">
+        <input
+          type="text"
+          id="students-search"
+          placeholder="Search students..."
+          class="input input-bordered placeholder:text-secondary focus:outline-orange focus:border-orange w-full max-w-xs h-[35px] rounded-md"
+        />
+        <button class="btn btn-square btn-primary h-[35px] rounded-md">
+          <i class="fas fa-search"></i>
+        </button>
+      </div>
+    </div>
+    <select
+      id="class-filter"
+      class="select select-bordered placeholder:text-secondary focus:outline-orange focus:border-orange w-full max-w-[150px] h-[35px] rounded-md"
+    >
+      <option value="">All Classes</option>
+      {% for class in classes %}
+      <option value="{{ class.Class }}">{{ class.Class }}</option>
+      {% endfor %}
+    </select>
+  </div>
+
+  <!-- Action Buttons (Hidden by default, shown when rows selected) -->
+  <div class="hidden" id="students-actions">
+    <div class="gap-2 ml-auto">
       <button class="btn btn-error btn-sm gap-2">
         <i class="fas fa-trash"></i>
         Delete Selected
       </button>
-      <button class="btn btn-info btn-sm gap-2">
+      <button class="btn btn-success btn-sm gap-2">
         <i class="fas fa-download"></i>
         Export Selected
       </button>
@@ -38,10 +54,14 @@
   <!-- Table -->
   <div class="overflow-x-auto">
     <table id="students-table" class="table table-zebra w-full">
-      <thead class="bg-primary text-base-100">
+      <thead class="bg-primary/10 text-primary">
         <tr>
           <th>
-            <input type="checkbox" id="select-all-students" class="checkbox checkbox-sm" />
+            <input
+              type="checkbox"
+              id="select-all-students"
+              class="checkbox checkbox-sm"
+            />
           </th>
           <th>Student ID</th>
           <th>Name</th>
@@ -52,111 +72,181 @@
         </tr>
       </thead>
       <tbody>
-        {% if students %}
-          {% for student in students %}
-          <tr class="hover">
-            <td>
-              <input type="checkbox" class="checkbox checkbox-sm student-checkbox" value="{{ student.id }}" />
-            </td>
-            <td class="font-medium">{{ student.student_id|default:"N/A" }}</td>
-            <td>
-              <div class="flex items-center gap-3">
-                <div class="avatar placeholder">
-                  <div class="bg-primary text-white rounded-full w-8 h-8">
-                    <span class="text-xs">{{ student.student_name|first|upper }}</span>
-                  </div>
+        {% if students %} {% for student in students %}
+        <tr class="hover">
+          <td>
+            <input
+              type="checkbox"
+              class="checkbox checkbox-sm student-checkbox"
+              value="{{ student.id }}"
+            />
+          </td>
+          <td class="font-medium">{{ student.student_id|default:"N/A" }}</td>
+          <td>
+            <div class="flex items-center gap-3">
+              <div class="avatar avatar-placeholder">
+                <div class="bg-secondary text-primary w-8 rounded-full">
+                  <span class="font-medium"
+                    >{{ student.student_name|first|upper }}</span
+                  >
                 </div>
-                <span class="font-medium">{{ student.student_name }}</span>
               </div>
-            </td>
-            <td class="font-medium">{{ student.student_class }}</td>
-            <td>{{ student.academicsession|default:"Current" }}</td>
-            <td>
-              <span class="badge badge-success badge-sm">Active</span>
-            </td>
-            <td>
-              <div class="dropdown dropdown-end">
-                <label tabindex="0" class="btn btn-ghost btn-xs">
-                  <i class="fas fa-ellipsis-v"></i>
-                </label>
-                <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
-                  <li><a href="#" class="text-sm"><i class="fas fa-eye mr-2"></i>View Details</a></li>
-                  <li><a href="#" class="text-sm"><i class="fas fa-edit mr-2"></i>Edit</a></li>
-                  <li><a href="#" class="text-sm text-error"><i class="fas fa-trash mr-2"></i>Delete</a></li>
-                </ul>
-              </div>
-            </td>
-          </tr>
-          {% endfor %}
-        {% else %}
-          <!-- Sample Data -->
-          <tr class="hover">
-            <td><input type="checkbox" class="checkbox checkbox-sm student-checkbox" value="1" /></td>
-            <td class="font-medium">SMSS/2024/001</td>
-            <td>
-              <div class="flex items-center gap-3">
-                <div class="avatar placeholder">
-                  <div class="bg-primary text-white rounded-full w-8 h-8">
-                    <span class="text-xs">J</span>
-                  </div>
+              <span class="font-medium text-nowrap truncate"
+                >{{ student.student_name }}</span
+              >
+            </div>
+          </td>
+          <td class="font-medium text-nowrap truncate">
+            {{ student.student_class }}
+          </td>
+          <td>{{ student.academicsession|default:"Current" }}</td>
+          <td>
+            <span class="badge badge-success badge-sm">Active</span>
+          </td>
+          <td>
+            <div class="dropdown dropdown-end">
+              <label tabindex="0" class="btn btn-ghost btn-xs">
+                <i class="fas fa-ellipsis-v"></i>
+              </label>
+              <ul
+                tabindex="0"
+                class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52"
+              >
+                <li>
+                  <a href="#" class="text-sm"
+                    ><i class="fas fa-eye mr-2"></i>View Details</a
+                  >
+                </li>
+                <li>
+                  <a href="#" class="text-sm"
+                    ><i class="fas fa-edit mr-2"></i>Edit</a
+                  >
+                </li>
+                <li>
+                  <a href="#" class="text-sm text-error"
+                    ><i class="fas fa-trash mr-2"></i>Delete</a
+                  >
+                </li>
+              </ul>
+            </div>
+          </td>
+        </tr>
+        {% endfor %} {% else %}
+        <!-- Sample Data -->
+        <tr class="hover">
+          <td>
+            <input
+              type="checkbox"
+              class="checkbox checkbox-sm student-checkbox"
+              value="1"
+            />
+          </td>
+          <td class="font-medium">SMSS/2024/001</td>
+          <td>
+            <div class="flex items-center gap-3">
+              <div class="avatar avatar-placeholder">
+                <div class="bg-secondary text-primary w-8 rounded-full">
+                  <span class="font-medium">JD</span>
                 </div>
-                <span class="font-medium">John Doe</span>
               </div>
-            </td>
-            <td class="font-medium">JSS 1A</td>
-            <td>2024/2025</td>
-            <td><span class="badge badge-success badge-sm">Active</span></td>
-            <td>
-              <div class="dropdown dropdown-end">
-                <label tabindex="0" class="btn btn-ghost btn-xs">
-                  <i class="fas fa-ellipsis-v"></i>
-                </label>
-                <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
-                  <li><a href="#" class="text-sm"><i class="fas fa-eye mr-2"></i>View Details</a></li>
-                  <li><a href="#" class="text-sm"><i class="fas fa-edit mr-2"></i>Edit</a></li>
-                  <li><a href="#" class="text-sm text-error"><i class="fas fa-trash mr-2"></i>Delete</a></li>
-                </ul>
-              </div>
-            </td>
-          </tr>
-          <tr class="hover">
-            <td><input type="checkbox" class="checkbox checkbox-sm student-checkbox" value="2" /></td>
-            <td class="font-medium">SMSS/2024/002</td>
-            <td>
-              <div class="flex items-center gap-3">
-                <div class="avatar placeholder">
-                  <div class="bg-secondary text-white rounded-full w-8 h-8">
-                    <span class="text-xs">M</span>
-                  </div>
+              <span class="font-xs font-medium text-nowrap truncate"
+                >John Doe</span
+              >
+            </div>
+          </td>
+          <td class="font-medium text-nowrap truncate">JSS 1A</td>
+          <td>2024/2025</td>
+          <td><span class="badge badge-success badge-sm">Active</span></td>
+          <td>
+            <div class="dropdown dropdown-end">
+              <label tabindex="0" class="btn btn-ghost btn-xs">
+                <i class="fas fa-ellipsis-v"></i>
+              </label>
+              <ul
+                tabindex="0"
+                class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52"
+              >
+                <li>
+                  <a href="#" class="text-sm"
+                    ><i class="fas fa-eye mr-2"></i>View Details</a
+                  >
+                </li>
+                <li>
+                  <a href="#" class="text-sm"
+                    ><i class="fas fa-edit mr-2"></i>Edit</a
+                  >
+                </li>
+                <li>
+                  <a href="#" class="text-sm text-error"
+                    ><i class="fas fa-trash mr-2"></i>Delete</a
+                  >
+                </li>
+              </ul>
+            </div>
+          </td>
+        </tr>
+        <tr class="hover">
+          <td>
+            <input
+              type="checkbox"
+              class="checkbox checkbox-sm student-checkbox"
+              value="2"
+            />
+          </td>
+          <td class="font-medium">SMSS/2024/002</td>
+          <td>
+            <div class="flex items-center gap-3">
+              <div class="avatar avatar-placeholder">
+                <div class="bg-secondary text-primary w-8 rounded-full">
+                  <span class="font-medium">MS</span>
                 </div>
-                <span class="font-medium">Mary Smith</span>
               </div>
-            </td>
-            <td class="font-medium">JSS 2B</td>
-            <td>2024/2025</td>
-            <td><span class="badge badge-success badge-sm">Active</span></td>
-            <td>
-              <div class="dropdown dropdown-end">
-                <label tabindex="0" class="btn btn-ghost btn-xs">
-                  <i class="fas fa-ellipsis-v"></i>
-                </label>
-                <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
-                  <li><a href="#" class="text-sm"><i class="fas fa-eye mr-2"></i>View Details</a></li>
-                  <li><a href="#" class="text-sm"><i class="fas fa-edit mr-2"></i>Edit</a></li>
-                  <li><a href="#" class="text-sm text-error"><i class="fas fa-trash mr-2"></i>Delete</a></li>
-                </ul>
-              </div>
-            </td>
-          </tr>
+              <span class="font-medium text-nowrap truncate">Mary Smith</span>
+            </div>
+          </td>
+          <td class="font-medium text-nowrap truncate">JSS 2B</td>
+          <td>2024/2025</td>
+          <td><span class="badge badge-success badge-sm">Active</span></td>
+          <td>
+            <div class="dropdown dropdown-end">
+              <label tabindex="0" class="btn btn-ghost btn-xs">
+                <i class="fas fa-ellipsis-v"></i>
+              </label>
+              <ul
+                tabindex="0"
+                class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52"
+              >
+                <li>
+                  <a href="#" class="text-sm"
+                    ><i class="fas fa-eye mr-2"></i>View Details</a
+                  >
+                </li>
+                <li>
+                  <a href="#" class="text-sm"
+                    ><i class="fas fa-edit mr-2"></i>Edit</a
+                  >
+                </li>
+                <li>
+                  <a href="#" class="text-sm text-error"
+                    ><i class="fas fa-trash mr-2"></i>Delete</a
+                  >
+                </li>
+              </ul>
+            </div>
+          </td>
+        </tr>
         {% endif %}
       </tbody>
     </table>
   </div>
 
   <!-- Pagination -->
-  <div class="flex flex-col sm:flex-row justify-between items-center mt-6 gap-4">
+  <div
+    class="flex flex-col sm:flex-row justify-between items-center mt-6 gap-4"
+  >
     <div class="text-sm text-base-content/70">
-      Showing <span class="font-medium">1-10</span> of <span class="font-medium">50</span> students
+      Showing <span class="font-medium">1-10</span> of
+      <span class="font-medium">50</span> students
     </div>
     <div class="btn-group">
       <button class="btn btn-sm">«</button>

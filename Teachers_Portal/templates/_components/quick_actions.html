@@ -1,43 +1,40 @@
 {% comment %} Quick Actions Component {% endcomment %}
-<div class="bg-base-100 rounded-xl shadow-lg p-6 mb-8">
-  <div class="flex flex-col items-center mb-6">
-    <h2 class="text-2xl font-bold text-primary text-center">Quick Actions</h2>
-    <p class="text-sm text-base-content/70 mt-2 text-center">Frequently used actions</p>
-  </div>
-  
-  <div class="flex justify-center mb-4">
-    <div class="h-0.5 w-12 bg-primary rounded"></div>
-    <div class="h-0.5 w-8 bg-primary/60 rounded ml-1"></div>
+<div class="bg-base-100 rounded-xl shadow-lg p-6 mb-8 space-y-4 w-[85vw] md:w-full mx-auto">
+
+    <!-- Quick Actions Header -->
+  <div>
+    <h6 class="text-lg font-bold text-primary">Quick Actions</h6>
+    <p class="text-sm text-base-content/70">Frequently used actions</p>
   </div>
 
-  <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+  <div class="grid grid-cols-2 md:grid-cols-4 gap-4 ">
     <!-- Add Student -->
-    <a href="#" class="group bg-primary/5 hover:bg-primary hover:text-white transition-all duration-300 rounded-xl p-4 text-center">
-      <div class="bg-primary/10 group-hover:bg-white/20 p-3 rounded-full w-fit mx-auto mb-3">
+    <a href="#" class="group bg-primary/5 hover:bg-primary hover:text-white transition-all duration-300 rounded-xl p-4 text-center border border-primary">
+      <div class="bg-primary/10 group-hover:bg-white/20 p-3 rounded-full w-12 h-12 flex justify-center items-center mx-auto mb-3">
         <i class="fas fa-user-plus text-primary group-hover:text-white text-xl"></i>
       </div>
       <p class="text-sm font-medium text-primary group-hover:text-white">Add Student</p>
     </a>
 
     <!-- Create Result -->
-    <a href="#" class="group bg-secondary/5 hover:bg-secondary hover:text-white transition-all duration-300 rounded-xl p-4 text-center">
-      <div class="bg-secondary/10 group-hover:bg-white/20 p-3 rounded-full w-fit mx-auto mb-3">
-        <i class="fas fa-clipboard-list text-secondary group-hover:text-white text-xl"></i>
+    <a href="#" class="group bg-success/5 hover:bg-success hover:text-white transition-all duration-300 rounded-xl p-4 text-center border border-success">
+      <div class="bg-success/30 group-hover:bg-success/40 p-3 rounded-full w-12 h-12 flex justify-center items-center mx-auto mb-3">
+        <i class="fas fa-clipboard-list text-success group-hover:text-white text-xl"></i>
       </div>
-      <p class="text-sm font-medium text-secondary group-hover:text-white">Create Result</p>
+      <p class="text-sm font-medium text-success group-hover:text-white">Create Result</p>
     </a>
 
     <!-- Add CBT Question -->
-    <a href="{% url 'Teachers_portal:CBT_Questions' request.user.teacher.id %}" class="group bg-info/5 hover:bg-info hover:text-white transition-all duration-300 rounded-xl p-4 text-center">
-      <div class="bg-info/10 group-hover:bg-white/20 p-3 rounded-full w-fit mx-auto mb-3">
+    <a href="{% url 'Teachers_portal:CBT_Questions' request.user.teacher.id %}" class="group bg-info/5 hover:bg-info hover:text-white transition-all duration-300 rounded-xl p-4 text-center border border-info">
+      <div class="bg-info/10 group-hover:bg-white/20 p-3 rounded-full w-12 h-12 flex justify-center items-center mx-auto mb-3">
         <i class="fas fa-question-circle text-info group-hover:text-white text-xl"></i>
       </div>
       <p class="text-sm font-medium text-info group-hover:text-white">Add CBT Question</p>
     </a>
 
     <!-- View Reports -->
-    <a href="#" class="group bg-warning/5 hover:bg-warning hover:text-white transition-all duration-300 rounded-xl p-4 text-center">
-      <div class="bg-warning/10 group-hover:bg-white/20 p-3 rounded-full w-fit mx-auto mb-3">
+    <a href="#" class="group bg-warning/5 hover:bg-warning hover:text-white transition-all duration-300 rounded-xl p-4 text-center border border-warning">
+      <div class="bg-warning/10 group-hover:bg-white/20 p-3 rounded-full w-12 h-12 flex justify-center items-center mx-auto mb-3">
         <i class="fas fa-chart-bar text-warning group-hover:text-white text-xl"></i>
       </div>
       <p class="text-sm font-medium text-warning group-hover:text-white">View Reports</p>
