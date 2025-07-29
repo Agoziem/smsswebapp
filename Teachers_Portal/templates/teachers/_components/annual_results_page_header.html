@@ -1,0 +1,141 @@
+<!-- Annual Results Page Header Component -->
+<div class="mb-8">
+  <!-- Breadcrumb -->
+  <div class="breadcrumbs text-sm mb-4">
+    <ul>
+      <li><a href="{% url 'Teachers_portal:Teachers_dashboard' %}" class="text-primary hover:text-primary/80">Dashboard</a></li>
+      <li class="text-base-content">Annual Results</li>
+    </ul>
+  </div>
+
+  <!-- Page Header -->
+  <div class="space-y-4">
+    <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+      <div class="text-center lg:text-left space-y-2">
+        <h1 class="text-2xl md:text-3xl font-bold text-primary flex items-center justify-center lg:justify-start gap-3">
+          <i class="fas fa-chart-line"></i>
+          Annual Results Computation
+        </h1>
+        
+        {% if teacher.FirstName == "None" %}
+        <div class="bg-warning/10 border border-warning/20 rounded-lg p-4 max-w-md mx-auto lg:mx-0">
+          <div class="flex items-center gap-3">
+            <i class="fas fa-exclamation-triangle text-warning text-lg"></i>
+            <div>
+              <p class="font-medium text-warning">Profile Incomplete</p>
+              <p class="text-sm text-warning/80">
+                <a href="{% url 'Teachers_portal:profile' teacher.id %}" class="link link-hover underline">
+                  Edit your Teachers Profile to perform further actions
+                </a>
+              </p>
+            </div>
+          </div>
+        </div>
+        {% else %}
+        <div class="flex flex-wrap items-center justify-center lg:justify-start gap-3">
+          <div class="badge badge-success badge-lg">
+            <i class="fas fa-graduation-cap mr-2"></i>
+            {{ class.Class|default:"SS2A" }} Students Annual Results
+          </div>
+          <div class="badge badge-primary badge-lg">
+            <i class="fas fa-user-tie mr-2"></i>
+            {{ request.user }}
+          </div>
+        </div>
+        {% endif %}
+      </div>
+      
+      <!-- Quick Actions -->
+      <div class="flex flex-wrap justify-center gap-2">
+        <button class="btn btn-outline btn-sm gap-2" onclick="refreshResults()">
+          <i class="fas fa-sync-alt"></i>
+          Refresh
+        </button>
+        <button class="btn btn-outline btn-sm gap-2" onclick="viewTrendAnalysis()">
+          <i class="fas fa-chart-area"></i>
+          Trends
+        </button>
+        <div class="dropdown dropdown-end">
+          <div tabindex="0" role="button" class="btn btn-outline btn-sm gap-2">
+            <i class="fas fa-download"></i>
+            Export
+          </div>
+          <ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
+            <li><a href="#" onclick="exportAnnualPDF()"><i class="fas fa-file-pdf"></i> Export PDF Report</a></li>
+            <li><a href="#" onclick="exportAnnualExcel()"><i class="fas fa-file-excel"></i> Export Excel</a></li>
+            <li><a href="#" onclick="exportAnnualCSV()"><i class="fas fa-file-csv"></i> Export CSV</a></li>
+            <li class="divider"></li>
+            <li><a href="#" onclick="generateTranscripts()"><i class="fas fa-certificate"></i> Generate Transcripts</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Academic Year Info -->
+    <div class="bg-info/10 border border-info/20 rounded-lg p-4">
+      <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+        <div class="flex items-start gap-3">
+          <i class="fas fa-calendar-alt text-info text-lg mt-1"></i>
+          <div>
+            <p class="font-medium text-info">Academic Year Overview</p>
+            <p class="text-sm text-info/80 mt-1">
+              Comprehensive performance analysis across all three terms for the selected academic session
+            </p>
+          </div>
+        </div>
+        <div class="flex flex-wrap gap-2">
+          <div class="badge badge-info gap-2">
+            <i class="fas fa-calendar"></i>
+            2024/2025 Session
+          </div>
+          <div class="badge badge-success gap-2">
+            <i class="fas fa-check-circle"></i>
+            3 Terms Complete
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Result Status Badge -->
+    <div id="resultbadge" class="hidden">
+      <!-- This will be populated dynamically -->
+    </div>
+
+    <!-- Alert Container -->
+    <div id="alert-container" class="space-y-2">
+      <!-- Dynamic alerts will be inserted here -->
+    </div>
+  </div>
+</div>
+
+<script>
+// Quick action functions
+function refreshResults() {
+  location.reload();
+}
+
+function viewTrendAnalysis() {
+  // This will be implemented with HTMX later
+  console.log('Trend analysis functionality will be added');
+}
+
+function exportAnnualPDF() {
+  // This will be implemented with HTMX later
+  console.log('Export annual PDF functionality will be added');
+}
+
+function exportAnnualExcel() {
+  // This will be implemented with HTMX later
+  console.log('Export annual Excel functionality will be added');
+}
+
+function exportAnnualCSV() {
+  // This will be implemented with HTMX later
+  console.log('Export annual CSV functionality will be added');
+}
+
+function generateTranscripts() {
+  // This will be implemented with HTMX later
+  console.log('Generate transcripts functionality will be added');
+}
+</script>

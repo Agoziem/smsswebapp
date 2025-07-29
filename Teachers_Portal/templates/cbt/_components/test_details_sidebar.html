@@ -1,0 +1,178 @@
+<!-- CBT Test Details Sidebar Component -->
+<div class="lg:col-span-4">
+  <div class="space-y-6">
+    <!-- Test Info Card -->
+    <div class="bg-base-100 rounded-xl shadow-lg p-6">
+      <div class="flex items-center justify-center gap-2 mb-4">
+        <i class="fas fa-info-circle text-primary text-lg"></i>
+        <h3 class="text-lg font-bold text-primary">Test Details</h3>
+      </div>
+      
+      <div class="space-y-4">
+        <!-- Subject Display -->
+        <div class="flex items-center justify-between p-3 bg-primary/10 rounded-lg">
+          <span class="font-medium text-primary">Subject:</span>
+          <span class="font-bold">{{ questionSet.subject|default:"Mathematics" }}</span>
+        </div>
+        
+        <!-- Duration Display -->
+        <div class="flex items-center justify-between p-3 bg-secondary/10 rounded-lg">
+          <span class="font-medium text-secondary">Duration:</span>
+          <span class="font-bold">{{ questionSet.examTime|default:"60" }} minutes</span>
+        </div>
+        
+        <!-- Classes Display -->
+        <div class="p-3 bg-accent/10 rounded-lg">
+          <div class="font-medium text-accent mb-2">Test Classes:</div>
+          <div class="text-sm space-y-1">
+            {% for class in questionSet.ExamClass.all %}
+              <div class="badge badge-accent badge-outline">{{ class.Class }}</div>
+            {% empty %}
+              <!-- Dummy classes for demonstration -->
+              <div class="badge badge-accent badge-outline">SS1A</div>
+              <div class="badge badge-accent badge-outline">SS1B</div>
+              <div class="badge badge-accent badge-outline">SS2A</div>
+            {% endfor %}
+          </div>
+        </div>
+        
+        <!-- Question Count -->
+        <div class="flex items-center justify-between p-3 bg-info/10 rounded-lg">
+          <span class="font-medium text-info">Questions:</span>
+          <span class="font-bold" id="question-count">0</span>
+        </div>
+        
+        <!-- Total Marks -->
+        <div class="flex items-center justify-between p-3 bg-success/10 rounded-lg">
+          <span class="font-medium text-success">Total Marks:</span>
+          <span class="font-bold" id="total-marks">0</span>
+        </div>
+      </div>
+      
+      <!-- Hidden fields for JavaScript -->
+      <div class="hidden">
+        <input type="text" id="questionsetid" value="{{ questionSet.id|default:'1' }}">
+        <input type="text" id="subject" value="{{ questionSet.subject|default:'Mathematics' }}">
+        <input type="text" id="teacher" value="{{ questionSet.teacher|default:'Teacher Name' }}">
+        <input type="text" id="time" value="{{ questionSet.examTime|default:'60' }}">
+        <select id="test_classes" name="test_classes" multiple>
+          {% for class in questionSet.ExamClass.all %}
+            <option value="{{ class.id }}" selected>{{ class.id }}</option>
+          {% empty %}
+            <!-- Dummy data -->
+            <option value="1" selected>1</option>
+            <option value="2" selected>2</option>
+            <option value="3" selected>3</option>
+          {% endfor %}
+        </select>
+      </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="bg-base-100 rounded-xl shadow-lg p-6">
+      <h4 class="font-bold text-primary mb-4 flex items-center gap-2">
+        <i class="fas fa-tools"></i>
+        Quick Actions
+      </h4>
+      
+      <div class="space-y-3">
+        <!-- Add Question Button -->
+        <button id="addQuestionbtn" 
+                class="btn btn-warning text-white w-full shadow-sm"
+                onclick="document.getElementById('addquestionmodal').showModal()">
+          <i class="fas fa-plus mr-2"></i>
+          Add Question
+        </button>
+        
+        <!-- Edit Classes Button -->
+        <a href="{% url 'Teachers_portal:CBT_update_details' questionSet.id|default:'1' %}" 
+           class="btn btn-primary w-full shadow-sm">
+          <i class="fas fa-edit mr-2"></i>
+          Edit Test Details
+        </a>
+        
+        <!-- Delete All Questions Button -->
+        <button id="deleteQuestionbtnModal" 
+                class="btn btn-error text-white w-full shadow-sm hidden"
+                onclick="document.getElementById('deletequestionsmodal').showModal()">
+          <i class="fas fa-trash mr-2"></i>
+          Delete All Questions
+        </button>
+        
+        <!-- Publish Test Button -->
+        <button id="publishTestBtn" 
+                class="btn btn-success text-white w-full shadow-sm hidden">
+          <i class="fas fa-rocket mr-2"></i>
+          Publish Test
+        </button>
+      </div>
+    </div>
+
+    <!-- Test Statistics -->
+    <div class="bg-base-100 rounded-xl shadow-lg p-6">
+      <h4 class="font-bold text-primary mb-4 flex items-center gap-2">
+        <i class="fas fa-chart-bar"></i>
+        Test Statistics
+      </h4>
+      
+      <div class="grid grid-cols-2 gap-4 text-center">
+        <div class="bg-primary/10 rounded-lg p-3">
+          <div class="text-primary font-bold text-xl" id="avg-time-per-question">0</div>
+          <div class="text-xs text-primary/70">Avg Time/Q</div>
+        </div>
+        <div class="bg-secondary/10 rounded-lg p-3">
+          <div class="text-secondary font-bold text-xl" id="difficulty-level">Easy</div>
+          <div class="text-xs text-secondary/70">Difficulty</div>
+        </div>
+        <div class="bg-accent/10 rounded-lg p-3">
+          <div class="text-accent font-bold text-xl" id="estimated-time">0m</div>
+          <div class="text-xs text-accent/70">Est. Time</div>
+        </div>
+        <div class="bg-info/10 rounded-lg p-3">
+          <div class="text-info font-bold text-xl" id="completion-rate">0%</div>
+          <div class="text-xs text-info/70">Complete</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// Update test statistics
+function updateTestStats() {
+  const questionCount = parseInt(document.getElementById('question-count').textContent || '0');
+  const totalMarks = parseInt(document.getElementById('total-marks').textContent || '0');
+  const testTime = parseInt(document.getElementById('time').value || '60');
+  
+  // Calculate average time per question
+  const avgTimePerQ = questionCount > 0 ? Math.round(testTime / questionCount) : 0;
+  document.getElementById('avg-time-per-question').textContent = avgTimePerQ + 'm';
+  
+  // Estimate completion rate based on question count
+  const completionRate = Math.min(100, (questionCount / 20) * 100);
+  document.getElementById('completion-rate').textContent = Math.round(completionRate) + '%';
+  
+  // Estimated time based on marks
+  const estimatedTime = Math.max(avgTimePerQ * questionCount, totalMarks * 2);
+  document.getElementById('estimated-time').textContent = estimatedTime + 'm';
+  
+  // Show/hide action buttons based on question count
+  const deleteAllBtn = document.getElementById('deleteQuestionbtnModal');
+  const publishBtn = document.getElementById('publishTestBtn');
+  
+  if (questionCount > 0) {
+    deleteAllBtn.classList.remove('hidden');
+    if (questionCount >= 5) {
+      publishBtn.classList.remove('hidden');
+    } else {
+      publishBtn.classList.add('hidden');
+    }
+  } else {
+    deleteAllBtn.classList.add('hidden');
+    publishBtn.classList.add('hidden');
+  }
+}
+
+// Initial stats update
+document.addEventListener('DOMContentLoaded', updateTestStats);
+</script>

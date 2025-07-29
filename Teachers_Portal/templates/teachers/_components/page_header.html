@@ -1,0 +1,95 @@
+<!-- Page Header Component -->
+<div class="mb-8">
+  <!-- Breadcrumb -->
+  <div class="breadcrumbs text-sm mb-4">
+    <ul>
+      <li><a href="{% url 'Teachers_portal:Teachers_dashboard' %}" class="text-primary hover:text-primary/80">Dashboard</a></li>
+      <li class="text-base-content">Result Computation</li>
+    </ul>
+  </div>
+
+  <!-- Page Header -->
+  <div class="space-y-4">
+    <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+      <div class="space-y-2">
+        <h1 class="text-2xl md:text-3xl font-bold text-primary flex items-center gap-3">
+          <i class="fas fa-calculator"></i>
+          Result Computation
+        </h1>
+        
+        {% if teacher.FirstName == "None" %}
+        <div class="bg-warning/10 border border-warning/20 rounded-lg p-4 max-w-md">
+          <div class="flex items-center gap-3">
+            <i class="fas fa-exclamation-triangle text-warning text-lg"></i>
+            <div>
+              <p class="font-medium text-warning">Profile Incomplete</p>
+              <p class="text-sm text-warning/80">
+                <a href="{% url 'Teachers_portal:profile' teacher.id %}" class="link link-hover underline">
+                  Edit your Teachers Profile to perform further actions
+                </a>
+              </p>
+            </div>
+          </div>
+        </div>
+        {% else %}
+        <div class="flex flex-wrap items-center gap-3">
+          <div class="badge badge-success badge-lg">
+            <i class="fas fa-graduation-cap mr-2"></i>
+            {{ class.Class }} Students Result Table
+          </div>
+          <div class="badge badge-primary badge-lg">
+            <i class="fas fa-user-tie mr-2"></i>
+            {{ request.user }}
+          </div>
+        </div>
+        {% endif %}
+      </div>
+      
+      <!-- Quick Actions -->
+      <div class="flex flex-wrap gap-2">
+        <button class="btn btn-outline btn-sm gap-2" onclick="location.reload()">
+          <i class="fas fa-sync-alt"></i>
+          Refresh
+        </button>
+        <div class="dropdown dropdown-end">
+          <div tabindex="0" role="button" class="btn btn-outline btn-sm gap-2">
+            <i class="fas fa-cog"></i>
+            Options
+          </div>
+          <ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
+            <li><a href="#" onclick="printResults()"><i class="fas fa-print"></i> Print Results</a></li>
+            <li><a href="#" onclick="exportPDF()"><i class="fas fa-file-pdf"></i> Export PDF</a></li>
+            <li><a href="#" onclick="viewStatistics()"><i class="fas fa-chart-bar"></i> View Statistics</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Result Status Badge -->
+    <div id="resultbadge" class="hidden">
+      <!-- This will be populated dynamically -->
+    </div>
+
+    <!-- Alert Container -->
+    <div id="alert-container" class="space-y-2">
+      <!-- Dynamic alerts will be inserted here -->
+    </div>
+  </div>
+</div>
+
+<script>
+// Quick action functions
+function printResults() {
+  window.print();
+}
+
+function exportPDF() {
+  // This will be implemented with HTMX later
+  console.log('Export PDF functionality will be added');
+}
+
+function viewStatistics() {
+  // This will be implemented with HTMX later
+  console.log('Statistics view will be added');
+}
+</script>

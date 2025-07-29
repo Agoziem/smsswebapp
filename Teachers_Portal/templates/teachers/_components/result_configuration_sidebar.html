@@ -1,0 +1,147 @@
+<!-- Result Configuration Sidebar Component -->
+<div class="lg:col-span-3">
+  <!-- Result Credential Form -->
+  <div class="bg-base-100 rounded-xl shadow-lg p-6 mb-6">
+    <h6 class="text-lg font-bold text-primary mb-4">
+      <i class="fas fa-cog mr-2"></i>
+      Result Configuration
+    </h6>
+    <form action="" id="getstudentresultform" class="space-y-4" hx-post="/api/get-student-results" hx-target="#results-table-container" hx-trigger="change from:select">
+      <input type="text" value="{{ class.Class }}" class="hidden" />
+      
+      <div class="form-control">
+        <label class="label">
+          <span class="label-text font-medium">Subject</span>
+        </label>
+        <select class="select select-bordered focus:outline-orange focus:border-orange" name="subject" required>
+          <!-- Dummy data for subjects -->
+          <option value="Mathematics" selected>Mathematics</option>
+          <option value="English Language">English Language</option>
+          <option value="Physics">Physics</option>
+          <option value="Chemistry">Chemistry</option>
+          <option value="Biology">Biology</option>
+          <option value="Geography">Geography</option>
+          <option value="Economics">Economics</option>
+          <option value="Government">Government</option>
+        </select>
+      </div>
+
+      <div class="form-control">
+        <label class="label">
+          <span class="label-text font-medium">Academic Session</span>
+        </label>
+        <select id="academicSessionSelect" name="AcademicSession" class="select select-bordered focus:outline-orange focus:border-orange" required>
+          <!-- Dummy data for academic sessions -->
+          <option value="2024/2025" selected>2024/2025</option>
+          <option value="2023/2024">2023/2024</option>
+          <option value="2022/2023">2022/2023</option>
+        </select>
+      </div>
+
+      <div class="form-control">
+        <label class="label">
+          <span class="label-text font-medium">Term</span>
+        </label>
+        <select id="termSelect" name="Term" class="select select-bordered focus:outline-orange focus:border-orange" required>
+          <!-- Dummy data for terms -->
+          <option value="First Term" selected>First Term</option>
+          <option value="Second Term">Second Term</option>
+          <option value="Third Term">Third Term</option>
+        </select>
+      </div>
+    </form>
+  </div>
+
+  <!-- Action Buttons -->
+  <div class="space-y-3">
+    <div class="alertcontainer2"></div>
+    
+    <button class="publishbtn btn btn-primary w-full shadow-lg" 
+            hx-post="/api/publish-results" 
+            hx-confirm="Are you sure you want to publish these results?"
+            hx-target="#alert-container">
+      <i class="fas fa-upload mr-2"></i>
+      Publish Result
+    </button>
+
+    <button class="btn btn-success w-full shadow-lg"
+            hx-get="/api/export-results-excel"
+            hx-trigger="click">
+      <i class="fas fa-file-excel mr-2"></i>
+      Export to Excel
+    </button>
+
+    <!-- Column Visibility Controls -->
+    <div class="collapse collapse-arrow bg-base-200">
+      <input type="checkbox" />
+      <div class="collapse-title text-sm font-medium">
+        <i class="fas fa-columns mr-2"></i>
+        Hide/Show Columns
+      </div>
+      <div class="collapse-content">
+        <div class="space-y-2">
+          <label class="cursor-pointer label justify-start gap-3">
+            <input type="checkbox" class="checkbox checkbox-sm" id="UnhideAllCheckbox" />
+            <span class="label-text text-sm">Hide All Subjects</span>
+          </label>
+          <label class="cursor-pointer label justify-start gap-3">
+            <input type="checkbox" class="checkbox checkbox-sm column-checkbox" value="1" id="firstCheckbox" />
+            <span class="label-text text-sm">First Test</span>
+          </label>
+          <label class="cursor-pointer label justify-start gap-3">
+            <input type="checkbox" class="checkbox checkbox-sm column-checkbox" value="2" id="secondCheckbox" />
+            <span class="label-text text-sm">First Assignment</span>
+          </label>
+          <label class="cursor-pointer label justify-start gap-3">
+            <input type="checkbox" class="checkbox checkbox-sm column-checkbox" value="3" id="thirdCheckbox" />
+            <span class="label-text text-sm">Mid Term Test</span>
+          </label>
+          <label class="cursor-pointer label justify-start gap-3">
+            <input type="checkbox" class="checkbox checkbox-sm column-checkbox" value="4" id="fouthcheckbox" />
+            <span class="label-text text-sm">Second Test</span>
+          </label>
+          <label class="cursor-pointer label justify-start gap-3">
+            <input type="checkbox" class="checkbox checkbox-sm column-checkbox" value="5" id="fifthcheckbox" />
+            <span class="label-text text-sm">Second Assignment</span>
+          </label>
+          <label class="cursor-pointer label justify-start gap-3">
+            <input type="checkbox" class="checkbox checkbox-sm column-checkbox" value="6" id="sixthcheckbox" />
+            <span class="label-text text-sm">CA</span>
+          </label>
+          <label class="cursor-pointer label justify-start gap-3">
+            <input type="checkbox" class="checkbox checkbox-sm column-checkbox" value="7" id="seventhcheckbox" />
+            <span class="label-text text-sm">Exam</span>
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quick Stats Card -->
+    <div class="card bg-base-200 shadow-sm">
+      <div class="card-body p-4">
+        <h3 class="card-title text-sm">
+          <i class="fas fa-chart-bar text-primary"></i>
+          Quick Stats
+        </h3>
+        <div class="space-y-2 text-sm">
+          <div class="flex justify-between">
+            <span class="text-base-content/70">Total Students:</span>
+            <span class="badge badge-primary">45</span>
+          </div>
+          <div class="flex justify-between">
+            <span class="text-base-content/70">Submitted:</span>
+            <span class="badge badge-success">38</span>
+          </div>
+          <div class="flex justify-between">
+            <span class="text-base-content/70">Pending:</span>
+            <span class="badge badge-warning">7</span>
+          </div>
+          <div class="flex justify-between">
+            <span class="text-base-content/70">Average:</span>
+            <span class="badge badge-info">72.5%</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

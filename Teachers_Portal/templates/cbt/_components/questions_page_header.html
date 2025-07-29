@@ -1,0 +1,164 @@
+<!-- CBT Questions Page Header Component -->
+<div class="bg-base-100 rounded-xl shadow-lg p-6 mb-6">
+  <div class="text-center">
+    <!-- Test Information -->
+    <div class="flex items-center justify-center gap-4 mb-4">
+      <div class="avatar placeholder">
+        <div class="bg-primary text-primary-content rounded-full w-12 h-12">
+          <i class="fas fa-laptop-code text-xl"></i>
+        </div>
+      </div>
+      <div>
+        <h1 class="text-2xl font-bold text-primary">{{ questionSet.subject|default:"Mathematics" }}</h1>
+        <p class="text-base-content/70">Question Management</p>
+      </div>
+    </div>
+
+    <!-- Test Classes -->
+    <div class="flex items-center justify-center gap-2 mb-4">
+      <span class="text-sm text-base-content/70">Test Classes:</span>
+      <div class="flex flex-wrap gap-1">
+        {% for class in questionSet.ExamClass.all %}
+          <div class="badge badge-primary badge-sm">{{ class.Class }}</div>
+        {% empty %}
+          <!-- Dummy classes for demonstration -->
+          <div class="badge badge-primary badge-sm">SS1A</div>
+          <div class="badge badge-primary badge-sm">SS1B</div>
+          <div class="badge badge-primary badge-sm">SS2A</div>
+        {% endfor %}
+      </div>
+    </div>
+
+    <!-- Progress Indicator -->
+    <div class="max-w-md mx-auto">
+      <div class="flex items-center justify-between mb-2">
+        <span class="text-sm text-base-content/70">Test Creation Progress</span>
+        <span class="text-sm font-medium" id="progress-text">0% Complete</span>
+      </div>
+      <progress class="progress progress-primary w-full" value="0" max="100" id="creation-progress"></progress>
+      <div class="flex justify-between text-xs text-base-content/60 mt-1">
+        <span>Add Questions</span>
+        <span>Review & Submit</span>
+      </div>
+    </div>
+
+    <!-- Quick Stats -->
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mt-6 max-w-2xl mx-auto">
+      <div class="bg-primary/10 rounded-lg p-3">
+        <div class="text-primary font-bold text-lg" id="header-question-count">0</div>
+        <div class="text-xs text-primary/70">Questions</div>
+      </div>
+      <div class="bg-secondary/10 rounded-lg p-3">
+        <div class="text-secondary font-bold text-lg" id="header-total-marks">0</div>
+        <div class="text-xs text-secondary/70">Total Marks</div>
+      </div>
+      <div class="bg-accent/10 rounded-lg p-3">
+        <div class="text-accent font-bold text-lg">{{ questionSet.examTime|default:"60" }}</div>
+        <div class="text-xs text-accent/70">Minutes</div>
+      </div>
+      <div class="bg-info/10 rounded-lg p-3">
+        <div class="text-info font-bold text-lg" id="header-avg-time">0m</div>
+        <div class="text-xs text-info/70">Avg/Question</div>
+      </div>
+    </div>
+
+    <!-- Guidelines Alert -->
+    <div class="alert alert-info mt-6 max-w-2xl mx-auto">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="stroke-info shrink-0 w-6 h-6">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+      </svg>
+      <div class="text-left">
+        <div class="font-medium">Question Creation Tips</div>
+        <div class="text-sm mt-1">
+          • Add at least 10 questions for a comprehensive test
+          • Select correct answers for each question before submitting
+          • Use clear, unambiguous language in questions
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// Update header statistics
+function updateHeaderStats() {
+  const questionCount = parseInt(document.getElementById('question-count')?.textContent || '0');
+  const totalMarks = parseInt(document.getElementById('total-marks')?.textContent || '0');
+  const testTime = parseInt(document.getElementById('time')?.value || '60');
+  
+  // Update header displays
+  document.getElementById('header-question-count').textContent = questionCount;
+  document.getElementById('header-total-marks').textContent = totalMarks;
+  
+  // Calculate average time per question
+  const avgTime = questionCount > 0 ? Math.round(testTime / questionCount) : 0;
+  document.getElementById('header-avg-time').textContent = avgTime + 'm';
+  
+  // Update progress bar
+  const minQuestions = 10; // Minimum recommended questions
+  const progress = Math.min(100, (questionCount / minQuestions) * 100);
+  const progressBar = document.getElementById('creation-progress');
+  const progressText = document.getElementById('progress-text');
+  
+  if (progressBar) {
+    progressBar.value = progress;
+  }
+  
+  if (progressText) {
+    progressText.textContent = Math.round(progress) + '% Complete';
+  }
+  
+  // Update progress text based on stage
+  if (questionCount === 0) {
+    progressText.textContent = 'Ready to Add Questions';
+  } else if (questionCount < 5) {
+    progressText.textContent = 'Add More Questions';
+  } else if (questionCount < 10) {
+    progressText.textContent = 'Almost Ready';
+  } else {
+    progressText.textContent = 'Ready to Submit';
+  }
+}
+
+// Listen for question count changes
+document.addEventListener('DOMContentLoaded', function() {
+  // Initial update
+  updateHeaderStats();
+  
+  // Create observer for question count changes
+  const questionCountElement = document.getElementById('question-count');
+  if (questionCountElement) {
+    const observer = new MutationObserver(function(mutations) {
+      mutations.forEach(function(mutation) {
+        if (mutation.type === 'childList' || mutation.type === 'characterData') {
+          updateHeaderStats();
+        }
+      });
+    });
+    
+    observer.observe(questionCountElement, {
+      childList: true,
+      characterData: true,
+      subtree: true
+    });
+  }
+  
+  // Also observe total marks changes
+  const totalMarksElement = document.getElementById('total-marks');
+  if (totalMarksElement) {
+    const observer = new MutationObserver(function(mutations) {
+      mutations.forEach(function(mutation) {
+        if (mutation.type === 'childList' || mutation.type === 'characterData') {
+          updateHeaderStats();
+        }
+      });
+    });
+    
+    observer.observe(totalMarksElement, {
+      childList: true,
+      characterData: true,
+      subtree: true
+    });
+  }
+});
+</script>

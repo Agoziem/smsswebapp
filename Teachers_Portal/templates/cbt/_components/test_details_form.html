@@ -1,0 +1,256 @@
+<!-- CBT Test Details Form Component -->
+<div class="flex justify-center">
+  <div class="w-full max-w-2xl">
+    <div class="bg-base-100 rounded-xl shadow-lg p-6">
+      <div class="mb-6">
+        <h3 class="text-lg font-bold text-primary flex items-center gap-2">
+          <i class="fas fa-cog"></i>
+          Test Configuration
+        </h3>
+        <p class="text-sm text-base-content/70 mt-2">Update test subject, classes, and timing</p>
+      </div>
+
+      <form id="details-form" 
+            action="{% url 'Teachers_portal:CBT_update_details' questionset.id %}" 
+            method="POST"
+            class="space-y-6"
+            hx-post="/api/update-cbt-details"
+            hx-target="#alert-container"
+            hx-swap="innerHTML">
+        {% csrf_token %}
+
+        <!-- Test Subject -->
+        <div class="form-control">
+          <label class="label">
+            <span class="label-text font-medium">Test Subject</span>
+            <span class="label-text-alt text-info">Read-only</span>
+          </label>
+          <select id="testsubject" 
+                  class="select select-bordered focus:outline-orange focus:border-orange" 
+                  name="subject" required disabled>
+            <option value="{{ questionset.subject.id|default:'1' }}" selected>
+              {{ questionset.subject.subject_name|default:"Mathematics" }}
+            </option>
+            <!-- Dummy options for context -->
+            <option value="2">English Language</option>
+            <option value="3">Physics</option>
+            <option value="4">Chemistry</option>
+            <option value="5">Biology</option>
+          </select>
+          <label class="label">
+            <span class="label-text-alt text-base-content/60">
+              <i class="fas fa-info-circle mr-1"></i>Subject cannot be changed after test creation
+            </span>
+          </label>
+        </div>
+
+        <!-- Test Classes -->
+        <div class="form-control">
+          <label class="label">
+            <span class="label-text font-medium">Test Classes</span>
+            <span class="label-text-alt text-error">*</span>
+          </label>
+          <p class="text-xs text-base-content/60 mb-2">You can select multiple classes (Hold Ctrl/Cmd to select multiple)</p>
+          <select name="test_classes" 
+                  class="select select-bordered h-32 focus:outline-orange focus:border-orange" 
+                  multiple 
+                  required
+                  hx-post="/api/update-test-classes"
+                  hx-target="#class-summary"
+                  hx-trigger="change">
+            <!-- Dummy data for classes based on teacher's classes -->
+            <option value="1" {% if '1' in questionset.ExamClass.all.values_list %}selected{% endif %} class="p-2">
+              SS1A - Senior Secondary 1A (35 students)
+            </option>
+            <option value="2" {% if '2' in questionset.ExamClass.all.values_list %}selected{% endif %} class="p-2">
+              SS1B - Senior Secondary 1B (38 students)
+            </option>
+            <option value="3" {% if '3' in questionset.ExamClass.all.values_list %}selected{% endif %} class="p-2">
+              SS2A - Senior Secondary 2A (42 students)
+            </option>
+            <option value="4" {% if '4' in questionset.ExamClass.all.values_list %}selected{% endif %} class="p-2">
+              SS2B - Senior Secondary 2B (40 students)
+            </option>
+            <option value="5" {% if '5' in questionset.ExamClass.all.values_list %}selected{% endif %} class="p-2">
+              SS3A - Senior Secondary 3A (36 students)
+            </option>
+            <option value="6" {% if '6' in questionset.ExamClass.all.values_list %}selected{% endif %} class="p-2">
+              JSS1A - Junior Secondary 1A (45 students)
+            </option>
+            <option value="7" {% if '7' in questionset.ExamClass.all.values_list %}selected{% endif %} class="p-2">
+              JSS2A - Junior Secondary 2A (43 students)
+            </option>
+            <option value="8" {% if '8' in questionset.ExamClass.all.values_list %}selected{% endif %} class="p-2">
+              JSS3A - Junior Secondary 3A (41 students)
+            </option>
+          </select>
+          <label class="label">
+            <span class="label-text-alt text-error hidden" id="classes-error">
+              <i class="fas fa-exclamation-circle mr-1"></i>Please select at least one class
+            </span>
+          </label>
+        </div>
+
+        <!-- Class Summary -->
+        <div class="bg-base-200 rounded-lg p-4" id="class-summary">
+          <h4 class="font-semibold text-primary mb-3 flex items-center gap-2">
+            <i class="fas fa-users"></i>
+            Selected Classes Summary
+          </h4>
+          <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 text-sm">
+            <div class="bg-base-100 rounded p-3">
+              <div class="text-base-content/70">Total Classes</div>
+              <div class="font-bold text-lg text-primary" id="total-classes">3</div>
+            </div>
+            <div class="bg-base-100 rounded p-3">
+              <div class="text-base-content/70">Total Students</div>
+              <div class="font-bold text-lg text-secondary" id="total-students">115</div>
+            </div>
+            <div class="bg-base-100 rounded p-3">
+              <div class="text-base-content/70">Avg Class Size</div>
+              <div class="font-bold text-lg text-accent" id="avg-class-size">38</div>
+            </div>
+            <div class="bg-base-100 rounded p-3">
+              <div class="text-base-content/70">Test Duration</div>
+              <div class="font-bold text-lg text-info" id="test-duration">60 min</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Test Time -->
+        <div class="form-control">
+          <label class="label">
+            <span class="label-text font-medium">Test Duration</span>
+            <span class="label-text-alt text-error">*</span>
+          </label>
+          <div class="flex items-center gap-3">
+            <input name="testTime" 
+                   type="number" 
+                   class="input input-bordered focus:outline-orange focus:border-orange flex-1" 
+                   value="{{ questionset.examTime|default:'60' }}" 
+                   min="15" 
+                   max="180"
+                   step="15"
+                   required
+                   hx-post="/api/validate-test-time"
+                   hx-target="#time-validation"
+                   hx-trigger="input changed delay:500ms" />
+            <div class="flex items-center gap-2 text-success">
+              <i class="fas fa-stopwatch text-2xl"></i>
+              <span class="text-sm font-medium">minutes</span>
+            </div>
+          </div>
+          <label class="label">
+            <span class="label-text-alt text-base-content/60" id="time-validation">
+              <i class="fas fa-info-circle mr-1"></i>Recommended: 1-2 minutes per question
+            </span>
+          </label>
+        </div>
+
+        <!-- Time Recommendations -->
+        <div class="bg-info/10 border border-info/20 rounded-lg p-4">
+          <div class="flex items-start gap-3">
+            <i class="fas fa-lightbulb text-info text-lg mt-1"></i>
+            <div>
+              <p class="font-medium text-info">Time Allocation Guidelines</p>
+              <ul class="text-sm text-info/80 mt-2 space-y-1">
+                <li>• Multiple Choice: 1-2 minutes per question</li>
+                <li>• Short Answer: 3-5 minutes per question</li>
+                <li>• Essay Questions: 10-15 minutes per question</li>
+                <li>• Add 10-15% buffer time for reading instructions</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quick Time Presets -->
+        <div class="collapse collapse-arrow bg-base-200">
+          <input type="checkbox" />
+          <div class="collapse-title text-sm font-medium">
+            <i class="fas fa-clock mr-2"></i>
+            Quick Time Presets
+          </div>
+          <div class="collapse-content">
+            <div class="grid grid-cols-3 gap-2">
+              <button type="button" class="btn btn-sm btn-outline" onclick="setTestTime(30)">
+                30 min
+              </button>
+              <button type="button" class="btn btn-sm btn-outline" onclick="setTestTime(45)">
+                45 min
+              </button>
+              <button type="button" class="btn btn-sm btn-outline" onclick="setTestTime(60)">
+                60 min
+              </button>
+              <button type="button" class="btn btn-sm btn-outline" onclick="setTestTime(90)">
+                90 min
+              </button>
+              <button type="button" class="btn btn-sm btn-outline" onclick="setTestTime(120)">
+                120 min
+              </button>
+              <button type="button" class="btn btn-sm btn-outline" onclick="setTestTime(180)">
+                180 min
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Form Actions -->
+        <div class="flex flex-col sm:flex-row justify-end gap-4">
+          <button type="button" class="btn btn-ghost order-2 sm:order-1" onclick="history.back()">
+            <i class="fas fa-arrow-left mr-2"></i>
+            Cancel
+          </button>
+          <button type="submit" class="btn btn-primary order-1 sm:order-2">
+            <span class="loading loading-spinner loading-sm hidden" id="submit-spinner"></span>
+            <i class="fas fa-save mr-2"></i>
+            Update Test Details
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script>
+// Test time preset function
+function setTestTime(minutes) {
+  document.querySelector('input[name="testTime"]').value = minutes;
+  document.getElementById('test-duration').textContent = minutes + ' min';
+}
+
+// Form submission handling
+document.addEventListener('DOMContentLoaded', function() {
+  const form = document.getElementById('details-form');
+  if (form) {
+    form.addEventListener('submit', function(e) {
+      const spinner = document.getElementById('submit-spinner');
+      const submitBtn = e.target.querySelector('button[type="submit"]');
+      
+      spinner.classList.remove('hidden');
+      submitBtn.disabled = true;
+    });
+  }
+  
+  // Real-time class count updates
+  const classSelect = document.querySelector('select[name="test_classes"]');
+  if (classSelect) {
+    classSelect.addEventListener('change', function() {
+      const selectedOptions = Array.from(this.selectedOptions);
+      document.getElementById('total-classes').textContent = selectedOptions.length;
+      
+      // Calculate total students (dummy calculation)
+      let totalStudents = 0;
+      selectedOptions.forEach(option => {
+        const match = option.textContent.match(/\((\d+) students\)/);
+        if (match) {
+          totalStudents += parseInt(match[1]);
+        }
+      });
+      
+      document.getElementById('total-students').textContent = totalStudents;
+      document.getElementById('avg-class-size').textContent = 
+        selectedOptions.length > 0 ? Math.round(totalStudents / selectedOptions.length) : 0;
+    });
+  }
+});
+</script>

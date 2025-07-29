@@ -1,29 +1,134 @@
-{% extends 'Teachers_navbar.html' %}
+{% extends 'base.html' %}
 {% load static %}
-{% block content%}
 
-<section class="p-2 py-5 mt-2">
-    <div class="container-fluid px-4">
-            <div class="d-flex flex-column align-items-center justify-content-center">
-            <h1 class="mt-4">CBT Results</h1>
-            <ol class="breadcrumb mb-4">
-                {% if teacher.FirstName == "None" %}
-                <div><a href="{% url 'Teachers_portal:profile' teacher.id %}" class="text-decoration-none"> edit your Teachers Profile to perform futher Action </a></div>
-                {% else %}
-                <li class="breadcrumb-item active">Welcome Teacher {{ request.user }}</li>
-                {% endif %}  
-            </ol>
-            </div>         
-            
-            <div class="d-flex flex-column align-items-center justify-content-center">
-                <img src="{% static 'images/WorkingRes.png' %}" alt="" style="width: 35%; max-width: 160px;">
-                <div class="mt-3"> we are working on Something Massive </div>
-                <div>Stay put </div>
-            </div>
+{% block content %}
+<div class="min-h-screen bg-base-200">
+  <!-- Alert Container for HTMX responses -->
+  <div id="alert-container" class="fixed top-4 right-4 z-50"></div>
+
+  <div class="container mx-auto px-4 py-6">
+    <!-- Page Header -->
+    {% include 'cbt/_components/results_page_header.html' %}
+
+    <!-- Main Content -->
+    <div class="mt-6">
+      {% include 'cbt/_components/results_dashboard.html' %}
+    </div>
+  </div>
+</div>
+
+<!-- HTMX Integration -->
+<script src="https://unpkg.com/htmx.org@1.9.10"></script>
+<script>
+  // HTMX event listeners for results management
+  document.addEventListener('htmx:beforeSend', function(event) {
+    // Show loading state for search and filter operations
+    const target = event.target;
+    if (target.matches('input[type="text"]') || target.matches('select')) {
+      const loader = document.createElement('span');
+      loader.className = 'loading loading-spinner loading-sm';
+      loader.id = 'search-loader';
+      target.parentNode.appendChild(loader);
+    }
+  });
+
+  document.addEventListener('htmx:afterRequest', function(event) {
+    // Hide loading state
+    const loader = document.getElementById('search-loader');
+    if (loader) {
+      loader.remove();
+    }
+  });
+
+  // Success handling
+  document.addEventListener('htmx:afterSwap', function(event) {
+    if (event.detail.target.id === 'alert-container') {
+      // Auto-hide success messages
+      setTimeout(() => {
+        event.detail.target.innerHTML = '';
+      }, 5000);
+    }
+  });
+
+  // Error handling
+  document.addEventListener('htmx:responseError', function(event) {
+    const alertContainer = document.getElementById('alert-container');
+    alertContainer.innerHTML = `
+      <div class="alert alert-error shadow-lg">
+        <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current flex-shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+        <span>Error loading results. Please try again.</span>
+      </div>
+    `;
+    setTimeout(() => alertContainer.innerHTML = '', 5000);
+  });
+
+  // Results management functions
+  window.resultsManager = {
+    exportResults: function(testId, format = 'xlsx') {
+      // Simulate export with progress
+      const alertContainer = document.getElementById('alert-container');
+      alertContainer.innerHTML = `
+        <div class="alert alert-info shadow-lg">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="stroke-info shrink-0 w-6 h-6">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+          </svg>
+          <span>Preparing ${format.toUpperCase()} export...</span>
+          <progress class="progress progress-info w-32" value="70" max="100"></progress>
         </div>
+      `;
+      
+      setTimeout(() => {
+        alertContainer.innerHTML = `
+          <div class="alert alert-success shadow-lg">
+            <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+            <span>Export completed! Download will start shortly.</span>
+          </div>
+        `;
+        setTimeout(() => alertContainer.innerHTML = '', 5000);
+      }, 2000);
+    },
 
+    monitorLiveTest: function(testId) {
+      // Open live monitoring in modal or new tab
+      const modal = document.createElement('dialog');
+      modal.className = 'modal modal-open';
+      modal.innerHTML = `
+        <div class="modal-box w-11/12 max-w-4xl">
+          <h3 class="font-bold text-lg mb-4">Live Test Monitoring - Test ${testId}</h3>
+          <div class="grid grid-cols-2 gap-4 mb-6">
+            <div class="stat bg-primary/10 rounded-lg">
+              <div class="stat-title">Active Students</div>
+              <div class="stat-value text-primary">12</div>
+            </div>
+            <div class="stat bg-secondary/10 rounded-lg">
+              <div class="stat-title">Completed</div>
+              <div class="stat-value text-secondary">8</div>
+            </div>
+          </div>
+          <div class="alert alert-info mb-4">
+            <i class="fas fa-info-circle"></i>
+            <span>Test is currently active. Real-time updates every 5 seconds.</span>
+          </div>
+          <div class="modal-action">
+            <button class="btn btn-error" onclick="this.closest('dialog').close()">
+              <i class="fas fa-stop mr-2"></i>End Test
+            </button>
+            <button class="btn" onclick="this.closest('dialog').close()">Close</button>
+          </div>
+        </div>
+      `;
+      document.body.appendChild(modal);
+      
+      setTimeout(() => {
+        modal.close();
+        document.body.removeChild(modal);
+      }, 10000);
+    }
+  };
+</script>
 
-</section>
-
-<script src="{% static 'js/Teacher_portal/CBT/CBT.js' %}"></script>
 {% endblock %}

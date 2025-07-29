@@ -1,0 +1,115 @@
+<!-- Profile Page Header Component -->
+<div class="mb-8">
+  <!-- Breadcrumb -->
+  <div class="breadcrumbs text-sm mb-4">
+    <ul>
+      <li><a href="{% url 'Teachers_portal:Teachers_dashboard' %}" class="text-primary hover:text-primary/80">Dashboard</a></li>
+      <li class="text-base-content">Edit Profile</li>
+    </ul>
+  </div>
+
+  <!-- Page Header -->
+  <div class="space-y-4">
+    <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+      <div class="text-center lg:text-left space-y-2">
+        <h1 class="text-2xl md:text-3xl font-bold text-primary flex items-center justify-center lg:justify-start gap-3">
+          <i class="fas fa-user-edit"></i>
+          Edit Profile
+        </h1>
+        <p class="text-sm text-base-content/70">Update your personal and professional information</p>
+        
+        <!-- Profile Completion Badge -->
+        <div class="flex flex-wrap items-center justify-center lg:justify-start gap-3 mt-4">
+          <div class="badge badge-info gap-2">
+            <i class="fas fa-chart-pie"></i>
+            Profile 85% Complete
+          </div>
+          <div class="badge badge-success gap-2">
+            <i class="fas fa-shield-alt"></i>
+            Verified Teacher
+          </div>
+        </div>
+      </div>
+      
+      <!-- Quick Actions -->
+      <div class="flex flex-wrap justify-center gap-2">
+        <button class="btn btn-outline btn-sm gap-2" onclick="previewProfile()">
+          <i class="fas fa-eye"></i>
+          Preview
+        </button>
+        <button class="btn btn-outline btn-sm gap-2" onclick="exportProfile()">
+          <i class="fas fa-download"></i>
+          Export
+        </button>
+        <div class="dropdown dropdown-end">
+          <div tabindex="0" role="button" class="btn btn-outline btn-sm gap-2">
+            <i class="fas fa-cog"></i>
+            Settings
+          </div>
+          <ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
+            <li><a href="#" onclick="changePassword()"><i class="fas fa-key"></i> Change Password</a></li>
+            <li><a href="#" onclick="privacySettings()"><i class="fas fa-shield-alt"></i> Privacy Settings</a></li>
+            <li><a href="#" onclick="notificationSettings()"><i class="fas fa-bell"></i> Notifications</a></li>
+            <li class="divider"></li>
+            <li><a href="#" onclick="deleteAccount()" class="text-error"><i class="fas fa-trash"></i> Delete Account</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Profile Tips -->
+    <div class="bg-info/10 border border-info/20 rounded-lg p-4">
+      <div class="flex items-start gap-3">
+        <i class="fas fa-lightbulb text-info text-lg mt-1"></i>
+        <div>
+          <p class="font-medium text-info">Profile Tips</p>
+          <ul class="text-sm text-info/80 mt-2 space-y-1">
+            <li>• Upload a professional profile photo to increase trust</li>
+            <li>• Complete all required fields to unlock full features</li>
+            <li>• Keep your contact information up to date for notifications</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Alert Container -->
+    <div id="page-alert-container" class="space-y-2">
+      <!-- Dynamic alerts will be inserted here -->
+    </div>
+  </div>
+</div>
+
+<script>
+// Quick action functions
+function previewProfile() {
+  // This will be implemented with HTMX later
+  console.log('Profile preview functionality will be added');
+}
+
+function exportProfile() {
+  // This will be implemented with HTMX later
+  console.log('Profile export functionality will be added');
+}
+
+function changePassword() {
+  // This will be implemented with HTMX later
+  console.log('Change password functionality will be added');
+}
+
+function privacySettings() {
+  // This will be implemented with HTMX later
+  console.log('Privacy settings functionality will be added');
+}
+
+function notificationSettings() {
+  // This will be implemented with HTMX later
+  console.log('Notification settings functionality will be added');
+}
+
+function deleteAccount() {
+  if (confirm('Are you sure you want to delete your account? This action cannot be undone.')) {
+    // This will be implemented with HTMX later
+    console.log('Delete account functionality will be added');
+  }
+}
+</script>

@@ -1,0 +1,327 @@
+<!-- Results Table Component -->
+<div class="lg:col-span-9">
+  <div class="bg-base-100 rounded-xl shadow-lg p-6">
+    <!-- Table Controls -->
+    <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4 mb-6">
+      <div class="form-control">
+        <label class="label">
+          <span class="label-text font-medium">Students per page</span>
+        </label>
+        <select id="lengthSelect" class="select select-bordered select-sm focus:outline-orange focus:border-orange"
+                hx-get="/api/update-table-length" 
+                hx-target="#results-table-body"
+                hx-trigger="change">
+          <option value="10" selected>10</option>
+          <option value="20">20</option>
+          <option value="30">30</option>
+          <option value="40">40</option>
+          <option value="50">50</option>
+        </select>
+      </div>
+      
+      <div class="form-control w-full max-w-sm">
+        <div class="input-group">
+          <input type="text" id="filterInput" placeholder="Search students..." 
+                 class="input input-bordered focus:outline-orange focus:border-orange w-full"
+                 hx-post="/api/search-students"
+                 hx-target="#results-table-body"
+                 hx-trigger="keyup changed delay:500ms" />
+          <button class="btn btn-square btn-primary">
+            <i class="fas fa-search"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Results Table Container -->
+    <div id="results-table-container">
+      <!-- Results Table -->
+      <div class="overflow-x-auto">
+        <table id="dataTable" class="table table-zebra w-full">
+          <thead class="bg-primary text-base-100">
+            <tr>
+              <th>S/N</th>
+              <th id="tableHeader" class="cursor-pointer hover:bg-primary/80">
+                Name <i class="fas fa-sort ml-2"></i>
+              </th>
+              <th data-index="1" class="text-center">FT</th>
+              <th data-index="2" class="text-center">FA</th>
+              <th data-index="3" class="text-center">MTT</th>
+              <th data-index="4" class="text-center">ST</th>
+              <th data-index="5" class="text-center">SA</th>
+              <th data-index="6" class="text-center">CA</th>
+              <th data-index="7" class="text-center">Exam</th>
+              <th class="text-center">Total</th>
+              <th class="text-center">Grade</th>
+              <th class="text-center">Position</th>
+              <th class="text-center">Remark</th>
+              <th class="hidden">Student ID</th>
+            </tr>
+          </thead>
+          <tbody id="results-table-body">
+            <!-- Dummy data for results table -->
+            <tr class="hover:bg-base-200/50 cursor-pointer" 
+                onclick="openResultModal('STU001', 'Adams, John Michael')">
+              <td class="font-medium">1</td>
+              <td class="font-medium text-primary">Adams, John Michael</td>
+              <td class="text-center">4</td>
+              <td class="text-center">5</td>
+              <td class="text-center">18</td>
+              <td class="text-center">4</td>
+              <td class="text-center">5</td>
+              <td class="text-center">36</td>
+              <td class="text-center">55</td>
+              <td class="text-center font-bold">91</td>
+              <td class="text-center">
+                <div class="badge badge-success">A1</div>
+              </td>
+              <td class="text-center">
+                <div class="badge badge-primary">1st</div>
+              </td>
+              <td class="text-center">
+                <div class="badge badge-success">Excellent</div>
+              </td>
+              <td class="hidden">STU001</td>
+            </tr>
+            
+            <tr class="hover:bg-base-200/50 cursor-pointer" 
+                onclick="openResultModal('STU002', 'Brown, Sarah Elizabeth')">
+              <td class="font-medium">2</td>
+              <td class="font-medium text-primary">Brown, Sarah Elizabeth</td>
+              <td class="text-center">3</td>
+              <td class="text-center">4</td>
+              <td class="text-center">17</td>
+              <td class="text-center">4</td>
+              <td class="text-center">4</td>
+              <td class="text-center">32</td>
+              <td class="text-center">52</td>
+              <td class="text-center font-bold">84</td>
+              <td class="text-center">
+                <div class="badge badge-success">B2</div>
+              </td>
+              <td class="text-center">
+                <div class="badge badge-secondary">2nd</div>
+              </td>
+              <td class="text-center">
+                <div class="badge badge-info">Very Good</div>
+              </td>
+              <td class="hidden">STU002</td>
+            </tr>
+            
+            <tr class="hover:bg-base-200/50 cursor-pointer" 
+                onclick="openResultModal('STU003', 'Johnson, David Wilson')">
+              <td class="font-medium">3</td>
+              <td class="font-medium text-primary">Johnson, David Wilson</td>
+              <td class="text-center">3</td>
+              <td class="text-center">3</td>
+              <td class="text-center">15</td>
+              <td class="text-center">3</td>
+              <td class="text-center">4</td>
+              <td class="text-center">28</td>
+              <td class="text-center">48</td>
+              <td class="text-center font-bold">76</td>
+              <td class="text-center">
+                <div class="badge badge-info">B3</div>
+              </td>
+              <td class="text-center">
+                <div class="badge badge-accent">3rd</div>
+              </td>
+              <td class="text-center">
+                <div class="badge badge-info">Good</div>
+              </td>
+              <td class="hidden">STU003</td>
+            </tr>
+            
+            <tr class="hover:bg-base-200/50 cursor-pointer" 
+                onclick="openResultModal('STU004', 'Williams, Mary Grace')">
+              <td class="font-medium">4</td>
+              <td class="font-medium text-primary">Williams, Mary Grace</td>
+              <td class="text-center">2</td>
+              <td class="text-center">3</td>
+              <td class="text-center">14</td>
+              <td class="text-center">3</td>
+              <td class="text-center">3</td>
+              <td class="text-center">25</td>
+              <td class="text-center">45</td>
+              <td class="text-center font-bold">70</td>
+              <td class="text-center">
+                <div class="badge badge-warning">C4</div>
+              </td>
+              <td class="text-center">
+                <div class="badge badge-ghost">4th</div>
+              </td>
+              <td class="text-center">
+                <div class="badge badge-warning">Credit</div>
+              </td>
+              <td class="hidden">STU004</td>
+            </tr>
+            
+            <tr class="hover:bg-base-200/50 cursor-pointer" 
+                onclick="openResultModal('STU005', 'Davis, Robert James')">
+              <td class="font-medium">5</td>
+              <td class="font-medium text-primary">Davis, Robert James</td>
+              <td class="text-center">2</td>
+              <td class="text-center">2</td>
+              <td class="text-center">12</td>
+              <td class="text-center">2</td>
+              <td class="text-center">3</td>
+              <td class="text-center">21</td>
+              <td class="text-center">40</td>
+              <td class="text-center font-bold">61</td>
+              <td class="text-center">
+                <div class="badge badge-warning">C5</div>
+              </td>
+              <td class="text-center">
+                <div class="badge badge-ghost">5th</div>
+              </td>
+              <td class="text-center">
+                <div class="badge badge-warning">Credit</div>
+              </td>
+              <td class="hidden">STU005</td>
+            </tr>
+            
+            <tr class="hover:bg-base-200/50 cursor-pointer" 
+                onclick="openResultModal('STU006', 'Miller, Jennifer Ann')">
+              <td class="font-medium">6</td>
+              <td class="font-medium text-primary">Miller, Jennifer Ann</td>
+              <td class="text-center">1</td>
+              <td class="text-center">2</td>
+              <td class="text-center">10</td>
+              <td class="text-center">2</td>
+              <td class="text-center">2</td>
+              <td class="text-center">17</td>
+              <td class="text-center">35</td>
+              <td class="text-center font-bold">52</td>
+              <td class="text-center">
+                <div class="badge badge-error">C6</div>
+              </td>
+              <td class="text-center">
+                <div class="badge badge-ghost">6th</div>
+              </td>
+              <td class="text-center">
+                <div class="badge badge-error">Pass</div>
+              </td>
+              <td class="hidden">STU006</td>
+            </tr>
+            
+            <tr class="hover:bg-base-200/50 cursor-pointer" 
+                onclick="openResultModal('STU007', 'Wilson, Michael Thomas')">
+              <td class="font-medium">7</td>
+              <td class="font-medium text-primary">Wilson, Michael Thomas</td>
+              <td class="text-center">1</td>
+              <td class="text-center">1</td>
+              <td class="text-center">8</td>
+              <td class="text-center">1</td>
+              <td class="text-center">2</td>
+              <td class="text-center">13</td>
+              <td class="text-center">28</td>
+              <td class="text-center font-bold">41</td>
+              <td class="text-center">
+                <div class="badge badge-error">F9</div>
+              </td>
+              <td class="text-center">
+                <div class="badge badge-ghost">7th</div>
+              </td>
+              <td class="text-center">
+                <div class="badge badge-error">Fail</div>
+              </td>
+              <td class="hidden">STU007</td>
+            </tr>
+            
+            <!-- Empty rows for pending students -->
+            <tr class="hover:bg-base-200/50 cursor-pointer opacity-50" 
+                onclick="openResultModal('STU008', 'Taylor, Lisa Marie')">
+              <td class="font-medium">8</td>
+              <td class="font-medium text-primary">Taylor, Lisa Marie</td>
+              <td class="text-center text-base-content/40">-</td>
+              <td class="text-center text-base-content/40">-</td>
+              <td class="text-center text-base-content/40">-</td>
+              <td class="text-center text-base-content/40">-</td>
+              <td class="text-center text-base-content/40">-</td>
+              <td class="text-center text-base-content/40">-</td>
+              <td class="text-center text-base-content/40">-</td>
+              <td class="text-center text-base-content/40">-</td>
+              <td class="text-center">
+                <div class="badge badge-ghost">Pending</div>
+              </td>
+              <td class="text-center text-base-content/40">-</td>
+              <td class="text-center">
+                <div class="badge badge-ghost">Pending</div>
+              </td>
+              <td class="hidden">STU008</td>
+            </tr>
+            
+            <tr class="hover:bg-base-200/50 cursor-pointer opacity-50" 
+                onclick="openResultModal('STU009', 'Anderson, Mark Steven')">
+              <td class="font-medium">9</td>
+              <td class="font-medium text-primary">Anderson, Mark Steven</td>
+              <td class="text-center text-base-content/40">-</td>
+              <td class="text-center text-base-content/40">-</td>
+              <td class="text-center text-base-content/40">-</td>
+              <td class="text-center text-base-content/40">-</td>
+              <td class="text-center text-base-content/40">-</td>
+              <td class="text-center text-base-content/40">-</td>
+              <td class="text-center text-base-content/40">-</td>
+              <td class="text-center text-base-content/40">-</td>
+              <td class="text-center">
+                <div class="badge badge-ghost">Pending</div>
+              </td>
+              <td class="text-center text-base-content/40">-</td>
+              <td class="text-center">
+                <div class="badge badge-ghost">Pending</div>
+              </td>
+              <td class="hidden">STU009</td>
+            </tr>
+            
+            <tr class="hover:bg-base-200/50 cursor-pointer opacity-50" 
+                onclick="openResultModal('STU010', 'Thompson, Rachel Nicole')">
+              <td class="font-medium">10</td>
+              <td class="font-medium text-primary">Thompson, Rachel Nicole</td>
+              <td class="text-center text-base-content/40">-</td>
+              <td class="text-center text-base-content/40">-</td>
+              <td class="text-center text-base-content/40">-</td>
+              <td class="text-center text-base-content/40">-</td>
+              <td class="text-center text-base-content/40">-</td>
+              <td class="text-center text-base-content/40">-</td>
+              <td class="text-center text-base-content/40">-</td>
+              <td class="text-center text-base-content/40">-</td>
+              <td class="text-center">
+                <div class="badge badge-ghost">Pending</div>
+              </td>
+              <td class="text-center text-base-content/40">-</td>
+              <td class="text-center">
+                <div class="badge badge-ghost">Pending</div>
+              </td>
+              <td class="hidden">STU010</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Table Footer -->
+    <div class="flex flex-col lg:flex-row justify-between items-center mt-6 gap-4">
+      <div class="pagination-literal text-sm text-base-content/70">
+        Showing 1 to 10 of 45 entries
+      </div>
+      <div class="join" id="pagination-container">
+        <button class="join-item btn btn-sm">«</button>
+        <button class="join-item btn btn-sm btn-active">1</button>
+        <button class="join-item btn btn-sm">2</button>
+        <button class="join-item btn btn-sm">3</button>
+        <button class="join-item btn btn-sm">4</button>
+        <button class="join-item btn btn-sm">5</button>
+        <button class="join-item btn btn-sm">»</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// Function to open result input modal
+function openResultModal(studentId, studentName) {
+  document.getElementById('studentID').value = studentId;
+  document.getElementById('student_name').value = studentName;
+  document.getElementById('inputStudentResultModal').showModal();
+}
+</script>

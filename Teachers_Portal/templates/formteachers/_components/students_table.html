@@ -1,0 +1,74 @@
+<!-- Students Table Component -->
+<div class="card bg-base-100 shadow-xl">
+  <div class="card-header bg-base-200 p-4 rounded-t-xl">
+    <div class="flex items-center gap-2">
+      <i class="fas fa-table text-primary"></i>
+      <h2 class="text-lg font-semibold">{{ class.Class }} Students Info Table</h2>
+    </div>
+  </div>
+  
+  <div class="card-body p-0">
+    <div class="overflow-x-auto">
+      <table class="table table-zebra w-full" id="datatablesSimple">
+        <thead class="bg-base-200">
+          <tr>
+            <th class="p-4">
+              <i class="fa-solid fa-users text-primary"></i>
+            </th>
+            <th class="p-4 font-medium">Student Name</th>
+            <th class="p-4 font-medium">Student ID</th>
+            <th class="p-4 font-medium">Sex</th>
+          </tr>
+        </thead>
+        
+        <tbody>
+          {% for student in students %}
+          <tr class="hover:bg-base-200/50">
+            <td class="p-4">
+              <input
+                class="checkbox checkbox-primary"
+                type="checkbox"
+                value="{{ student.student.id }}"
+                id="selectstudentcheckbox"
+              />
+            </td>
+            <td class="p-4">
+              <a
+                class="editstudentinfo link link-primary hover:link-hover font-medium cursor-pointer"
+                >{{ student.student.student_name }}</a
+              >
+            </td>
+            <td class="p-4 text-base-content/80">{{ student.student.student_id }}</td>
+            <td class="p-4">
+              <div class="badge badge-outline {{ student.student.Sex|lower == 'male' and 'badge-info' or 'badge-secondary' }}">
+                {{ student.student.Sex }}
+              </div>
+            </td>
+          </tr>
+          {% empty %}
+          <tr>
+            <td colspan="4" class="p-8 text-center text-base-content/60">
+              <div class="flex flex-col items-center gap-3">
+                <i class="fas fa-users text-4xl text-base-content/30"></i>
+                <p class="text-lg">No students found</p>
+                <p class="text-sm">Add students to get started</p>
+              </div>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+        
+        <tfoot class="bg-base-200">
+          <tr>
+            <th class="p-4">
+              <i class="fa-solid fa-users text-primary"></i>
+            </th>
+            <th class="p-4 font-medium">Student Name</th>
+            <th class="p-4 font-medium">Student ID</th>
+            <th class="p-4 font-medium">Sex</th>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  </div>
+</div>

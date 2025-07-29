@@ -1,0 +1,119 @@
+<!-- Student Management Panel -->
+<div class="space-y-6">
+  <!-- Alert Container -->
+  <div class="alertcontainer" id="alertcontainer"></div>
+  
+  <!-- Action Buttons -->
+  <div class="card bg-base-100 shadow-xl">
+    <div class="card-body p-6">
+      <h3 class="card-title text-lg font-semibold mb-6 text-primary">
+        <i class="fas fa-cogs"></i>
+        Student Management
+      </h3>
+      
+      <div class="space-y-4">
+        <!-- Add Student Button -->
+        <button
+          id="addstudentbtn"
+          type="button"
+          class="btn btn-success w-full gap-2"
+          onclick="add_student_modal.showModal()"
+        >
+          <i class="fa-solid fa-plus"></i>
+          Add Student
+        </button>
+        
+        <!-- Delete Selected Button -->
+        <button
+          id="removestudentsactionbtn"
+          type="button"
+          class="btn btn-warning w-full gap-2"
+          onclick="delete_selected_modal.showModal()"
+        >
+          <i class="fa-solid fa-trash-can"></i>
+          Delete Selected
+        </button>
+        
+        <!-- Danger Zone -->
+        <div class="divider divider-error">Danger Zone</div>
+        
+        <div class="bg-error/5 border border-error/20 rounded-lg p-4">
+          <div class="flex items-center gap-3 mb-3">
+            <i class="fas fa-exclamation-triangle text-error"></i>
+            <span class="font-medium text-error">Delete All Students</span>
+          </div>
+          <p class="text-sm text-base-content/70 mb-4">
+            This action will permanently remove all students from {{ class.Class }}. This cannot be undone.
+          </p>
+          <button
+            type="button"
+            class="btn btn-error btn-sm w-full gap-2"
+            onclick="delete_all_modal.showModal()"
+          >
+            <i class="fa-solid fa-trash-can"></i>
+            Delete All Students
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Class Information -->
+  <div class="card bg-base-100 shadow-xl">
+    <div class="card-body p-6">
+      <h3 class="card-title text-lg font-semibold mb-4 text-primary">
+        <i class="fas fa-info-circle"></i>
+        Class Information
+      </h3>
+      
+      <div class="space-y-3">
+        <div class="flex justify-between items-center">
+          <span class="text-base-content/70">Class:</span>
+          <div class="badge badge-primary">{{ class.Class }}</div>
+        </div>
+        
+        <div class="flex justify-between items-center">
+          <span class="text-base-content/70">Academic Session:</span>
+          <div class="badge badge-outline">{{ session.session }}</div>
+        </div>
+        
+        <div class="flex justify-between items-center">
+          <span class="text-base-content/70">Total Students:</span>
+          <div class="badge badge-secondary">{{ students|length }}</div>
+        </div>
+        
+        <div class="flex justify-between items-center">
+          <span class="text-base-content/70">Form Teacher:</span>
+          <div class="text-sm font-medium">{{ request.user }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Quick Actions -->
+  <div class="card bg-base-100 shadow-xl">
+    <div class="card-body p-6">
+      <h3 class="card-title text-lg font-semibold mb-4 text-primary">
+        <i class="fas fa-bolt"></i>
+        Quick Actions
+      </h3>
+      
+      <div class="space-y-3">
+        <a href="{% url 'Teachers_portal:attendance' %}" class="btn btn-outline btn-sm w-full gap-2">
+          <i class="fas fa-calendar-check"></i>
+          Take Attendance
+        </a>
+        
+        <a href="{% url 'Teachers_portal:results' %}" class="btn btn-outline btn-sm w-full gap-2">
+          <i class="fas fa-chart-line"></i>
+          View Results
+        </a>
+        
+        <a href="{% url 'Teachers_portal:Teachers_dashboard' %}" class="btn btn-outline btn-sm w-full gap-2">
+          <i class="fas fa-home"></i>
+          Back to Dashboard
+        </a>
+      </div>
+    </div>
+  </div>
+</div>

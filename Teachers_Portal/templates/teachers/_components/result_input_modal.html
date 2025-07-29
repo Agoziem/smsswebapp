@@ -1,0 +1,300 @@
+<!-- Result Input Modal Component -->
+<dialog id="inputStudentResultModal" class="modal">
+  <div class="modal-box w-11/12 max-w-3xl">
+    <form method="dialog">
+      <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+    </form>
+    
+    <div class="mb-6">
+      <h3 class="text-xl font-bold text-primary flex items-center gap-2">
+        <i class="fas fa-calculator"></i>
+        Input Student Results
+      </h3>
+      <p class="text-sm text-base-content/70 mt-2">Enter assessment scores for the student (Click on score fields for hints)</p>
+    </div>
+
+    <!-- Result Input Form -->
+    <form id="inputStudentResultform" class="space-y-6" 
+          hx-post="/api/submit-student-result" 
+          hx-target="#alert-container"
+          hx-swap="innerHTML">
+          
+      <!-- Student Info -->
+      <div class="bg-base-200 rounded-lg p-4">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="form-control">
+            <label class="label">
+              <span class="label-text font-medium">Full Name</span>
+            </label>
+            <input type="text" class="input input-bordered bg-base-100 focus:outline-orange focus:border-orange" 
+                   id="student_name" name="Name" readonly />
+          </div>
+          
+          <div class="form-control">
+            <label class="label">
+              <span class="label-text font-medium">Student ID</span>
+            </label>
+            <input type="text" class="input input-bordered bg-base-100" 
+                   id="studentID" name="studentID" readonly />
+          </div>
+        </div>
+      </div>
+
+      <!-- Assessment Scores Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <!-- First Test -->
+        <div class="form-control">
+          <label class="label">
+            <span class="label-text font-medium">First Test</span>
+            <span class="label-text-alt text-info">(Max: 5)</span>
+          </label>
+          <input type="number" class="input input-bordered focus:outline-orange focus:border-orange" 
+                 id="FirstTest" name="1sttest" min="0" max="5" step="0.5"
+                 placeholder="0-5"
+                 title="First Test: Maximum 5 marks" />
+          <label class="label">
+            <span class="label-text-alt text-base-content/60">Quick entry: 0-5</span>
+          </label>
+        </div>
+
+        <!-- First Assignment -->
+        <div class="form-control">
+          <label class="label">
+            <span class="label-text font-medium">First Assignment</span>
+            <span class="label-text-alt text-info">(Max: 5)</span>
+          </label>
+          <input type="number" class="input input-bordered focus:outline-orange focus:border-orange" 
+                 id="FirstAss" name="1stAss" min="0" max="5" step="0.5"
+                 placeholder="0-5"
+                 title="First Assignment: Maximum 5 marks" />
+          <label class="label">
+            <span class="label-text-alt text-base-content/60">Quick entry: 0-5</span>
+          </label>
+        </div>
+
+        <!-- Mid Term Test -->
+        <div class="form-control">
+          <label class="label">
+            <span class="label-text font-medium">Mid Term Test</span>
+            <span class="label-text-alt text-info">(Max: 20)</span>
+          </label>
+          <input type="number" class="input input-bordered focus:outline-orange focus:border-orange" 
+                 id="MidTermTest" name="MidTermTest" min="0" max="20" step="0.5"
+                 placeholder="0-20"
+                 title="Mid Term Test: Maximum 20 marks" />
+          <label class="label">
+            <span class="label-text-alt text-base-content/60">Quick entry: 0-20</span>
+          </label>
+        </div>
+
+        <!-- Second Test -->
+        <div class="form-control">
+          <label class="label">
+            <span class="label-text font-medium">Second Test</span>
+            <span class="label-text-alt text-info">(Max: 5)</span>
+          </label>
+          <input type="number" class="input input-bordered focus:outline-orange focus:border-orange" 
+                 id="SecondTest" name="2ndTest" min="0" max="5" step="0.5"
+                 placeholder="0-5"
+                 title="Second Test: Maximum 5 marks" />
+          <label class="label">
+            <span class="label-text-alt text-base-content/60">Quick entry: 0-5</span>
+          </label>
+        </div>
+
+        <!-- Second Assignment -->
+        <div class="form-control">
+          <label class="label">
+            <span class="label-text font-medium">Second Assignment</span>
+            <span class="label-text-alt text-info">(Max: 5)</span>
+          </label>
+          <input type="number" class="input input-bordered focus:outline-orange focus:border-orange" 
+                 id="SecondAss" name="2ndAss" min="0" max="5" step="0.5"
+                 placeholder="0-5"
+                 title="Second Assignment: Maximum 5 marks" />
+          <label class="label">
+            <span class="label-text-alt text-base-content/60">Quick entry: 0-5</span>
+          </label>
+        </div>
+
+        <!-- Exam Score -->
+        <div class="form-control">
+          <label class="label">
+            <span class="label-text font-medium">Exam Score</span>
+            <span class="label-text-alt text-info">(Max: 60)</span>
+          </label>
+          <input type="number" class="input input-bordered focus:outline-orange focus:border-orange" 
+                 id="Exam" name="Exam" min="0" max="60" step="0.5"
+                 placeholder="0-60"
+                 title="Exam Score: Maximum 60 marks" />
+          <label class="label">
+            <span class="label-text-alt text-base-content/60">Quick entry: 0-60</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- CA Calculation Display -->
+      <div class="bg-base-200 rounded-lg p-4">
+        <h4 class="font-semibold text-primary mb-3 flex items-center gap-2">
+          <i class="fas fa-calculator"></i>
+          Continuous Assessment (CA) Breakdown
+        </h4>
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 text-sm">
+          <div class="bg-base-100 rounded p-3">
+            <div class="text-base-content/70">CA Total</div>
+            <div class="font-bold text-lg" id="ca-total">0</div>
+            <div class="text-xs text-base-content/60">(Max: 40)</div>
+          </div>
+          <div class="bg-base-100 rounded p-3">
+            <div class="text-base-content/70">Exam Score</div>
+            <div class="font-bold text-lg" id="exam-display">0</div>
+            <div class="text-xs text-base-content/60">(Max: 60)</div>
+          </div>
+          <div class="bg-base-100 rounded p-3">
+            <div class="text-base-content/70">Grand Total</div>
+            <div class="font-bold text-lg text-primary" id="grand-total">0</div>
+            <div class="text-xs text-base-content/60">(Max: 100)</div>
+          </div>
+          <div class="bg-base-100 rounded p-3">
+            <div class="text-base-content/70">Grade</div>
+            <div class="font-bold text-lg" id="predicted-grade">-</div>
+            <div class="text-xs text-base-content/60">Predicted</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick Fill Options -->
+      <div class="collapse collapse-arrow bg-base-200">
+        <input type="checkbox" />
+        <div class="collapse-title text-sm font-medium">
+          <i class="fas fa-magic mr-2"></i>
+          Quick Fill Options
+        </div>
+        <div class="collapse-content">
+          <div class="grid grid-cols-2 lg:grid-cols-4 gap-2">
+            <button type="button" class="btn btn-sm btn-outline" onclick="fillExcellent()">
+              Excellent (90-100)
+            </button>
+            <button type="button" class="btn btn-sm btn-outline" onclick="fillGood()">
+              Good (70-89)
+            </button>
+            <button type="button" class="btn btn-sm btn-outline" onclick="fillAverage()">
+              Average (50-69)
+            </button>
+            <button type="button" class="btn btn-sm btn-outline" onclick="clearAll()">
+              Clear All
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Form Actions -->
+      <div class="modal-action">
+        <button id="computebtn" type="submit" class="btn btn-success gap-2">
+          <span class="loading loading-spinner loading-sm hidden" id="submit-spinner"></span>
+          <i class="fas fa-save"></i>
+          Submit Results
+        </button>
+        <button type="button" class="btn btn-ghost" onclick="document.getElementById('inputStudentResultModal').close()">
+          <i class="fas fa-times mr-2"></i>
+          Cancel
+        </button>
+      </div>
+    </form>
+  </div>
+</dialog>
+
+<script>
+// Real-time calculation and validation
+document.addEventListener('DOMContentLoaded', function() {
+  const inputs = ['FirstTest', 'FirstAss', 'MidTermTest', 'SecondTest', 'SecondAss', 'Exam'];
+  
+  inputs.forEach(inputId => {
+    const input = document.getElementById(inputId);
+    if (input) {
+      input.addEventListener('input', calculateTotals);
+      input.addEventListener('blur', validateInput);
+    }
+  });
+  
+  function calculateTotals() {
+    const ft = parseFloat(document.getElementById('FirstTest').value) || 0;
+    const fa = parseFloat(document.getElementById('FirstAss').value) || 0;
+    const mtt = parseFloat(document.getElementById('MidTermTest').value) || 0;
+    const st = parseFloat(document.getElementById('SecondTest').value) || 0;
+    const sa = parseFloat(document.getElementById('SecondAss').value) || 0;
+    const exam = parseFloat(document.getElementById('Exam').value) || 0;
+    
+    const caTotal = ft + fa + mtt + st + sa;
+    const grandTotal = caTotal + exam;
+    
+    document.getElementById('ca-total').textContent = caTotal.toFixed(1);
+    document.getElementById('exam-display').textContent = exam.toFixed(1);
+    document.getElementById('grand-total').textContent = grandTotal.toFixed(1);
+    
+    // Calculate grade
+    let grade = '';
+    if (grandTotal >= 90) grade = 'A1';
+    else if (grandTotal >= 80) grade = 'B2';
+    else if (grandTotal >= 70) grade = 'B3';
+    else if (grandTotal >= 60) grade = 'C4';
+    else if (grandTotal >= 50) grade = 'C5';
+    else if (grandTotal >= 40) grade = 'C6';
+    else grade = 'F9';
+    
+    document.getElementById('predicted-grade').textContent = grade;
+  }
+  
+  function validateInput(event) {
+    const input = event.target;
+    const value = parseFloat(input.value);
+    const max = parseFloat(input.max);
+    
+    if (value > max) {
+      input.value = max;
+      calculateTotals();
+    }
+  }
+});
+
+// Quick fill functions
+function fillExcellent() {
+  document.getElementById('FirstTest').value = '5';
+  document.getElementById('FirstAss').value = '5';
+  document.getElementById('MidTermTest').value = '19';
+  document.getElementById('SecondTest').value = '5';
+  document.getElementById('SecondAss').value = '5';
+  document.getElementById('Exam').value = '56';
+  calculateTotals();
+}
+
+function fillGood() {
+  document.getElementById('FirstTest').value = '4';
+  document.getElementById('FirstAss').value = '4';
+  document.getElementById('MidTermTest').value = '15';
+  document.getElementById('SecondTest').value = '4';
+  document.getElementById('SecondAss').value = '4';
+  document.getElementById('Exam').value = '45';
+  calculateTotals();
+}
+
+function fillAverage() {
+  document.getElementById('FirstTest').value = '3';
+  document.getElementById('FirstAss').value = '3';
+  document.getElementById('MidTermTest').value = '12';
+  document.getElementById('SecondTest').value = '3';
+  document.getElementById('SecondAss').value = '3';
+  document.getElementById('Exam').value = '36';
+  calculateTotals();
+}
+
+function clearAll() {
+  document.getElementById('FirstTest').value = '';
+  document.getElementById('FirstAss').value = '';
+  document.getElementById('MidTermTest').value = '';
+  document.getElementById('SecondTest').value = '';
+  document.getElementById('SecondAss').value = '';
+  document.getElementById('Exam').value = '';
+  calculateTotals();
+}
+</script>

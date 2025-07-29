@@ -1,0 +1,75 @@
+<!-- CBT Details Page Header Component -->
+<div class="bg-base-100 rounded-xl shadow-lg p-6 mb-6">
+  <div class="text-center">
+    {% if teacher.FirstName == "None" or not teacher.FirstName %}
+      <!-- Profile Incomplete Alert -->
+      <div class="alert alert-warning max-w-md mx-auto">
+        <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16c-.77.833.192 2.5 1.732 2.5z" />
+        </svg>
+        <div class="flex flex-col text-left">
+          <span class="font-medium">Profile Incomplete</span>
+          <a href="{% url 'Teachers_portal:profile' teacher.id %}" class="link link-hover text-sm">
+            Complete your teacher profile to create tests
+          </a>
+        </div>
+      </div>
+    {% else %}
+      <!-- Welcome Header -->
+      <div class="mb-6">
+        <div class="flex items-center justify-center gap-4 mb-4">
+          <div class="avatar placeholder">
+            <div class="bg-primary text-primary-content rounded-full w-16 h-16">
+              <span class="text-xl font-bold">
+                {{ teacher.FirstName|first|upper }}{{ teacher.LastName|first|upper|default:'' }}
+              </span>
+            </div>
+          </div>
+          <div class="text-left">
+            <h1 class="text-2xl font-bold text-primary">
+              Welcome, {{ teacher.FirstName }} {{ teacher.LastName|default:'' }}
+            </h1>
+            <p class="text-base-content/70">{{ teacher.teachers_id }}</p>
+            <p class="text-sm text-secondary">{{ teacher.qualification|default:'Teacher' }}</p>
+          </div>
+        </div>
+        
+        <!-- Page Title -->
+        <div class="divider my-4"></div>
+        <div class="flex items-center justify-center gap-3">
+          <i class="fas fa-laptop-code text-primary text-2xl"></i>
+          <h2 class="text-xl font-bold text-primary">Create New CBT Test</h2>
+        </div>
+        <p class="text-base-content/70 mt-2">Configure your computer-based test settings</p>
+      </div>
+
+      <!-- Teacher Stats -->
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 max-w-2xl mx-auto">
+        <div class="bg-primary/10 rounded-lg p-3 text-center">
+          <div class="text-primary font-bold text-lg">
+            {{ teacher.subjects_taught.count|default:'5' }}
+          </div>
+          <div class="text-xs text-primary/70">Subjects</div>
+        </div>
+        <div class="bg-secondary/10 rounded-lg p-3 text-center">
+          <div class="text-secondary font-bold text-lg">
+            {{ teacher.classes_taught.count|default:'8' }}
+          </div>
+          <div class="text-xs text-secondary/70">Classes</div>
+        </div>
+        <div class="bg-accent/10 rounded-lg p-3 text-center">
+          <div class="text-accent font-bold text-lg">
+            {{ teacher.cbt_tests_created|default:'12' }}
+          </div>
+          <div class="text-xs text-accent/70">Tests Created</div>
+        </div>
+        <div class="bg-info/10 rounded-lg p-3 text-center">
+          <div class="text-info font-bold text-lg">
+            {{ teacher.total_students|default:'245' }}
+          </div>
+          <div class="text-xs text-info/70">Students</div>
+        </div>
+      </div>
+    {% endif %}
+  </div>
+</div>

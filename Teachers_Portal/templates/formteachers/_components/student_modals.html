@@ -1,0 +1,231 @@
+<!-- Student Modals -->
+
+<!-- Add/Edit Student Modal -->
+<dialog id="add_student_modal" class="modal">
+  <div class="modal-box w-11/12 max-w-2xl">
+    <div class="flex items-center justify-between mb-6">
+      <h3 class="text-xl font-bold text-primary" id="AddandeditStudentModalLabel">
+        <i class="fas fa-user-plus mr-2"></i>
+        Add Student Record
+      </h3>
+      <form method="dialog">
+        <button class="btn btn-sm btn-circle btn-ghost">✕</button>
+      </form>
+    </div>
+    
+    <form id="addandeditstudentdetailform" class="space-y-6">
+      <!-- Student Name -->
+      <div class="form-control">
+        <label class="label" for="student_name">
+          <span class="label-text font-medium">Full Name</span>
+          <span class="label-text-alt text-error">*</span>
+        </label>
+        <input
+          type="text"
+          id="student_name"
+          class="input input-bordered focus:input-primary"
+          placeholder="Surname first"
+          required
+        />
+        <label class="label">
+          <span class="label-text-alt text-success hidden" id="student_name_success">
+            <i class="fas fa-check-circle mr-1"></i>Looks good!
+          </span>
+          <span class="label-text-alt text-error hidden" id="student_name_error">
+            <i class="fas fa-exclamation-circle mr-1"></i>Please input student name
+          </span>
+        </label>
+      </div>
+      
+      <!-- Student Sex -->
+      <div class="form-control">
+        <label class="label" for="Student_sex">
+          <span class="label-text font-medium">Sex</span>
+          <span class="label-text-alt text-error">*</span>
+        </label>
+        <select id="Student_sex" class="select select-bordered focus:select-primary" required>
+          <option disabled selected>Select gender</option>
+          <option value="Male">Male</option>
+          <option value="Female">Female</option>
+        </select>
+        <label class="label">
+          <span class="label-text-alt text-success hidden" id="student_sex_success">
+            <i class="fas fa-check-circle mr-1"></i>Looks good!
+          </span>
+          <span class="label-text-alt text-error hidden" id="student_sex_error">
+            <i class="fas fa-exclamation-circle mr-1"></i>Please select student's gender
+          </span>
+        </label>
+      </div>
+      
+      <!-- Form Actions -->
+      <div class="modal-action">
+        <button
+          id="mainsubmitbtn"
+          type="submit"
+          class="btn btn-success gap-2"
+        >
+          <i class="fas fa-plus"></i>
+          Add Student
+          <span class="loading loading-spinner loading-sm hidden" id="submit_spinner"></span>
+        </button>
+        <form method="dialog">
+          <button type="button" class="btn btn-ghost">Cancel</button>
+        </form>
+      </div>
+    </form>
+  </div>
+  <form method="dialog" class="modal-backdrop">
+    <button>close</button>
+  </form>
+</dialog>
+
+<!-- Delete Selected Students Modal -->
+<dialog id="delete_selected_modal" class="modal">
+  <div class="modal-box">
+    <div class="flex items-center gap-3 mb-4">
+      <div class="w-12 h-12 rounded-full bg-warning/20 flex items-center justify-center">
+        <i class="fas fa-exclamation-triangle text-warning text-xl"></i>
+      </div>
+      <div>
+        <h3 class="text-lg font-bold">Confirm Deletion</h3>
+        <p class="text-base-content/70">This action cannot be undone</p>
+      </div>
+    </div>
+    
+    <div class="mb-6">
+      <p class="text-base-content/80">
+        Are you sure you want to delete the selected students' records?
+      </p>
+    </div>
+    
+    <div class="modal-action">
+      <button id="deletestudentbtn" type="button" class="btn btn-error gap-2">
+        <i class="fas fa-trash-can"></i>
+        Delete Selected
+      </button>
+      <form method="dialog">
+        <button type="button" class="btn btn-ghost">Cancel</button>
+      </form>
+    </div>
+  </div>
+  <form method="dialog" class="modal-backdrop">
+    <button>close</button>
+  </form>
+</dialog>
+
+<!-- Delete All Students Modal -->
+<dialog id="delete_all_modal" class="modal">
+  <div class="modal-box">
+    <div class="flex items-center gap-3 mb-4">
+      <div class="w-12 h-12 rounded-full bg-error/20 flex items-center justify-center">
+        <i class="fas fa-exclamation-triangle text-error text-xl"></i>
+      </div>
+      <div>
+        <h3 class="text-lg font-bold text-error">Danger Zone</h3>
+        <p class="text-base-content/70">This action cannot be undone</p>
+      </div>
+    </div>
+    
+    <div class="mb-6">
+      <div class="alert alert-error">
+        <i class="fas fa-exclamation-triangle"></i>
+        <div>
+          <h4 class="font-bold">Are you absolutely sure?</h4>
+          <div class="text-sm">
+            This will permanently delete <strong>ALL</strong> student records from {{ class.Class }}.
+            This action cannot be undone and will remove all data associated with these students.
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="modal-action">
+      <button id="deleteallstudentbtn" type="button" class="btn btn-error gap-2">
+        <i class="fas fa-trash-can"></i>
+        Delete All Students
+      </button>
+      <form method="dialog">
+        <button type="button" class="btn btn-ghost">Cancel</button>
+      </form>
+    </div>
+  </div>
+  <form method="dialog" class="modal-backdrop">
+    <button>close</button>
+  </form>
+</dialog>
+
+<script>
+// Form validation functionality
+document.addEventListener('DOMContentLoaded', function() {
+  const form = document.getElementById('addandeditstudentdetailform');
+  const studentNameInput = document.getElementById('student_name');
+  const studentSexSelect = document.getElementById('Student_sex');
+  
+  // Validation functions
+  function validateStudentName() {
+    const value = studentNameInput.value.trim();
+    const successElement = document.getElementById('student_name_success');
+    const errorElement = document.getElementById('student_name_error');
+    
+    if (value.length >= 2) {
+      studentNameInput.classList.remove('input-error');
+      studentNameInput.classList.add('input-success');
+      successElement.classList.remove('hidden');
+      errorElement.classList.add('hidden');
+      return true;
+    } else {
+      studentNameInput.classList.remove('input-success');
+      studentNameInput.classList.add('input-error');
+      successElement.classList.add('hidden');
+      errorElement.classList.remove('hidden');
+      return false;
+    }
+  }
+  
+  function validateStudentSex() {
+    const value = studentSexSelect.value;
+    const successElement = document.getElementById('student_sex_success');
+    const errorElement = document.getElementById('student_sex_error');
+    
+    if (value && value !== 'Select gender') {
+      studentSexSelect.classList.remove('select-error');
+      studentSexSelect.classList.add('select-success');
+      successElement.classList.remove('hidden');
+      errorElement.classList.add('hidden');
+      return true;
+    } else {
+      studentSexSelect.classList.remove('select-success');
+      studentSexSelect.classList.add('select-error');
+      successElement.classList.add('hidden');
+      errorElement.classList.remove('hidden');
+      return false;
+    }
+  }
+  
+  // Real-time validation
+  studentNameInput.addEventListener('input', validateStudentName);
+  studentSexSelect.addEventListener('change', validateStudentSex);
+  
+  // Form submission validation
+  if (form) {
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      const isNameValid = validateStudentName();
+      const isSexValid = validateStudentSex();
+      
+      if (isNameValid && isSexValid) {
+        // Show loading spinner
+        const spinner = document.getElementById('submit_spinner');
+        const submitBtn = document.getElementById('mainsubmitbtn');
+        spinner.classList.remove('hidden');
+        submitBtn.disabled = true;
+        
+        // Form is valid, proceed with submission
+        // Your existing form submission logic here
+      }
+    });
+  }
+});
+</script>

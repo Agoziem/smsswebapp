@@ -1,0 +1,54 @@
+<!-- Profile Overview Component -->
+<div class="bg-base-100 rounded-xl shadow-lg p-6 mb-8">
+  <div class="flex flex-col items-center text-center">
+    <!-- Profile Picture -->
+    <div class="relative mb-4">
+      <div class="avatar">
+        <div class="w-24 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
+          {% if teacher.profileimageURL == '' %}
+          <img src="{% static 'images/profile-default.png' %}" alt="Profile" />
+          {% else %}
+          <img src="{{teacher.profileimageURL}}" alt="Profile" />
+          {% endif %}
+        </div>
+      </div>
+      <div class="absolute -bottom-1 -right-1 bg-orange-500 rounded-full p-2 cursor-pointer hover:bg-orange-600 transition-colors"
+           hx-post="/api/upload-profile-image" 
+           hx-trigger="click"
+           hx-target="#profile-image-container">
+        <i class="fas fa-pen text-white text-xs"></i>
+      </div>
+    </div>
+
+    <!-- User Info -->
+    <div class="space-y-2">
+      <h2 class="text-xl font-bold text-primary">{{ teacher.user.username|default:"John Doe" }}</h2>
+      <div class="flex items-center justify-center gap-2">
+        <span class="badge badge-primary">{{ teacher.Role|default:"Teacher" }}</span>
+        {% if teacher.classFormed != None %}
+        <span class="badge badge-secondary">{{ teacher.classFormed|default:"SS1A" }}</span>
+        {% else %}
+        <!-- Dummy data fallback -->
+        <span class="badge badge-secondary">SS2B</span>
+        {% endif %}
+      </div>
+      <p class="text-sm text-base-content/60">ID: {{ teacher.teachers_id|default:"TCH001" }}</p>
+    </div>
+
+    <!-- Quick Stats -->
+    <div class="grid grid-cols-3 gap-4 mt-6 w-full max-w-md">
+      <div class="stat bg-base-200 rounded-lg p-3">
+        <div class="stat-title text-xs">Classes</div>
+        <div class="stat-value text-lg">{{ teacher.classes_taught.all|length|default:"3" }}</div>
+      </div>
+      <div class="stat bg-base-200 rounded-lg p-3">
+        <div class="stat-title text-xs">Subjects</div>
+        <div class="stat-value text-lg">{{ teacher.subjects_taught.all|length|default:"2" }}</div>
+      </div>
+      <div class="stat bg-base-200 rounded-lg p-3">
+        <div class="stat-title text-xs">Students</div>
+        <div class="stat-value text-lg">125</div>
+      </div>
+    </div>
+  </div>
+</div>

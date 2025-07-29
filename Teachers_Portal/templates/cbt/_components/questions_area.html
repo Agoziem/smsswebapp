@@ -1,0 +1,292 @@
+<!-- CBT Questions Area Component -->
+<div class="lg:col-span-8">
+  <div class="bg-base-100 rounded-xl shadow-lg p-6">
+    <!-- Questions Header -->
+    <div class="flex items-center justify-between mb-6">
+      <div class="flex items-center gap-3">
+        <i class="fas fa-question-circle text-primary text-xl"></i>
+        <h3 class="text-lg font-bold text-primary">Test Questions</h3>
+      </div>
+      <div class="text-sm text-base-content/70">Select correct answers for each question</div>
+    </div>
+
+    <!-- Alert Container -->
+    <div class="alertcontainer mb-4" id="alert-container"></div>
+
+    <!-- No Questions State -->
+    <div class="noquestion bg-base-200 rounded-lg p-8 text-center hidden" id="no-questions-state">
+      <div class="flex flex-col items-center gap-4">
+        <i class="fas fa-question-circle text-6xl text-base-content/30"></i>
+        <div class="text-lg font-medium text-base-content/70">No Questions Added Yet</div>
+        <p class="text-sm text-base-content/50 max-w-md">
+          Start building your test by adding questions. Click the "Add Question" button to create your first question.
+        </p>
+        <button class="btn btn-primary" onclick="document.getElementById('addquestionmodal').showModal()">
+          <i class="fas fa-plus mr-2"></i>
+          Add Your First Question
+        </button>
+      </div>
+    </div>
+
+    <!-- Filter Section -->
+    <div class="filter hidden mb-4" id="filter-section">
+      <div class="form-control">
+        <div class="input-group">
+          <span class="input-group-text">
+            <i class="fas fa-search"></i>
+          </span>
+          <input type="text" 
+                 class="input input-bordered w-full focus:outline-orange focus:border-orange" 
+                 id="filter" 
+                 placeholder="Filter questions by content..."
+                 hx-post="/api/filter-questions"
+                 hx-target="#QuestionContainer"
+                 hx-trigger="input changed delay:300ms">
+        </div>
+      </div>
+    </div>
+
+    <!-- Questions Form -->
+    <form id="questionSubmitform" 
+          class="space-y-6"
+          hx-post="/api/submit-questions"
+          hx-target="#alert-container"
+          hx-swap="innerHTML">
+      
+      <!-- Questions Container -->
+      <div id="QuestionContainer" class="space-y-6">
+        <!-- Questions will be dynamically added here -->
+      </div>
+
+      <!-- Submit Alert Container -->
+      <div class="submitalertcontainer" id="submit-alert-container"></div>
+
+      <!-- Submit Button -->
+      <div class="text-center pt-6">
+        <button type="submit" 
+                id="submitQuestionbtn" 
+                class="btn btn-primary btn-lg hidden">
+          <span class="loading loading-spinner loading-sm hidden" id="submit-spinner"></span>
+          <i class="fas fa-check-circle mr-2"></i>
+          Submit Questions & Create Test
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Question Template (Hidden) -->
+<template id="question-template">
+  <div class="question-card bg-base-200 rounded-xl p-6 border border-base-300" data-question-id="">
+    <div class="flex items-start justify-between mb-4">
+      <div class="flex items-center gap-3">
+        <div class="badge badge-primary question-number">Q1</div>
+        <div class="badge badge-secondary question-marks">2 marks</div>
+      </div>
+      <div class="dropdown dropdown-end">
+        <label tabindex="0" class="btn btn-sm btn-ghost">
+          <i class="fas fa-ellipsis-v"></i>
+        </label>
+        <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
+          <li><a onclick="editQuestion(this)"><i class="fas fa-edit mr-2"></i>Edit Question</a></li>
+          <li><a onclick="deleteQuestion(this)" class="text-error"><i class="fas fa-trash mr-2"></i>Delete Question</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Question Text -->
+    <div class="question-text mb-4 p-4 bg-base-100 rounded-lg">
+      <div class="prose prose-sm max-w-none">
+        <!-- Question content will be inserted here -->
+      </div>
+    </div>
+
+    <!-- Answer Options -->
+    <div class="answers-section">
+      <h4 class="font-medium mb-3 text-sm text-base-content/70">Select the correct answer(s):</h4>
+      <div class="space-y-2 answers-list">
+        <!-- Answer options will be dynamically inserted here -->
+      </div>
+    </div>
+
+    <!-- Question Footer -->
+    <div class="flex items-center justify-between mt-4 pt-4 border-t border-base-300">
+      <div class="text-xs text-base-content/60">
+        <i class="fas fa-clock mr-1"></i>
+        Est. time: <span class="estimated-time">2 min</span>
+      </div>
+      <div class="text-xs text-base-content/60">
+        <i class="fas fa-check-circle mr-1"></i>
+        <span class="correct-answers-count">0</span> correct answer(s)
+      </div>
+    </div>
+  </div>
+</template>
+
+<!-- Answer Option Template (Hidden) -->
+<template id="answer-template">
+  <label class="label cursor-pointer justify-start gap-3 p-3 bg-base-100 rounded-lg hover:bg-base-200 transition-colors">
+    <input type="checkbox" class="checkbox checkbox-primary" name="correct_answers" />
+    <span class="label-text flex-1 answer-text"></span>
+    <div class="badge badge-outline answer-label">A</div>
+  </label>
+</template>
+
+<script>
+// Question management functions
+let questionCounter = 0;
+let totalMarks = 0;
+
+function addQuestionToList(questionData) {
+  const template = document.getElementById('question-template');
+  const clone = template.content.cloneNode(true);
+  
+  questionCounter++;
+  
+  // Set question data
+  const questionCard = clone.querySelector('.question-card');
+  questionCard.setAttribute('data-question-id', questionData.id || questionCounter);
+  
+  // Update question number and marks
+  clone.querySelector('.question-number').textContent = `Q${questionCounter}`;
+  clone.querySelector('.question-marks').textContent = `${questionData.marks || 2} marks`;
+  
+  // Set question text
+  clone.querySelector('.question-text .prose').innerHTML = questionData.text || '';
+  
+  // Add answers
+  const answersList = clone.querySelector('.answers-list');
+  questionData.answers.forEach((answer, index) => {
+    const answerTemplate = document.getElementById('answer-template');
+    const answerClone = answerTemplate.content.cloneNode(true);
+    
+    const checkbox = answerClone.querySelector('input[type="checkbox"]');
+    const answerText = answerClone.querySelector('.answer-text');
+    const answerLabel = answerClone.querySelector('.answer-label');
+    
+    checkbox.value = answer.id || index;
+    checkbox.name = `question_${questionData.id || questionCounter}_answers`;
+    answerText.textContent = answer.text;
+    answerLabel.textContent = String.fromCharCode(65 + index); // A, B, C, D...
+    
+    answersList.appendChild(answerClone);
+  });
+  
+  // Update estimated time
+  const estimatedTime = Math.max(1, (questionData.marks || 2));
+  clone.querySelector('.estimated-time').textContent = `${estimatedTime} min`;
+  
+  // Add to container
+  document.getElementById('QuestionContainer').appendChild(clone);
+  
+  // Update counters
+  totalMarks += (questionData.marks || 2);
+  updateQuestionStats();
+  
+  // Show/hide elements based on question count
+  document.getElementById('no-questions-state').classList.add('hidden');
+  document.getElementById('filter-section').classList.remove('hidden');
+  document.getElementById('submitQuestionbtn').classList.remove('hidden');
+}
+
+function deleteQuestion(button) {
+  const questionCard = button.closest('.question-card');
+  const marks = parseInt(questionCard.querySelector('.question-marks').textContent);
+  
+  // Show confirmation modal
+  document.getElementById('deletequestionModal').showModal();
+  
+  // Store reference for actual deletion
+  window.questionToDelete = {
+    element: questionCard,
+    marks: marks
+  };
+}
+
+function confirmDeleteQuestion() {
+  if (window.questionToDelete) {
+    const { element, marks } = window.questionToDelete;
+    
+    element.remove();
+    totalMarks -= marks;
+    questionCounter--;
+    
+    updateQuestionStats();
+    renumberQuestions();
+    
+    if (questionCounter === 0) {
+      document.getElementById('no-questions-state').classList.remove('hidden');
+      document.getElementById('filter-section').classList.add('hidden');
+      document.getElementById('submitQuestionbtn').classList.add('hidden');
+    }
+    
+    window.questionToDelete = null;
+  }
+}
+
+function renumberQuestions() {
+  const questions = document.querySelectorAll('.question-card');
+  questions.forEach((question, index) => {
+    question.querySelector('.question-number').textContent = `Q${index + 1}`;
+  });
+}
+
+function updateQuestionStats() {
+  document.getElementById('question-count').textContent = questionCounter;
+  document.getElementById('total-marks').textContent = totalMarks;
+  
+  // Update test statistics
+  if (typeof updateTestStats === 'function') {
+    updateTestStats();
+  }
+}
+
+// Form submission handling
+document.addEventListener('DOMContentLoaded', function() {
+  const form = document.getElementById('questionSubmitform');
+  if (form) {
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      // Validate that questions exist and have correct answers
+      const questions = document.querySelectorAll('.question-card');
+      if (questions.length === 0) {
+        alert('Please add at least one question before submitting.');
+        return;
+      }
+      
+      // Check if all questions have correct answers selected
+      let allValid = true;
+      questions.forEach(question => {
+        const checkboxes = question.querySelectorAll('input[type="checkbox"]:checked');
+        if (checkboxes.length === 0) {
+          allValid = false;
+        }
+      });
+      
+      if (!allValid) {
+        alert('Please select correct answers for all questions.');
+        return;
+      }
+      
+      // Show confirmation modal
+      document.getElementById('submitquestionsmodal').showModal();
+    });
+  }
+});
+
+// Filter functionality
+document.getElementById('filter')?.addEventListener('input', function() {
+  const filterText = this.value.toLowerCase();
+  const questions = document.querySelectorAll('.question-card');
+  
+  questions.forEach(question => {
+    const questionText = question.querySelector('.question-text').textContent.toLowerCase();
+    const answerTexts = Array.from(question.querySelectorAll('.answer-text'))
+      .map(el => el.textContent.toLowerCase()).join(' ');
+    
+    const matches = questionText.includes(filterText) || answerTexts.includes(filterText);
+    question.style.display = matches ? 'block' : 'none';
+  });
+});
+</script>
