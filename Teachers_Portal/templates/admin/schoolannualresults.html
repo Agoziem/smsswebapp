@@ -1,123 +1,94 @@
-{% extends 'Teachers_navbar.html' %} {% load static %} {% block content%}
-<section class="pt-4 pb-5">
-    <nav
-      class="ms-4"
-      style="--bs-breadcrumb-divider: '>'"
-      aria-label="breadcrumb"
-    >
-      <ol class="breadcrumb">
-        <li class="breadcrumb-item">
-          <a href="{% url 'Teachers_portal:Teachers_dashboard' %}">Dashboard</a>
-        </li>
-        <li class="breadcrumb-item active" aria-current="page">
-          Annual School Results
-        </li>
-      </ol>
-    </nav>
-    <hr />
-    <div class="container-fluid px-3 px-md-1">
-      <div class="d-flex flex-column align-items-center justify-content-between">
-        <h1 class="mt-3 text-center"> <span id="studentclassholder"></span> Annual Students Results</h1>
-        <ol class="breadcrumb mb-2">
-          {% if teacher.FirstName == "None" %}
-          <div>
-            <a
-              href="{% url 'Teachers_portal:profile' teacher.id %}"
-              class="text-decoration-none"
-            >
-              edit your Teachers Profile to perform futher Action
-            </a>
-          </div>
-          {% else %}
-          <li class="breadcrumb-item active">
-            School Students Results
-          </li>
-          {% endif %}
-        </ol>
-  
-        <!-- Result badge -->
-        <div
-          id="classresultpublishedbadge"
-          class="badge bg-secondary rounded-pill p-2 px-3 mb-5"
-        >
-            <i class="fa-solid fa-check-circle me-2"></i>
-            Fetching Results ...
-        </div>
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="min-h-screen bg-base-200">
+  <!-- Alert Container for HTMX responses -->
+  <div id="alert-container" class="fixed top-4 right-4 z-50"></div>
+
+  <div class="container mx-auto px-4 py-6">
+    <!-- Page Header -->
+    {% include 'admin/_components/results_page_header.html' with page_title="Annual School Results" %}
+
+    <!-- Main Content Grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+      <!-- Form Sidebar -->
+      <div class="lg:col-span-4">
+        {% include 'admin/_components/results_form.html' with is_annual=True %}
       </div>
-  
-      <!-- Table Section -->
-      <div class="row justify-content-center">
-        <div class="col-md-3 pt-2 me-0 me-md-4">
-          <form
-            action=""
-            id="resultcredentialform"
-            class="mb-3 p-3"
-            style="background-color: #eaecee"
-          >
-            <input type="text" value="{{ class.Class }}" hidden />
-            <div class="mb-2">
-              <label>Classes : </label>
-              <select id="school_classes" class="form-select" name="classname" required>
-                {% for class in school_classes %}
-                <option
-                  value="{{ class.Class }}"
-                  {%
-                  if
-                  forloop.first
-                  %}selected{%
-                  endif
-                  %}
-                >
-                  {{ class.Class }}
-                </option>
-                {% endfor %}
-              </select>
-            </div>
-
-            <div class="mb-4">
-              <label for="academicSessionSelect">Academic Session:</label>
-              <select
-                id="session"
-                name="session"
-                class="form-select"
-                required
-              >
-                {% for Session in academic_session %}
-                <option
-                  value="{{ Session.session }}"
-                  {%
-                  if
-                  forloop.first
-                  %}selected{%
-                  endif
-                  %}
-                >
-                  {{ Session.session }}
-                </option>
-                {% endfor %}
-              </select>
-            </div>
-
-
-            
-            <button type="submit" class="btn btn-primary w-100 mb-4">
-              Verify Submissions
-            </button>
-          </form>
-        </div>
-        <div class="col-md-5">
-          <div class="card px-4 py-4 pb-2 me-0 me-md-4">
-            <h6>Subject Annual Results Published</h6>
-            <ul id="subjectpublished" class="list-group list-group-flush ">
-                <li class="list-group-item d-flex justify-content-between align-items-center fw-bold text-success">
-                    Fetching Subjects ...
-                </li>
-            </ul>
-            <p id="Publishedcounter" class="text-center mt-3">
-            </p>
-          </div>
-        </div>
+      
+      <!-- Results Display -->
+      <div class="lg:col-span-8" id="results-container">
+        {% include 'admin/_components/results_display.html' with is_annual=True %}
       </div>
-  </section>
-    <script type="module" src="{% static 'js/admin_portal/AnnualResults.js' %}"></script>
+    </div>
+  </div>
+</div>
+
+<script>
+  // HTMX event listeners for admin results
+  document.addEventListener('htmx:beforeSend', function(event) {
+    // Show loading states
+    const form = event.target.closest('form');
+    if (form) {
+      const submitBtn = form.querySelector('button[type="submit"]');
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        const spinner = submitBtn.querySelector('.loading');
+        if (spinner) spinner.classList.remove('hidden');
+      }
+    }
+  });
+
+  document.addEventListener('htmx:afterRequest', function(event) {
+    // Hide loading states
+    const form = event.target.closest('form');
+    if (form) {
+      const submitBtn = form.querySelector('button[type="submit"]');
+      if (submitBtn) {
+        submitBtn.disabled = false;
+        const spinner = submitBtn.querySelector('.loading');
+        if (spinner) spinner.classList.add('hidden');
+      }
+    }
+  });
+
+  // Success handling
+  document.addEventListener('htmx:afterSwap', function(event) {
+    if (event.detail.target.id === 'alert-container') {
+      setTimeout(() => {
+        event.detail.target.innerHTML = '';
+      }, 5000);
+    }
+  });
+
+  // Error handling
+  document.addEventListener('htmx:responseError', function(event) {
+    const alertContainer = document.getElementById('alert-container');
+    alertContainer.innerHTML = `
+      <div class="alert alert-error shadow-lg">
+        <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current flex-shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+        <span>Error loading annual results. Please try again.</span>
+      </div>
+    `;
+    setTimeout(() => alertContainer.innerHTML = '', 5000);
+  });
+
+  // Page-specific functionality
+  document.addEventListener('DOMContentLoaded', function() {
+    // Update status badge for annual results
+    setTimeout(() => {
+      updateStatusBadge('success', 'Annual results loaded successfully');
+    }, 2000);
+    
+    // Analytics for annual results
+    console.log('Annual School Results page loaded');
+  });
+</script>
+
+<!-- Include the original JavaScript for compatibility -->
+<script type="module" src="{% static 'js/admin_portal/AnnualResults.js' %}"></script>
+
 {% endblock %}

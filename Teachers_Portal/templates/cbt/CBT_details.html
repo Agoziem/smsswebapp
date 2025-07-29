@@ -12,13 +12,12 @@
 
     <!-- Main Content -->
     <div class="mt-6">
-      {% include 'cbt/_components/test_creation_form.html' %}
+    {% include 'cbt/_components/test_creation_form.html' %}
     </div>
   </div>
 </div>
 
 <!-- HTMX Integration -->
-<script src="https://unpkg.com/htmx.org@1.9.10"></script>
 <script>
   // HTMX event listeners for CBT creation
   document.addEventListener('htmx:beforeSend', function(event) {

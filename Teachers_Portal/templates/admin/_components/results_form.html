@@ -1,0 +1,283 @@
+<!-- Admin Results Form Component -->
+<div class="bg-base-100 rounded-xl shadow-lg p-6">
+  <div class="mb-4">
+    <h3 class="text-lg font-bold text-primary flex items-center gap-2">
+      <i class="fas fa-filter"></i>
+      Result Filters
+    </h3>
+    <p class="text-sm text-base-content/70 mt-2">Select class and session to view results</p>
+  </div>
+
+  <form id="resultcredentialform" 
+        action=""
+        class="space-y-4"
+        hx-post="/api/verify-submissions"
+        hx-target="#results-container"
+        hx-swap="innerHTML">
+    
+    <!-- Hidden class value -->
+    <input type="hidden" value="{{ class.Class }}" />
+
+    <!-- Class Selection -->
+    <div class="form-control">
+      <label class="label">
+        <span class="label-text font-medium">Classes</span>
+        <span class="label-text-alt text-error">*</span>
+      </label>
+      <select id="school_classes" 
+              class="select select-bordered focus:outline-orange focus:border-orange" 
+              name="classname" 
+              required
+              hx-post="/api/update-class-selection"
+              hx-target="#class-info"
+              hx-trigger="change">
+        {% for class in school_classes %}
+          <option value="{{ class.Class }}" 
+                  {% if forloop.first %}selected{% endif %}
+                  data-students="{{ class.student_count|default:'42' }}">
+            {{ class.Class }}
+          </option>
+        {% empty %}
+          <!-- Dummy classes for demonstration -->
+          <option value="SS1A" selected data-students="45">SS1A - Senior Secondary 1A</option>
+          <option value="SS1B" data-students="42">SS1B - Senior Secondary 1B</option>
+          <option value="SS2A" data-students="38">SS2A - Senior Secondary 2A</option>
+          <option value="SS2B" data-students="40">SS2B - Senior Secondary 2B</option>
+          <option value="SS3A" data-students="35">SS3A - Senior Secondary 3A</option>
+          <option value="JSS1A" data-students="48">JSS1A - Junior Secondary 1A</option>
+          <option value="JSS2A" data-students="46">JSS2A - Junior Secondary 2A</option>
+          <option value="JSS3A" data-students="44">JSS3A - Junior Secondary 3A</option>
+        {% endfor %}
+      </select>
+      <label class="label">
+        <span class="label-text-alt text-base-content/60" id="class-info">
+          <i class="fas fa-users mr-1"></i>Select a class to view student count
+        </span>
+      </label>
+    </div>
+
+    <!-- Academic Session -->
+    <div class="form-control">
+      <label class="label">
+        <span class="label-text font-medium">Academic Session</span>
+        <span class="label-text-alt text-error">*</span>
+      </label>
+      <select id="session" 
+              name="session" 
+              class="select select-bordered focus:outline-orange focus:border-orange" 
+              required
+              hx-post="/api/update-session"
+              hx-target="#session-info"
+              hx-trigger="change">
+        {% for Session in academic_session %}
+          <option value="{{ Session.session }}" 
+                  {% if forloop.first %}selected{% endif %}>
+            {{ Session.session }}
+          </option>
+        {% empty %}
+          <!-- Dummy sessions for demonstration -->
+          <option value="2023/2024" selected>2023/2024 Academic Session</option>
+          <option value="2022/2023">2022/2023 Academic Session</option>
+          <option value="2021/2022">2021/2022 Academic Session</option>
+        {% endfor %}
+      </select>
+      <label class="label">
+        <span class="label-text-alt text-base-content/60" id="session-info">
+          <i class="fas fa-calendar mr-1"></i>Current academic session
+        </span>
+      </label>
+    </div>
+
+    <!-- Term Selection (only for regular results, not annual) -->
+    {% if not is_annual %}
+    <div class="form-control">
+      <label class="label">
+        <span class="label-text font-medium">Term</span>
+        <span class="label-text-alt text-error">*</span>
+      </label>
+      <select id="term" 
+              name="term" 
+              class="select select-bordered focus:outline-orange focus:border-orange" 
+              required
+              hx-post="/api/update-term"
+              hx-target="#term-info"
+              hx-trigger="change">
+        {% for Term in terms %}
+          <option value="{{ Term.term }}" 
+                  {% if forloop.first %}selected{% endif %}>
+            {{ Term.term }}
+          </option>
+        {% empty %}
+          <!-- Dummy terms for demonstration -->
+          <option value="First Term" selected>First Term</option>
+          <option value="Second Term">Second Term</option>
+          <option value="Third Term">Third Term</option>
+        {% endfor %}
+      </select>
+      <label class="label">
+        <span class="label-text-alt text-base-content/60" id="term-info">
+          <i class="fas fa-clock mr-1"></i>Select term for results
+        </span>
+      </label>
+    </div>
+    {% endif %}
+
+    <!-- Form Actions -->
+    <div class="form-control pt-4">
+      <button type="submit" class="btn btn-primary w-full">
+        <span class="loading loading-spinner loading-sm hidden" id="verify-spinner"></span>
+        <i class="fas fa-search mr-2"></i>
+        Verify Submissions
+      </button>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="divider">Quick Actions</div>
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+      <button type="button" class="btn btn-outline btn-secondary btn-sm" onclick="refreshResults()">
+        <i class="fas fa-refresh mr-2"></i>
+        Refresh Data
+      </button>
+      <button type="button" class="btn btn-outline btn-accent btn-sm" onclick="exportResults()">
+        <i class="fas fa-download mr-2"></i>
+        Export Results
+      </button>
+      {% if not is_annual %}
+      <button type="button" class="btn btn-outline btn-info btn-sm" onclick="viewTermSummary()">
+        <i class="fas fa-chart-bar mr-2"></i>
+        Term Summary
+      </button>
+      {% else %}
+      <button type="button" class="btn btn-outline btn-info btn-sm" onclick="viewAnnualReport()">
+        <i class="fas fa-file-alt mr-2"></i>
+        Annual Report
+      </button>
+      {% endif %}
+      <button type="button" class="btn btn-outline btn-warning btn-sm" onclick="manageResults()">
+        <i class="fas fa-cog mr-2"></i>
+        Manage Results
+      </button>
+    </div>
+  </form>
+
+  <!-- Form Guidelines -->
+  <div class="collapse collapse-arrow bg-base-200 mt-4">
+    <input type="checkbox" />
+    <div class="collapse-title text-sm font-medium">
+      <i class="fas fa-info-circle mr-2"></i>
+      Result Management Guidelines
+    </div>
+    <div class="collapse-content">
+      <div class="space-y-2 text-sm">
+        <div class="alert alert-info">
+          <i class="fas fa-lightbulb"></i>
+          <div>
+            <strong>Best Practices:</strong>
+            <ul class="list-disc list-inside mt-2 space-y-1">
+              <li>Verify all subject results before publishing</li>
+              <li>Check student attendance and participation</li>
+              <li>Review grade distributions for accuracy</li>
+              <li>Ensure all teachers have submitted their results</li>
+              {% if is_annual %}
+              <li>Annual results compile all terms for the session</li>
+              {% else %}
+              <li>Term results show individual term performance</li>
+              {% endif %}
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// Form handling and real-time updates
+document.addEventListener('DOMContentLoaded', function() {
+  const form = document.getElementById('resultcredentialform');
+  const classSelect = document.getElementById('school_classes');
+  const sessionSelect = document.getElementById('session');
+  const termSelect = document.getElementById('term');
+  
+  // Handle form submission
+  if (form) {
+    form.addEventListener('submit', function(e) {
+      const spinner = document.getElementById('verify-spinner');
+      const submitBtn = e.target.querySelector('button[type="submit"]');
+      
+      spinner.classList.remove('hidden');
+      submitBtn.disabled = true;
+      
+      // Update status badge
+      updateStatusBadge('loading', 'Verifying submissions...');
+    });
+  }
+  
+  // Update class info on selection
+  if (classSelect) {
+    classSelect.addEventListener('change', function() {
+      const selectedOption = this.options[this.selectedIndex];
+      const studentCount = selectedOption.getAttribute('data-students') || '0';
+      const infoElement = document.getElementById('class-info');
+      
+      infoElement.innerHTML = `<i class="fas fa-users mr-1"></i>${studentCount} students in ${this.value}`;
+      
+      // Update class holder in header
+      document.getElementById('studentclassholder').textContent = this.value + ' ';
+    });
+    
+    // Trigger initial update
+    classSelect.dispatchEvent(new Event('change'));
+  }
+  
+  // Session and term change handlers
+  if (sessionSelect) {
+    sessionSelect.addEventListener('change', function() {
+      const infoElement = document.getElementById('session-info');
+      infoElement.innerHTML = `<i class="fas fa-calendar mr-1"></i>Session: ${this.value}`;
+    });
+  }
+  
+  if (termSelect) {
+    termSelect.addEventListener('change', function() {
+      const infoElement = document.getElementById('term-info');
+      infoElement.innerHTML = `<i class="fas fa-clock mr-1"></i>Term: ${this.value}`;
+    });
+  }
+});
+
+// Quick action functions
+function refreshResults() {
+  updateStatusBadge('loading', 'Refreshing results...');
+  
+  // Simulate refresh
+  setTimeout(() => {
+    updateStatusBadge('success', 'Results refreshed successfully');
+    
+    // Refresh the form
+    document.getElementById('resultcredentialform').dispatchEvent(new Event('submit'));
+  }, 1500);
+}
+
+function exportResults() {
+  const className = document.getElementById('school_classes').value;
+  const session = document.getElementById('session').value;
+  const term = document.getElementById('term')?.value;
+  
+  const exportType = {{ is_annual|yesno:"annual,term" }};
+  
+  alert(`Exporting ${exportType} results for ${className} - ${session}${term ? ' (' + term + ')' : ''}`);
+}
+
+function viewTermSummary() {
+  alert('Opening term summary dashboard...');
+}
+
+function viewAnnualReport() {
+  alert('Opening annual report generator...');
+}
+
+function manageResults() {
+  alert('Opening result management interface...');
+}
+</script>

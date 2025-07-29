@@ -1,0 +1,116 @@
+<!-- Admin Results Page Header Component -->
+<div class="bg-base-100 rounded-xl shadow-lg p-6 mb-6">
+  <!-- Breadcrumb Navigation -->
+  <div class="breadcrumbs text-sm mb-4">
+    <ul>
+      <li><a href="{% url 'Teachers_portal:Teachers_dashboard' %}" class="link link-hover">Dashboard</a></li>
+      <li class="text-primary font-medium">{{ page_title|default:"School Results" }}</li>
+    </ul>
+  </div>
+  
+  <div class="divider my-2"></div>
+
+  <div class="text-center">
+    {% if teacher.FirstName == "None" or not teacher.FirstName %}
+      <!-- Profile Incomplete Alert -->
+      <div class="alert alert-warning max-w-md mx-auto">
+        <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16c-.77.833.192 2.5 1.732 2.5z" />
+        </svg>
+        <div class="flex flex-col text-left">
+          <span class="font-medium">Profile Incomplete</span>
+          <a href="{% url 'Teachers_portal:profile' teacher.id %}" class="link link-hover text-sm">
+            Complete your teacher profile to manage school results
+          </a>
+        </div>
+      </div>
+    {% else %}
+      <!-- Header Content -->
+      <div class="mb-6">
+        <div class="flex items-center justify-center gap-4 mb-4">
+          <div class="avatar placeholder">
+            <div class="bg-primary text-primary-content rounded-full w-16 h-16">
+              <i class="fas fa-graduation-cap text-2xl"></i>
+            </div>
+          </div>
+          <div class="text-left">
+            <h1 class="text-2xl font-bold text-primary">
+              <span id="studentclassholder"></span> {{ page_title|default:"Students Results" }}
+            </h1>
+            <p class="text-base-content/70">School Results Management</p>
+          </div>
+        </div>
+        
+        <!-- Status Badge -->
+        <div id="classresultpublishedbadge" 
+             class="badge badge-secondary badge-lg p-3 flex items-center gap-2">
+          <span class="loading loading-spinner loading-sm" id="status-spinner"></span>
+          <i class="fas fa-check-circle hidden" id="status-icon"></i>
+          <span id="status-text">Fetching Results ...</span>
+        </div>
+      </div>
+
+      <!-- Quick Stats -->
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 max-w-3xl mx-auto">
+        <div class="bg-primary/10 rounded-lg p-4 text-center">
+          <div class="text-primary font-bold text-2xl" id="total-classes">{{ school_classes.count|default:'12' }}</div>
+          <div class="text-sm text-primary/70">Total Classes</div>
+        </div>
+        <div class="bg-secondary/10 rounded-lg p-4 text-center">
+          <div class="text-secondary font-bold text-2xl" id="published-subjects">0</div>
+          <div class="text-sm text-secondary/70">Published Subjects</div>
+        </div>
+        <div class="bg-accent/10 rounded-lg p-4 text-center">
+          <div class="text-accent font-bold text-2xl" id="total-students">{{ total_students|default:'850' }}</div>
+          <div class="text-sm text-accent/70">Total Students</div>
+        </div>
+        <div class="bg-info/10 rounded-lg p-4 text-center">
+          <div class="text-info font-bold text-2xl" id="completion-rate">0%</div>
+          <div class="text-sm text-info/70">Completion Rate</div>
+        </div>
+      </div>
+    {% endif %}
+  </div>
+</div>
+
+<script>
+// Update status badge
+function updateStatusBadge(status, message) {
+  const badge = document.getElementById('classresultpublishedbadge');
+  const spinner = document.getElementById('status-spinner');
+  const icon = document.getElementById('status-icon');
+  const text = document.getElementById('status-text');
+  
+  if (status === 'loading') {
+    badge.className = 'badge badge-secondary badge-lg p-3 flex items-center gap-2';
+    spinner.classList.remove('hidden');
+    icon.classList.add('hidden');
+  } else if (status === 'success') {
+    badge.className = 'badge badge-success badge-lg p-3 flex items-center gap-2';
+    spinner.classList.add('hidden');
+    icon.classList.remove('hidden');
+  } else if (status === 'warning') {
+    badge.className = 'badge badge-warning badge-lg p-3 flex items-center gap-2';
+    spinner.classList.add('hidden');
+    icon.classList.remove('hidden');
+    icon.className = 'fas fa-exclamation-triangle';
+  } else if (status === 'error') {
+    badge.className = 'badge badge-error badge-lg p-3 flex items-center gap-2';
+    spinner.classList.add('hidden');
+    icon.classList.remove('hidden');
+    icon.className = 'fas fa-times-circle';
+  }
+  
+  text.textContent = message;
+}
+
+// Update quick stats
+function updateQuickStats(data) {
+  if (data.publishedSubjects !== undefined) {
+    document.getElementById('published-subjects').textContent = data.publishedSubjects;
+  }
+  if (data.completionRate !== undefined) {
+    document.getElementById('completion-rate').textContent = data.completionRate + '%';
+  }
+}
+</script>

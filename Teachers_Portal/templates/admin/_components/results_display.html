@@ -1,0 +1,304 @@
+<!-- Admin Results Display Component -->
+<div class="bg-base-100 rounded-xl shadow-lg p-6">
+  <div class="flex items-center justify-between mb-4">
+    <h3 class="text-lg font-bold text-primary flex items-center gap-2">
+      <i class="fas fa-book-open"></i>
+      {% if is_annual %}Subject Annual Results Published{% else %}Subject Results Published{% endif %}
+    </h3>
+    <div class="dropdown dropdown-end">
+      <label tabindex="0" class="btn btn-sm btn-ghost">
+        <i class="fas fa-ellipsis-v"></i>
+      </label>
+      <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
+        <li><a onclick="refreshSubjects()"><i class="fas fa-refresh mr-2"></i>Refresh</a></li>
+        <li><a onclick="exportSubjectReport()"><i class="fas fa-download mr-2"></i>Export Report</a></li>
+        <li><a onclick="viewAnalytics()"><i class="fas fa-chart-line mr-2"></i>View Analytics</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Loading State -->
+  <div id="loading-subjects" class="text-center py-8">
+    <span class="loading loading-spinner loading-md text-primary"></span>
+    <p class="text-sm text-base-content/70 mt-2">Loading subjects...</p>
+  </div>
+
+  <!-- Subjects List -->
+  <div id="subjectpublished" class="space-y-3 hidden">
+    <!-- Dynamic subjects will be loaded here -->
+  </div>
+
+  <!-- No Results State -->
+  <div id="no-subjects" class="text-center py-8 hidden">
+    <div class="flex flex-col items-center gap-4">
+      <i class="fas fa-folder-open text-4xl text-base-content/30"></i>
+      <div>
+        <h4 class="font-medium text-base-content/70">No Results Found</h4>
+        <p class="text-sm text-base-content/50">No published results for the selected criteria</p>
+      </div>
+      <button class="btn btn-sm btn-primary" onclick="refreshSubjects()">
+        <i class="fas fa-refresh mr-2"></i>
+        Try Again
+      </button>
+    </div>
+  </div>
+
+  <!-- Results Summary -->
+  <div id="results-summary" class="mt-6 pt-6 border-t border-base-300 hidden">
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 text-center">
+      <div class="bg-primary/10 rounded-lg p-3">
+        <div class="text-primary font-bold text-xl" id="total-subjects">0</div>
+        <div class="text-xs text-primary/70">Total Subjects</div>
+      </div>
+      <div class="bg-success/10 rounded-lg p-3">
+        <div class="text-success font-bold text-xl" id="published-count">0</div>
+        <div class="text-xs text-success/70">Published</div>
+      </div>
+      <div class="bg-warning/10 rounded-lg p-3">
+        <div class="text-warning font-bold text-xl" id="pending-count">0</div>
+        <div class="text-xs text-warning/70">Pending</div>
+      </div>
+      <div class="bg-info/10 rounded-lg p-3">
+        <div class="text-info font-bold text-xl" id="completion-percentage">0%</div>
+        <div class="text-xs text-info/70">Complete</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Publication Status Counter -->
+  <div id="Publishedcounter" class="text-center mt-4 hidden">
+    <div class="stat">
+      <div class="stat-title">Publication Status</div>
+      <div class="stat-value text-primary" id="counter-value">0/0</div>
+      <div class="stat-desc" id="counter-desc">subjects published</div>
+    </div>
+  </div>
+</div>
+
+<!-- Subject Item Template -->
+<template id="subject-template">
+  <div class="subject-item flex items-center justify-between p-3 bg-base-200 rounded-lg hover:bg-base-300 transition-colors">
+    <div class="flex items-center gap-3">
+      <div class="avatar placeholder">
+        <div class="bg-primary text-primary-content rounded-full w-8 h-8">
+          <span class="text-xs subject-initial"></span>
+        </div>
+      </div>
+      <div>
+        <div class="font-medium subject-name"></div>
+        <div class="text-sm text-base-content/70 subject-teacher"></div>
+      </div>
+    </div>
+    <div class="flex items-center gap-2">
+      <div class="badge subject-status"></div>
+      <div class="dropdown dropdown-end">
+        <label tabindex="0" class="btn btn-xs btn-ghost">
+          <i class="fas fa-ellipsis-v"></i>
+        </label>
+        <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-48">
+          <li><a class="view-subject"><i class="fas fa-eye mr-2"></i>View Results</a></li>
+          <li><a class="edit-subject"><i class="fas fa-edit mr-2"></i>Edit Results</a></li>
+          <li><a class="export-subject"><i class="fas fa-download mr-2"></i>Export</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+// Subject management functions
+let subjectData = [];
+
+// Simulate loading subjects (replace with actual API call)
+function loadSubjects(classname = '', session = '', term = '') {
+  // Show loading state
+  document.getElementById('loading-subjects').classList.remove('hidden');
+  document.getElementById('subjectpublished').classList.add('hidden');
+  document.getElementById('no-subjects').classList.add('hidden');
+  document.getElementById('results-summary').classList.add('hidden');
+  
+  // Simulate API call delay
+  setTimeout(() => {
+    // Dummy subject data
+    const dummySubjects = [
+      {
+        id: 1,
+        name: 'Mathematics',
+        teacher: 'Mr. Johnson',
+        status: 'published',
+        studentsCount: 42,
+        averageScore: 78.5
+      },
+      {
+        id: 2,
+        name: 'English Language',
+        teacher: 'Mrs. Smith',
+        status: 'published',
+        studentsCount: 42,
+        averageScore: 82.3
+      },
+      {
+        id: 3,
+        name: 'Physics',
+        teacher: 'Dr. Brown',
+        status: 'published',
+        studentsCount: 38,
+        averageScore: 74.2
+      },
+      {
+        id: 4,
+        name: 'Chemistry',
+        teacher: 'Prof. Davis',
+        status: 'pending',
+        studentsCount: 38,
+        averageScore: null
+      },
+      {
+        id: 5,
+        name: 'Biology',
+        teacher: 'Dr. Wilson',
+        status: 'published',
+        studentsCount: 40,
+        averageScore: 79.8
+      },
+      {
+        id: 6,
+        name: 'History',
+        teacher: 'Mr. Taylor',
+        status: 'pending',
+        studentsCount: 42,
+        averageScore: null
+      }
+    ];
+    
+    subjectData = dummySubjects;
+    renderSubjects(dummySubjects);
+    updateSummary(dummySubjects);
+    
+    // Hide loading state
+    document.getElementById('loading-subjects').classList.add('hidden');
+    
+    // Show results or no results state
+    if (dummySubjects.length > 0) {
+      document.getElementById('subjectpublished').classList.remove('hidden');
+      document.getElementById('results-summary').classList.remove('hidden');
+      document.getElementById('Publishedcounter').classList.remove('hidden');
+    } else {
+      document.getElementById('no-subjects').classList.remove('hidden');
+    }
+  }, 1500);
+}
+
+// Render subjects in the list
+function renderSubjects(subjects) {
+  const container = document.getElementById('subjectpublished');
+  const template = document.getElementById('subject-template');
+  
+  container.innerHTML = '';
+  
+  subjects.forEach(subject => {
+    const clone = template.content.cloneNode(true);
+    
+    // Set subject data
+    clone.querySelector('.subject-initial').textContent = subject.name.charAt(0);
+    clone.querySelector('.subject-name').textContent = subject.name;
+    clone.querySelector('.subject-teacher').textContent = `Teacher: ${subject.teacher}`;
+    
+    // Set status badge
+    const statusBadge = clone.querySelector('.subject-status');
+    if (subject.status === 'published') {
+      statusBadge.className = 'badge badge-success';
+      statusBadge.textContent = 'Published';
+    } else {
+      statusBadge.className = 'badge badge-warning';
+      statusBadge.textContent = 'Pending';
+    }
+    
+    // Add event listeners
+    clone.querySelector('.view-subject').addEventListener('click', () => viewSubject(subject.id));
+    clone.querySelector('.edit-subject').addEventListener('click', () => editSubject(subject.id));
+    clone.querySelector('.export-subject').addEventListener('click', () => exportSubject(subject.id));
+    
+    container.appendChild(clone);
+  });
+}
+
+// Update summary statistics
+function updateSummary(subjects) {
+  const totalSubjects = subjects.length;
+  const publishedCount = subjects.filter(s => s.status === 'published').length;
+  const pendingCount = totalSubjects - publishedCount;
+  const completionPercentage = totalSubjects > 0 ? Math.round((publishedCount / totalSubjects) * 100) : 0;
+  
+  document.getElementById('total-subjects').textContent = totalSubjects;
+  document.getElementById('published-count').textContent = publishedCount;
+  document.getElementById('pending-count').textContent = pendingCount;
+  document.getElementById('completion-percentage').textContent = completionPercentage + '%';
+  
+  // Update counter
+  document.getElementById('counter-value').textContent = `${publishedCount}/${totalSubjects}`;
+  document.getElementById('counter-desc').textContent = `subjects published (${completionPercentage}% complete)`;
+  
+  // Update header stats
+  updateQuickStats({
+    publishedSubjects: publishedCount,
+    completionRate: completionPercentage
+  });
+}
+
+// Action functions
+function refreshSubjects() {
+  const classSelect = document.getElementById('school_classes');
+  const sessionSelect = document.getElementById('session');
+  const termSelect = document.getElementById('term');
+  
+  const classname = classSelect ? classSelect.value : '';
+  const session = sessionSelect ? sessionSelect.value : '';
+  const term = termSelect ? termSelect.value : '';
+  
+  loadSubjects(classname, session, term);
+}
+
+function exportSubjectReport() {
+  alert('Exporting comprehensive subject report...');
+}
+
+function viewAnalytics() {
+  alert('Opening subject performance analytics...');
+}
+
+function viewSubject(subjectId) {
+  const subject = subjectData.find(s => s.id === subjectId);
+  if (subject) {
+    alert(`Viewing results for ${subject.name} - ${subject.teacher}`);
+  }
+}
+
+function editSubject(subjectId) {
+  const subject = subjectData.find(s => s.id === subjectId);
+  if (subject) {
+    alert(`Editing results for ${subject.name}`);
+  }
+}
+
+function exportSubject(subjectId) {
+  const subject = subjectData.find(s => s.id === subjectId);
+  if (subject) {
+    alert(`Exporting results for ${subject.name}`);
+  }
+}
+
+// Initialize on page load
+document.addEventListener('DOMContentLoaded', function() {
+  // Load initial data
+  loadSubjects();
+  
+  // Listen for form changes
+  const form = document.getElementById('resultcredentialform');
+  if (form) {
+    form.addEventListener('htmx:afterRequest', function() {
+      refreshSubjects();
+    });
+  }
+});
+</script>
