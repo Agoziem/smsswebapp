@@ -15,7 +15,7 @@
       <!-- Main page content -->
       <main class="flex-grow bg-primary/10">
         <div class="min-h-screen flex flex-col">
-          <div class="flex-grow p-6">
+          <div class="flex-grow p-6 pt-3">
             {% block dashboard_content %}
             {% endblock %}
           </div>
@@ -23,7 +23,11 @@
         </div>
       </main>
     </div>
+
   </div>
+
+  <!-- back to top button -->
+{% include '_components/back_to_top.html' %}
 </div>
 {% endblock %}
 

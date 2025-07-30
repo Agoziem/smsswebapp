@@ -1,9 +1,9 @@
 <!-- Result Configuration Sidebar Component -->
-<div class="lg:col-span-3">
+<div class="lg:col-span-4">
   <!-- Result Credential Form -->
   <div class="bg-base-100 rounded-xl shadow-lg p-6 mb-6">
     <h6 class="text-lg font-bold text-primary mb-4">
-      <i class="fas fa-cog mr-2"></i>
+      <i class="fas fa-cog mr-2 text-secondary"></i>
       Result Configuration
     </h6>
     <form action="" id="getstudentresultform" class="space-y-4" hx-post="/api/get-student-results" hx-target="#results-table-container" hx-trigger="change from:select">
@@ -11,7 +11,7 @@
       
       <div class="form-control">
         <label class="label">
-          <span class="label-text font-medium">Subject</span>
+          <span class="label-text font-medium text-primary">Subject</span>
         </label>
         <select class="select select-bordered focus:outline-orange focus:border-orange" name="subject" required>
           <!-- Dummy data for subjects -->
@@ -28,7 +28,7 @@
 
       <div class="form-control">
         <label class="label">
-          <span class="label-text font-medium">Academic Session</span>
+          <span class="label-text font-medium text-primary">Academic Session</span>
         </label>
         <select id="academicSessionSelect" name="AcademicSession" class="select select-bordered focus:outline-orange focus:border-orange" required>
           <!-- Dummy data for academic sessions -->
@@ -40,7 +40,7 @@
 
       <div class="form-control">
         <label class="label">
-          <span class="label-text font-medium">Term</span>
+          <span class="label-text font-medium text-primary">Term</span>
         </label>
         <select id="termSelect" name="Term" class="select select-bordered focus:outline-orange focus:border-orange" required>
           <!-- Dummy data for terms -->
@@ -74,41 +74,41 @@
     <!-- Column Visibility Controls -->
     <div class="collapse collapse-arrow bg-base-200">
       <input type="checkbox" />
-      <div class="collapse-title text-sm font-medium">
-        <i class="fas fa-columns mr-2"></i>
+      <div class="collapse-title text-sm font-medium text-primary">
+        <i class="fas fa-columns mr-2 text-secondary"></i>
         Hide/Show Columns
       </div>
       <div class="collapse-content">
-        <div class="space-y-2">
-          <label class="cursor-pointer label justify-start gap-3">
+        <div class="space-y-2 space-x-2">
+          <label class="cursor-pointer label justify-start gap-2">
             <input type="checkbox" class="checkbox checkbox-sm" id="UnhideAllCheckbox" />
             <span class="label-text text-sm">Hide All Subjects</span>
           </label>
-          <label class="cursor-pointer label justify-start gap-3">
+          <label class="cursor-pointer label justify-start gap-2">
             <input type="checkbox" class="checkbox checkbox-sm column-checkbox" value="1" id="firstCheckbox" />
             <span class="label-text text-sm">First Test</span>
           </label>
-          <label class="cursor-pointer label justify-start gap-3">
+          <label class="cursor-pointer label justify-start gap-2">
             <input type="checkbox" class="checkbox checkbox-sm column-checkbox" value="2" id="secondCheckbox" />
             <span class="label-text text-sm">First Assignment</span>
           </label>
-          <label class="cursor-pointer label justify-start gap-3">
+          <label class="cursor-pointer label justify-start gap-2">
             <input type="checkbox" class="checkbox checkbox-sm column-checkbox" value="3" id="thirdCheckbox" />
             <span class="label-text text-sm">Mid Term Test</span>
           </label>
-          <label class="cursor-pointer label justify-start gap-3">
+          <label class="cursor-pointer label justify-start gap-2">
             <input type="checkbox" class="checkbox checkbox-sm column-checkbox" value="4" id="fouthcheckbox" />
             <span class="label-text text-sm">Second Test</span>
           </label>
-          <label class="cursor-pointer label justify-start gap-3">
+          <label class="cursor-pointer label justify-start gap-2">
             <input type="checkbox" class="checkbox checkbox-sm column-checkbox" value="5" id="fifthcheckbox" />
             <span class="label-text text-sm">Second Assignment</span>
           </label>
-          <label class="cursor-pointer label justify-start gap-3">
+          <label class="cursor-pointer label justify-start gap-2">
             <input type="checkbox" class="checkbox checkbox-sm column-checkbox" value="6" id="sixthcheckbox" />
             <span class="label-text text-sm">CA</span>
           </label>
-          <label class="cursor-pointer label justify-start gap-3">
+          <label class="cursor-pointer label justify-start gap-2">
             <input type="checkbox" class="checkbox checkbox-sm column-checkbox" value="7" id="seventhcheckbox" />
             <span class="label-text text-sm">Exam</span>
           </label>
@@ -119,10 +119,11 @@
     <!-- Quick Stats Card -->
     <div class="card bg-base-200 shadow-sm">
       <div class="card-body p-4">
-        <h3 class="card-title text-sm">
-          <i class="fas fa-chart-bar text-primary"></i>
+        <h3 class="card-title text-sm text-primary mb-2">
+          <i class="fas fa-chart-bar text-secondary"></i>
           Quick Stats
         </h3>
+        <hr class="border-t border-primary/30 mb-4">
         <div class="space-y-2 text-sm">
           <div class="flex justify-between">
             <span class="text-base-content/70">Total Students:</span>

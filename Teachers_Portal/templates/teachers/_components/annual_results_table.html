@@ -1,36 +1,50 @@
 <!-- Annual Results Table Component -->
-<div class="lg:col-span-9">
-  <div class="bg-base-100 rounded-xl shadow-lg p-6">
+<div class="lg:col-span-8">
+  <div class="bg-base-100 rounded-xl shadow-lg p-6 space-y-4">
+    <!-- Header -->
+    <div class="mb-4">
+      <h6 class="text-lg font-bold text-primary">
+        {{ class.Class }} Annual Results
+      </h6>
+      <p class="text-sm text-base-content/70">
+        Comprehensive academic performance across all terms
+      </p>
+    </div>
+
     <!-- Table Controls -->
-    <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4 mb-6">
+    <div
+      class="flex flex-col sm:flex-row gap-4 flex-grow md:justify-between md:items-center"
+    >
       <div class="form-control">
-        <label class="label">
-          <span class="label-text font-medium">Students per page</span>
-        </label>
-        <select id="lengthSelect" class="select select-bordered select-sm focus:outline-orange focus:border-orange"
-                hx-get="/api/update-annual-table-length" 
-                hx-target="#annual-results-table-body"
-                hx-trigger="change">
-          <option value="10" selected>10</option>
-          <option value="20">20</option>
-          <option value="30">30</option>
-          <option value="40">40</option>
-          <option value="50">50</option>
-        </select>
-      </div>
-      
-      <div class="form-control w-full max-w-sm">
-        <div class="input-group">
-          <input type="text" id="filterInput" placeholder="Search students..." 
-                 class="input input-bordered focus:outline-orange focus:border-orange w-full"
-                 hx-post="/api/search-annual-results"
-                 hx-target="#annual-results-table-body"
-                 hx-trigger="keyup changed delay:500ms" />
-          <button class="btn btn-square btn-primary">
+        <div class="flex items-center gap-2 flex-nowrap">
+          <input
+            type="text"
+            id="filterInput"
+            placeholder="Search students..."
+            class="input input-bordered placeholder:text-secondary focus:outline-orange focus:border-orange w-full max-w-xs h-[35px] rounded-md"
+            hx-post="/api/search-annual-results"
+            hx-target="#annual-results-table-body"
+            hx-trigger="keyup changed delay:500ms"
+          />
+          <button class="btn btn-square btn-primary h-[35px]">
             <i class="fas fa-search"></i>
           </button>
         </div>
       </div>
+
+      <select
+        id="lengthSelect"
+        class="select select-bordered placeholder:text-secondary focus:outline-orange focus:border-orange w-full max-w-[150px] h-[35px] rounded-md"
+        hx-get="/api/update-annual-table-length"
+        hx-target="#annual-results-table-body"
+        hx-trigger="change"
+      >
+        <option value="10" selected>10</option>
+        <option value="20">20</option>
+        <option value="30">30</option>
+        <option value="40">40</option>
+        <option value="50">50</option>
+      </select>
     </div>
 
     <!-- Annual Results Table Container -->
@@ -38,11 +52,15 @@
       <!-- Annual Results Table -->
       <div class="overflow-x-auto">
         <table id="dataTable" class="table table-zebra w-full">
-          <thead class="bg-primary text-base-100">
+          <thead class="bg-primary/10 text-primary">
             <tr>
-              <th class="text-center">S/N</th>
-              <th id="tableHeader" class="cursor-pointer hover:bg-primary/80">
-                Name <i class="fas fa-sort ml-2"></i>
+              <th>S/N</th>
+              <th
+                id="tableHeader"
+                class="cursor-pointer hover:bg-primary/20 flex items-center gap-2"
+              >
+                <span>Name</span>
+                <i data-lucide="arrow-down-a-z" class="w-5 h-auto"></i>
               </th>
               <th data-index="1" class="text-center">1st Term</th>
               <th data-index="2" class="text-center">2nd Term</th>
@@ -52,13 +70,16 @@
               <th class="text-center">Grade</th>
               <th class="text-center">Position</th>
               <th class="text-center">Remark</th>
+              <th class="hidden">Student ID</th>
             </tr>
           </thead>
           <tbody id="annual-results-table-body">
             <!-- Dummy data for annual results table -->
             <tr class="hover:bg-base-200/50">
-              <td class="text-center font-medium">1</td>
-              <td class="font-medium text-primary">Adams, John Michael</td>
+              <td class="font-medium">1</td>
+              <td class="font-medium text-primary text-nowrap">
+                Adams, John Michael
+              </td>
               <td class="text-center">
                 <div class="badge badge-success">85</div>
               </td>
@@ -68,22 +89,21 @@
               <td class="text-center">
                 <div class="badge badge-info">88</div>
               </td>
-              <td class="text-center font-bold text-primary">251</td>
+              <td class="text-center font-bold">251</td>
               <td class="text-center font-bold">83.7</td>
+              <td class="text-center font-bold">B2</td>
+              <td class="text-center font-bold">1st</td>
               <td class="text-center">
-                <div class="badge badge-success">B2</div>
+                <div class="badge badge-success text-nowrap">Excellent</div>
               </td>
-              <td class="text-center">
-                <div class="badge badge-primary">1st</div>
-              </td>
-              <td class="text-center">
-                <div class="badge badge-success">Excellent</div>
-              </td>
+              <td class="hidden">STU001</td>
             </tr>
-            
+
             <tr class="hover:bg-base-200/50">
-              <td class="text-center font-medium">2</td>
-              <td class="font-medium text-primary">Brown, Sarah Elizabeth</td>
+              <td class="font-medium">2</td>
+              <td class="font-medium text-primary text-nowrap">
+                Brown, Sarah Elizabeth
+              </td>
               <td class="text-center">
                 <div class="badge badge-success">82</div>
               </td>
@@ -93,22 +113,21 @@
               <td class="text-center">
                 <div class="badge badge-success">86</div>
               </td>
-              <td class="text-center font-bold text-primary">248</td>
+              <td class="text-center font-bold">248</td>
               <td class="text-center font-bold">82.7</td>
+              <td class="text-center font-bold">B2</td>
+              <td class="text-center font-bold">2nd</td>
               <td class="text-center">
-                <div class="badge badge-success">B2</div>
+                <div class="badge badge-info text-nowrap">Very Good</div>
               </td>
-              <td class="text-center">
-                <div class="badge badge-secondary">2nd</div>
-              </td>
-              <td class="text-center">
-                <div class="badge badge-info">Very Good</div>
-              </td>
+              <td class="hidden">STU002</td>
             </tr>
-            
+
             <tr class="hover:bg-base-200/50">
-              <td class="text-center font-medium">3</td>
-              <td class="font-medium text-primary">Johnson, David Wilson</td>
+              <td class="font-medium">3</td>
+              <td class="font-medium text-primary text-nowrap">
+                Johnson, David Wilson
+              </td>
               <td class="text-center">
                 <div class="badge badge-info">75</div>
               </td>
@@ -118,22 +137,21 @@
               <td class="text-center">
                 <div class="badge badge-info">79</div>
               </td>
-              <td class="text-center font-bold text-primary">226</td>
+              <td class="text-center font-bold">226</td>
               <td class="text-center font-bold">75.3</td>
+              <td class="text-center font-bold">B3</td>
+              <td class="text-center font-bold">3rd</td>
               <td class="text-center">
-                <div class="badge badge-info">B3</div>
+                <div class="badge badge-info text-nowrap">Good</div>
               </td>
-              <td class="text-center">
-                <div class="badge badge-accent">3rd</div>
-              </td>
-              <td class="text-center">
-                <div class="badge badge-info">Good</div>
-              </td>
+              <td class="hidden">STU003</td>
             </tr>
-            
+
             <tr class="hover:bg-base-200/50">
-              <td class="text-center font-medium">4</td>
-              <td class="font-medium text-primary">Williams, Mary Grace</td>
+              <td class="font-medium">4</td>
+              <td class="font-medium text-primary text-nowrap">
+                Williams, Mary Grace
+              </td>
               <td class="text-center">
                 <div class="badge badge-warning">68</div>
               </td>
@@ -143,22 +161,21 @@
               <td class="text-center">
                 <div class="badge badge-warning">71</div>
               </td>
-              <td class="text-center font-bold text-primary">209</td>
+              <td class="text-center font-bold">209</td>
               <td class="text-center font-bold">69.7</td>
+              <td class="text-center font-bold">C4</td>
+              <td class="text-center font-bold">4th</td>
               <td class="text-center">
-                <div class="badge badge-warning">C4</div>
+                <div class="badge badge-warning text-nowrap">Credit</div>
               </td>
-              <td class="text-center">
-                <div class="badge badge-ghost">4th</div>
-              </td>
-              <td class="text-center">
-                <div class="badge badge-warning">Credit</div>
-              </td>
+              <td class="hidden">STU004</td>
             </tr>
-            
+
             <tr class="hover:bg-base-200/50">
-              <td class="text-center font-medium">5</td>
-              <td class="font-medium text-primary">Davis, Robert James</td>
+              <td class="font-medium">5</td>
+              <td class="font-medium text-primary text-nowrap">
+                Davis, Robert James
+              </td>
               <td class="text-center">
                 <div class="badge badge-warning">62</div>
               </td>
@@ -168,22 +185,21 @@
               <td class="text-center">
                 <div class="badge badge-warning">65</div>
               </td>
-              <td class="text-center font-bold text-primary">185</td>
+              <td class="text-center font-bold">185</td>
               <td class="text-center font-bold">61.7</td>
+              <td class="text-center font-bold">C5</td>
+              <td class="text-center font-bold">5th</td>
               <td class="text-center">
-                <div class="badge badge-warning">C5</div>
+                <div class="badge badge-warning text-nowrap">Credit</div>
               </td>
-              <td class="text-center">
-                <div class="badge badge-ghost">5th</div>
-              </td>
-              <td class="text-center">
-                <div class="badge badge-warning">Credit</div>
-              </td>
+              <td class="hidden">STU005</td>
             </tr>
-            
+
             <tr class="hover:bg-base-200/50">
-              <td class="text-center font-medium">6</td>
-              <td class="font-medium text-primary">Miller, Jennifer Ann</td>
+              <td class="font-medium">6</td>
+              <td class="font-medium text-primary text-nowrap">
+                Miller, Jennifer Ann
+              </td>
               <td class="text-center">
                 <div class="badge badge-error">48</div>
               </td>
@@ -193,22 +209,21 @@
               <td class="text-center">
                 <div class="badge badge-warning">55</div>
               </td>
-              <td class="text-center font-bold text-primary">155</td>
+              <td class="text-center font-bold">155</td>
               <td class="text-center font-bold">51.7</td>
+              <td class="text-center font-bold">C6</td>
+              <td class="text-center font-bold">6th</td>
               <td class="text-center">
-                <div class="badge badge-error">C6</div>
+                <div class="badge badge-error text-nowrap">Pass</div>
               </td>
-              <td class="text-center">
-                <div class="badge badge-ghost">6th</div>
-              </td>
-              <td class="text-center">
-                <div class="badge badge-error">Pass</div>
-              </td>
+              <td class="hidden">STU006</td>
             </tr>
-            
+
             <tr class="hover:bg-base-200/50">
-              <td class="text-center font-medium">7</td>
-              <td class="font-medium text-primary">Wilson, Michael Thomas</td>
+              <td class="font-medium">7</td>
+              <td class="font-medium text-primary text-nowrap">
+                Wilson, Michael Thomas
+              </td>
               <td class="text-center">
                 <div class="badge badge-error">42</div>
               </td>
@@ -218,23 +233,22 @@
               <td class="text-center">
                 <div class="badge badge-error">45</div>
               </td>
-              <td class="text-center font-bold text-primary">125</td>
+              <td class="text-center font-bold">125</td>
               <td class="text-center font-bold">41.7</td>
+              <td class="text-center font-bold">F9</td>
+              <td class="text-center font-bold">7th</td>
               <td class="text-center">
-                <div class="badge badge-error">F9</div>
+                <div class="badge badge-error text-nowrap">Fail</div>
               </td>
-              <td class="text-center">
-                <div class="badge badge-ghost">7th</div>
-              </td>
-              <td class="text-center">
-                <div class="badge badge-error">Fail</div>
-              </td>
+              <td class="hidden">STU007</td>
             </tr>
-            
+
             <!-- Incomplete/Pending students -->
             <tr class="hover:bg-base-200/50 opacity-50">
-              <td class="text-center font-medium">8</td>
-              <td class="font-medium text-primary">Taylor, Lisa Marie</td>
+              <td class="font-medium">8</td>
+              <td class="font-medium text-primary text-nowrap">
+                Taylor, Lisa Marie
+              </td>
               <td class="text-center">
                 <div class="badge badge-success">82</div>
               </td>
@@ -253,11 +267,14 @@
               <td class="text-center">
                 <div class="badge badge-ghost">Incomplete</div>
               </td>
+              <td class="hidden">STU008</td>
             </tr>
-            
+
             <tr class="hover:bg-base-200/50 opacity-50">
-              <td class="text-center font-medium">9</td>
-              <td class="font-medium text-primary">Anderson, Mark Steven</td>
+              <td class="font-medium">9</td>
+              <td class="font-medium text-primary text-nowrap">
+                Anderson, Mark Steven
+              </td>
               <td class="text-center">
                 <div class="badge badge-info">78</div>
               </td>
@@ -276,11 +293,14 @@
               <td class="text-center">
                 <div class="badge badge-ghost">Incomplete</div>
               </td>
+              <td class="hidden">STU009</td>
             </tr>
-            
+
             <tr class="hover:bg-base-200/50 opacity-50">
-              <td class="text-center font-medium">10</td>
-              <td class="font-medium text-primary">Thompson, Rachel Nicole</td>
+              <td class="font-medium">10</td>
+              <td class="font-medium text-primary text-nowrap">
+                Thompson, Rachel Nicole
+              </td>
               <td class="text-center text-base-content/40">
                 <div class="badge badge-ghost">Pending</div>
               </td>
@@ -299,6 +319,7 @@
               <td class="text-center">
                 <div class="badge badge-ghost">Incomplete</div>
               </td>
+              <td class="hidden">STU010</td>
             </tr>
           </tbody>
         </table>
@@ -306,17 +327,15 @@
     </div>
 
     <!-- Table Footer -->
-    <div class="flex flex-col lg:flex-row justify-between items-center mt-6 gap-4">
+    <div
+      class="flex flex-col lg:flex-row justify-between items-center mt-6 gap-4"
+    >
       <div class="pagination-literal text-sm text-base-content/70">
         Showing 1 to 10 of 45 entries
       </div>
       <div class="join" id="pagination-container">
         <button class="join-item btn btn-sm">«</button>
-        <button class="join-item btn btn-sm btn-active">1</button>
-        <button class="join-item btn btn-sm">2</button>
-        <button class="join-item btn btn-sm">3</button>
-        <button class="join-item btn btn-sm">4</button>
-        <button class="join-item btn btn-sm">5</button>
+        <button class="join-item btn btn-sm">Page 22</button>
         <button class="join-item btn btn-sm">»</button>
       </div>
     </div>

@@ -1,11 +1,14 @@
 <!-- Profile Edit Form Component -->
-<div class="bg-base-100 rounded-xl shadow-lg p-6">
+<div class="bg-base-100 rounded-xl shadow-lg p-6 md:px-8 space-y-4 max-w-3xl mx-auto">
+  <!-- Header -->
   <div class="mb-6">
-    <h3 class="text-lg font-bold text-primary flex items-center gap-2">
-      <i class="fas fa-user-edit"></i>
+    <h6 class="text-lg font-bold text-primary flex items-center justify-center gap-3">
+      <i data-lucide="user-cog"></i>
       Personal Information
-    </h3>
-    <p class="text-sm text-base-content/70 mt-2">Update your personal and professional details</p>
+    </h6>
+    <p class="text-sm text-base-content/70 text-center max-w-md mx-auto">
+      Update your personal and professional details
+    </p>
   </div>
 
   <!-- Alert Container -->
@@ -21,87 +24,77 @@
     {% csrf_token %}
 
     <!-- Name Fields -->
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8">
       <div class="form-control">
-        <label class="label">
-          <span class="label-text font-medium">First Name</span>
+        <label class="label mb-1">
+          <span class="label-text font-medium text-primary">First Name</span>
           <span class="label-text-alt text-error">*</span>
         </label>
         <input type="text" name="FirstName" 
                value="{{ teacher.FirstName|default:'John' }}" 
-               class="input input-bordered focus:outline-orange focus:border-orange" 
+               class="input input-bordered focus:outline-orange focus:border-orange h-[40px] rounded-md w-full" 
                placeholder="e.g. John" required 
                hx-validate="true" />
-        <label class="label">
-          <span class="label-text-alt text-error hidden" id="firstname-error">
-            <i class="fas fa-exclamation-circle mr-1"></i>Please provide a valid first name
-          </span>
-        </label>
       </div>
 
       <div class="form-control">
-        <label class="label">
-          <span class="label-text font-medium">Last Name</span>
+        <label class="label mb-1 block">
+          <span class="label-text font-medium text-primary">Last Name</span>
           <span class="label-text-alt text-error">*</span>
         </label>
         <input type="text" name="LastName" 
                value="{{ teacher.LastName|default:'Doe' }}" 
-               class="input input-bordered focus:outline-orange focus:border-orange" 
+               class="input input-bordered focus:outline-orange focus:border-orange h-[40px] rounded-md w-full" 
                placeholder="e.g. Doe" required 
                hx-validate="true" />
-        <label class="label">
-          <span class="label-text-alt text-error hidden" id="lastname-error">
-            <i class="fas fa-exclamation-circle mr-1"></i>Please provide a valid last name
-          </span>
-        </label>
       </div>
     </div>
 
     <!-- Contact Information -->
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-      <div class="form-control">
-        <label class="label">
-          <span class="label-text font-medium">Email Address</span>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8">
+      <div class="form-control space-y-1">
+        <label class="label block">
+          <span class="label-text font-medium text-primary">Email Address</span>
         </label>
         <input type="email" name="Email" 
                value="{{ teacher.Email|default:'john.doe@school.edu' }}" 
-               class="input input-bordered focus:outline-orange focus:border-orange" 
+               class="input input-bordered focus:outline-orange focus:border-orange h-[40px] rounded-md w-full" 
                placeholder="your.email@example.com" 
                hx-validate="true" />
         <label class="label">
-          <span class="label-text-alt text-info">
-            <i class="fas fa-info-circle mr-1"></i>Optional but recommended for notifications
+          <span class="label-text-alt text-primary/80 text-xs">
+            <i data-lucide="mail" class="inline h-3 w-3 mr-1"></i>Optional but recommended for notifications
           </span>
         </label>
       </div>
 
-      <div class="form-control">
-        <label class="label">
-          <span class="label-text font-medium">Phone Number</span>
+      <div class="form-control space-y-1">
+        <label class="label block">
+          <span class="label-text font-medium text-primary">Phone Number</span>
           <span class="label-text-alt text-error">*</span>
         </label>
         <input type="tel" name="Phone_number" 
                value="{{ teacher.Phone_number|default:'+234 800 123 4567' }}" 
-               class="input input-bordered focus:outline-orange focus:border-orange" 
+               class="input input-bordered focus:outline-orange focus:border-orange h-[40px] rounded-md w-full" 
                placeholder="+234 800 123 4567" required 
                hx-validate="true" />
         <label class="label">
-          <span class="label-text-alt text-error hidden" id="phone-error">
-            <i class="fas fa-exclamation-circle mr-1"></i>Please enter a valid phone number
+          <span class="label-text-alt text-error hidden text-xs" id="phone-error">
+            <i data-lucide="alert-circle" class="inline h-3 w-3 mr-1"></i>Please enter a valid phone number
           </span>
         </label>
       </div>
     </div>
 
     <!-- Professional Information -->
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-      <div class="form-control">
-        <label class="label">
-          <span class="label-text font-medium">Role</span>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8">
+      <div class="form-control space-y-1">
+        <label class="label block">
+          <span class="label-text font-medium text-primary">Role</span>
           <span class="label-text-alt text-error">*</span>
         </label>
         <select name="Role" 
-                class="select select-bordered focus:outline-orange focus:border-orange" 
+                class="select select-bordered focus:outline-orange focus:border-orange h-[40px] rounded-md w-full" 
                 required
                 hx-post="/api/check-role-permissions"
                 hx-target="#role-permissions-info"
@@ -112,21 +105,21 @@
           <option value="HOD" {% if teacher.Role == "HOD" %}selected{% endif %}>Head of Department</option>
         </select>
         <label class="label">
-          <span class="label-text-alt text-info" id="role-permissions-info">
+          <span class="label-text-alt text-xs text-primary/80" id="role-permissions-info">
             <!-- Role permissions info will be loaded here -->
-            <i class="fas fa-info-circle mr-1"></i>Select your primary role in the school
+            <i data-lucide="info" class="inline h-3 w-3 mr-1"></i>Select your primary role in the school
           </span>
         </label>
       </div>
-      
-      <div class="form-control" id="classFormedContainer" 
+
+      <div class="form-control space-y-1" id="classFormedContainer" 
            style="{% if teacher.Role != 'Formteacher' %}display: none;{% endif %}">
-        <label class="label">
-          <span class="label-text font-medium">Class Formed</span>
-          <span class="label-text-alt text-info">(For Form Teachers)</span>
+        <label class="label block">
+          <span class="label-text font-medium text-primary">Class Formed</span>
+          <span class="label-text-alt text-primary/80">(For Form Teachers)</span>
         </label>
         <select id="classFormedSelect" 
-                class="select select-bordered focus:outline-orange focus:border-orange" 
+                class="select select-bordered focus:outline-orange focus:border-orange h-[40px] rounded-md w-full" 
                 name="classFormed"
                 hx-get="/api/get-class-students"
                 hx-target="#class-students-info"
@@ -144,23 +137,24 @@
           <option value="9" {% if teacher.classFormed.id == 9 %}selected{% endif %}>JSS3A</option>
         </select>
         <label class="label">
-          <span class="label-text-alt text-info" id="class-students-info">
+          <span class="label-text-alt text-xs text-primary/80" id="class-students-info">
             <!-- Class student count will be loaded here -->
+            <i data-lucide="users" class="inline h-3 w-3 mr-1"></i>Select your form class
           </span>
         </label>
       </div>
     </div>
 
     <!-- Classes and Subjects -->
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-      <div class="form-control">
-        <label class="label">
-          <span class="label-text font-medium">Classes Taught</span>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8">
+      <div class="form-control space-y-1">
+        <label class="label block">
+          <span class="label-text font-medium text-primary">Classes Taught</span>
           <span class="label-text-alt text-error">*</span>
         </label>
         <p class="text-xs text-base-content/60 mb-2">You can select multiple classes (Hold Ctrl/Cmd to select multiple)</p>
         <select name="classes_taught" multiple 
-                class="select select-bordered h-32 focus:outline-orange focus:border-orange" 
+                class="select select-bordered h-32 focus:outline-orange focus:border-orange rounded-md w-full" 
                 required
                 hx-post="/api/update-teaching-load"
                 hx-target="#teaching-load-summary"
@@ -178,19 +172,19 @@
         </select>
         <label class="label">
           <span class="label-text-alt text-error hidden" id="classes-error">
-            <i class="fas fa-exclamation-circle mr-1"></i>Please select at least one class
+            <i data-lucide="alert-circle" class="inline h-3 w-3 mr-1"></i>Please select at least one class
           </span>
         </label>
       </div>
 
       <div class="form-control">
         <label class="label">
-          <span class="label-text font-medium">Subjects Taught</span>
+          <span class="label-text font-medium text-primary">Subjects Taught</span>
           <span class="label-text-alt text-error">*</span>
         </label>
         <p class="text-xs text-base-content/60 mb-2">You can select multiple subjects (Hold Ctrl/Cmd to select multiple)</p>
         <select name="subjects_taught" multiple 
-                class="select select-bordered h-32 focus:outline-orange focus:border-orange" 
+                class="select select-bordered h-32 focus:outline-orange focus:border-orange rounded-md w-full" 
                 required
                 hx-post="/api/update-subject-load"
                 hx-target="#subject-load-summary"
@@ -211,72 +205,47 @@
         </select>
         <label class="label">
           <span class="label-text-alt text-error hidden" id="subjects-error">
-            <i class="fas fa-exclamation-circle mr-1"></i>Please select at least one subject
+            <i data-lucide="alert-circle" class="inline h-3 w-3 mr-1"></i>Please select at least one subject
           </span>
         </label>
       </div>
     </div>
 
-    <!-- Teaching Load Summary -->
-    <div class="bg-base-200 rounded-lg p-4" id="teaching-load-summary">
-      <h4 class="font-semibold text-primary mb-3 flex items-center gap-2">
-        <i class="fas fa-chart-bar"></i>
-        Teaching Load Summary
-      </h4>
-      <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 text-sm">
-        <div class="bg-base-100 rounded p-3">
-          <div class="text-base-content/70">Classes</div>
-          <div class="font-bold text-lg text-primary" id="total-classes">3</div>
-        </div>
-        <div class="bg-base-100 rounded p-3">
-          <div class="text-base-content/70">Subjects</div>
-          <div class="font-bold text-lg text-secondary" id="total-subjects">2</div>
-        </div>
-        <div class="bg-base-100 rounded p-3">
-          <div class="text-base-content/70">Est. Students</div>
-          <div class="font-bold text-lg text-accent" id="total-students">125</div>
-        </div>
-        <div class="bg-base-100 rounded p-3">
-          <div class="text-base-content/70">Weekly Hours</div>
-          <div class="font-bold text-lg text-info" id="weekly-hours">18</div>
-        </div>
-      </div>
-    </div>
-
     <!-- Additional Information -->
-    <div class="form-control">
-      <label class="label">
-        <span class="label-text font-medium">Additional Information</span>
-        <span class="label-text-alt text-info">Optional</span>
+    <div class="form-control space-y-1">
+      <label class="label block">
+        <span class="label-text font-medium text-primary">Additional Information</span>
+        <span class="label-text-alt text-primary/80">Optional</span>
       </label>
-      <textarea class="textarea textarea-bordered h-24 focus:outline-orange focus:border-orange" 
+      <textarea class="textarea textarea-bordered h-24 focus:outline-orange focus:border-orange rounded-md w-full" 
                 name="additional_info"
                 placeholder="Any additional qualifications, certifications, or notes...">{{ teacher.additional_info|default:"Bachelor's Degree in Mathematics Education, 5 years teaching experience." }}</textarea>
-      <label class="label">
+      <label class="label block">
         <span class="label-text-alt text-base-content/60">
-          <i class="fas fa-info-circle mr-1"></i>Include qualifications, certifications, or special skills
+          <i data-lucide="info" class="inline h-3 w-3 mr-1"></i>
+          Include qualifications, certifications, or special skills
         </span>
       </label>
     </div>
 
     <!-- Confirmation and Submit -->
-    <div class="form-control">
+    <div class="card bg-base-100/50 p-4 rounded-md border border-primary/20">
       <label class="cursor-pointer label justify-start gap-3">
-        <input type="checkbox" class="checkbox checkbox-primary" required />
-        <span class="label-text">I have reviewed my submission and confirm all information is accurate</span>
+        <input type="checkbox" class="checkbox checkbox-primary h-[20px] w-[20px] rounded-sm" required />
+        <span class="label-text text-primary/80">I have reviewed my submission and confirm all information is accurate</span>
       </label>
     </div>
 
     <!-- Form Actions -->
-    <div class="flex flex-col sm:flex-row justify-end gap-4">
-      <button type="button" class="btn btn-ghost order-2 sm:order-1">
-        <i class="fas fa-times mr-2"></i>
-        Cancel
-      </button>
-      <button type="submit" class="btn btn-primary order-1 sm:order-2">
+    <div class="modal-action pt-6">
+      <button type="submit" class="btn btn-primary gap-2 h-[40px] rounded-md order-1">
         <span class="loading loading-spinner loading-sm hidden" id="save-spinner"></span>
-        <i class="fas fa-save mr-2"></i>
+        <i data-lucide="save"></i>
         Save Changes
+      </button>
+      <button type="button" class="btn btn-secondary h-[40px] rounded-md order-2">
+        <i data-lucide="x"></i>
+        Cancel
       </button>
     </div>
   </form>
@@ -312,3 +281,6 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 });
 </script>
+
+
+

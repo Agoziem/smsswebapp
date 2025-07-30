@@ -1,53 +1,101 @@
+{% load static %}
 <!-- Profile Overview Component -->
-<div class="bg-base-100 rounded-xl shadow-lg p-6 mb-8">
-  <div class="flex flex-col items-center text-center">
-    <!-- Profile Picture -->
-    <div class="relative mb-4">
-      <div class="avatar">
-        <div class="w-24 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
-          {% if teacher.profileimageURL == '' %}
-          <img src="{% static 'images/profile-default.png' %}" alt="Profile" />
-          {% else %}
-          <img src="{{teacher.profileimageURL}}" alt="Profile" />
-          {% endif %}
+<div class="bg-base-100 rounded-xl shadow-lg p-6 mb-6 space-y-4 max-w-3xl mx-auto">
+  <!-- Header -->
+  <div class="mb-4">
+    <h6 class="text-lg font-bold text-primary">Profile Overview</h6>
+    <p class="text-sm text-base-content/70">
+      Your profile summary and quick stats
+    </p>
+  </div>
+
+  <div class="space-y-6">
+    <!-- Profile Picture Section -->
+    <div class="flex flex-col items-center">
+      <div class="relative mb-4">
+        <div class="avatar">
+          <div
+            class="w-24 rounded-full ring-2 ring-primary/50 ring-offset-base-100 ring-offset-3"
+          >
+            {% if teacher.profileimageURL == '' %}
+            <div class="avatar avatar-placeholder">
+              <div class="bg-primary/30 text-neutral-content w-24 rounded-full">
+                <span class="text-3xl">
+                  {{ teacher.user.username|slice:":1"|upper }}
+                </span>
+              </div>
+            </div>
+            {% else %}
+            <img src="{{teacher.profileimageURL}}" alt="Profile" />
+            {% endif %}
+          </div>
+        </div>
+        <div
+          class="absolute bottom-3 -right-1 bg-primary rounded-full p-2 cursor-pointer hover:bg-primary/80 transition-colors h-7 w-7 flex items-center justify-center"
+          hx-post="/api/upload-profile-image"
+          hx-trigger="click"
+          hx-target="#profile-image-container"
+        >
+          <i class="fas fa-pen text-white text-xs"></i>
         </div>
       </div>
-      <div class="absolute -bottom-1 -right-1 bg-orange-500 rounded-full p-2 cursor-pointer hover:bg-orange-600 transition-colors"
-           hx-post="/api/upload-profile-image" 
-           hx-trigger="click"
-           hx-target="#profile-image-container">
-        <i class="fas fa-pen text-white text-xs"></i>
+
+      <!-- User Info -->
+      <div class="text-center space-y-2">
+        <h2 class="text-xl font-bold text-primary">
+          {{ teacher.user.username|default:"John Doe" }}
+        </h2>
+        <div
+          class="flex flex-wrap items-center justify-center lg:justify-start gap-2"
+        >
+          <span class="badge badge-primary"
+            >{{ teacher.Role|default:"Teacher" }}</span
+          >
+          {% if teacher.classFormed != None %}
+          <span class="badge badge-secondary"
+            >{{ teacher.classFormed|default:"SS1A" }}</span
+          >
+          {% else %}
+          <!-- Dummy data fallback -->
+          <span class="badge badge-secondary">SS2B</span>
+          {% endif %}
+        </div>
+        <p class="text-sm text-base-content/60">
+          ID: {{ teacher.teachers_id|default:"TCH001" }}
+        </p>
       </div>
     </div>
 
-    <!-- User Info -->
-    <div class="space-y-2">
-      <h2 class="text-xl font-bold text-primary">{{ teacher.user.username|default:"John Doe" }}</h2>
-      <div class="flex items-center justify-center gap-2">
-        <span class="badge badge-primary">{{ teacher.Role|default:"Teacher" }}</span>
-        {% if teacher.classFormed != None %}
-        <span class="badge badge-secondary">{{ teacher.classFormed|default:"SS1A" }}</span>
-        {% else %}
-        <!-- Dummy data fallback -->
-        <span class="badge badge-secondary">SS2B</span>
-        {% endif %}
-      </div>
-      <p class="text-sm text-base-content/60">ID: {{ teacher.teachers_id|default:"TCH001" }}</p>
-    </div>
-
-    <!-- Quick Stats -->
-    <div class="grid grid-cols-3 gap-4 mt-6 w-full max-w-md">
-      <div class="stat bg-base-200 rounded-lg p-3">
-        <div class="stat-title text-xs">Classes</div>
-        <div class="stat-value text-lg">{{ teacher.classes_taught.all|length|default:"3" }}</div>
-      </div>
-      <div class="stat bg-base-200 rounded-lg p-3">
-        <div class="stat-title text-xs">Subjects</div>
-        <div class="stat-value text-lg">{{ teacher.subjects_taught.all|length|default:"2" }}</div>
-      </div>
-      <div class="stat bg-base-200 rounded-lg p-3">
-        <div class="stat-title text-xs">Students</div>
-        <div class="stat-value text-lg">125</div>
+    <!-- Teaching Load Summary -->
+    <div
+      class="card bg-base-100 border border-primary/20 p-4 flex-1"
+      id="teaching-load-summary"
+    >
+      <h4 class="font-semibold text-primary mb-4 flex items-center gap-3">
+        <i data-lucide="briefcase"></i>
+        Teaching Load Summary
+      </h4>
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-3 text-sm">
+        <div class="bg-primary/5 rounded-lg p-3 text-center">
+          <div class="text-primary/80 text-xs font-medium">Classes</div>
+          <div class="font-bold text-xl text-primary" id="total-classes">3</div>
+        </div>
+        <div class="bg-primary/5 rounded-lg p-3 text-center">
+          <div class="text-primary/80 text-xs font-medium">Subjects</div>
+          <div class="font-bold text-xl text-primary" id="total-subjects">
+            2
+          </div>
+        </div>
+        <div class="bg-primary/5 rounded-lg p-3 text-center">
+          <div class="text-primary/80 text-xs font-medium">Est. Students</div>
+          <div class="font-bold text-xl text-primary" id="total-students">
+            125
+          </div>
+        </div>
+        <div class="bg-primary/5 rounded-lg p-3 text-center">
+          <div class="text-primary/80 text-xs font-medium">Weekly Hours</div>
+          <div class="font-bold text-xl text-primary" id="weekly-hours">18</div>
+        </div>
       </div>
     </div>
   </div>

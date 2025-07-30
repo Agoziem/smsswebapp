@@ -38,15 +38,15 @@
   <div class="bg-base-100 rounded-xl shadow-lg p-6 border-l-4 border-info">
     <div class="flex items-center justify-between">
       <div>
-        <p class="text-sm text-base-content/60 font-medium">Total Classes</p>
+        <p class="text-sm text-info font-medium">Total Classes</p>
         <p class="text-3xl font-bold text-info">{{ stats.total_classes|default:"0" }}</p>
-        <p class="text-xs text-info/40 mt-1">
+        <p class="text-xs text-info/70 mt-1">
           <i class="fas fa-arrow-up mr-1"></i>
           Active
         </p>
       </div>
       <div class="bg-info/10 p-4 rounded-full flex items-center justify-center shrink-0 w-14 h-14">
-        <i class="fas fa-school text-info text-2xl"></i>
+        <i data-Lucide="school" class="text-info text-2xl"></i>
       </div>
     </div>
   </div>
@@ -55,7 +55,7 @@
   <div class="bg-base-100 rounded-xl shadow-lg p-6 border-l-4 border-yellow-600">
     <div class="flex items-center justify-between">
       <div>
-        <p class="text-sm text-base-content/60 font-medium">Subjects Taught</p>
+        <p class="text-sm text-yellow-600 font-medium">Subjects Taught</p>
         <p class="text-3xl font-bold text-yellow-600">{{ stats.subjects_taught|default:"0" }}</p>
         <p class="text-xs text-yellow-400 mt-1">
           <i class="fas fa-arrow-up mr-1"></i>
@@ -63,7 +63,7 @@
         </p>
       </div>
       <div class="bg-yellow-300/30 p-4 rounded-full flex items-center justify-center shrink-0 w-14 h-14">
-        <i class="fas fa-book text-yellow-600 text-2xl"></i>
+        <i data-Lucide="library-big" class="text-yellow-600 text-2xl"></i>
       </div>
     </div>
   </div>

@@ -1,9 +1,9 @@
 <!-- Annual Results Configuration Sidebar Component -->
-<div class="lg:col-span-3">
+<div class="lg:col-span-4">
   <!-- Annual Result Credential Form -->
   <div class="bg-base-100 rounded-xl shadow-lg p-6 mb-6">
     <h6 class="text-lg font-bold text-primary mb-4">
-      <i class="fas fa-calendar-alt mr-2"></i>
+      <i class="fas fa-chart-line mr-2 text-secondary"></i>
       Annual Results Configuration
     </h6>
     <form action="" id="getstudentresultform" class="space-y-4" 
@@ -14,12 +14,11 @@
       
       <div class="form-control">
         <label class="label">
-          <span class="label-text font-medium">Subject</span>
+          <span class="label-text font-medium text-primary">Subject</span>
         </label>
         <select class="select select-bordered focus:outline-orange focus:border-orange" name="subject" required>
-          <option value="" disabled selected>Select your Subject</option>
           <!-- Dummy data for subjects -->
-          <option value="Mathematics">Mathematics</option>
+          <option value="Mathematics" selected>Mathematics</option>
           <option value="English Language">English Language</option>
           <option value="Physics">Physics</option>
           <option value="Chemistry">Chemistry</option>
@@ -34,13 +33,12 @@
 
       <div class="form-control">
         <label class="label">
-          <span class="label-text font-medium">Academic Session</span>
+          <span class="label-text font-medium text-primary">Academic Session</span>
         </label>
         <select id="academicSessionSelect" name="AcademicSession" 
                 class="select select-bordered focus:outline-orange focus:border-orange" required>
-          <option value="" disabled selected>Select Academic Session</option>
           <!-- Dummy data for academic sessions -->
-          <option value="2024/2025">2024/2025</option>
+          <option value="2024/2025" selected>2024/2025</option>
           <option value="2023/2024">2023/2024</option>
           <option value="2022/2023">2022/2023</option>
           <option value="2021/2022">2021/2022</option>
@@ -71,8 +69,8 @@
     <!-- Column Visibility Controls -->
     <div class="collapse collapse-arrow bg-base-200">
       <input type="checkbox" />
-      <div class="collapse-title text-sm font-medium">
-        <i class="fas fa-columns mr-2"></i>
+      <div class="collapse-title text-sm font-medium text-primary">
+        <i class="fas fa-columns mr-2 text-secondary"></i>
         Hide/Show Columns
       </div>
       <div class="collapse-content">
@@ -108,8 +106,8 @@
     <!-- Annual Statistics Card -->
     <div class="card bg-base-200 shadow-sm">
       <div class="card-body p-4">
-        <h3 class="card-title text-sm">
-          <i class="fas fa-chart-line text-primary"></i>
+        <h3 class="card-title text-sm text-primary mb-2">
+          <i class="fas fa-chart-line text-secondary"></i>
           Annual Statistics
         </h3>
         <div class="space-y-2 text-sm">
@@ -136,7 +134,7 @@
     <!-- Term Performance Comparison -->
     <div class="card bg-base-200 shadow-sm">
       <div class="card-body p-4">
-        <h3 class="card-title text-sm">
+        <h3 class="card-title text-sm text-primary mb-2">
           <i class="fas fa-chart-bar text-secondary"></i>
           Term Performance
         </h3>

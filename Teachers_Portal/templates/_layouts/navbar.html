@@ -23,23 +23,22 @@
   </div>
 
   <!-- Navbar End -->
-  <div class="navbar-end gap-2 md:gap-4">
+  <div class="navbar-end gap-2">
     <!-- Mobile Search Button -->
     <button class="btn btn-square btn-ghost lg:hidden">
       <i class="fas fa-search text-lg"></i>
     </button>
 
+    <div class="nav-item-envelope relative">
+        <button
+        class="btn btn-ghost btn-circle text-black hover:text-primary"
+        >
+        <i data-lucide="user-round-plus" class="w-6 h-auto"></i>
+        </button>
+    </div>
+
     <!-- User Dropdown -->
-    <div class="dropdown dropdown-end flex items-center">
-
-        <div class="nav-item-envelope relative">
-            <button
-            class="btn btn-ghost btn-circle text-black hover:text-primary"
-            >
-            <i data-lucide="user-round-plus" class="w-6 h-auto"></i>
-            </button>
-        </div>
-
+    <div class="dropdown dropdown-end">
       <label tabindex="0" class="btn btn-ghost btn-circle text-black hover:text-primary">
         <div
             class="w-8 h-8 flex justify-center items-center rounded-full bg-secondary shrink-0"
@@ -53,21 +52,21 @@
           class="menu menu-sm w-[150px] dropdown-content mt-3 z-[1] p-2 shadow-lg bg-base-100 rounded-box text-base-content">
         <li>
           <a href="{% url 'Teachers_portal:profile' id=request.user.teacher.id %}" 
-             class="flex items-center gap-2 text-primary hover:bg-primary hover:text-white">
+             class="flex items-center gap-2 text-primary hover:bg-secondary hover:text-primary">
             <i class="fas fa-user"></i>
             Profile
           </a>
         </li>
         <li>
           <a href="{% url 'home' %}" 
-             class="flex items-center gap-2 text-primary hover:bg-primary hover:text-white">
+             class="flex items-center gap-2 text-primary hover:bg-secondary hover:text-primary">
             <i class="fas fa-home"></i>
            Homepage
           </a>
         </li>
         <li>
           <a href="#" 
-             class="flex items-center gap-2 text-primary hover:bg-primary hover:text-white">
+             class="flex items-center gap-2 text-primary hover:bg-secondary hover:text-primary">
             <i class="fas fa-chart-line"></i>
             Activity Log
           </a>
