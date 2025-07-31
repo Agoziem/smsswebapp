@@ -310,7 +310,7 @@
 
   <!-- Results Management Section -->
   <div class="mt-8">
-    <!-- Subject Status List -->
+    <!-- Published Results  -->
     <div class="bg-base-100 rounded-xl shadow-lg p-6">
       <div class="flex items-center justify-between mb-4">
         <h6 class="text-lg font-bold text-primary">
@@ -318,7 +318,7 @@
             data-lucide="book-open"
             class="inline h-5 w-5 mr-2 text-secondary"
           ></i>
-          Subjects Term Results Status
+          Subjects Termly Results Status
         </h6>
         <!-- Filter controls -->
         <div class="dropdown dropdown-end">
@@ -331,18 +331,12 @@
             class="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow border"
           >
             <li>
-              <a onclick="filterTermSubjects('all')" class="active"
-                >All Subjects</a
-              >
+              <a onclick="filterSubjects('all')" class="active">All Subjects</a>
             </li>
-            <li>
-              <a onclick="filterTermSubjects('published')">Published Only</a>
-            </li>
-            <li><a onclick="filterTermSubjects('pending')">Pending Only</a></li>
-            <li><a onclick="filterTermSubjects('draft')">Drafts Only</a></li>
-            <li>
-              <a onclick="filterTermSubjects('not-started')">Not Started</a>
-            </li>
+            <li><a onclick="filterSubjects('published')">Published Only</a></li>
+            <li><a onclick="filterSubjects('pending')">Pending Only</a></li>
+            <li><a onclick="filterSubjects('draft')">Drafts Only</a></li>
+            <li><a onclick="filterSubjects('not-started')">Not Started</a></li>
           </ul>
         </div>
       </div>
@@ -352,7 +346,7 @@
         <div class="form-control">
           <input
             type="text"
-            id="termSubjectSearchInput"
+            id="subjectSearchInput"
             placeholder="Search subjects..."
             class="input input-bordered input-sm placeholder:text-secondary focus:outline-orange focus:border-orange w-full h-[35px] rounded-md"
           />
@@ -360,136 +354,595 @@
       </div>
 
       <!-- Scrollable subjects container with max height -->
-      <div
-        class="max-h-80 overflow-y-auto space-y-2 pr-2"
-        id="term-subjects-container"
-      >
-        <!-- Published Subjects -->
+      <div class="space-y-3" id="subjects-container">
+        <!-- Scrollable subjects container with max height -->
         <div
-          class="subject-item published"
-          data-status="published"
-          data-name="mathematics"
+          class="max-h-96 overflow-y-auto space-y-3 pr-2"
+          id="subjects-container"
         >
+          <!-- Published Subjects -->
           <div
-            class="flex items-center justify-between p-2 bg-success/5 border border-success/20 rounded-lg hover:bg-success/10 transition-colors"
+            class="subject-item published"
+            data-status="published"
+            data-name="mathematics"
           >
-            <div class="flex items-center gap-2">
-              <div class="avatar avatar-placeholder">
-                <div class="bg-success text-white w-6 h-6 rounded-full text-xs">
-                  <span>MA</span>
+            <div
+              class="flex items-center justify-between p-3 bg-success/5 border border-success/20 rounded-lg hover:bg-success/10 transition-colors"
+            >
+              <div class="flex items-center gap-3">
+                <div class="avatar avatar-placeholder">
+                  <div
+                    class="bg-success text-white w-8 h-8 rounded-full text-xs"
+                  >
+                    <span>MA</span>
+                  </div>
+                </div>
+                <div>
+                  <p class="font-medium text-success">Mathematics</p>
+                  <p class="text-xs text-success/70">Published 2 hours ago</p>
                 </div>
               </div>
-              <div>
-                <p class="font-medium text-success text-sm">Mathematics</p>
-                <p class="text-xs text-success/70">Published 1 hour ago</p>
+              <div class="flex items-center gap-2">
+                <div class="badge badge-success badge-sm">Published</div>
+                <div class="dropdown dropdown-end">
+                  <div tabindex="0" role="button" class="btn btn-ghost btn-xs">
+                    <i data-lucide="more-vertical" class="h-3 w-3"></i>
+                  </div>
+                  <ul
+                    tabindex="0"
+                    class="dropdown-content menu bg-base-100 rounded-box z-[1] w-40 p-2 shadow border"
+                  >
+                    <li>
+                      <a class="text-xs"
+                        ><i data-lucide="eye" class="h-3 w-3"></i> View
+                        Details</a
+                      >
+                    </li>
+                    <li>
+                      <a class="text-xs"
+                        ><i data-lucide="download" class="h-3 w-3"></i>
+                        Download</a
+                      >
+                    </li>
+                  </ul>
+                </div>
               </div>
             </div>
-            <div class="badge badge-success badge-xs">Published</div>
+          </div>
+
+          <div
+            class="subject-item published"
+            data-status="published"
+            data-name="english"
+          >
+            <div
+              class="flex items-center justify-between p-3 bg-success/5 border border-success/20 rounded-lg hover:bg-success/10 transition-colors"
+            >
+              <div class="flex items-center gap-3">
+                <div class="avatar avatar-placeholder">
+                  <div
+                    class="bg-success text-white w-8 h-8 rounded-full text-xs"
+                  >
+                    <span>EN</span>
+                  </div>
+                </div>
+                <div>
+                  <p class="font-medium text-success">English Language</p>
+                  <p class="text-xs text-success/70">Published 3 hours ago</p>
+                </div>
+              </div>
+              <div class="flex items-center gap-2">
+                <div class="badge badge-success badge-sm">Published</div>
+                <div class="dropdown dropdown-end">
+                  <div tabindex="0" role="button" class="btn btn-ghost btn-xs">
+                    <i data-lucide="more-vertical" class="h-3 w-3"></i>
+                  </div>
+                  <ul
+                    tabindex="0"
+                    class="dropdown-content menu bg-base-100 rounded-box z-[1] w-40 p-2 shadow border"
+                  >
+                    <li>
+                      <a class="text-xs"
+                        ><i data-lucide="eye" class="h-3 w-3"></i> View
+                        Details</a
+                      >
+                    </li>
+                    <li>
+                      <a class="text-xs"
+                        ><i data-lucide="download" class="h-3 w-3"></i>
+                        Download</a
+                      >
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="subject-item published"
+            data-status="published"
+            data-name="physics"
+          >
+            <div
+              class="flex items-center justify-between p-3 bg-success/5 border border-success/20 rounded-lg hover:bg-success/10 transition-colors"
+            >
+              <div class="flex items-center gap-3">
+                <div class="avatar avatar-placeholder">
+                  <div
+                    class="bg-success text-white w-8 h-8 rounded-full text-xs"
+                  >
+                    <span>PH</span>
+                  </div>
+                </div>
+                <div>
+                  <p class="font-medium text-success">Physics</p>
+                  <p class="text-xs text-success/70">Published 5 hours ago</p>
+                </div>
+              </div>
+              <div class="flex items-center gap-2">
+                <div class="badge badge-success badge-sm">Published</div>
+                <div class="dropdown dropdown-end">
+                  <div tabindex="0" role="button" class="btn btn-ghost btn-xs">
+                    <i data-lucide="more-vertical" class="h-3 w-3"></i>
+                  </div>
+                  <ul
+                    tabindex="0"
+                    class="dropdown-content menu bg-base-100 rounded-box z-[1] w-40 p-2 shadow border"
+                  >
+                    <li>
+                      <a class="text-xs"
+                        ><i data-lucide="eye" class="h-3 w-3"></i> View
+                        Details</a
+                      >
+                    </li>
+                    <li>
+                      <a class="text-xs"
+                        ><i data-lucide="download" class="h-3 w-3"></i>
+                        Download</a
+                      >
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="subject-item published"
+            data-status="published"
+            data-name="chemistry"
+          >
+            <div
+              class="flex items-center justify-between p-3 bg-success/5 border border-success/20 rounded-lg hover:bg-success/10 transition-colors"
+            >
+              <div class="flex items-center gap-3">
+                <div class="avatar avatar-placeholder">
+                  <div
+                    class="bg-success text-white w-8 h-8 rounded-full text-xs"
+                  >
+                    <span>CH</span>
+                  </div>
+                </div>
+                <div>
+                  <p class="font-medium text-success">Chemistry</p>
+                  <p class="text-xs text-success/70">Published 1 day ago</p>
+                </div>
+              </div>
+              <div class="flex items-center gap-2">
+                <div class="badge badge-success badge-sm">Published</div>
+                <div class="dropdown dropdown-end">
+                  <div tabindex="0" role="button" class="btn btn-ghost btn-xs">
+                    <i data-lucide="more-vertical" class="h-3 w-3"></i>
+                  </div>
+                  <ul
+                    tabindex="0"
+                    class="dropdown-content menu bg-base-100 rounded-box z-[1] w-40 p-2 shadow border"
+                  >
+                    <li>
+                      <a class="text-xs"
+                        ><i data-lucide="eye" class="h-3 w-3"></i> View
+                        Details</a
+                      >
+                    </li>
+                    <li>
+                      <a class="text-xs"
+                        ><i data-lucide="download" class="h-3 w-3"></i>
+                        Download</a
+                      >
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Pending Subjects -->
+          <div
+            class="subject-item pending"
+            data-status="pending"
+            data-name="biology"
+          >
+            <div
+              class="flex items-center justify-between p-3 bg-warning/5 border border-warning/20 rounded-lg hover:bg-warning/10 transition-colors"
+            >
+              <div class="flex items-center gap-3">
+                <div class="avatar avatar-placeholder">
+                  <div
+                    class="bg-warning text-white w-8 h-8 rounded-full text-xs"
+                  >
+                    <span>BI</span>
+                  </div>
+                </div>
+                <div>
+                  <p class="font-medium text-warning">Biology</p>
+                  <p class="text-xs text-warning/70">Pending verification</p>
+                </div>
+              </div>
+              <div class="flex items-center gap-2">
+                <div class="badge badge-warning badge-sm">Pending</div>
+                <div class="dropdown dropdown-end">
+                  <div tabindex="0" role="button" class="btn btn-ghost btn-xs">
+                    <i data-lucide="more-vertical" class="h-3 w-3"></i>
+                  </div>
+                  <ul
+                    tabindex="0"
+                    class="dropdown-content menu bg-base-100 rounded-box z-[1] w-40 p-2 shadow border"
+                  >
+                    <li>
+                      <a class="text-xs"
+                        ><i data-lucide="eye" class="h-3 w-3"></i> View Draft</a
+                      >
+                    </li>
+                    <li>
+                      <a class="text-xs"
+                        ><i data-lucide="send" class="h-3 w-3"></i> Submit</a
+                      >
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="subject-item draft"
+            data-status="draft"
+            data-name="geography"
+          >
+            <div
+              class="flex items-center justify-between p-3 bg-warning/5 border border-warning/20 rounded-lg hover:bg-warning/10 transition-colors"
+            >
+              <div class="flex items-center gap-3">
+                <div class="avatar avatar-placeholder">
+                  <div
+                    class="bg-warning text-white w-8 h-8 rounded-full text-xs"
+                  >
+                    <span>GE</span>
+                  </div>
+                </div>
+                <div>
+                  <p class="font-medium text-warning">Geography</p>
+                  <p class="text-xs text-warning/70">Draft saved</p>
+                </div>
+              </div>
+              <div class="flex items-center gap-2">
+                <div class="badge badge-warning badge-sm">Draft</div>
+                <div class="dropdown dropdown-end">
+                  <div tabindex="0" role="button" class="btn btn-ghost btn-xs">
+                    <i data-lucide="more-vertical" class="h-3 w-3"></i>
+                  </div>
+                  <ul
+                    tabindex="0"
+                    class="dropdown-content menu bg-base-100 rounded-box z-[1] w-40 p-2 shadow border"
+                  >
+                    <li>
+                      <a class="text-xs"
+                        ><i data-lucide="edit" class="h-3 w-3"></i> Continue
+                        Editing</a
+                      >
+                    </li>
+                    <li>
+                      <a class="text-xs"
+                        ><i data-lucide="trash-2" class="h-3 w-3"></i> Delete
+                        Draft</a
+                      >
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Not Started Subject -->
+          <div
+            class="subject-item not-started"
+            data-status="not-started"
+            data-name="economics"
+          >
+            <div
+              class="flex items-center justify-between p-3 bg-primary/5 border border-primary/30 rounded-lg hover:bg-primary/10 transition-colors"
+            >
+              <div class="flex items-center gap-3">
+                <div class="avatar avatar-placeholder">
+                  <div
+                    class="bg-primary/20 text-primary w-8 h-8 rounded-full text-xs"
+                  >
+                    <span>EC</span>
+                  </div>
+                </div>
+                <div>
+                  <p class="font-medium text-primary">Economics</p>
+                  <p class="text-xs text-primary/50">Not started</p>
+                </div>
+              </div>
+              <div class="flex items-center gap-2">
+                <div class="badge badge-primary badge-sm">Not Started</div>
+                <div class="dropdown dropdown-end">
+                  <div tabindex="0" role="button" class="btn btn-ghost btn-xs">
+                    <i data-lucide="more-vertical" class="h-3 w-3"></i>
+                  </div>
+                  <ul
+                    tabindex="0"
+                    class="dropdown-content menu bg-base-100 rounded-box z-[1] w-40 p-2 shadow border"
+                  >
+                    <li>
+                      <a class="text-xs"
+                        ><i data-lucide="plus" class="h-3 w-3"></i> Start
+                        Results</a
+                      >
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Additional dummy subjects to demonstrate scalability -->
+          <div
+            class="subject-item published"
+            data-status="published"
+            data-name="literature"
+          >
+            <div
+              class="flex items-center justify-between p-3 bg-success/5 border border-success/20 rounded-lg hover:bg-success/10 transition-colors"
+            >
+              <div class="flex items-center gap-3">
+                <div class="avatar avatar-placeholder">
+                  <div
+                    class="bg-success text-white w-8 h-8 rounded-full text-xs"
+                  >
+                    <span>LI</span>
+                  </div>
+                </div>
+                <div>
+                  <p class="font-medium text-success">Literature in English</p>
+                  <p class="text-xs text-success/70">Published 6 hours ago</p>
+                </div>
+              </div>
+              <div class="flex items-center gap-2">
+                <div class="badge badge-success badge-sm">Published</div>
+                <div class="dropdown dropdown-end">
+                  <div tabindex="0" role="button" class="btn btn-ghost btn-xs">
+                    <i data-lucide="more-vertical" class="h-3 w-3"></i>
+                  </div>
+                  <ul
+                    tabindex="0"
+                    class="dropdown-content menu bg-base-100 rounded-box z-[1] w-40 p-2 shadow border"
+                  >
+                    <li>
+                      <a class="text-xs"
+                        ><i data-lucide="eye" class="h-3 w-3"></i> View
+                        Details</a
+                      >
+                    </li>
+                    <li>
+                      <a class="text-xs"
+                        ><i data-lucide="download" class="h-3 w-3"></i>
+                        Download</a
+                      >
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="subject-item draft"
+            data-status="draft"
+            data-name="government"
+          >
+            <div
+              class="flex items-center justify-between p-3 bg-warning/5 border border-warning/20 rounded-lg hover:bg-warning/10 transition-colors"
+            >
+              <div class="flex items-center gap-3">
+                <div class="avatar avatar-placeholder">
+                  <div
+                    class="bg-warning text-white w-8 h-8 rounded-full text-xs"
+                  >
+                    <span>GO</span>
+                  </div>
+                </div>
+                <div>
+                  <p class="font-medium text-warning">Government</p>
+                  <p class="text-xs text-warning/70">Draft saved 2 days ago</p>
+                </div>
+              </div>
+              <div class="flex items-center gap-2">
+                <div class="badge badge-warning badge-sm">Draft</div>
+                <div class="dropdown dropdown-end">
+                  <div tabindex="0" role="button" class="btn btn-ghost btn-xs">
+                    <i data-lucide="more-vertical" class="h-3 w-3"></i>
+                  </div>
+                  <ul
+                    tabindex="0"
+                    class="dropdown-content menu bg-base-100 rounded-box z-[1] w-40 p-2 shadow border"
+                  >
+                    <li>
+                      <a class="text-xs"
+                        ><i data-lucide="edit" class="h-3 w-3"></i> Continue
+                        Editing</a
+                      >
+                    </li>
+                    <li>
+                      <a class="text-xs"
+                        ><i data-lucide="trash-2" class="h-3 w-3"></i> Delete
+                        Draft</a
+                      >
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="subject-item not-started"
+            data-status="not-started"
+            data-name="history"
+          >
+            <div
+              class="flex items-center justify-between p-3 bg-primary/5 border border-primary/30 rounded-lg hover:bg-primary/10 transition-colors"
+            >
+              <div class="flex items-center gap-3">
+                <div class="avatar avatar-placeholder">
+                  <div
+                    class="bg-primary/20 text-primary w-8 h-8 rounded-full text-xs"
+                  >
+                    <span>HI</span>
+                  </div>
+                </div>
+                <div>
+                  <p class="font-medium text-primary">History</p>
+                  <p class="text-xs text-primary/50">Not started</p>
+                </div>
+              </div>
+              <div class="flex items-center gap-2">
+                <div class="badge badge-primary badge-sm">Not Started</div>
+                <div class="dropdown dropdown-end">
+                  <div tabindex="0" role="button" class="btn btn-ghost btn-xs">
+                    <i data-lucide="more-vertical" class="h-3 w-3"></i>
+                  </div>
+                  <ul
+                    tabindex="0"
+                    class="dropdown-content menu bg-base-100 rounded-box z-[1] w-40 p-2 shadow border"
+                  >
+                    <li>
+                      <a class="text-xs"
+                        ><i data-lucide="plus" class="h-3 w-3"></i> Start
+                        Results</a
+                      >
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Dynamic subjects from backend -->
+          {% for sub in subjects_allocation.subjects.all %}
+          <div
+            class="subject-item review"
+            data-status="review"
+            data-name="{{ sub.subject_name|lower }}"
+          >
+            <div
+              class="flex items-center justify-between p-3 bg-info/5 border border-info/20 rounded-lg hover:bg-info/10 transition-colors"
+            >
+              <div class="flex items-center gap-3">
+                <div class="avatar avatar-placeholder">
+                  <div class="bg-info text-white w-8 h-8 rounded-full text-xs">
+                    <span>{{ sub.subject_code|slice:":2"|upper }}</span>
+                  </div>
+                </div>
+                <div>
+                  <p class="font-medium text-info">{{ sub.subject_name }}</p>
+                  <p class="text-xs text-info/70">Status pending</p>
+                </div>
+              </div>
+              <div class="flex items-center gap-2">
+                <div class="badge badge-info badge-sm">Review</div>
+                <div class="dropdown dropdown-end">
+                  <div tabindex="0" role="button" class="btn btn-ghost btn-xs">
+                    <i data-lucide="more-vertical" class="h-3 w-3"></i>
+                  </div>
+                  <ul
+                    tabindex="0"
+                    class="dropdown-content menu bg-base-100 rounded-box z-[1] w-40 p-2 shadow border"
+                  >
+                    <li>
+                      <a class="text-xs"
+                        ><i data-lucide="eye" class="h-3 w-3"></i> Review</a
+                      >
+                    </li>
+                    <li>
+                      <a class="text-xs"
+                        ><i data-lucide="check" class="h-3 w-3"></i> Approve</a
+                      >
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+
+          <!-- Show message when no subjects match filter -->
+          <div id="no-subjects-message" class="hidden text-center py-8">
+            <div class="text-base-content/50">
+              <i data-lucide="search-x" class="h-12 w-12 mx-auto mb-2"></i>
+              <p class="text-sm">No subjects found</p>
+              <p class="text-xs">Try adjusting your search or filter</p>
+            </div>
           </div>
         </div>
 
+        <!-- Pagination for subjects if needed -->
         <div
-          class="subject-item published"
-          data-status="published"
-          data-name="english"
+          class="flex flex-col lg:flex-row justify-between items-center mt-6 gap-4"
         >
-          <div
-            class="flex items-center justify-between p-2 bg-success/5 border border-success/20 rounded-lg hover:bg-success/10 transition-colors"
-          >
-            <div class="flex items-center gap-2">
-              <div class="avatar avatar-placeholder">
-                <div class="bg-success text-white w-6 h-6 rounded-full text-xs">
-                  <span>EN</span>
-                </div>
-              </div>
-              <div>
-                <p class="font-medium text-success text-sm">English Language</p>
-                <p class="text-xs text-success/70">Published 2 hours ago</p>
-              </div>
-            </div>
-            <div class="badge badge-success badge-xs">Published</div>
+          <div class="pagination-literal text-sm text-base-content/70">
+            Showing 1 to 10 of 45 Subjects
           </div>
-        </div>
-
-        <div class="subject-item draft" data-status="draft" data-name="physics">
-          <div
-            class="flex items-center justify-between p-2 bg-warning/5 border border-warning/20 rounded-lg hover:bg-warning/10 transition-colors"
-          >
-            <div class="flex items-center gap-2">
-              <div class="avatar avatar-placeholder">
-                <div class="bg-warning text-white w-6 h-6 rounded-full text-xs">
-                  <span>PH</span>
-                </div>
-              </div>
-              <div>
-                <p class="font-medium text-warning text-sm">Physics</p>
-                <p class="text-xs text-warning/70">Draft saved</p>
-              </div>
-            </div>
-            <div class="badge badge-warning badge-xs">Draft</div>
-          </div>
-        </div>
-
-        <div
-          class="subject-item not-started"
-          data-status="not-started"
-          data-name="chemistry"
-        >
-          <div
-            class="flex items-center justify-between p-2 bg-primary/5 border border-primary/30 rounded-lg hover:bg-primary/20 transition-colors"
-          >
-            <div class="flex items-center gap-2">
-              <div class="avatar avatar-placeholder">
-                <div
-                  class="bg-primary/20 text-primary w-6 h-6 rounded-full text-xs"
-                >
-                  <span>CH</span>
-                </div>
-              </div>
-              <div>
-                <p class="font-medium text-primary text-sm">
-                  Chemistry
-                </p>
-                <p class="text-xs text-primary/50">Not started</p>
-              </div>
-            </div>
-            <div class="badge badge-primary badge-xs">Not Started</div>
+          <div class="join" id="pagination-container">
+            <button class="join-item btn btn-sm">«</button>
+            <button class="join-item btn btn-sm">Page 22</button>
+            <button class="join-item btn btn-sm">»</button>
           </div>
         </div>
       </div>
 
-      <!-- Pagination for subjects if needed -->
-      <div
-        class="flex flex-col lg:flex-row justify-between items-center mt-6 gap-4"
-      >
-        <div class="pagination-literal text-sm text-base-content/70">
-          Showing 1 to 10 of 45 Subjects
-        </div>
-        <div class="join" id="pagination-container">
-          <button class="join-item btn btn-sm">«</button>
-          <button class="join-item btn btn-sm">Page 22</button>
-          <button class="join-item btn btn-sm">»</button>
-        </div>
-      </div>
-
-      <!-- Summary Stats -->
-      <div class="mt-4 border-t border-primary/30 pt-3">
+      <!-- Enhanced Summary Stats with better organization -->
+      <div class="mt-6 border-t border-primary/20 pt-4 space-y-2">
+        <h6 class="text-sm font-medium text-base-content/70">
+          Summary Overview
+        </h6>
         <div class="grid grid-cols-4 gap-2">
-          <div class="text-center p-2 bg-success/10 rounded-lg">
-            <div class="text-sm font-bold text-success">2</div>
+          <div class="text-center p-2 bg-success/5 rounded-lg">
+            <div class="text-sm font-bold text-success" id="published-count">
+              5
+            </div>
             <div class="text-xs text-success/70">Published</div>
           </div>
           <div class="text-center p-2 bg-warning/10 rounded-lg">
-            <div class="text-sm font-bold text-warning">1</div>
-            <div class="text-xs text-warning/70">Draft</div>
+            <div class="text-sm font-bold text-warning" id="pending-count">
+              2
+            </div>
+            <div class="text-xs text-warning/70">Pending</div>
           </div>
           <div class="text-center p-2 bg-info/10 rounded-lg">
-            <div class="text-sm font-bold text-info">0</div>
-            <div class="text-xs text-info/70">Pending</div>
+            <div class="text-sm font-bold text-info" id="review-count">1</div>
+            <div class="text-xs text-info/70">Review</div>
           </div>
-          <div class="text-center p-2 bg-base-200 rounded-lg">
-            <div class="text-sm font-bold text-base-content/70">4</div>
-            <div class="text-xs text-base-content/50">Remaining</div>
+          <div class="text-center p-2 bg-primary/10 rounded-lg">
+            <div
+              class="text-sm font-bold text-primary"
+              id="not-started-count"
+            >
+              2
+            </div>
+            <div class="text-xs text-primary/50">Not Started</div>
           </div>
         </div>
       </div>

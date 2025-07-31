@@ -138,21 +138,37 @@
       <i data-lucide="bar-chart-3" class="inline h-5 w-5 mr-2 text-secondary"></i>
       Term Statistics
     </h6>
-    <div class="grid grid-cols-1 gap-3">
+
+    <div class="space-y-3 text-sm">
+      <div>
+        <div class="flex justify-between mb-1">
+          <span>Success Rate</span>
+          <span>75%</span>
+        </div>
+        <progress
+          class="progress progress-success w-full"
+          value="75"
+          max="100"
+        ></progress>
+      </div>
+      <div>
+        <div class="flex justify-between mb-1">
+          <span>Failure Rate</span>
+          <span>20%</span>
+        </div>
+        <progress
+          class="progress progress-error w-full"
+          value="20"
+          max="100"
+        ></progress>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 gap-3 mt-4">
       <div class="stat bg-primary/10 border border-primary/30 rounded-lg p-3">
         <div class="stat-title text-xs text-primary">Total Students</div>
         <div class="stat-value text-xl text-primary">45</div>
         <div class="stat-desc text-xs text-primary">In this class</div>
-      </div>
-      <div class="stat bg-primary/10 border border-primary/30 rounded-lg p-3">
-        <div class="stat-title text-xs text-primary">Completed</div>
-        <div class="stat-value text-xl text-primary">42</div>
-        <div class="stat-desc text-xs text-primary">93.3% completion rate</div>
-      </div>
-      <div class="stat bg-primary/10 border border-primary/30 rounded-lg p-3">
-        <div class="stat-title text-xs text-primary">Pending</div>
-        <div class="stat-value text-lg text-primary">3</div>
-        <div class="stat-desc text-xs text-primary">6.7% incomplete</div>
       </div>
       <div class="stat bg-primary/10 border border-primary/30 rounded-lg p-3">
         <div class="stat-title text-xs text-primary">Class Average</div>
