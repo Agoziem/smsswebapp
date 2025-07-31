@@ -4,3 +4,4 @@ media/
 static/
 Result_portal/templates/activation.html
 SMSSvenv/
+node_modules/

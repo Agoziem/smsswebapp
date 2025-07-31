@@ -1,11 +1,5 @@
 from django.db import models
 from openpyxl import Workbook,load_workbook
-import boto3
-import io
-import base64
-base64.encodestring = base64.encodebytes
-base64.decodestring = base64.decodebytes
-import os
 import random
 from ckeditor.fields import RichTextField
 
@@ -54,7 +48,7 @@ class Newsletter(models.Model):
 	newsletterFile=models.FileField(upload_to = 'media/Newsletter' ,blank = True)
 	
 	def __str__(self):
-		return f"Newsletter for {self.currentTerm.term}"
+		return f"Newsletter for {self.currentTerm.term if self.currentTerm else 'No Term'}"
 	
 	@property
 	def NewsletterURL(self):
@@ -105,12 +99,12 @@ class Students_Pin_and_ID(models.Model):
 		return str(self.student_name)
 
 	def save(self, *args, **kwargs):
-		if self.id:  # if object exists in database
+		if self.pk:  # if object exists in database
 			super().save(*args, **kwargs)
 		else:
 			while not self.student_id:
         	# Split the full_name field value into a list of names 
-				names = self.student_name.split()
+				names = str(self.student_name).split()
 				# Remove extra spaces from each name in the list	
 				names = [name.upper().strip() for name in names]
 				# Join the names back together with a single space in between
@@ -147,7 +141,7 @@ class Student_Result_Data(models.Model):
 # Model for the Students Results	
 class Result(models.Model):
 	student = models.ForeignKey(Students_Pin_and_ID,on_delete=models.CASCADE)
-	student_class=models.ForeignKey(Class,on_delete=models.CASCADE, blank=True,null=True,default=1)
+	student_class=models.ForeignKey(Class,on_delete=models.CASCADE, blank=True,null=True)
 	students_result_summary = models.ForeignKey(Student_Result_Data,on_delete=models.CASCADE,blank=True,null=True)
 	Subject= models.ForeignKey(Subject,on_delete=models.CASCADE)
 	FirstTest= models.CharField(max_length=100, blank=True,null=True , default="-")
@@ -165,7 +159,7 @@ class Result(models.Model):
 
 
 	def __str__(self):
-		return str(self.student.student_name + " - " + self.Subject.subject_name)
+		return f"{self.student.student_name} - {self.Subject.subject_name}" 
 
 	
 
@@ -200,4 +194,4 @@ class AnnualResult(models.Model):
 	published=models.BooleanField(default=False)
 	
 	def __str__(self):
-		return str(self.Student_name.Student_name.student_name +"-"+ self.Subject.subject_name)
+		return f"{self.Student_name.Student_name.student_name} - {self.Subject.subject_name}"
