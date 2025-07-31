@@ -1,74 +1,422 @@
+{% load string_filters %}
 <!-- Students Table Component -->
-<div class="card bg-base-100 shadow-xl">
-  <div class="card-header bg-base-200 p-4 rounded-t-xl">
-    <div class="flex items-center gap-2">
-      <i class="fas fa-table text-primary"></i>
-      <h2 class="text-lg font-semibold">{{ class.Class }} Students Info Table</h2>
-    </div>
+<div class="bg-base-100 rounded-xl shadow-lg p-6 space-y-4">
+  <!-- Header -->
+  <div class="mb-4">
+    <h6 class="text-lg font-bold text-primary">{{ class.Class }} Students</h6>
+    <p class="text-sm text-base-content/70">Manage student records</p>
   </div>
-  
-  <div class="card-body p-0">
-    <div class="overflow-x-auto">
-      <table class="table table-zebra w-full" id="datatablesSimple">
-        <thead class="bg-base-200">
-          <tr>
-            <th class="p-4">
-              <i class="fa-solid fa-users text-primary"></i>
-            </th>
-            <th class="p-4 font-medium">Student Name</th>
-            <th class="p-4 font-medium">Student ID</th>
-            <th class="p-4 font-medium">Sex</th>
-          </tr>
-        </thead>
-        
-        <tbody>
-          {% for student in students %}
-          <tr class="hover:bg-base-200/50">
-            <td class="p-4">
-              <input
-                class="checkbox checkbox-primary"
-                type="checkbox"
-                value="{{ student.student.id }}"
-                id="selectstudentcheckbox"
-              />
-            </td>
-            <td class="p-4">
-              <a
-                class="editstudentinfo link link-primary hover:link-hover font-medium cursor-pointer"
-                >{{ student.student.student_name }}</a
+
+  <!-- Table Controls -->
+  <div
+    class="flex flex-col sm:flex-row gap-4 flex-grow md:justify-between md:items-center"
+  >
+    <div class="form-control">
+      <div class="flex items-center gap-2 flex-nowrap">
+        <input
+          type="text"
+          id="filterInput"
+          placeholder="Search students..."
+          class="input input-bordered placeholder:text-secondary focus:outline-orange focus:border-orange w-full max-w-xs h-[35px] rounded-md"
+        />
+        <button class="btn btn-square btn-primary h-[35px] rounded-md">
+          <i data-lucide="search" class="h-4 w-4"></i>
+        </button>
+      </div>
+    </div>
+
+    <select
+      id="lengthSelect"
+      class="select select-bordered placeholder:text-secondary focus:outline-orange focus:border-orange w-full max-w-[150px] h-[35px] rounded-md"
+    >
+      <option value="10" selected>10</option>
+      <option value="20">20</option>
+      <option value="30">30</option>
+      <option value="40">40</option>
+      <option value="50">50</option>
+    </select>
+  </div>
+
+  <!-- Students Table -->
+  <div class="overflow-x-auto">
+    <table id="datatablesSimple" class="table table-zebra w-full">
+      <thead class="bg-primary/10 text-primary">
+        <tr>
+          <th>
+            <input
+              type="checkbox"
+              id="select-all-students"
+              class="checkbox checkbox-sm"
+            />
+          </th>
+          <th>Student Name</th>
+          <th>Student ID</th>
+          <th>Gender</th>
+          <th>Parent</th>
+          <th>Contact</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for student in students %}
+        <tr class="hover:bg-base-200/50">
+          <td>
+            <input
+              class="checkbox checkbox-primary checkbox-sm"
+              type="checkbox"
+              value="{{ student.student.id }}"
+            />
+          </td>
+          <td>
+            <div class="flex items-center gap-3">
+              {% if student.student.photo %}
+              <div class="avatar">
+                <div class="mask mask-squircle w-10 h-10">
+                  <img
+                    src="{{ student.student.photo.url }}"
+                    alt="{{ student.student.student_name }}"
+                  />
+                </div>
+              </div>
+              {% else %}
+              <div class="avatar avatar-placeholder">
+                <div class="bg-primary/20 text-primary w-12 rounded-full">
+                  <span> {{ student.student.student_name|initials }} </span>
+                </div>
+              </div>
+              {% endif %}
+              <span class="font-medium text-primary text-nowrap"
+                >{{ student.student.student_name }}</span
               >
-            </td>
-            <td class="p-4 text-base-content/80">{{ student.student.student_id }}</td>
-            <td class="p-4">
-              <div class="badge badge-outline {{ student.student.Sex|lower == 'male' and 'badge-info' or 'badge-secondary' }}">
-                {{ student.student.Sex }}
+            </div>
+          </td>
+          <td class="font-medium">{{ student.student.student_id }}</td>
+          <td>
+            {% if student.student.Sex|lower == 'male' %}
+            <div class="badge badge-outline badge-info">
+              <i data-lucide="mars" class="h-3 w-3 mr-1"></i> Male
+            </div>
+            {% else %}
+            <div class="badge badge-outline badge-secondary">
+              <i data-lucide="venus" class="h-3 w-3 mr-1"></i> Female
+            </div>
+            {% endif %}
+          </td>
+          <td class="text-nowrap">
+            {{ student.student.parent_name|default:"Mr/Mrs " }}{{
+            student.student.student_name|get_first_name }}
+          </td>
+          <td>
+            {{ student.student.phone_number|default:"+234 80123456" }}{{
+            student.student.id }}
+          </td>
+          <td>
+            <div class="flex gap-1">
+              <button
+                class="btn btn-sm btn-secondary h-[30px] rounded-md"
+                title="Edit Student"
+                onclick="add_student_modal.showModal()"
+              >
+                <i data-lucide="pencil" class="h-3 w-3"></i>
+              </button>
+            </div>
+          </td>
+        </tr>
+        {% empty %}
+        <tr class="hover:bg-base-200/50">
+          <td>
+            <input
+              class="checkbox checkbox-primary checkbox-sm"
+              type="checkbox"
+            />
+          </td>
+          <td>
+            <div class="flex items-center gap-3">
+              <div class="avatar avatar-placeholder">
+                <div class="bg-primary/20 text-primary w-8 rounded-full">
+                  <span> JD </span>
+                </div>
               </div>
-            </td>
-          </tr>
-          {% empty %}
-          <tr>
-            <td colspan="4" class="p-8 text-center text-base-content/60">
-              <div class="flex flex-col items-center gap-3">
-                <i class="fas fa-users text-4xl text-base-content/30"></i>
-                <p class="text-lg">No students found</p>
-                <p class="text-sm">Add students to get started</p>
+              <span class="font-medium text-primary text-nowrap">John Doe</span>
+            </div>
+          </td>
+          <td class="font-medium">S/2023/001</td>
+          <td>
+            <div class="badge badge-outline badge-success">
+              <i data-lucide="mars" class="h-3 w-3"></i> Male
+            </div>
+          </td>
+          <td class="text-nowrap">Mr. Thomas Doe</td>
+          <td class="text-nowrap">+2348012345601</td>
+          <td>
+            <div class="flex gap-1">
+              <button
+                class="btn btn-sm btn-secondary h-[30px] rounded-md"
+                title="Edit Student"
+                onclick="add_student_modal.showModal()"
+              >
+                <i data-lucide="pencil" class="h-3 w-3"></i>
+              </button>
+            </div>
+          </td>
+        </tr>
+        <tr class="hover:bg-base-200/50">
+          <td>
+            <input
+              class="checkbox checkbox-primary checkbox-sm"
+              type="checkbox"
+            />
+          </td>
+          <td>
+            <div class="flex items-center gap-3">
+              <div class="avatar avatar-placeholder">
+                <div class="bg-primary/20 text-primary w-8 rounded-full">
+                  <span> SJ </span>
+                </div>
               </div>
-            </td>
-          </tr>
-          {% endfor %}
-        </tbody>
-        
-        <tfoot class="bg-base-200">
-          <tr>
-            <th class="p-4">
-              <i class="fa-solid fa-users text-primary"></i>
-            </th>
-            <th class="p-4 font-medium">Student Name</th>
-            <th class="p-4 font-medium">Student ID</th>
-            <th class="p-4 font-medium">Sex</th>
-          </tr>
-        </tfoot>
-      </table>
+              <span class="font-medium text-primary text-nowrap"
+                >Sarah Johnson</span
+              >
+            </div>
+          </td>
+          <td class="font-medium">S/2023/002</td>
+          <td>
+            <div class="badge badge-outline badge-primary">
+              <i data-lucide="venus" class="h-3 w-3"></i> Female
+            </div>
+          </td>
+          <td class="text-nowrap">Mrs. Patricia Johnson</td>
+          <td class="text-nowrap">+2348012345602</td>
+          <td>
+            <div class="flex gap-1">
+              <button
+                class="btn btn-sm btn-secondary h-[30px] rounded-md"
+                title="Edit Student"
+                onclick="add_student_modal.showModal()"
+              >
+                <i data-lucide="pencil" class="h-3 w-3"></i>
+              </button>
+            </div>
+          </td>
+        </tr>
+        <tr class="hover:bg-base-200/50">
+          <td>
+            <input
+              class="checkbox checkbox-primary checkbox-sm"
+              type="checkbox"
+            />
+          </td>
+          <td>
+            <div class="flex items-center gap-3">
+              <div class="avatar avatar-placeholder">
+                <div class="bg-primary/20 text-primary w-8 rounded-full">
+                  <span> MW </span>
+                </div>
+              </div>
+              <span class="font-medium text-primary text-nowrap"
+                >Michael Williams</span
+              >
+            </div>
+          </td>
+          <td class="font-medium">S/2023/003</td>
+          <td>
+            <div class="badge badge-outline badge-success">
+              <i data-lucide="mars" class="h-3 w-3"></i> Male
+            </div>
+          </td>
+          <td class="text-nowrap">Mr. Robert Williams</td>
+          <td class="text-nowrap">+2348012345603</td>
+          <td>
+            <div class="flex gap-1">
+              <button
+                class="btn btn-sm btn-secondary h-[30px] rounded-md"
+                title="Edit Student"
+                onclick="add_student_modal.showModal()"
+              >
+                <i data-lucide="pencil" class="h-3 w-3"></i>
+              </button>
+            </div>
+          </td>
+        </tr>
+        <tr class="hover:bg-base-200/50">
+          <td>
+            <input
+              class="checkbox checkbox-primary checkbox-sm"
+              type="checkbox"
+            />
+          </td>
+          <td>
+            <div class="flex items-center gap-3">
+              <div class="avatar avatar-placeholder">
+                <div class="bg-primary/20 text-primary w-8 rounded-full">
+                  <span> JD </span>
+                </div>
+              </div>
+              <span class="font-medium text-primary text-nowrap">John Doe</span>
+            </div>
+          </td>
+          <td class="font-medium">S/2023/001</td>
+          <td>
+            <div class="badge badge-outline badge-success">
+              <i data-lucide="mars" class="h-3 w-3"></i> Male
+            </div>
+          </td>
+          <td class="text-nowrap">Mr. Thomas Doe</td>
+          <td class="text-nowrap">+2348012345601</td>
+          <td>
+            <div class="flex gap-1">
+              <button
+                class="btn btn-sm btn-secondary h-[30px] rounded-md"
+                title="Edit Student"
+              >
+                <i data-lucide="pencil" class="h-3 w-3"></i>
+              </button>
+            </div>
+          </td>
+        </tr>
+        <tr class="hover:bg-base-200/50">
+          <td>
+            <input
+              class="checkbox checkbox-primary checkbox-sm"
+              type="checkbox"
+            />
+          </td>
+          <td>
+            <div class="flex items-center gap-3">
+              <div class="avatar avatar-placeholder">
+                <div class="bg-primary/20 text-primary w-8 rounded-full">
+                  <span> SJ </span>
+                </div>
+              </div>
+              <span class="font-medium text-primary text-nowrap"
+                >Sarah Johnson</span
+              >
+            </div>
+          </td>
+          <td class="font-medium">S/2023/002</td>
+          <td>
+            <div class="badge badge-outline badge-primary">
+              <i data-lucide="venus" class="h-3 w-3"></i> Female
+            </div>
+          </td>
+          <td class="text-nowrap">Mrs. Patricia Johnson</td>
+          <td class="text-nowrap">+2348012345602</td>
+          <td>
+            <div class="flex gap-1">
+              <button
+                class="btn btn-sm btn-secondary h-[30px] rounded-md"
+                title="Edit Student"
+              >
+                <i data-lucide="pencil" class="h-3 w-3"></i>
+              </button>
+            </div>
+          </td>
+        </tr>
+        <tr class="hover:bg-base-200/50">
+          <td>
+            <input
+              class="checkbox checkbox-primary checkbox-sm"
+              type="checkbox"
+            />
+          </td>
+          <td>
+            <div class="flex items-center gap-3">
+              <div class="avatar avatar-placeholder">
+                <div class="bg-primary/20 text-primary w-8 rounded-full">
+                  <span> MW </span>
+                </div>
+              </div>
+              <span class="font-medium text-primary text-nowrap"
+                >Michael Williams</span
+              >
+            </div>
+          </td>
+          <td class="font-medium">S/2023/003</td>
+          <td>
+            <div class="badge badge-outline badge-success">
+              <i data-lucide="mars" class="h-3 w-3"></i> Male
+            </div>
+          </td>
+          <td class="text-nowrap">Mr. Robert Williams</td>
+          <td class="text-nowrap">+2348012345603</td>
+          <td>
+            <div class="flex gap-1">
+              <button
+                class="btn btn-sm btn-secondary h-[30px] rounded-md"
+                title="Edit Student"
+              >
+                <i data-lucide="pencil" class="h-3 w-3"></i>
+              </button>
+            </div>
+          </td>
+        </tr>
+
+        {% comment %}
+        <tr>
+          <td colspan="7" class="p-8 text-center text-base-content/60">
+            <div class="flex flex-col items-center gap-3">
+              <i data-lucide="users" class="h-16 w-16 text-base-content/30"></i>
+              <p class="text-lg">No students found</p>
+              <p class="text-sm">Add students to get started</p>
+            </div>
+          </td>
+        </tr>
+        {% endcomment %} {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Table Footer -->
+  <div
+    class="flex flex-col lg:flex-row justify-between items-center mt-6 gap-4"
+  >
+    <div class="text-sm text-base-content/70">
+      Showing <span class="font-medium">1</span> to
+      <span class="font-medium">10</span> of
+      <span class="font-medium">{{ students.count|default:25 }}</span> students
+    </div>
+
+    <div class="join" id="pagination-container">
+      <button class="join-item btn btn-sm">«</button>
+      <button class="join-item btn btn-sm">Page 22</button>
+      <button class="join-item btn btn-sm">»</button>
     </div>
   </div>
 </div>
+
+<script>
+  // Initialize Lucide icons and functionality
+  document.addEventListener("DOMContentLoaded", function () {
+    // Simple filter functionality
+    const filterInput = document.getElementById("filterInput");
+    if (filterInput) {
+      filterInput.addEventListener("keyup", function () {
+        const filterValue = this.value.toLowerCase();
+        const tableRows = document.querySelectorAll(
+          "#datatablesSimple tbody tr"
+        );
+
+        tableRows.forEach((row) => {
+          const nameCell = row.querySelector("td:nth-child(2)");
+          if (nameCell) {
+            const name = nameCell.textContent.toLowerCase();
+            row.style.display = name.includes(filterValue) ? "" : "none";
+          }
+        });
+      });
+    }
+
+    // Select all functionality
+    const selectAllCheckbox = document.getElementById("select-all-students");
+    if (selectAllCheckbox) {
+      selectAllCheckbox.addEventListener("change", function () {
+        const studentCheckboxes = document.querySelectorAll(
+          '.checkbox[type="checkbox"]:not(#select-all-students)'
+        );
+        studentCheckboxes.forEach((checkbox) => {
+          checkbox.checked = this.checked;
+        });
+      });
+    }
+  });
+</script>

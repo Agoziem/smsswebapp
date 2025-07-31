@@ -1,13 +1,13 @@
 <!-- Student Management Panel -->
 <div class="space-y-6">
   <!-- Alert Container -->
-  <div class="alertcontainer" id="alertcontainer"></div>
+  {% comment %} <div class="alertcontainer" id="alertcontainer"></div> {% endcomment %}
   
   <!-- Action Buttons -->
   <div class="card bg-base-100 shadow-xl">
     <div class="card-body p-6">
       <h3 class="card-title text-lg font-semibold mb-6 text-primary">
-        <i class="fas fa-cogs"></i>
+        <i class="fas fa-cogs text-secondary"></i>
         Student Management
       </h3>
       
@@ -62,7 +62,7 @@
   <div class="card bg-base-100 shadow-xl">
     <div class="card-body p-6">
       <h3 class="card-title text-lg font-semibold mb-4 text-primary">
-        <i class="fas fa-info-circle"></i>
+        <i class="fas fa-info-circle text-secondary"></i>
         Class Information
       </h3>
       
@@ -94,22 +94,22 @@
   <div class="card bg-base-100 shadow-xl">
     <div class="card-body p-6">
       <h3 class="card-title text-lg font-semibold mb-4 text-primary">
-        <i class="fas fa-bolt"></i>
+        <i class="fas fa-bolt text-secondary"></i>
         Quick Actions
       </h3>
       
       <div class="space-y-3">
-        <a href="{% url 'Teachers_portal:attendance' %}" class="btn btn-outline btn-sm w-full gap-2">
+        <a href="#" class="btn btn-secondary btn-sm w-full gap-2">
           <i class="fas fa-calendar-check"></i>
           Take Attendance
         </a>
         
-        <a href="{% url 'Teachers_portal:results' %}" class="btn btn-outline btn-sm w-full gap-2">
+        <a href="#" class="btn btn-secondary btn-sm w-full gap-2">
           <i class="fas fa-chart-line"></i>
           View Results
         </a>
         
-        <a href="{% url 'Teachers_portal:Teachers_dashboard' %}" class="btn btn-outline btn-sm w-full gap-2">
+        <a href="{% url 'Teachers_portal:Teachers_dashboard' %}" class="btn btn-secondary btn-sm w-full gap-2">
           <i class="fas fa-home"></i>
           Back to Dashboard
         </a>

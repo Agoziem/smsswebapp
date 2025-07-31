@@ -1,64 +1,197 @@
 {% comment %} Annual Publish Controls Component {% endcomment %}
-<div class="bg-base-100 rounded-xl shadow-lg p-6 space-y-6">
-  <div>
-    <h6 class="text-lg font-bold text-primary mb-4">Annual Publishing Controls</h6>
-    <p class="text-sm text-base-content/70">Configure and publish annual results</p>
-  </div>
+<div class="lg:col-span-4">
+  <!-- Annual Result Configuration Form -->
+  <div class="bg-base-100 rounded-xl shadow-lg p-6 mb-6">
+    <h6 class="text-lg font-bold text-primary mb-4">
+      <i data-lucide="settings" class="inline h-5 w-5 mr-2 text-secondary"></i>
+      Annual Publishing Configuration
+    </h6>
 
-  <!-- Academic Session Selection -->
-  <div class="form-control">
-    <label class="label">
-      <span class="label-text font-medium">Academic Session</span>
-    </label>
-    <select id="academicSessionSelect" name="AcademicSession" 
-            class="select select-bordered focus:outline-orange focus:border-orange" required>
-      {% for Session in academic_session %}
-      <option value="{{ Session.session }}">{{ Session.session }}</option>
-      {% endfor %}
-    </select>
-  </div>
+    <form action="" id="annualpublishconfigform" class="space-y-4">
+      <div class="form-control">
+        <label class="label">
+          <span class="label-text font-medium text-primary"
+            >Academic Session</span
+          >
+        </label>
+        <select
+          id="academicSessionSelect"
+          name="AcademicSession"
+          class="select select-bordered focus:outline-orange focus:border-orange"
+          required
+        >
+          <!-- Dummy data for academic sessions -->
+          <option value="2024/2025" selected>2024/2025</option>
+          <option value="2023/2024">2023/2024</option>
+          <option value="2022/2023">2022/2023</option>
+          {% for Session in academic_session %}
+          <option value="{{ Session.session }}">{{ Session.session }}</option>
+          {% endfor %}
+        </select>
+      </div>
 
-  <!-- Alert Container -->
-  <div class="alertcontainer"></div>
+      <div class="form-control">
+        <label class="label">
+          <span class="label-text font-medium text-primary">Class</span>
+        </label>
+        <select
+          name="class"
+          class="select select-bordered focus:outline-orange focus:border-orange"
+          required
+        >
+          <option value="JSS 1A" selected>JSS 1A</option>
+          <option value="JSS 1B">JSS 1B</option>
+          <option value="JSS 2A">JSS 2A</option>
+          <option value="JSS 2B">JSS 2B</option>
+          <option value="JSS 3A">JSS 3A</option>
+          <option value="SSS 1A">SSS 1A</option>
+          <option value="SSS 2A">SSS 2A</option>
+          <option value="SSS 3A">SSS 3A</option>
+        </select>
+      </div>
+
+      <div class="form-control">
+        <label class="label">
+          <span class="label-text font-medium text-primary">Result Type</span>
+        </label>
+        <select
+          name="resultType"
+          class="select select-bordered focus:outline-orange focus:border-orange"
+          required
+        >
+          <option value="annual" selected>Annual Summary</option>
+          <option value="promotion">Promotion List</option>
+          <option value="transcript">Transcript Ready</option>
+        </select>
+      </div>
+    </form>
+  </div>
 
   <!-- Action Buttons -->
   <div class="space-y-3">
-    <button id="publishbtn" class="btn btn-primary w-full shadow-lg">
-      <span class="loading loading-spinner loading-sm hidden"></span>
-      <span class="btn-label">
-        <i class="fas fa-upload mr-2"></i>
-        Publish Result
-      </span>
+    <div class="alertcontainer2"></div>
+
+    <button
+      id="publishAnnualBtn"
+      class="btn btn-primary w-full shadow-lg"
+      hx-post="/api/publish-annual-results"
+      hx-confirm="Are you sure you want to publish annual results? This action cannot be undone."
+      hx-target="#alert-container"
+    >
+      <i data-lucide="calendar-check" class="h-4 w-4 mr-2"></i>
+      Publish Annual Results
     </button>
 
-    <button class="btn btn-success w-full shadow-lg">
-      <i class="fas fa-file-excel mr-2"></i>
-      Export to Excel
+    <button
+      class="btn btn-success w-full shadow-lg"
+      hx-get="/api/export-annual-results-excel"
+      hx-trigger="click"
+    >
+      <i data-lucide="file-spreadsheet" class="h-4 w-4 mr-2"></i>
+      Export Annual Results
+    </button>
+
+    <button class="btn btn-secondary w-full shadow-lg">
+      <i data-lucide="award" class="h-4 w-4 mr-2"></i>
+      Generate Transcripts
     </button>
   </div>
 
-  <!-- Annual Results Information -->
-  <div class="bg-warning/10 border border-warning/20 rounded-lg p-4">
-    <div class="flex items-start gap-3">
-      <i class="fas fa-graduation-cap text-warning text-lg"></i>
-      <div>
-        <p class="font-medium text-warning text-sm">Annual Results</p>
-        <p class="text-xs text-warning/80 mt-1">
-          These are final results for the entire academic year. Ensure all terms are completed before publishing.
-        </p>
+  <!-- Subject Visibility Controls -->
+  <div class="collapse collapse-arrow bg-base-200 mt-4">
+    <input type="checkbox" />
+    <div class="collapse-title text-sm font-medium text-primary">
+      <i data-lucide="columns" class="inline h-4 w-4 mr-2 text-secondary"></i>
+      Hide/Show Subject Columns
+    </div>
+    <div class="collapse-content">
+      <div class="space-y-2">
+        <label class="cursor-pointer label justify-start gap-2">
+          <input
+            type="checkbox"
+            class="checkbox checkbox-sm"
+            id="UnhideAllSubjects"
+          />
+          <span class="label-text text-sm">Hide All Subjects</span>
+        </label>
+        <label class="cursor-pointer label justify-start gap-2">
+          <input
+            type="checkbox"
+            class="checkbox checkbox-sm column-checkbox"
+            value="1"
+            id="mathAnnualCheckbox"
+          />
+          <span class="label-text text-sm">Mathematics</span>
+        </label>
+        <label class="cursor-pointer label justify-start gap-2">
+          <input
+            type="checkbox"
+            class="checkbox checkbox-sm column-checkbox"
+            value="2"
+            id="englishAnnualCheckbox"
+          />
+          <span class="label-text text-sm">English Language</span>
+        </label>
+        <label class="cursor-pointer label justify-start gap-2">
+          <input
+            type="checkbox"
+            class="checkbox checkbox-sm column-checkbox"
+            value="3"
+            id="physicsAnnualCheckbox"
+          />
+          <span class="label-text text-sm">Physics</span>
+        </label>
+        <label class="cursor-pointer label justify-start gap-2">
+          <input
+            type="checkbox"
+            class="checkbox checkbox-sm column-checkbox"
+            value="4"
+            id="chemistryAnnualCheckbox"
+          />
+          <span class="label-text text-sm">Chemistry</span>
+        </label>
+        <label class="cursor-pointer label justify-start gap-2">
+          <input
+            type="checkbox"
+            class="checkbox checkbox-sm column-checkbox"
+            value="5"
+            id="biologyAnnualCheckbox"
+          />
+          <span class="label-text text-sm">Biology</span>
+        </label>
       </div>
     </div>
   </div>
 
-  <!-- Academic Year Summary -->
-  <div class="bg-info/10 border border-info/20 rounded-lg p-4">
-    <div class="flex items-start gap-3">
-      <i class="fas fa-calendar-alt text-info text-lg"></i>
-      <div>
-        <p class="font-medium text-info text-sm">Academic Year Summary</p>
-        <p class="text-xs text-info/80 mt-1">
-          Comprehensive performance overview including term averages and final grades.
-        </p>
+  <!-- Annual Statistics Card -->
+  <div class="bg-base-100 rounded-xl shadow-lg p-6 mt-4">
+    <h6 class="text-lg font-bold text-primary mb-4">
+      <i
+        data-lucide="trending-up"
+        class="inline h-5 w-5 mr-2 text-secondary"
+      ></i>
+      Annual Statistics
+    </h6>
+    <div class="grid grid-cols-1 gap-3">
+      <div class="stat bg-primary/5 rounded-lg p-3">
+        <div class="stat-title text-xs">Total Students</div>
+        <div class="stat-value text-lg text-primary">45</div>
+        <div class="stat-desc text-xs">For academic session</div>
+      </div>
+      <div class="stat bg-success/5 rounded-lg p-3">
+        <div class="stat-title text-xs">Promoted</div>
+        <div class="stat-value text-lg text-success">42</div>
+        <div class="stat-desc text-xs">93.3% promotion rate</div>
+      </div>
+      <div class="stat bg-warning/5 rounded-lg p-3">
+        <div class="stat-title text-xs">Repeated</div>
+        <div class="stat-value text-lg text-warning">3</div>
+        <div class="stat-desc text-xs">6.7% repeat rate</div>
+      </div>
+      <div class="stat bg-info/5 rounded-lg p-3">
+        <div class="stat-title text-xs">Class Average</div>
+        <div class="stat-value text-lg text-info">76%</div>
+        <div class="stat-desc text-xs">Annual performance</div>
       </div>
     </div>
   </div>

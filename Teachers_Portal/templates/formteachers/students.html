@@ -8,13 +8,13 @@
   <div class="breadcrumbs text-sm mb-4">
     <ul>
       <li><a href="{% url 'Teachers_portal:Teachers_dashboard' %}" class="text-primary hover:text-primary/80">Dashboard</a></li>
-      <li class="text-base-content">{{ class.Class }} Students</li>
+      <li class="text-base-content">Class Management</li>
     </ul>
   </div>
 
   <!-- Page Header -->
-  <div class="space-y-2 text-center">
-    <h1 class="text-2xl md:text-3xl font-bold text-primary">{{ class.Class }} Students</h1>
+  <div class="space-y-2">
+    <h1 class="text-2xl md:text-3xl font-bold text-primary">Class Management</h1>
     {% if teacher.FirstName == "None" %}
     <div class="bg-warning/10 border border-warning/20 rounded-lg p-4 max-w-md mx-auto">
       <div class="flex items-center gap-3">
@@ -30,9 +30,9 @@
       </div>
     </div>
     {% else %}
-    <div class="flex items-center justify-center gap-3">
-      <div class="badge badge-success badge-lg">Welcome Form-Teacher {{ request.user }}</div>
-    </div>
+        <div class="">
+          <p> Welcome Form-Teacher {{ request.user }}</p>
+        </div>
     {% endif %}
   </div>
 </div>
@@ -57,6 +57,5 @@
 <!-- Modals -->
 {% include 'formteachers/_components/student_modals.html' %}
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script type="module" src="{% static 'js/Teacher_portal/students_view.js' %}"></script>
 {% endblock %}

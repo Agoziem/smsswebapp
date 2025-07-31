@@ -1,0 +1,139 @@
+<!-- Page Header Component -->
+<div class="mb-2">
+  <!-- Breadcrumb -->
+  <div class="breadcrumbs text-sm mb-4">
+    <ul>
+      <li><a href="{% url 'Teachers_portal:Teachers_dashboard' %}" class="text-primary hover:text-primary/80">Dashboard</a></li>
+      <li class="text-base-content">Term Result Publishing</li>
+    </ul>
+  </div>
+
+  <!-- Page Header -->
+  <div class="space-y-4">
+    <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+      <div class="space-y-1">
+        <h1 class="text-2xl md:text-3xl font-bold text-primary flex items-center gap-3">
+          <i data-lucide="upload-cloud"></i>
+          Term Result Publishing
+        </h1>
+        
+        {% if teacher.FirstName == "None" %}
+        <div class="bg-warning/10 border border-warning/20 rounded-lg p-4 max-w-md">
+          <div class="flex items-center gap-3">
+            <i data-lucide="alert-triangle" class="text-warning text-lg h-5 w-5"></i>
+            <div>
+              <p class="font-medium text-warning">Profile Incomplete</p>
+              <p class="text-sm text-warning/80">
+                <a href="{% url 'Teachers_portal:profile' teacher.id %}" class="link link-hover underline">
+                  Edit your Teachers Profile to perform further actions
+                </a>
+              </p>
+            </div>
+          </div>
+        </div>
+        {% else %}
+        <div class="">
+          <p>Welcome {{ request.user.username }}, to the Term Result Publishing page</p>
+          <input class="classinput hidden" type="text" value="{{ class.Class }}" />
+          <input class="subjectlist hidden" type="text" value="{{ sub_list }}" />
+        </div>
+        {% endif %}
+      </div>
+      
+      <!-- Quick Actions -->
+      <div class="flex flex-wrap gap-2">
+        <button class="btn btn-secondary btn-sm gap-2 h-[35px] rounded-md" onclick="location.reload()">
+          <i data-lucide="refresh-cw" class="h-4 w-4"></i>
+          Refresh
+        </button>
+        <div class="dropdown dropdown-end">
+          <div tabindex="0" role="button" class="btn btn-primary btn-sm gap-2 h-[35px] rounded-md">
+            <i data-lucide="settings" class="h-4 w-4"></i>
+            Options
+          </div>
+          <ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
+            <li><a href="#" onclick="printTermResults()"><i data-lucide="printer" class="h-4 w-4"></i> Print Term Results</a></li>
+            <li><a href="#" onclick="exportTermPDF()"><i data-lucide="file-text" class="h-4 w-4"></i> Export PDF</a></li>
+            <li><a href="#" onclick="viewTermStatistics()"><i data-lucide="bar-chart-3" class="h-4 w-4"></i> View Statistics</a></li>
+            <li><a href="#" onclick="sendToParents()"><i data-lucide="send" class="h-4 w-4"></i> Send to Parents</a></li>
+            <li><a href="#" onclick="generateReportCards()"><i data-lucide="credit-card" class="h-4 w-4"></i> Generate Report Cards</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Result Status Badges -->
+    <div id="resultbadge" class="badge badge-success badge-md text-sm text-gray-600 bg-gray-400/20 border border-gray-600"> 
+      <i data-lucide="clock" class="h-3 w-3 mr-1"></i>
+        term results not published
+    </div>
+
+
+    <!-- Alert Container -->
+    <div id="alert-container" class="space-y-2">
+      <!-- Dynamic alerts will be inserted here -->
+    </div>
+  </div>
+</div>
+
+<script>
+// Quick action functions
+function printTermResults() {
+  window.print();
+}
+
+function exportTermPDF() {
+  console.log('Export term PDF functionality will be added');
+  // Show loading state
+  const btn = event.target.closest('.dropdown');
+  if (btn) {
+    const content = btn.querySelector('.dropdown-content');
+    content.classList.remove('dropdown-open');
+  }
+}
+
+function viewTermStatistics() {
+  console.log('Term statistics view will be added');
+  // Could open a modal with detailed statistics
+}
+
+function generateReportCards() {
+  console.log('Generate report cards functionality will be added');
+}
+
+// Auto-refresh result status
+function updateResultStatus() {
+  const statusBadge = document.getElementById('resultbadge');
+  if (statusBadge) {
+    // This would be updated via HTMX or API call in real implementation
+    // statusBadge.innerHTML = '<i data-lucide="check" class="h-3 w-3 mr-1"></i>Published';
+  }
+}
+
+// Update publish status
+function updatePublishStatus(status) {
+  const statusBadge = document.getElementById('resultbadge');
+  if (!statusBadge) return;
+  
+  switch(status) {
+    case 'published':
+      statusBadge.className = 'badge badge-success badge-md text-sm';
+      statusBadge.innerHTML = '<i data-lucide="check" class="h-3 w-3 mr-1"></i>published';
+      break;
+    case 'sending':
+      statusBadge.className = 'badge badge-info badge-md text-sm';
+      statusBadge.innerHTML = '<i data-lucide="send" class="h-3 w-3 mr-1"></i>sending to parents';
+      break;
+    case 'draft':
+      statusBadge.className = 'badge badge-warning badge-md text-sm';
+      statusBadge.innerHTML = '<i data-lucide="edit" class="h-3 w-3 mr-1"></i>draft saved';
+      break;
+    default:
+      statusBadge.className = 'badge badge-warning badge-md text-sm';
+      statusBadge.innerHTML = '<i data-lucide="clock" class="h-3 w-3 mr-1"></i>not published';
+  }
+}
+
+// Update status every 30 seconds
+setInterval(updateResultStatus, 30000);
+</script>

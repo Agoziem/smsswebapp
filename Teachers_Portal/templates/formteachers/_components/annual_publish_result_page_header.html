@@ -1,0 +1,94 @@
+<!-- Page Header Component -->
+<div class="mb-2">
+  <!-- Breadcrumb -->
+  <div class="breadcrumbs text-sm mb-4">
+    <ul>
+      <li><a href="{% url 'Teachers_portal:Teachers_dashboard' %}" class="text-primary hover:text-primary/80">Dashboard</a></li>
+      <li class="text-base-content">Annual Result Publishing</li>
+    </ul>
+  </div>
+
+  <!-- Page Header -->
+  <div class="space-y-4">
+    <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+      <div class="space-y-1">
+        <h1 class="text-2xl md:text-3xl font-bold text-primary flex items-center gap-3">
+          <i data-lucide="calendar-check"></i>
+          Annual Result Publishing
+        </h1>
+        
+        {% if teacher.FirstName == "None" %}
+        <div class="bg-warning/10 border border-warning/20 rounded-lg p-4 max-w-md">
+          <div class="flex items-center gap-3">
+            <i data-lucide="alert-triangle" class="text-warning text-lg h-5 w-5"></i>
+            <div>
+              <p class="font-medium text-warning">Profile Incomplete</p>
+              <p class="text-sm text-warning/80">
+                <a href="{% url 'Teachers_portal:profile' teacher.id %}" class="link link-hover underline">
+                  Edit your Teachers Profile to perform further actions
+                </a>
+              </p>
+            </div>
+          </div>
+        </div>
+        {% else %}
+        <div class="">
+          <p>Welcome {{ request.user.username }}, to the Annual Result Publishing page</p>
+          <input class="classinput hidden" type="text" value="{{ class.Class }}" />
+          <input class="subjectlist hidden" type="text" value="{{ sub_list }}" />
+        </div>
+        {% endif %}
+      </div>
+      
+      <!-- Quick Actions -->
+      <div class="flex flex-wrap gap-2">
+        <button class="btn btn-secondary btn-sm gap-2" onclick="location.reload()">
+          <i data-lucide="refresh-cw" class="h-4 w-4"></i>
+          Refresh
+        </button>
+        <div class="dropdown dropdown-end">
+          <div tabindex="0" role="button" class="btn btn-primary btn-sm gap-2">
+            <i data-lucide="settings" class="h-4 w-4"></i>
+            Options
+          </div>
+          <ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
+            <li><a href="#" onclick="printAnnualResults()"><i data-lucide="printer" class="h-4 w-4"></i> Print Annual Results</a></li>
+            <li><a href="#" onclick="exportAnnualPDF()"><i data-lucide="file-text" class="h-4 w-4"></i> Export PDF</a></li>
+            <li><a href="#" onclick="viewAnnualStatistics()"><i data-lucide="bar-chart-3" class="h-4 w-4"></i> View Statistics</a></li>
+            <li><a href="#" onclick="generateTranscripts()"><i data-lucide="award" class="h-4 w-4"></i> Generate Transcripts</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Result Status Badge -->
+    <div id="resultbadge" class="badge badge-success badge-md text-sm text-gray-600 bg-gray-400/20 border border-gray-600"> 
+      annual results not published
+    </div>
+
+    <!-- Alert Container -->
+    <div id="alert-container" class="space-y-2">
+      <!-- Dynamic alerts will be inserted here -->
+    </div>
+  </div>
+</div>
+
+<script>
+
+// Quick action functions
+function printAnnualResults() {
+  window.print();
+}
+
+function exportAnnualPDF() {
+  console.log('Export annual PDF functionality will be added');
+}
+
+function viewAnnualStatistics() {
+  console.log('Annual statistics view will be added');
+}
+
+function generateTranscripts() {
+  console.log('Generate transcripts functionality will be added');
+}
+</script>

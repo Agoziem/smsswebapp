@@ -1,3 +1,4 @@
+{% load string_filters %}
 {% comment %} Students Data Table Component {% endcomment %}
 <div class="bg-base-100 rounded-xl shadow-lg p-6 mb-8 space-y-4 w-[85vw] md:w-full mx-auto">
 
@@ -22,7 +23,7 @@
           class="input input-bordered placeholder:text-secondary focus:outline-orange focus:border-orange w-full max-w-xs h-[35px] rounded-md"
         />
         <button class="btn btn-square btn-primary h-[35px] rounded-md">
-          <i class="fas fa-search"></i>
+          <i data-lucide="search" class="h-4 w-4"></i>
         </button>
       </div>
     </div>
@@ -41,12 +42,12 @@
   <!-- Action Buttons (Hidden by default, shown when rows selected) -->
   <div class="hidden" id="students-actions">
     <div class="gap-2 ml-auto">
-      <button class="btn btn-error btn-sm gap-2">
-        <i class="fas fa-trash"></i>
+      <button class="btn btn-error btn-sm gap-2 h-[35px] rounded-md">
+        <i data-lucide="trash" class="h-4 w-4"></i>
         Delete Selected
       </button>
-      <button class="btn btn-success btn-sm gap-2">
-        <i class="fas fa-download"></i>
+      <button class="btn btn-success btn-sm gap-2 h-[35px] rounded-md">
+        <i data-lucide="download" class="h-4 w-4"></i>
         Export Selected
       </button>
     </div>
@@ -73,7 +74,8 @@
         </tr>
       </thead>
       <tbody>
-        {% if students %} {% for student in students %}
+        {% if students %} 
+        {% for student in students %}
         <tr class="hover">
           <td>
             <input
@@ -88,7 +90,7 @@
               <div class="avatar avatar-placeholder">
                 <div class="bg-secondary text-primary w-8 rounded-full">
                   <span class="font-medium"
-                    >{{ student.student_name|first|upper }}</span
+                    >{{ student.student_name|first_letter }}</span
                   >
                 </div>
               </div>
@@ -107,26 +109,26 @@
           <td>
             <div class="dropdown dropdown-end">
               <label tabindex="0" class="btn btn-ghost btn-xs">
-                <i class="fas fa-ellipsis-v"></i>
+                <i data-lucide="more-vertical" class="h-4 w-4"></i>
               </label>
               <ul
                 tabindex="0"
                 class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52"
               >
                 <li>
-                  <a href="#" class="text-sm"
-                    ><i class="fas fa-eye mr-2"></i>View Details</a
-                  >
+                  <a href="#" class="text-sm">
+                    <i data-lucide="eye" class="h-4 w-4 mr-2"></i>View Details
+                  </a>
                 </li>
                 <li>
-                  <a href="#" class="text-sm"
-                    ><i class="fas fa-edit mr-2"></i>Edit</a
-                  >
+                  <a href="#" class="text-sm">
+                    <i data-lucide="pencil" class="h-4 w-4 mr-2"></i>Edit
+                  </a>
                 </li>
                 <li>
-                  <a href="#" class="text-sm text-error"
-                    ><i class="fas fa-trash mr-2"></i>Delete</a
-                  >
+                  <a href="#" class="text-sm text-error">
+                    <i data-lucide="trash-2" class="h-4 w-4 mr-2"></i>Delete
+                  </a>
                 </li>
               </ul>
             </div>
@@ -161,26 +163,26 @@
           <td>
             <div class="dropdown dropdown-end">
               <label tabindex="0" class="btn btn-ghost btn-xs">
-                <i class="fas fa-ellipsis-v"></i>
+                <i data-lucide="more-vertical" class="h-4 w-4"></i>
               </label>
               <ul
                 tabindex="0"
                 class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52"
               >
                 <li>
-                  <a href="#" class="text-sm"
-                    ><i class="fas fa-eye mr-2"></i>View Details</a
-                  >
+                  <a href="#" class="text-sm">
+                    <i data-lucide="eye" class="h-4 w-4 mr-2"></i>View Details
+                  </a>
                 </li>
                 <li>
-                  <a href="#" class="text-sm"
-                    ><i class="fas fa-edit mr-2"></i>Edit</a
-                  >
+                  <a href="#" class="text-sm">
+                    <i data-lucide="pencil" class="h-4 w-4 mr-2"></i>Edit
+                  </a>
                 </li>
                 <li>
-                  <a href="#" class="text-sm text-error"
-                    ><i class="fas fa-trash mr-2"></i>Delete</a
-                  >
+                  <a href="#" class="text-sm text-error">
+                    <i data-lucide="trash-2" class="h-4 w-4 mr-2"></i>Delete
+                  </a>
                 </li>
               </ul>
             </div>
@@ -211,26 +213,26 @@
           <td>
             <div class="dropdown dropdown-end">
               <label tabindex="0" class="btn btn-ghost btn-xs">
-                <i class="fas fa-ellipsis-v"></i>
+                <i data-lucide="more-vertical" class="h-4 w-4"></i>
               </label>
               <ul
                 tabindex="0"
                 class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52"
               >
                 <li>
-                  <a href="#" class="text-sm"
-                    ><i class="fas fa-eye mr-2"></i>View Details</a
-                  >
+                  <a href="#" class="text-sm">
+                    <i data-lucide="eye" class="h-4 w-4 mr-2"></i>View Details
+                  </a>
                 </li>
                 <li>
-                  <a href="#" class="text-sm"
-                    ><i class="fas fa-edit mr-2"></i>Edit</a
-                  >
+                  <a href="#" class="text-sm">
+                    <i data-lucide="pencil" class="h-4 w-4 mr-2"></i>Edit
+                  </a>
                 </li>
                 <li>
-                  <a href="#" class="text-sm text-error"
-                    ><i class="fas fa-trash mr-2"></i>Delete</a
-                  >
+                  <a href="#" class="text-sm text-error">
+                    <i data-lucide="trash-2" class="h-4 w-4 mr-2"></i>Delete
+                  </a>
                 </li>
               </ul>
             </div>
@@ -258,3 +260,26 @@
     </div>
   </div>
 </div>
+
+<script>
+  // Initialize Lucide icons
+  document.addEventListener('DOMContentLoaded', function() {
+    if (typeof lucide !== 'undefined') {
+      lucide.createIcons();
+    }
+    
+    // Simple filter functionality
+    document.getElementById('students-search')?.addEventListener('keyup', function() {
+      const filterValue = this.value.toLowerCase();
+      const tableRows = document.querySelectorAll('#students-table tbody tr');
+      
+      tableRows.forEach(row => {
+        const nameCell = row.querySelector('td:nth-child(3)');
+        if (nameCell) {
+          const name = nameCell.textContent.toLowerCase();
+          row.style.display = name.includes(filterValue) ? '' : 'none';
+        }
+      });
+    });
+  });
+</script>
