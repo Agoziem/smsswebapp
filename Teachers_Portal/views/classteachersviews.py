@@ -172,7 +172,7 @@ def annual_result_computation_view(request):
         for term in terms:
             try:
                 result_summary, _ = Student_Result_Data.objects.get_or_create(
-                    Student_name=enrollment, Term=term, AcademicSession=session
+                    Student_name=student, Term=term, AcademicSession=session
                 )
                 result_obj, _ = Result.objects.get_or_create(
                     students_result_summary=result_summary, Subject=subject
