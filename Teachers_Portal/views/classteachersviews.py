@@ -1,24 +1,23 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404
+from requests import get
 from Result_portal.models import *
 from ..models import *
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
 from CBT.models import *
 import json
-from django.views.decorators.http import require_POST
-
 
 
 #-------------------------------------- 
 # Teachers Result Formulation Part
 # -------------------------------------
 @login_required
-def result_computation_view(request, Classname, id):
+def result_computation_view(request,Classname,id):
     teacher = Teacher.objects.get(id=id)
-    Terms = Term.objects.all()
-    academic_session = AcademicSession.objects.all()
-    classobject = get_object_or_404(Class, Class=Classname)
-    subjectsforclass = get_object_or_404(Subjectallocation, classname=classobject)
+    Terms=Term.objects.all()
+    academic_session= AcademicSession.objects.all()
+    classobject = get_object_or_404(Class,Class=Classname)
+    subjectsforclass=get_object_or_404(Subjectallocation,classname=classobject)
     subjects_taught_for_class = teacher.subjects_taught.filter(id__in=subjectsforclass.subjects.values_list('id', flat=True))
 
     context={
@@ -32,47 +31,102 @@ def result_computation_view(request, Classname, id):
 
 @login_required
 def get_students_result_view(request):
-    data=json.loads(request.body)
+    data = json.loads(request.body)
+    
+    # Fetch related objects
     classobject = get_object_or_404(Class, Class=data['studentclass'])
     subjectobject = get_object_or_404(Subject, subject_name=data['studentsubject'])
     term = get_object_or_404(Term, term=data['selectedTerm'])
     session = get_object_or_404(AcademicSession, session=data['selectedAcademicSession'])
-    enrollments = StudentClassEnrollment.objects.filter(student_class=classobject, academic_session=session).select_related('student')
+
+    # Fetch enrolled students for the class and session
+    students_qs = StudentClassEnrollment.objects.select_related('student').filter(
+        student_class=classobject,
+        academic_session=session
+    )
+    students = list(students_qs)
+    student_ids = [s.student.pk for s in students]
+
+    # Prefetch Student_Result_Data and Results in bulk
+    result_data_map = {
+        (r.Student_name.pk): r for r in Student_Result_Data.objects.filter(
+            Student_name__in=student_ids,
+            Term=term,
+            AcademicSession=session
+        )
+    }
+
+    result_map = {
+        (r.student.pk): r for r in Result.objects.filter(
+            student_id__in=student_ids,
+            Subject=subjectobject,
+            student_class=classobject,
+            students_result_summary__in=result_data_map.values()
+        ).select_related("student", "students_result_summary")
+    }
+
+    test_scores = {
+        t.testSetGroup.student.pk: t.testTotalScore
+        for t in TestQuestionSet.objects.select_related("testSetGroup__student").filter(
+            testSubject=subjectobject,
+            testSetGroup__student__in=student_ids
+        )
+    }
+
     studentResults = []
 
-    for enrollment in enrollments:
-        student_result_details, _ = Student_Result_Data.objects.get_or_create(Student_name=enrollment.student, Term=term, AcademicSession=session)
-        student_result_object, _ = Result.objects.get_or_create(student=enrollment.student, Subject=subjectobject, students_result_summary=student_result_details, student_class=classobject)
-        try:
-            total_test_score = TestQuestionSet.objects.get(
-                testSubject=subjectobject, testSetGroup__student=enrollment.student
+    for s in students:
+        student = s.student
+        student_result_data = result_data_map.get(student.pk)
+        if not student_result_data:
+            student_result_data = Student_Result_Data.objects.create(
+                Student_name=student, Term=term, AcademicSession=session
             )
-            student_result_object.MidTermTest = str(total_test_score.testTotalScore)
-        except:
-            student_result_object.MidTermTest = student_result_object.MidTermTest
+            result_data_map[student.pk] = student_result_data
+
+        student_result = result_map.get(student.pk)
+        if not student_result:
+            student_result = Result.objects.create(
+                student=student,
+                Subject=subjectobject,
+                students_result_summary=student_result_data,
+                student_class=classobject
+            )
+            result_map[student.pk] = student_result
+
+        test_score = test_scores.get(student.pk)
+        if test_score is not None:
+            student_result.MidTermTest = str(test_score)
+
         studentResults.append({
-            'Name': student_result_object.student.student_name,
-            'studentID': student_result_object.student.student_id,
-            '1sttest': student_result_object.FirstTest,
-            '1stAss': student_result_object.FirstAss,
-            'MidTermTest': student_result_object.MidTermTest,
-            '2ndTest': student_result_object.SecondAss,
-            '2ndAss': student_result_object.SecondTest,
-            'Exam': student_result_object.Exam,
-            'published': student_result_object.published,
+            'Name': student.student_name,
+            'studentID': student.student_id,
+            '1sttest': student_result.FirstTest,
+            '1stAss': student_result.FirstAss,
+            'MidTermTest': student_result.MidTermTest,
+            '2ndTest': student_result.SecondAss,
+            '2ndAss': student_result.SecondTest,
+            'Exam': student_result.Exam,
+            'published': student_result.published,
         })
-    return JsonResponse(studentResults, safe=False, status=200)
+
+    return JsonResponse(studentResults, safe=False)
+
 
 @login_required
 def update_student_result_view(request):
     data=json.loads(request.body)
-    classobject= get_object_or_404(Class, Class=data['classdata']['studentclass'])
-    term=get_object_or_404(Term, term=data['classdata']['selectedTerm'])
-    session= get_object_or_404(AcademicSession, session=data['classdata']['selectedSession'])
-    subjectobject = get_object_or_404(Subject, subject_name=data['classdata']['selectedSubject'])
-    studentobject= get_object_or_404(Students_Pin_and_ID, student_id=data['formDataObject']['studentID'], student_name=data['formDataObject']['Name'])
-    student_result_details = get_object_or_404(Student_Result_Data, Student_name=studentobject, Term=term, AcademicSession=session)
-    studentResult = get_object_or_404(Result, student=studentobject, students_result_summary=student_result_details, Subject=subjectobject, student_class=classobject)
+    subject=data['classdata']['selectedSubject'] 
+    Classdata=data['classdata']['selectedClass']
+    studentID=data['formDataObject']['studentID']
+    Name=data['formDataObject']['Name']
+    classobject= Class.objects.get(Class=Classdata)
+    term=Term.objects.get(term=data['classdata']['selectedTerm'])
+    session=AcademicSession.objects.get(session=data['classdata']['selectedSession'])
+    studentobject= Students_Pin_and_ID.objects.get(student_id=studentID,student_name=Name)
+    subjectobject = Subject.objects.get(subject_name=subject)
+    student_result_details = Student_Result_Data.objects.get(Student_name=studentobject,Term=term,AcademicSession=session)
+    studentResult = Result.objects.get(student=studentobject,students_result_summary=student_result_details, Subject=subjectobject,student_class=classobject)
     studentResult.FirstTest  = data['formDataObject']['1sttest']
     studentResult.FirstAss  = data['formDataObject']['1stAss']
     studentResult.MidTermTest  = data['formDataObject']['MidTermTest']
@@ -86,12 +140,14 @@ def update_student_result_view(request):
 
 def submitallstudentresult_view(request):
     data=json.loads(request.body)
+    subject=data['classdata']['studentsubject']
+    Classdata=data['classdata']['studentclass']
     term=get_object_or_404(Term, term=data['classdata']['selectedTerm'])
     session=get_object_or_404(AcademicSession, session=data['classdata']['selectedAcademicSession'])
-    classobject= get_object_or_404(Class, Class=data['classdata']['studentclass'])
-    subjectobject = get_object_or_404(Subject, subject_name=data['classdata']['studentsubject'])
+    classobject= get_object_or_404(Class, Class=Classdata)
+    subjectobject = get_object_or_404(Subject, subject_name=subject)
     for result in data['data']:
-        studentobject= get_object_or_404(Students_Pin_and_ID, student_id=result['studentID'],student_name=result['Name'])
+        studentobject= get_object_or_404(Students_Pin_and_ID, student_id=result['studentID'], student_name=result['Name'])
         student_result_details = get_object_or_404(Student_Result_Data, Student_name=studentobject, Term=term, AcademicSession=session)
         studentResult = get_object_or_404(Result, student=studentobject, students_result_summary=student_result_details, Subject=subjectobject, student_class=classobject)
         studentResult.FirstTest=result['1sttest']
@@ -117,9 +173,9 @@ def unpublish_results_view(request):
     classobject= get_object_or_404(Class, Class=data['classdata']['studentclass'])
     subject = get_object_or_404(Subject, subject_name=data['classdata']['studentsubject'])
     for result in data['data']:
-        studentobject= get_object_or_404(Students_Pin_and_ID, student_id=result['studentID'],student_name=result['Name'])
-        student_result_details = get_object_or_404(Student_Result_Data, Student_name=studentobject,Term=term,AcademicSession=session)
-        studentResult = get_object_or_404(Result, student=studentobject,students_result_summary=student_result_details,student_class=classobject,Subject=subject)
+        studentobject= get_object_or_404(Students_Pin_and_ID, student_id=result['studentID'], student_name=result['Name'])
+        student_result_details = get_object_or_404(Student_Result_Data, Student_name=studentobject, Term=term, AcademicSession=session)
+        studentResult = get_object_or_404(Result, student=studentobject, students_result_summary=student_result_details, student_class=classobject, Subject=subject)
         studentResult.published=False
         studentResult.save()
     return JsonResponse('Results Unpublished Successfully', safe=False)
@@ -129,10 +185,10 @@ def unpublish_results_view(request):
 # Annual Result Computation Views
 # ---------------------------------
 def annualresult_computation(request,Classname,id):
-    teacher = get_object_or_404(Teacher, id=id)
+    teacher = Teacher.objects.get(id=id)
     academic_session= AcademicSession.objects.all()
-    classobject = get_object_or_404(Class, Class=Classname)
-    subjectsforclass= get_object_or_404(Subjectallocation, classname=classobject)
+    classobject = Class.objects.get(Class=Classname)
+    subjectsforclass=Subjectallocation.objects.get(classname=classobject)
     subjects_taught_for_class = teacher.subjects_taught.filter(id__in=subjectsforclass.subjects.values_list('id', flat=True))
     context={
         'class':classobject,
@@ -143,59 +199,101 @@ def annualresult_computation(request,Classname,id):
         } 
     return render(request,'teachers/Annual_Results.html',context)
 
-@login_required
-@require_POST
 def annual_result_computation_view(request):
     data = json.loads(request.body)
-    
-    class_obj = get_object_or_404(Class, Class=data['studentclass'])
-    session = get_object_or_404(AcademicSession, session=data['selectedAcademicSession'])
-    subject = get_object_or_404(Subject, subject_name=data['studentsubject'])
-    
-    students = StudentClassEnrollment.objects.filter(
-        student_class=class_obj, academic_session=session
-    )
-    terms = Term.objects.all()
-    
-    result_data = []
+    subject_name = data['studentsubject']
+    class_name = data['studentclass']
+    academic_session = data['selectedAcademicSession']
 
-    for enrollment in students:
+    class_object = get_object_or_404(Class, Class=class_name)
+    session = get_object_or_404(AcademicSession, session=academic_session)
+    subject_object = get_object_or_404(Subject, subject_name=subject_name)
+
+    # Prefetch all enrollments with related student
+    student_enrollments = StudentClassEnrollment.objects.select_related('student').filter(
+        student_class=class_object, academic_session=session
+    )
+    student_ids = [e.student.pk for e in student_enrollments]
+
+    # Prefetch AnnualStudent in bulk
+    annual_students = AnnualStudent.objects.filter(
+        Student_name_id__in=student_ids,
+        academicsession=session
+    ).select_related('Student_name')
+    annual_student_map = {a.Student_name.pk: a for a in annual_students}
+
+    # Prefetch AnnualResults in bulk
+    annual_results = AnnualResult.objects.filter(
+        Student_name__in=annual_students,
+        Subject=subject_object
+    ).select_related('Student_name')
+    annual_result_map = {
+        (ar.Student_name.Student_name.pk): ar for ar in annual_results
+    }
+
+    # Prefetch Student_Result_Data
+    srd_list = Student_Result_Data.objects.filter(
+        Student_name__in=student_enrollments,
+        Term__in=Term.objects.all(),
+        AcademicSession=session
+    ).select_related('Student_name', 'Term')
+
+    srd_map = {}
+    for srd in srd_list:
+        srd_map[(srd.Student_name.pk, srd.Term.pk)] = srd # type: ignore
+
+    # Prefetch Result entries
+    result_qs = Result.objects.filter(
+        students_result_summary__in=srd_list,
+        Subject=subject_object
+    ).select_related('students_result_summary', 'Subject')
+    result_map = {
+        (r.students_result_summary.Student_name.pk, r.students_result_summary.Term.pk): r # type: ignore
+        for r in result_qs
+    }
+
+    terms = list(Term.objects.all())
+    students_annuals = []
+
+    for enrollment in student_enrollments:
         student = enrollment.student
-        student_annual, _ = AnnualStudent.objects.get_or_create(
-            Student_name=student, academicsession=session
-        )
-        annual_result, _ = AnnualResult.objects.get_or_create(
-            Student_name=student_annual, Subject=subject
-        )
-        
-        term_totals = {}
+        annual_student = annual_student_map.get(student.pk)
+        if not annual_student:
+            annual_student = AnnualStudent.objects.create(Student_name=student, academicsession=session)
+            annual_student_map[student.pk] = annual_student
+
+        annual_result = annual_result_map.get(student.pk)
+        if not annual_result:
+            annual_result = AnnualResult.objects.create(Student_name=annual_student, Subject=subject_object)
+            annual_result_map[student.pk] = annual_result
+
+        termsobject = {}
         for term in terms:
-            try:
-                result_summary, _ = Student_Result_Data.objects.get_or_create(
-                    Student_name=student, Term=term, AcademicSession=session
-                )
-                result_obj, _ = Result.objects.get_or_create(
-                    students_result_summary=result_summary, Subject=subject
-                )
-                term_totals[term.term] = result_obj.Total
-            except Exception as e:
-                print(f"[{student.student_name}] {term.term} error: {e}")
-                term_totals[term.term] = '-'
-        
-        result_data.append({
+            srd = srd_map.get((student.pk, term.pk))
+            if srd:
+                result = result_map.get((student.pk, term.pk))
+                termsobject[term.term] = result.Total if result else '-'
+            else:
+                termsobject[term.term] = '-'
+
+        students_annuals.append({
             'studentID': student.student_id,
             'Name': student.student_name,
-            'terms': term_totals,
+            'terms': termsobject,
             'published': annual_result.published
         })
 
-    return JsonResponse(result_data, safe=False, status=200)
+    return JsonResponse(students_annuals, safe=False)
+
 
 
 def publish_annual_results(request):
     data = json.loads(request.body)
-    session = get_object_or_404(AcademicSession, session=data['classdata']['selectedAcademicSession'])
-    subject_object = get_object_or_404(Subject, subject_name=data['classdata']['studentsubject'])
+    subject_name = data['classdata']['studentsubject']
+    class_name = data['classdata']['studentclass']
+    academic_session = data['classdata']['selectedAcademicSession']
+    session = get_object_or_404(AcademicSession, session=academic_session)
+    subject_object = get_object_or_404(Subject, subject_name=subject_name)
     for result in data['data']:
         student = get_object_or_404(Students_Pin_and_ID, student_id=result['studentID'], student_name=result['Name'])
         studentAnnual = get_object_or_404(AnnualStudent, Student_name=student, academicsession=session)
@@ -215,10 +313,13 @@ def publish_annual_results(request):
 
 def unpublish_annual_results(request):
     data = json.loads(request.body)
-    session = get_object_or_404(AcademicSession, session=data['classdata']['selectedAcademicSession'])
-    subject_object = get_object_or_404(Subject, subject_name=data['classdata']['studentsubject'])
+    subject_name = data['classdata']['studentsubject']
+    class_name = data['classdata']['studentclass']
+    academic_session = data['classdata']['selectedAcademicSession']
+    session = get_object_or_404(AcademicSession, session=academic_session)
+    subject_object = get_object_or_404(Subject, subject_name=subject_name)
     for studentdata in data['data']:
-        student = get_object_or_404(Students_Pin_and_ID, student_name=studentdata['Name'], student_id=studentdata['studentID'])
+        student = get_object_or_404(Students_Pin_and_ID, student_name=studentdata['Name'])
         studentAnnual = get_object_or_404(AnnualStudent, Student_name=student, academicsession=session)
         student_annual_details = get_object_or_404(AnnualResult, Student_name=studentAnnual, Subject=subject_object)
         student_annual_details.published = False
