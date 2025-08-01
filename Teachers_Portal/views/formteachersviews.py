@@ -1,13 +1,12 @@
 from django.shortcuts import render
+from requests import get
 from Result_portal.models import *
 from ..models import *
 from django.http import JsonResponse
-from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.decorators import login_required
 from CBT.models import *
 import json
 from django.shortcuts import get_object_or_404
-from itertools import islice
 
 # /////////////////////////////////////////////
 # Form teachers View for CRUD Students Details
@@ -183,7 +182,7 @@ def getstudentsubjecttotals_view(request):
             academic_session=sess
         ).select_related("student")
 
-        # 1. Get or create summaries in bulk (avoid calling get_or_create in loop)
+        # 1. Get result summaries in bulk
         existing_summaries = Student_Result_Data.objects.filter(
             Student_name__in=[s.student for s in students],
             Term=term,
@@ -191,7 +190,7 @@ def getstudentsubjecttotals_view(request):
         )
         summary_map = {s.Student_name.pk: s for s in existing_summaries}
 
-        # Determine which are missing
+        # Bulk create missing student result summaries
         missing_students = [s.student for s in students if s.student.pk not in summary_map]
         Student_Result_Data.objects.bulk_create([
             Student_Result_Data(Student_name=stu, Term=term, AcademicSession=sess)
@@ -206,7 +205,7 @@ def getstudentsubjecttotals_view(request):
         )
         summary_map = {s.Student_name.pk: s for s in all_summaries}
 
-        # 2. Bulk fetch all relevant Results in one query
+        # Bulk fetch all relevant Results in one query
         result_map = {}
         batch_size = 5000  # or any safe value depending on your instance size
         results_iterator = Result.objects.filter(
@@ -216,7 +215,7 @@ def getstudentsubjecttotals_view(request):
             "Subject", "students_result_summary", "students_result_summary__Student_name"
         ).iterator(chunk_size=batch_size)
 
-        # 3. Build a result lookup
+        # Build a result lookup
         for r in results_iterator:
             if not r.students_result_summary or not r.Subject:
                 continue
@@ -265,24 +264,18 @@ def getstudentsubjecttotals_view(request):
 def publish_student_result_view(request):
     try:
         data = json.loads(request.body)
-        term_object = Term.objects.get(term=data['classdata']['selectedTerm'])
-        session_object = AcademicSession.objects.get(
-            session=data['classdata']['selectedAcademicSession'])
-        class_object = Class.objects.get(
-            Class=data['classdata']['studentclass'])
-        student_number = StudentClassEnrollment.objects.filter(
-            student_class=class_object, academic_session=session_object).count()
+        term_object = get_object_or_404(Term, term=data['classdata']['selectedTerm'])
+        session_object = get_object_or_404(AcademicSession, session=data['classdata']['selectedAcademicSession'])
+        class_object = get_object_or_404(Class, Class=data['classdata']['studentclass'])
+        enrollments = StudentClassEnrollment.objects.filter(student_class=class_object, academic_session=session_object)
+        student_number = enrollments.count()
+        students = [enrollment.student for enrollment in enrollments]
+        students_dict = {student.pk: student for student in students}
 
         for student_data in data['data']:
-            student_enrolled = StudentClassEnrollment.objects.get(
-                student__student_name=student_data['Name'],
-                student__id=student_data['id'],
-                student_class=class_object,
-                academic_session=session_object
-            )
-
+            student_enrolled = students_dict.get(student_data['id'])
             student_result, created = Student_Result_Data.objects.get_or_create(
-                Student_name=student_enrolled.student,
+                Student_name=student_enrolled,
                 Term=term_object,
                 AcademicSession=session_object,
                 defaults={
@@ -321,10 +314,8 @@ def unpublish_classresults_view(request):
     try:
         data = json.loads(request.body)
         term_object = Term.objects.get(term=data['classdata']['selectedTerm'])
-        session_object = AcademicSession.objects.get(
-            session=data['classdata']['selectedAcademicSession'])
-        class_object = Class.objects.get(
-            Class=data['classdata']['studentclass'])
+        session_object = AcademicSession.objects.get(session=data['classdata']['selectedAcademicSession'])
+        class_object = Class.objects.get(Class=data['classdata']['studentclass'])
         for student_data in data['data']:
             try:
                 student_enrolled = StudentClassEnrollment.objects.get(
@@ -368,8 +359,7 @@ def unpublish_classresults_view(request):
 def PublishAnnualResults_view(request, Classname):
     academic_session = AcademicSession.objects.all()
     class_object = Class.objects.get(Class=Classname)
-    subjects_allocation = Subjectallocation.objects.filter(
-        classname=class_object).first()
+    subjects_allocation = Subjectallocation.objects.filter(classname=class_object).first()
     subject_code = []
     sessions = AcademicSession.objects.all()
     if not subjects_allocation:
@@ -393,7 +383,12 @@ def annual_class_computation_view(request):
     cls = Class.objects.get(Class=data['studentclass'])
     sess = AcademicSession.objects.get(session=data['selectedAcademicSession'])
 
-    # 1) get all students in one go
+    # 1) get allocation once
+    alloc = Subjectallocation.objects.filter(
+        classname=cls).prefetch_related('subjects').first()
+    subjects = list(alloc.subjects.all()) if alloc else []
+
+    # 2) get all students in one go
     enrolls = (
         StudentClassEnrollment.objects
         .filter(student_class=cls, academic_session=sess)
@@ -401,14 +396,9 @@ def annual_class_computation_view(request):
     )
     students = [e.student for e in enrolls]
 
-    # 2) get allocation once
-    alloc = Subjectallocation.objects.filter(
-        classname=cls).prefetch_related('subjects').first()
-    subjects = list(alloc.subjects.all()) if alloc else []
-
     # 3) bulk fetch all AnnualStudent rows
     annuals = AnnualStudent.objects.filter(
-        Student_name__in=students, academicsession=sess
+        Student_name_id__in=students, academicsession=sess
     ).select_related('Student_name')
     stu_to_annual = {
         a.Student_name.pk: a
@@ -427,57 +417,13 @@ def annual_class_computation_view(request):
     # 5) build the output
     out = []
     for student in students:
-        ann = stu_to_annual.get(student.id)
-        published_flag = bool(ann and ann.published)# 3) bulk fetch existing AnnualStudent rows
-    annuals_qs = AnnualStudent.objects.filter(
-        Student_name__in=students,
-        academicsession=sess
-    ).select_related("Student_name")
-
-    # Map existing by student‐PK
-    stu_to_annual = { a.Student_name.pk: a for a in annuals_qs }
-
-    # 3a) Figure out which student IDs are missing
-    missing_ids = [
-        stu.id
-        for stu in students
-        if stu.id not in stu_to_annual
-    ]
-
-    # 3b) Bulk‐create AnnualStudent for those
-    to_create = [
-        AnnualStudent(Student_name_id=stu_id, academicsession=sess)
-        for stu_id in missing_ids
-    ]
-    AnnualStudent.objects.bulk_create(to_create)
-
-    # 3c) Re‑fetch the newly created ones and merge into your map
-    new_annuals = AnnualStudent.objects.filter(
-        Student_name_id__in=missing_ids,
-        academicsession=sess
-    )
-    for a in new_annuals:
-        stu_to_annual[a.Student_name.pk] = a
-
-
-    # Now stu_to_annual covers *all* students in your enrollment
-    # ──────────────────────────────────────────────────────────────
-    # 4) bulk fetch all AnnualResult rows the same way you did before
-    annual_results = AnnualResult.objects.filter(
-        Student_name__in=stu_to_annual.values(),
-        Subject__in=subjects
-    )
-    result_map = {
-        (r.Student_name.pk, r.Student_name.pk): r
-        for r in annual_results
-    }
-
-
-    # 5) build the output
-    out = []
-    for student in students:
-        ann = stu_to_annual[student.id]             
-        published_flag = bool(ann.published)
+        ann = stu_to_annual.get(student.pk)
+        if not ann:
+            ann = AnnualStudent.objects.create(
+                Student_name=student,
+                academicsession=sess,
+            )
+        published_flag = bool(ann and ann.published)
 
         student_dict = {
             "Name":      student.student_name,
@@ -486,7 +432,12 @@ def annual_class_computation_view(request):
         }
 
         for subj in subjects:
-            res = result_map.get((ann.pk, subj.id))
+            res = result_map.get((ann.pk, subj.pk))
+            if not res:
+                res = AnnualResult.objects.create(
+                    Student_name=ann,
+                    Subject=subj,
+                )
             student_dict["subjects"].append({
                 "subject_code": subj.subject_code,
                 "subject_name": subj.subject_name,
@@ -504,17 +455,13 @@ def publish_annualstudentresult_view(request):
         data = json.loads(request.body)
         Acadsessionobject = data['classdata']['selectedAcademicSession']
         Classdata = data['classdata']['studentclass']
+        classobject = get_object_or_404(Class, Class=Classdata)
+        resultsession = get_object_or_404(AcademicSession, session=Acadsessionobject)
         for studentdata in data['data']:
-            classobject = Class.objects.get(Class=Classdata)
-            resultsession = AcademicSession.objects.get(
-                session=Acadsessionobject)
-            student = Students_Pin_and_ID.objects.get(
-                student_name=studentdata['Name'])
-            studentnumber = StudentClassEnrollment.objects.filter(
-                student_class=classobject, academic_session=resultsession).count()
+            student = get_object_or_404(Students_Pin_and_ID, student_name=studentdata['Name'])
+            studentnumber = StudentClassEnrollment.objects.filter(student_class=classobject, academic_session=resultsession).count()
             try:
-                studentresult = AnnualStudent.objects.get(
-                    Student_name=student, academicsession=resultsession)
+                studentresult = get_object_or_404(AnnualStudent, Student_name=student, academicsession=resultsession)
                 studentresult.TotalScore = studentdata['Total']
                 studentresult.Totalnumber = str(studentnumber)
                 studentresult.Average = studentdata['Average']
@@ -536,15 +483,13 @@ def publish_annualstudentresult_view(request):
 
 def unpublish_annual_classresults_view(request):
     data = json.loads(request.body)
-    classobject = Class.objects.get(Class=data['classdata']['studentclass'])
-    Acadsessionobject = AcademicSession.objects.get(
-        session=data['classdata']['selectedAcademicSession'])
+    classobject = get_object_or_404(Class, Class=data['classdata']['studentclass'])
+    Acadsessionobject = get_object_or_404(AcademicSession, session=data['classdata']['selectedAcademicSession'])
     students = StudentClassEnrollment.objects.filter(
         student_class=classobject, academic_session=Acadsessionobject)
     for student in students:
         try:
-            studentresult = AnnualStudent.objects.get(
-                Student_name=student.student, academicsession=Acadsessionobject)
+            studentresult = get_object_or_404(AnnualStudent, Student_name=student.student, academicsession=Acadsessionobject)
             studentresult.published = False
             studentresult.save()
         except:
