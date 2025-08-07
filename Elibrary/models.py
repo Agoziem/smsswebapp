@@ -15,6 +15,7 @@ class Subject(models.Model):
 			url=''
 		return url
 	
+	
 class Ebook(models.Model):
 	Ebookcategory= models.ForeignKey(Subject, related_name='Subject' , on_delete=models.CASCADE , blank = True,null=True)
 	Ebookimage=models.CharField(max_length= 300, blank=True)
