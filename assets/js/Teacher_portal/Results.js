@@ -221,11 +221,11 @@ async function fetchAndRender() {
     console.error(err);
     showAlert("danger", "Error fetching results");
   } finally {
-    setButtonLoading(
-      DOM.publishBtns[0],
+    DOM.publishBtns.forEach((btn) => setButtonLoading(
+      btn,
       false,
       appState.isPublished ? "Unpublish Result" : "Publish Result"
-    );
+    ));
   }
 }
 
