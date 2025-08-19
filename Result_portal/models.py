@@ -3,6 +3,7 @@ from openpyxl import Workbook,load_workbook
 import random
 from ckeditor.fields import RichTextField
 
+
 # Model for the Academic Session 
 class AcademicSession(models.Model):
 	session = models.CharField(max_length=100, blank=True)
@@ -75,14 +76,7 @@ class Excelfiles(models.Model):
 	def __str__(self):
 		return str(self.Excel)
 
-# New Model: StudentClassEnrollment
-class StudentClassEnrollment(models.Model):
-    student = models.ForeignKey("Students_Pin_and_ID", on_delete=models.CASCADE)
-    student_class = models.ForeignKey(Class, on_delete=models.CASCADE)
-    academic_session = models.ForeignKey(AcademicSession, on_delete=models.CASCADE)
 
-    def __str__(self):
-        return f"{self.student.student_name} - {self.student_class.Class} in {self.academic_session.session}"
 
 # /////////////////////////////////////////////////////////////
 # Model for the Students data
@@ -119,6 +113,14 @@ class Students_Pin_and_ID(models.Model):
 			super().save(*args, **kwargs)
 
 
+# New Model: StudentClassEnrollment
+class StudentClassEnrollment(models.Model):
+    student = models.ForeignKey(Students_Pin_and_ID, on_delete=models.CASCADE)
+    student_class = models.ForeignKey(Class, on_delete=models.CASCADE)
+    academic_session = models.ForeignKey(AcademicSession, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"{self.student.student_name} - {self.student_class.Class} in {self.academic_session.session}"
 
 
 

@@ -233,7 +233,7 @@ def annual_result_computation_view(request):
 
     # Prefetch Student_Result_Data
     srd_list = Student_Result_Data.objects.filter(
-        Student_name__in=student_enrollments,
+        Student_name__in=[e.student for e in student_enrollments],
         Term__in=Term.objects.all(),
         AcademicSession=session
     ).select_related('Student_name', 'Term')
