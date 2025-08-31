@@ -7,6 +7,7 @@ from django.contrib.auth.decorators import login_required
 from CBT.models import *
 import json
 from django.shortcuts import get_object_or_404
+from django.db import transaction
 
 # /////////////////////////////////////////////
 # Form teachers View for CRUD Students Details
@@ -449,36 +450,83 @@ def annual_class_computation_view(request):
 
     return JsonResponse(out, safe=False)
 
-
 def publish_annualstudentresult_view(request):
     try:
         data = json.loads(request.body)
         Acadsessionobject = data['classdata']['selectedAcademicSession']
         Classdata = data['classdata']['studentclass']
+
         classobject = get_object_or_404(Class, Class=Classdata)
         resultsession = get_object_or_404(AcademicSession, session=Acadsessionobject)
+
+        studentnumber = StudentClassEnrollment.objects.filter(
+            student_class=classobject,
+            academic_session=resultsession
+        ).count()
+
+        # --- preload all students at once ---
+        student_names = [s['Name'].strip() for s in data['data']]
+        students_map = {
+            s.student_name.strip(): s
+            for s in Students_Pin_and_ID.objects.filter(student_name__in=student_names)
+        }
+
+        # --- preload existing results ---
+        existing_results = {
+            r.Student_name.pk: r
+            for r in AnnualStudent.objects.filter(
+                academicsession=resultsession,
+                Student_name__in=students_map.values()
+            )
+        }
+
+        to_create = []
+        to_update = []
+
         for studentdata in data['data']:
-            student = get_object_or_404(Students_Pin_and_ID, student_name=studentdata['Name'])
-            studentnumber = StudentClassEnrollment.objects.filter(student_class=classobject, academic_session=resultsession).count()
-            try:
-                studentresult = get_object_or_404(AnnualStudent, Student_name=student, academicsession=resultsession)
-                studentresult.TotalScore = studentdata['Total']
-                studentresult.Totalnumber = str(studentnumber)
-                studentresult.Average = studentdata['Average']
-                studentresult.Position = studentdata['Position']
-                studentresult.Remark = studentdata['Remarks']
-                studentresult.Verdict = studentdata['Verdict']
-                studentresult.published = True
-                studentresult.save()
-            except Exception as e:
-                print(str(e))
-                continue
+            student = students_map.get(studentdata['Name'].strip())
+            if not student:
+                continue  # skip if student not found
+
+            result = existing_results.get(student.pk)
+            if not result:
+                result = AnnualStudent(
+                    Student_name=student,
+                    academicsession=resultsession,
+                )
+                to_create.append(result)
+
+            # update fields (works for both new & existing)
+            result.TotalScore = studentdata.get('Total', 0)
+            result.Totalnumber = str(studentnumber)
+            result.Average = studentdata.get('Average', 0)
+            result.Position = studentdata.get('Position', "")
+            result.Remark = studentdata.get('Remarks', "")
+            result.Verdict = studentdata.get('Verdict', "")
+            result.published = True
+
+            if student.pk in existing_results:
+                to_update.append(result)
+
+        # --- apply changes in bulk ---
+        with transaction.atomic():
+            if to_create:
+                AnnualStudent.objects.bulk_create(to_create, batch_size=100)
+            if to_update:
+                AnnualStudent.objects.bulk_update(
+                    to_update,
+                    ["TotalScore", "Totalnumber", "Average", "Position", 
+                     "Remark", "Verdict", "published"],
+                    batch_size=1000
+                )
+
         return JsonResponse({
             "type": "success",
             "message": "Annual Results have been published and are now opened to the Students"
-        }, safe=False)
-    except:
-        return JsonResponse({"type": "danger", "message": "something went wrong, try again later"}, safe=False)
+        })
+
+    except Exception as e:
+        return JsonResponse({"type": "danger", "message": str(e)}, safe=False)
 
 
 def unpublish_annual_classresults_view(request):
