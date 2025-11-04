@@ -7,6 +7,7 @@ import {
   getannualresultdata,
   submitallstudentresult,
 } from "./utils/serveractions.js";
+import * as XLSX from 'https://cdn.sheetjs.com/xlsx-latest/package/xlsx.mjs';
 
 // ------------------------------------------------------
 // DOM References (cached once)
@@ -17,6 +18,7 @@ const DOM = {
   classInput: null, // filled below
   sessionSelect: document.getElementById("academicSessionSelect"),
   publishBtns: document.querySelectorAll(".publishbtn"),
+  exportExcelBtns: document.querySelectorAll(".btn-success"),
   alertContainerSmall: document.querySelector(".alertcontainer1"),
   alertContainerLarge: document.querySelector(".alertcontainer2"),
   resultBadge: document.getElementById("resultbadge"),
@@ -111,6 +113,11 @@ const loadingTableData = () => {
   // publish buttons
   DOM.publishBtns.forEach((btn) =>
     btn.addEventListener("click", onPublishClick)
+  );
+
+  // export to excel buttons
+  DOM.exportExcelBtns.forEach((btn) =>
+    btn.addEventListener("click", exportToExcel)
   );
 
   // load saved selections
@@ -285,6 +292,50 @@ function updateResultBadge(isPublished) {
     const label = btn.querySelector(".btn-label");
     label.textContent = isPublished ? "Unpublish Result" : "Publish Result";
   });
+}
+
+// ------------------------------------------------------
+// Export to Excel Handler
+// ------------------------------------------------------
+function exportToExcel() {
+  if (!appState.studentResults.length) {
+    showAlert("warning", "No data to export");
+    return;
+  }
+
+  try {
+    // Prepare data for Excel
+    const exportData = appState.studentResults.map((student, index) => ({
+      'S/N': index + 1,
+      'Name': student.Name,
+      '1st Term': student.terms?.["1st Term"] ?? "-",
+      '2nd Term': student.terms?.["2nd Term"] ?? "-",
+      '3rd Term': student.terms?.["3rd Term"] ?? "-",
+      'Total': student.Total ?? "-",
+      'Average': student.Average ?? "-",
+      'Grade': student.Grade,
+      'Position': student.Position,
+      'Remarks': student.Remarks
+    }));
+
+    // Create worksheet
+    const ws = XLSX.utils.json_to_sheet(exportData);
+    
+    // Create workbook
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "Annual Results");
+
+    // Generate filename
+    const filename = `${appState.studentclass}_${appState.selectedSubject}_${appState.selectedSession}_Annual_Results.xlsx`;
+
+    // Save file
+    XLSX.writeFile(wb, filename);
+    
+    showAlert("success", "Results exported successfully!");
+  } catch (error) {
+    console.error("Export error:", error);
+    showAlert("danger", "Failed to export results");
+  }
 }
 
 // ------------------------------------------------------

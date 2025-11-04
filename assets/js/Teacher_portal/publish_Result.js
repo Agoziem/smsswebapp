@@ -7,6 +7,7 @@ import {
   getstudentresult,
   publishstudentresult,
 } from "./utils/serveractions.js";
+import * as XLSX from "https://cdn.sheetjs.com/xlsx-latest/package/xlsx.mjs";
 
 // ------------------------------------------------------
 // DOM References (cached once)
@@ -21,6 +22,7 @@ const DOM = {
   resultBadge: document.querySelector("#resultbadge"),
   dataTableBody: document.querySelector("#dataTable tbody"),
   subjectListInput: document.querySelector(".subjectlist"),
+  exportExcelBtns: document.querySelectorAll(".btn-success"),
 };
 
 // ------------------------------------------------------
@@ -56,6 +58,11 @@ const readFromLS = (key, fallback) => localStorage.getItem(key) || fallback;
   DOM.termSelect.addEventListener("change", onSelectionChange);
   DOM.sessionSelect.addEventListener("change", onSelectionChange);
   window.addEventListener("DOMContentLoaded", loadSavedSelection);
+
+  // Export Excel event listener
+  DOM.exportExcelBtns.forEach((btn) => {
+    btn.addEventListener("click", exportToExcel);
+  });
 
   // parse once
   const rawList = DOM.subjectListInput?.value ?? "[]";
@@ -247,4 +254,59 @@ function showAlert(type, message) {
 
 function clearAlert() {
   DOM.alertContainer.innerHTML = "";
+}
+
+// ------------------------------------------------------
+// Export to Excel Handler
+// ------------------------------------------------------
+function exportToExcel() {
+  if (!appState.results.length) {
+    showAlert("warning", "No data to export");
+    return;
+  }
+
+  try {
+    // Get subject names from the first student record
+    const subjects = appState.results[0].subjects || [];
+    
+    // Prepare data for Excel
+    const exportData = appState.results.map((student, index) => {
+      const row = {
+        'S/N': index + 1,
+        'Name': student.Name,
+      };
+      
+      // Add each subject total
+      student.subjects.forEach(sub => {
+        row[sub.subject_name] = sub.Total;
+      });
+      
+      // Add summary columns
+      row['Total'] = student.Total;
+      row['Average'] = student.Ave;
+      row['Grade'] = student.Grade;
+      row['Position'] = student.Position;
+      row['Remarks'] = student.Remarks;
+      
+      return row;
+    });
+
+    // Create worksheet
+    const ws = XLSX.utils.json_to_sheet(exportData);
+    
+    // Create workbook
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "Results");
+
+    // Generate filename
+    const filename = `${appState.classId}_${appState.selectedTerm}_${appState.selectedSession}_Results.xlsx`;
+
+    // Save file
+    XLSX.writeFile(wb, filename);
+    
+    showAlert("success", "Results exported successfully!");
+  } catch (error) {
+    console.error("Export error:", error);
+    showAlert("danger", "Failed to export results");
+  }
 }

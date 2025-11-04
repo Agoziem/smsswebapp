@@ -4,6 +4,7 @@
 import AnnualClassResultHandler from "./utils/AnnualClassResulthandler.js";
 import AnnualClassResultDataTable from "./datatable/AnnualClassResultDatatable.js";
 import { getannualclassresult, publishstudentresult } from "./utils/serveractions.js";
+import * as XLSX from 'https://cdn.sheetjs.com/xlsx-latest/package/xlsx.mjs';
 
 // ------------------------------------------------------
 // DOM References (cached once)
@@ -14,6 +15,7 @@ const DOM = {
   alertContainer:  document.querySelector(".alertcontainer"),
   sessionSelect:   document.getElementById("academicSessionSelect"),
   publishBtn:      document.getElementById("publishbtn"),
+  exportExcelBtns: document.querySelectorAll(".btn-success"),
   resultBadge:     document.getElementById("resultbadge"),
   dataTableBody:   document.querySelector("#dataTable tbody"),
   resultsList:     document.querySelector("#resultspublished"),
@@ -87,6 +89,12 @@ const loadingTableData = () => {
 (function init() {
   DOM.publishBtn.addEventListener("click", onPublishClick);
   DOM.sessionSelect.addEventListener("change", onSessionChange);
+  
+  // export to excel buttons
+  DOM.exportExcelBtns.forEach((btn) =>
+    btn.addEventListener("click", exportToExcel)
+  );
+  
   window.addEventListener("DOMContentLoaded", loadSavedSession);
 
   // parse subject list once
@@ -155,7 +163,6 @@ async function fetchAndRender() {
       selectedAcademicSession: appState.selectedSession
     });
 
-    console.log(data)
     const handler = new AnnualClassResultHandler(data);
     appState.results = handler.getStudents();
 
@@ -166,7 +173,6 @@ async function fetchAndRender() {
 
     // update badge & table
     const first = appState.results[0];
-    console.log(first)
     appState.isPublished = first.published;
     updateResultBadge(first.published);
     renderSubjectList(first.subjects);
@@ -229,10 +235,65 @@ function renderSubjectList(subjects) {
 }
 
 function updateResultBadge(isPub) {
-  console.log(isPub)
   DOM.resultBadge.classList.toggle("bg-success", isPub);
   DOM.resultBadge.classList.toggle("bg-secondary", !isPub);
   DOM.resultBadge.innerHTML = isPub
     ? `<i class="fa-solid fa-check-circle me-2"></i>Result Published`
     : `<i class="fa-solid fa-circle-xmark me-2"></i>Result Not Published`;
+}
+
+// ------------------------------------------------------
+// Export to Excel Handler
+// ------------------------------------------------------
+function exportToExcel() {
+  if (!appState.results.length) {
+    showAlert("warning", "No data to export");
+    return;
+  }
+
+  try {
+    // Get subject names from the first student record
+    const subjects = appState.results[0].subjects || [];
+    
+    // Prepare data for Excel
+    const exportData = appState.results.map((student, index) => {
+      const row = {
+        'S/N': index + 1,
+        'Name': student.Name,
+      };
+      
+      // Add each subject average
+      student.subjects.forEach(sub => {
+        row[sub.subject_name] = sub.Average;
+      });
+      
+      // Add summary columns
+      row['Total'] = student.Total;
+      row['Average'] = student.Average;
+      row['Grade'] = student.Grade;
+      row['Position'] = student.Position;
+      row['Remarks'] = student.Remarks;
+      row['Verdict'] = student.Verdict;
+      
+      return row;
+    });
+
+    // Create worksheet
+    const ws = XLSX.utils.json_to_sheet(exportData);
+    
+    // Create workbook
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "Annual Results");
+
+    // Generate filename
+    const filename = `${appState.classId}_${appState.selectedSession}_Annual_Results.xlsx`;
+
+    // Save file
+    XLSX.writeFile(wb, filename);
+    
+    showAlert("success", "Annual results exported successfully!");
+  } catch (error) {
+    console.error("Export error:", error);
+    showAlert("danger", "Failed to export annual results");
+  }
 }
