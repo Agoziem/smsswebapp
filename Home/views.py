@@ -38,7 +38,7 @@ def testallocation_view(request):
 
 def student_card_view(request):
     # Fetch the academic session dynamically or fall back to a default
-    session = request.GET.get("session", "2024/2025")  # Allow session to be passed as a query parameter
+    session = request.GET.get("session", "2025/2026")  # Allow session to be passed as a query parameter
     sessionobject = get_object_or_404(AcademicSession, session=session)
     
     # Filter enrolled students for the given session
