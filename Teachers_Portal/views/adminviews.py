@@ -26,7 +26,7 @@ def getclasspublishedResults(request):
         classobject = Class.objects.get(Class=class_)
         termobject = Term.objects.get(term=term)
         academic_sessionobject = AcademicSession.objects.get(session=academic_session)
-        subject_allocations = Subjectallocation.objects.get(classname=classobject)
+        subject_allocations = Subjectallocation.objects.filter(classname=classobject).order_by('id').first()
         classstudent = StudentClassEnrollment.objects.filter(student_class=classobject,academic_session=academic_sessionobject).first()
         classresultdata = {
         }
@@ -75,7 +75,7 @@ def getclassannualpublishedResults(request):
         academic_session = data.get('session')
         classobject = Class.objects.get(Class=class_)
         academic_sessionobject = AcademicSession.objects.get(session=academic_session)
-        subject_allocations = Subjectallocation.objects.get(classname=classobject)
+        subject_allocations = Subjectallocation.objects.filter(classname=classobject).order_by('id').first()
         classstudent = StudentClassEnrollment.objects.filter(student_class=classobject,academic_session=academic_sessionobject).first()
         classannualresultdata = {}
         try:

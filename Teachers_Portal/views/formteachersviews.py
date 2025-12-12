@@ -146,7 +146,7 @@ def PublishResults_view(request, Classname):
     academic_session = AcademicSession.objects.all()
     class_object = Class.objects.get(Class=Classname)
     subjects_allocation = Subjectallocation.objects.filter(
-        classname=class_object).first()
+        classname=class_object).order_by('id').first()
     subject_code = []
     sessions = AcademicSession.objects.all()
     if not subjects_allocation:
@@ -174,7 +174,7 @@ def getstudentsubjecttotals_view(request):
         cls = Class.objects.get(Class=data['studentclass'])
         term = Term.objects.get(term=data['selectedTerm'])
         sess = AcademicSession.objects.get(session=data['selectedAcademicSession'])
-        subjects_allocated = Subjectallocation.objects.filter(classname=cls).first()
+        subjects_allocated = Subjectallocation.objects.filter(classname=cls).order_by('id').first()
         if not subjects_allocated:
             return JsonResponse({"error": "No subjects allocated to this class"}, status=400)
         
@@ -360,7 +360,7 @@ def unpublish_classresults_view(request):
 def PublishAnnualResults_view(request, Classname):
     academic_session = AcademicSession.objects.all()
     class_object = get_object_or_404(Class, Class=Classname)
-    subjects_allocation = Subjectallocation.objects.filter(classname=class_object).first()
+    subjects_allocation = Subjectallocation.objects.filter(classname=class_object).order_by('id').first()
     subject_code = []
     sessions = AcademicSession.objects.all()
     if not subjects_allocation:
@@ -386,7 +386,7 @@ def annual_class_computation_view(request):
 
     # 1) get allocation once
     alloc = Subjectallocation.objects.filter(
-        classname=cls).prefetch_related('subjects').first()
+        classname=cls).prefetch_related('subjects').order_by('id').first()
     subjects = list(alloc.subjects.all()) if alloc else []
 
     # 2) get all students in one go
