@@ -18,7 +18,7 @@ const DOM = {
   classInput: null, // filled below
   sessionSelect: document.getElementById("academicSessionSelect"),
   publishBtns: document.querySelectorAll(".publishbtn"),
-  exportExcelBtns: document.querySelectorAll(".btn-success"),
+  exportExcelBtns: document.querySelectorAll(".export-excel-btn"),
   alertContainerSmall: document.querySelector(".alertcontainer1"),
   alertContainerLarge: document.querySelector(".alertcontainer2"),
   resultBadge: document.getElementById("resultbadge"),

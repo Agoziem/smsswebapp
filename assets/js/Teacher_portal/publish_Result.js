@@ -22,7 +22,7 @@ const DOM = {
   resultBadge: document.querySelector("#resultbadge"),
   dataTableBody: document.querySelector("#dataTable tbody"),
   subjectListInput: document.querySelector(".subjectlist"),
-  exportExcelBtns: document.querySelectorAll(".btn-success"),
+  exportExcelBtns: document.querySelectorAll(".export-excel-btn"),
 };
 
 // ------------------------------------------------------

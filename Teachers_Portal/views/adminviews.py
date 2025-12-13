@@ -35,7 +35,7 @@ def getclasspublishedResults(request):
             classresultdata["classname"] =  classobject.Class
             classresultdata['published'] = resultsummary.published
             subjectResults = []
-            for subject in subject_allocations.subjects.all():
+            for subject in subject_allocations.subjects.all() if subject_allocations else []:
                 Subjectresult = {}
                 try:
                     subject_results = Result.objects.get(student_class=classobject,students_result_summary=resultsummary,Subject=subject)
@@ -83,7 +83,7 @@ def getclassannualpublishedResults(request):
             classannualresultdata["classname"] =  classobject.Class
             classannualresultdata['published'] = annualresultsummary.published
             annualsubjectResults = []
-            for subject in subject_allocations.subjects.all():
+            for subject in subject_allocations.subjects.all() if subject_allocations else []:
                 Subjectresult = {}
                 try:
                     subject_results = AnnualResult.objects.get(Student_name=annualresultsummary,Subject=subject)

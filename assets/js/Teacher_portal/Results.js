@@ -23,7 +23,7 @@ const DOM = {
   modal: document.getElementById("inputStudentResultModal"),
   inputForm: null, // wired below
   publishBtns: document.querySelectorAll(".publishbtn"),
-  exportExcelBtns: document.querySelectorAll(".btn-success"),
+  exportExcelBtns: document.querySelectorAll(".export-excel-btn"),
   alertSmall: document.querySelector(".alertcontainer1"),
   alertLarge: document.querySelector(".alertcontainer2"),
   resultBadge: document.getElementById("resultbadge"),

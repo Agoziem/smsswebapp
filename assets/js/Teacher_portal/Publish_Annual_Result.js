@@ -15,7 +15,7 @@ const DOM = {
   alertContainer:  document.querySelector(".alertcontainer"),
   sessionSelect:   document.getElementById("academicSessionSelect"),
   publishBtn:      document.getElementById("publishbtn"),
-  exportExcelBtns: document.querySelectorAll(".btn-success"),
+  exportExcelBtns: document.querySelectorAll(".export-excel-btn"),
   resultBadge:     document.getElementById("resultbadge"),
   dataTableBody:   document.querySelector("#dataTable tbody"),
   resultsList:     document.querySelector("#resultspublished"),
