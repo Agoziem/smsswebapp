@@ -17,7 +17,9 @@ def result_computation_view(request,Classname,id):
     Terms=Term.objects.all()
     academic_session= AcademicSession.objects.all()
     classobject = get_object_or_404(Class,Class=Classname)
-    subjectsforclass=get_object_or_404(Subjectallocation,classname=classobject)
+    subjectsforclass = Subjectallocation.objects.filter(classname=classobject).order_by('-id').first()
+    if not subjectsforclass:
+        return JsonResponse('No subjects allocated to this class yet.', safe=False)
     subjects_taught_for_class = teacher.subjects_taught.filter(id__in=subjectsforclass.subjects.values_list('id', flat=True))
 
     context={
@@ -188,7 +190,9 @@ def annualresult_computation(request,Classname,id):
     teacher = Teacher.objects.get(id=id)
     academic_session= AcademicSession.objects.all()
     classobject = Class.objects.get(Class=Classname)
-    subjectsforclass=Subjectallocation.objects.get(classname=classobject)
+    subjectsforclass = Subjectallocation.objects.filter(classname=classobject).order_by('-id').first()
+    if not subjectsforclass:
+        return JsonResponse('No subjects allocated to this class yet.', safe=False)
     subjects_taught_for_class = teacher.subjects_taught.filter(id__in=subjectsforclass.subjects.values_list('id', flat=True))
     context={
         'class':classobject,
@@ -319,7 +323,7 @@ def unpublish_annual_results(request):
     session = get_object_or_404(AcademicSession, session=academic_session)
     subject_object = get_object_or_404(Subject, subject_name=subject_name)
     for studentdata in data['data']:
-        student = get_object_or_404(Students_Pin_and_ID, student_name=studentdata['Name'])
+        student = get_object_or_404(Students_Pin_and_ID, student_name=studentdata['Name'], student_id=studentdata['studentID'])
         studentAnnual = get_object_or_404(AnnualStudent, Student_name=student, academicsession=session)
         student_annual_details = get_object_or_404(AnnualResult, Student_name=studentAnnual, Subject=subject_object)
         student_annual_details.published = False

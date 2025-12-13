@@ -146,7 +146,7 @@ def PublishResults_view(request, Classname):
     academic_session = AcademicSession.objects.all()
     class_object = Class.objects.get(Class=Classname)
     subjects_allocation = Subjectallocation.objects.filter(
-        classname=class_object).order_by('id').first()
+        classname=class_object).order_by('-id').first()
     subject_code = []
     sessions = AcademicSession.objects.all()
     if not subjects_allocation:
@@ -386,7 +386,7 @@ def annual_class_computation_view(request):
 
     # 1) get allocation once
     alloc = Subjectallocation.objects.filter(
-        classname=cls).prefetch_related('subjects').order_by('id').first()
+        classname=cls).prefetch_related('subjects').order_by('-id').first()
     subjects = list(alloc.subjects.all()) if alloc else []
 
     # 2) get all students in one go
