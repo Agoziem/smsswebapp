@@ -428,6 +428,7 @@ def annual_class_computation_view(request):
 
         student_dict = {
             "Name":      student.student_name,
+            "id":        student.pk,
             "published": published_flag,
             "subjects":  [],
         }
@@ -465,10 +466,10 @@ def publish_annualstudentresult_view(request):
         ).count()
 
         # --- preload all students at once ---
-        student_names = [s['Name'].strip() for s in data['data']]
+        student_pks = [s['id'] for s in data['data']]
         students_map = {
-            s.student_name.strip(): s
-            for s in Students_Pin_and_ID.objects.filter(student_name__in=student_names)
+            s.pk: s
+            for s in Students_Pin_and_ID.objects.filter(pk__in=student_pks)
         }
 
         # --- preload existing results ---
@@ -484,7 +485,7 @@ def publish_annualstudentresult_view(request):
         to_update = []
 
         for studentdata in data['data']:
-            student = students_map.get(studentdata['Name'].strip())
+            student = students_map.get(studentdata['id'])
             if not student:
                 continue  # skip if student not found
 

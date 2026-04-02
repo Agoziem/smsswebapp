@@ -270,6 +270,7 @@ function renderTable(rows) {
       <td>${r["Position"] ?? "-"}</td>
       <td>${r["Remarks"] ?? "-"}</td>
       <td>${r["studentID"] ?? "-"}</td>
+      <td hidden>${r["id"] ?? ""}</td>
     `;
     frag.append(tr);
   });

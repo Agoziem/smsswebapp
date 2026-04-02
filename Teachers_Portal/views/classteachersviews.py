@@ -110,6 +110,7 @@ def get_students_result_view(request):
             '2ndAss': student_result.SecondTest,
             'Exam': student_result.Exam,
             'published': student_result.published,
+            'id': student.pk,
         })
 
     return JsonResponse(studentResults, safe=False)
@@ -125,7 +126,7 @@ def update_student_result_view(request):
     classobject= Class.objects.get(Class=Classdata)
     term=Term.objects.get(term=data['classdata']['selectedTerm'])
     session=AcademicSession.objects.get(session=data['classdata']['selectedSession'])
-    studentobject= Students_Pin_and_ID.objects.get(student_id=studentID,student_name=Name)
+    studentobject= Students_Pin_and_ID.objects.get(pk=data['formDataObject']['id'])
     subjectobject = Subject.objects.get(subject_name=subject)
     student_result_details = Student_Result_Data.objects.get(Student_name=studentobject,Term=term,AcademicSession=session)
     studentResult = Result.objects.get(student=studentobject,students_result_summary=student_result_details, Subject=subjectobject,student_class=classobject)
@@ -149,7 +150,7 @@ def submitallstudentresult_view(request):
     classobject= get_object_or_404(Class, Class=Classdata)
     subjectobject = get_object_or_404(Subject, subject_name=subject)
     for result in data['data']:
-        studentobject= get_object_or_404(Students_Pin_and_ID, student_id=result['studentID'], student_name=result['Name'])
+        studentobject= get_object_or_404(Students_Pin_and_ID, pk=result['id'])
         student_result_details = get_object_or_404(Student_Result_Data, Student_name=studentobject, Term=term, AcademicSession=session)
         studentResult = get_object_or_404(Result, student=studentobject, students_result_summary=student_result_details, Subject=subjectobject, student_class=classobject)
         studentResult.FirstTest=result['1sttest']
@@ -175,7 +176,7 @@ def unpublish_results_view(request):
     classobject= get_object_or_404(Class, Class=data['classdata']['studentclass'])
     subject = get_object_or_404(Subject, subject_name=data['classdata']['studentsubject'])
     for result in data['data']:
-        studentobject= get_object_or_404(Students_Pin_and_ID, student_id=result['studentID'], student_name=result['Name'])
+        studentobject= get_object_or_404(Students_Pin_and_ID, pk=result['id'])
         student_result_details = get_object_or_404(Student_Result_Data, Student_name=studentobject, Term=term, AcademicSession=session)
         studentResult = get_object_or_404(Result, student=studentobject, students_result_summary=student_result_details, student_class=classobject, Subject=subject)
         studentResult.published=False
@@ -284,7 +285,8 @@ def annual_result_computation_view(request):
             'studentID': student.student_id,
             'Name': student.student_name,
             'terms': termsobject,
-            'published': annual_result.published
+            'published': annual_result.published,
+            'id': student.pk,
         })
 
     return JsonResponse(students_annuals, safe=False)
@@ -299,7 +301,7 @@ def publish_annual_results(request):
     session = get_object_or_404(AcademicSession, session=academic_session)
     subject_object = get_object_or_404(Subject, subject_name=subject_name)
     for result in data['data']:
-        student = get_object_or_404(Students_Pin_and_ID, student_id=result['studentID'], student_name=result['Name'])
+        student = get_object_or_404(Students_Pin_and_ID, pk=result['id'])
         studentAnnual = get_object_or_404(AnnualStudent, Student_name=student, academicsession=session)
         student_annual_details = get_object_or_404(AnnualResult, Student_name=studentAnnual, Subject=subject_object)
         student_annual_details.FirstTermTotal = result["terms"]["1st Term"]
@@ -323,7 +325,7 @@ def unpublish_annual_results(request):
     session = get_object_or_404(AcademicSession, session=academic_session)
     subject_object = get_object_or_404(Subject, subject_name=subject_name)
     for studentdata in data['data']:
-        student = get_object_or_404(Students_Pin_and_ID, student_name=studentdata['Name'], student_id=studentdata['studentID'])
+        student = get_object_or_404(Students_Pin_and_ID, pk=studentdata['id'])
         studentAnnual = get_object_or_404(AnnualStudent, Student_name=student, academicsession=session)
         student_annual_details = get_object_or_404(AnnualResult, Student_name=studentAnnual, Subject=subject_object)
         student_annual_details.published = False

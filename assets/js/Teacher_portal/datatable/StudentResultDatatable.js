@@ -287,6 +287,9 @@ class DataTable {
     const studentidinput = this.inputform.querySelector("#studentID");
     studentidinput.value = tabledata[13].innerText;
 
+    const idinput = this.inputform.querySelector("#id");
+    idinput.value = tabledata[14].innerText;
+
     const FirstTest = this.inputform.querySelector("#FirstTest");
     FirstTest.value = tabledata[2].innerText;
 
