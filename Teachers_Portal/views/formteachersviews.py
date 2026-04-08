@@ -174,7 +174,7 @@ def getstudentsubjecttotals_view(request):
         cls = Class.objects.get(Class=data['studentclass'])
         term = Term.objects.get(term=data['selectedTerm'])
         sess = AcademicSession.objects.get(session=data['selectedAcademicSession'])
-        subjects_allocated = Subjectallocation.objects.filter(classname=cls).order_by('id').first()
+        subjects_allocated = Subjectallocation.objects.filter(classname=cls).order_by('-id').first()
         if not subjects_allocated:
             return JsonResponse({"error": "No subjects allocated to this class"}, status=400)
         
@@ -360,7 +360,7 @@ def unpublish_classresults_view(request):
 def PublishAnnualResults_view(request, Classname):
     academic_session = AcademicSession.objects.all()
     class_object = get_object_or_404(Class, Class=Classname)
-    subjects_allocation = Subjectallocation.objects.filter(classname=class_object).order_by('id').first()
+    subjects_allocation = Subjectallocation.objects.filter(classname=class_object).order_by('-id').first()
     subject_code = []
     sessions = AcademicSession.objects.all()
     if not subjects_allocation:
