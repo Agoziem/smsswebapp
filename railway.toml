@@ -1,0 +1,7 @@
+[build]
+builder = "DOCKERFILE"
+dockerfilePath = "Dockerfile"
+
+[deploy]
+preDeployCommand = ["python manage.py migrate --noinput"]
+startCommand = "gunicorn smsssite.wsgi:application --bind 0.0.0.0:$PORT"
